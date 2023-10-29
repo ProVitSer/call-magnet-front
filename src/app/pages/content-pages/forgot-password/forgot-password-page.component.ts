@@ -14,17 +14,14 @@ export class ForgotPasswordPageComponent {
     constructor(private router: Router,
         private route: ActivatedRoute) { }
 
-    // On submit click, reset form fields
     onSubmit() {
         this.forogtPasswordForm.reset();
     }
 
-    // On login link click
     onLogin() {
         this.router.navigate(['login'], { relativeTo: this.route.parent });
     }
 
-    // On registration link click
     onRegister() {
         this.router.navigate(['register'], { relativeTo: this.route.parent });
     }

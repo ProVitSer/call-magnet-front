@@ -1,8 +1,10 @@
-import { Component, ViewChild } from '@angular/core';
-import { NgForm, UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { NgForm, UntypedFormGroup, UntypedFormControl, Validators, FormGroup } from '@angular/forms';
 import { Router, ActivatedRoute } from "@angular/router";
 import { AuthService } from 'app/shared/auth/auth.service';
 import { NgxSpinnerService } from "ngx-spinner";
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 
 @Component({
@@ -11,28 +13,46 @@ import { NgxSpinnerService } from "ngx-spinner";
   styleUrls: ['./login-page.component.scss']
 })
 
-export class LoginPageComponent {
-
+export class LoginPageComponent implements OnInit, OnDestroy{
+  loginForm: FormGroup;
   loginFormSubmitted = false;
   isLoginFailed = false;
+  ngDestroy$ = new Subject();
 
-  loginForm = new UntypedFormGroup({
-    username: new UntypedFormControl('guest@apex.com', [Validators.required]),
-    password: new UntypedFormControl('Password', [Validators.required]),
-    rememberMe: new UntypedFormControl(true)
-  });
 
 
   constructor(private router: Router, private authService: AuthService,
     private spinner: NgxSpinnerService,
     private route: ActivatedRoute) {
   }
+  ngOnInit(): void {
+    this.initializeLoginForm();
+    this.getQueryParams();
+  }
+
+  ngOnDestroy(): void {
+    this.ngDestroy$.next(true);
+    this.ngDestroy$.complete();
+  }
 
   get lf() {
     return this.loginForm.controls;
   }
 
-  // On submit button click
+
+  initializeLoginForm() {
+    this.loginForm = new UntypedFormGroup({
+      email: new UntypedFormControl('', [Validators.required, Validators.email]),
+      password: new UntypedFormControl('', [Validators.required]),
+    });
+  }
+
+  getQueryParams() {
+    this.route.queryParams.pipe(takeUntil(this.ngDestroy$)).subscribe((param) => {
+      console.log(param)
+    });
+  }
+  
   onSubmit() {
     this.loginFormSubmitted = true;
     if (this.loginForm.invalid) {
@@ -48,17 +68,24 @@ export class LoginPageComponent {
         fullScreen: true
       });
 
-    this.authService.signinUser(this.loginForm.value.username, this.loginForm.value.password)
-      .then((res) => {
-        this.spinner.hide();
-        this.router.navigate(['/dashboard/dashboard1']);
+      const dataToSend = {
+        email: this.loginForm.value.email,
+        password: this.loginForm.value.password,
+      };
+
+    this.authService.signIn(dataToSend).subscribe(
+      (res: any) => {
+        const result: any = res;
+        console.log(result)
       })
-      .catch((err) => {
-        this.isLoginFailed = true;
-        this.spinner.hide();
-        console.log('error: ' + err)
-      }
-      );
+  }
+
+  onForgotPassword() {
+        this.router.navigate(['/forgotpassword']);
+  }
+
+  onRegister() {
+        this.router.navigate(['/register']);
   }
 
 }

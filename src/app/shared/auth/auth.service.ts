@@ -1,45 +1,36 @@
 import { Router } from '@angular/router';
 import { Injectable } from '@angular/core';
-import { AngularFireAuth } from "@angular/fire/auth";
 import firebase from 'firebase/app'
-import { Observable } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
+import { HttpClient } from '@angular/common/http';
+import { environment } from 'environments/environment';
 
 @Injectable()
 export class AuthService {
   private user: Observable<firebase.User>;
   private userDetails: firebase.User = null;
+  private readonly serverUrl = '188.68.220.137:2300'//environment.USERMANAGEMENT;
+  constructor( public router: Router, private http: HttpClient) {}
 
-  constructor( public router: Router) {
-    // this.user = _firebaseAuth.authState;
-    // this.user.subscribe(
-    //   (user) => {
-    //     if (user) {
-    //       this.userDetails = user;
-    //     }
-    //     else {
-    //       this.userDetails = null;
-    //     }
-    //   }
-    // );
-
+  public signIn(payload: any): Observable<any> {
+    return this.http
+      .post<any>(`http://188.68.220.137:2300/v1/auth/login`, payload)
+      .pipe(catchError((e) => throwError(e)));
   }
 
-  signupUser(email: string, password: string) {
-    //your code for signing up the new user
-  }
+  // signupUser(email: string, password: string) {
+  // }
 
-  signinUser(email: string, password: string) {
-    //your code for checking credentials and getting tokens for for signing in user
-    //return this._firebaseAuth.signInWithEmailAndPassword(email, password)
-    return Promise.resolve();
-  }
+  // signinUser(email: string, password: string) {
+  //   return Promise.resolve();
+  // }
 
-  logout() {
-    //this._firebaseAuth.signOut();
-    this.router.navigate(['YOUR_LOGOUT_URL']);
-  }
+  // logout() {
+  //   this.router.navigate(['YOUR_LOGOUT_URL']);
+  // }
 
-  isAuthenticated() {
-    return true;
-  }
+  // isAuthenticated() {
+  //   return true;
+  // }
 }
