@@ -1,11 +1,14 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { NgForm, UntypedFormGroup, UntypedFormControl, Validators, FormGroup } from '@angular/forms';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
+import { UntypedFormGroup, UntypedFormControl, Validators, FormGroup, FormBuilder } from '@angular/forms';
 import { Router, ActivatedRoute } from "@angular/router";
 import { AuthService } from 'app/shared/auth/auth.service';
+import { LoginResponse } from 'app/shared/models/login';
+import { HttpResponse } from 'app/shared/models/response';
 import { NgxSpinnerService } from "ngx-spinner";
 import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
-
+import { jwtDecode } from "jwt-decode";
+import { SetLocalStorageData, TokenPayload } from 'app/shared/models/auth';
+import { ROUTE_BY_ROLE } from 'app/shared/constant-url/route-by-role';
 
 @Component({
   selector: 'app-login-page',
@@ -18,16 +21,18 @@ export class LoginPageComponent implements OnInit, OnDestroy{
   loginFormSubmitted = false;
   isLoginFailed = false;
   ngDestroy$ = new Subject();
-
-
+  errorMessage: string;
+  public showPassword: boolean = false;
 
   constructor(private router: Router, private authService: AuthService,
     private spinner: NgxSpinnerService,
-    private route: ActivatedRoute) {
+    private route: ActivatedRoute,
+    private cdr: ChangeDetectorRef,
+    private fb: FormBuilder,
+    ) {
   }
   ngOnInit(): void {
     this.initializeLoginForm();
-    this.getQueryParams();
   }
 
   ngOnDestroy(): void {
@@ -41,17 +46,12 @@ export class LoginPageComponent implements OnInit, OnDestroy{
 
 
   initializeLoginForm() {
-    this.loginForm = new UntypedFormGroup({
-      email: new UntypedFormControl('', [Validators.required, Validators.email]),
-      password: new UntypedFormControl('', [Validators.required]),
+    this.loginForm = this.fb.group({
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required]],
     });
   }
 
-  getQueryParams() {
-    this.route.queryParams.pipe(takeUntil(this.ngDestroy$)).subscribe((param) => {
-      console.log(param)
-    });
-  }
   
   onSubmit() {
     this.loginFormSubmitted = true;
@@ -74,10 +74,46 @@ export class LoginPageComponent implements OnInit, OnDestroy{
       };
 
     this.authService.signIn(dataToSend).subscribe(
-      (res: any) => {
-        const result: any = res;
-        console.log(result)
+      (res: HttpResponse<LoginResponse>) => {
+        const result = res;
+        if (result.result && res.hasOwnProperty('data')) {
+
+          localStorage.clear();
+          this.isLoginFailed = false;
+
+          const { accessToken, refreshToken, accessTokenExpires } = result.data;
+
+          const { sub, role } = jwtDecode(accessToken) as TokenPayload;
+          console.log(sub, role)
+          const isSetUserData = this.setUserData({ accessToken, refreshToken, accessTokenExpires, clientId: sub, role});
+
+          if (isSetUserData) {
+            this.spinner.hide();
+            console.log(ROUTE_BY_ROLE[role])
+            this.router.navigate([ROUTE_BY_ROLE[role]]);
+          } else {
+            this.spinner.hide();
+            this.errorMessage = 'Что-то пошло не так,попробуйте позже';
+          }
+
+        } else {
+
+          this.spinner.hide();
+          this.errorMessage = 'Что-то пошло не так, просьба обратиться в техническую поддержку';
+          this.cdr.markForCheck();
+
+        }
+      },
+      (e) => {
+        this.spinner.hide();
+        this.isLoginFailed = true;
+        this.errorMessage = e;
+        this.cdr.markForCheck();
       })
+  }
+
+  private setUserData(data: SetLocalStorageData): boolean {
+    return this.authService.setLocalStorage(data)
   }
 
   onForgotPassword() {
