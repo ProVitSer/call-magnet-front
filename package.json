@@ -1,10 +1,11 @@
 {
-  "name": "apex-admin",
-  "version": "14.0.0",
+  "name": "call-magnet-front",
+  "version": "0.0.1",
   "license": "",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
+    "start:dev": "ng serve --configuration=develop",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
@@ -54,6 +55,7 @@
     "gulp": "4.0.2",
     "hopscotch": "0.3.1",
     "intl": "1.2.5",
+    "jwt-decode": "^4.0.0",
     "moment": "2.29.1",
     "ng-apexcharts": "1.5.6",
     "ng-chartist": "4.1.0",
