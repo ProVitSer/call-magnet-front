@@ -1,10 +1,10 @@
-import { Routes, RouterModule } from '@angular/router';
-
-//Route for content layout with sidebar, navbar and footer.
+import { Routes } from '@angular/router';
 
 export const Full_ROUTES: Routes = [
     {
-        path: 'dashboard',
-        loadChildren: () => import('../../dashboard/dashboard.module').then(m => m.DashboardModule)
+        path: 'small-business',
+        loadChildren: () => import('../../small-business/small-business.module').then(m => m.SmallBusinessModule),
+        data: { expectedRole: ['SmallBusiness'] }
+
       },
 ];
