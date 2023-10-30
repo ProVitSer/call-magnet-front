@@ -5,32 +5,55 @@ import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'environments/environment';
+import { LoginModel, LoginResponse } from '../models/login';
+import { HttpResponse } from '../models/response';
+import { SetLocalStorageData } from '../models/auth';
 
 @Injectable()
 export class AuthService {
+  private static projectKey = 'call-magnet-token';
   private user: Observable<firebase.User>;
   private userDetails: firebase.User = null;
-  private readonly serverUrl = '188.68.220.137:2300'//environment.USERMANAGEMENT;
+  private readonly serverUrl = environment.API_GATEWAY_URL;
   constructor( public router: Router, private http: HttpClient) {}
 
-  public signIn(payload: any): Observable<any> {
+  public signIn(payload: LoginModel): Observable<HttpResponse<LoginResponse>> {
     return this.http
-      .post<any>(`http://188.68.220.137:2300/v1/auth/login`, payload)
-      .pipe(catchError((e) => throwError(e)));
+      .post<HttpResponse<LoginResponse>>(`${this.serverUrl}auth/login`, payload)
+      .pipe(catchError(this.errorHandler));
   }
 
-  // signupUser(email: string, password: string) {
-  // }
 
-  // signinUser(email: string, password: string) {
-  //   return Promise.resolve();
-  // }
+  public setLocalStorage(data: SetLocalStorageData): boolean {
 
-  // logout() {
-  //   this.router.navigate(['YOUR_LOGOUT_URL']);
-  // }
+    const encryptedClient: string = btoa(JSON.stringify({ clientId: data.clientId, role:  data.role}));
+    const encryptedAccessToken: string = btoa(JSON.stringify(data.accessToken));
+    const encryptedRefreshToken: string = btoa(JSON.stringify(data.refreshToken));
 
-  // isAuthenticated() {
-  //   return true;
-  // }
+    const tokensData = {
+      accessToken: encryptedAccessToken,
+      refreshToken: encryptedRefreshToken,
+      user: encryptedClient,
+      accessTokenExpires: data.accessTokenExpires
+    }
+
+    if(encryptedClient && encryptedAccessToken && encryptedRefreshToken){
+      localStorage.setItem(AuthService.projectKey, JSON.stringify(tokensData));
+      return true;
+    }
+    return false;
+  }
+
+  errorHandler(e) {
+    let errorMessage = '';
+    let errorRes = '';
+    if (e.error instanceof ErrorEvent) {
+      errorMessage = e.error.message;
+      errorRes = e.error.message;
+    } else {
+      errorMessage = `Error Code: ${e.status}\nMessage: ${e.message}`;
+      errorRes = `${e.error.message} `;
+    }
+    return throwError(errorRes);
+  }
 }
