@@ -1,10 +1,8 @@
-import { Component, Output, EventEmitter, OnDestroy, OnInit, AfterViewInit, ChangeDetectorRef, Inject, Renderer2, ViewChild, ElementRef, ViewChildren, QueryList, HostListener } from '@angular/core';
+import { Component, Output, EventEmitter, OnDestroy, OnInit, AfterViewInit, ChangeDetectorRef, HostListener } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { LayoutService } from '../services/layout.service';
 import { Subscription } from 'rxjs';
 import { ConfigService } from '../services/config.service';
-import { DOCUMENT } from '@angular/common';
-import { CustomizerService } from '../services/customizer.service';
 import { UntypedFormControl } from '@angular/forms';
 import { LISTITEMS } from '../data/template-search';
 import { Router } from '@angular/router';
@@ -18,21 +16,17 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
   currentLang = "en";
   selectedLanguageText = "English";
   selectedLanguageFlag = "./assets/img/flags/us.png";
-  toggleClass = "ft-maximize";
   placement = "bottom-right";
   logoUrl = 'assets/img/logo.png';
   menuPosition = 'Side';
   isSmallScreen = false;
   protected innerWidth: any;
-  searchOpenClass = "";
   transparentBGClass = "";
   hideSidebar: boolean = true;
   public isCollapsed = true;
   layoutSub: Subscription;
   configSub: Subscription;
 
-  @ViewChild('search') searchElement: ElementRef;
-  @ViewChildren('searchResults') searchResults: QueryList<any>;
 
   @Output()
   toggleHideSidebar = new EventEmitter<Object>();
@@ -127,47 +121,8 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
 
   }
 
-  onSearchKey(event: any) {
-    if (this.searchResults && this.searchResults.length > 0) {
-      this.searchResults.first.host.nativeElement.classList.add('first-active-item');
-    }
 
-    if (event.target.value === "") {
-      this.seachTextEmpty.emit(true);
-    }
-    else {
-      this.seachTextEmpty.emit(false);
-    }
-  }
 
-  removeActiveClass() {
-    if (this.searchResults && this.searchResults.length > 0) {
-      this.searchResults.first.host.nativeElement.classList.remove('first-active-item');
-    }
-  }
-
-  onEscEvent() {
-    this.control.setValue("");
-    this.searchOpenClass = '';
-    this.seachTextEmpty.emit(true);
-  }
-
-  onEnter() {
-    if (this.searchResults && this.searchResults.length > 0) {
-      let url = this.searchResults.first.url;
-      if (url && url != '') {
-        this.control.setValue("");
-        this.searchOpenClass = '';
-        this.router.navigate([url]);
-        this.seachTextEmpty.emit(true);
-      }
-    }
-  }
-
-  redirectTo(value) {
-    this.router.navigate([value]);
-    this.seachTextEmpty.emit(true);
-  }
 
 
   ChangeLanguage(language: string) {
@@ -190,33 +145,6 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
       this.selectedLanguageFlag = "./assets/img/flags/de.png";
     }
   }
-
-  ToggleClass() {
-    if (this.toggleClass === "ft-maximize") {
-      this.toggleClass = "ft-minimize";
-    } else {
-      this.toggleClass = "ft-maximize";
-    }
-  }
-
-  toggleSearchOpenClass(display) {
-    this.control.setValue("");
-    if (display) {
-      this.searchOpenClass = 'open';
-      setTimeout(() => {
-        this.searchElement.nativeElement.focus();
-      }, 0);
-    }
-    else {
-      this.searchOpenClass = '';
-    }
-    this.seachTextEmpty.emit(true);
-
-
-
-  }
-
-
 
   toggleNotificationSidebar() {
     this.layoutService.toggleNotificationSidebar(true);
