@@ -12,9 +12,22 @@
               <div class="col-lg-6 col-12 px-4 py-3">
                 <h4 class="mb-2 card-title">Вход в платформу</h4>
                 <p>С возвращением, авторизуйтесь для входа на платформу</p>
-                <ngb-alert type="light-danger" class="mb-2" *ngIf="isLoginFailed" (close)="isLoginFailed = false">
+
+                <div *ngIf="errorMessage" class="row mb-0">
+                  <div class="col-12 col-md-12">
+                    <div class="alert alert-light-danger">
+                      <span class="fa fa-exclamation-triangle"></span>
+                      <span>
+                        {{ errorMessage }}.
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+
+                <!-- <ngb-alert type="light-danger" class="mb-2" *ngIf="isLoginFailed" (close)="isLoginFailed = false">
                   <p class="mb-0">Ошибка авторизации!</p>
-                </ngb-alert>
+                </ngb-alert> -->
                 <form [formGroup]="loginForm">
                   <div class="form-group">
                     <input type="text" formControlName="email" class="form-control" placeholder="Email"
