@@ -15,9 +15,7 @@ import { PipeModule } from 'app/shared/pipes/pipe.module';
 //COMPONENTS
 import { FooterComponent } from "./footer/footer.component";
 import { NavbarComponent } from "./navbar/navbar.component";
-import { HorizontalMenuComponent } from './horizontal-menu/horizontal-menu.component';
 import { VerticalMenuComponent } from "./vertical-menu/vertical-menu.component";
-// import { CustomizerComponent } from './customizer/customizer.component';
 import { NotificationSidebarComponent } from './notification-sidebar/notification-sidebar.component';
 
 //DIRECTIVES
@@ -38,8 +36,6 @@ import { TopMenuAnchorToggleDirective } from './directives/topmenu-anchor-toggle
         FooterComponent,
         NavbarComponent,
         VerticalMenuComponent,
-        HorizontalMenuComponent,
-        //CustomizerComponent,
         NotificationSidebarComponent,
         ToggleFullscreenDirective,
         SidebarDirective,
@@ -64,8 +60,6 @@ import { TopMenuAnchorToggleDirective } from './directives/topmenu-anchor-toggle
         FooterComponent,
         NavbarComponent,
         VerticalMenuComponent,
-        HorizontalMenuComponent,
-        //CustomizerComponent,
         NotificationSidebarComponent,
         ToggleFullscreenDirective,
         SidebarLinkDirective,
