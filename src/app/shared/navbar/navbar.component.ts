@@ -6,6 +6,7 @@ import { ConfigService } from '../services/config.service';
 import { UntypedFormControl } from '@angular/forms';
 import { LISTITEMS } from '../data/template-search';
 import { Router } from '@angular/router';
+import { AuthService } from '../auth/auth.service';
 
 @Component({
   selector: "app-navbar",
@@ -13,9 +14,6 @@ import { Router } from '@angular/router';
   styleUrls: ["./navbar.component.scss"]
 })
 export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
-  currentLang = "en";
-  selectedLanguageText = "English";
-  selectedLanguageFlag = "./assets/img/flags/us.png";
   placement = "bottom-right";
   logoUrl = 'assets/img/logo.png';
   menuPosition = 'Side';
@@ -39,13 +37,14 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
 
   public config: any = {};
 
-  constructor(public translate: TranslateService,
+  constructor(
     private layoutService: LayoutService,
     private router: Router,
-    private configService: ConfigService, private cdr: ChangeDetectorRef) {
+    private configService: ConfigService, 
+    private cdr: ChangeDetectorRef,
+    private authService: AuthService,
+    ) {
 
-    const browserLang: string = translate.getBrowserLang();
-    translate.use(browserLang.match(/en|es|pt|de/) ? browserLang : "en");
     this.config = this.configService.templateConf;
     this.innerWidth = window.innerWidth;
 
@@ -99,6 +98,11 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
+  logout() {
+    this.authService.logout();
+  }
+
+
   loadLayout() {
 
     if (this.config.layout.menuPosition && this.config.layout.menuPosition.toString().trim() != "") {
@@ -119,31 +123,6 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
       this.transparentBGClass = "";
     }
 
-  }
-
-
-
-
-
-  ChangeLanguage(language: string) {
-    this.translate.use(language);
-
-    if (language === 'en') {
-      this.selectedLanguageText = "English";
-      this.selectedLanguageFlag = "./assets/img/flags/us.png";
-    }
-    else if (language === 'es') {
-      this.selectedLanguageText = "Spanish";
-      this.selectedLanguageFlag = "./assets/img/flags/es.png";
-    }
-    else if (language === 'pt') {
-      this.selectedLanguageText = "Portuguese";
-      this.selectedLanguageFlag = "./assets/img/flags/pt.png";
-    }
-    else if (language === 'de') {
-      this.selectedLanguageText = "German";
-      this.selectedLanguageFlag = "./assets/img/flags/de.png";
-    }
   }
 
   toggleNotificationSidebar() {

@@ -6,6 +6,6 @@ import { AnaliticRoutingModule } from './analitic-routing.module';
 @NgModule({
   declarations: [AnaliticComponent],
   imports: [AnaliticRoutingModule],
-  exports:[]
+  exports:[AnaliticComponent]
 })
 export class AnaliticModule { }

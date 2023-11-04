@@ -6,6 +6,6 @@ import { CrmRoutingModule } from './crm-routing.module';
 @NgModule({
   declarations: [CrmSettingsComponent],
   imports: [CrmRoutingModule],
-  exports:[]
+  exports:[CrmSettingsComponent]
 })
 export class CrmModule { }

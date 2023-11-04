@@ -1,14 +1,14 @@
 import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
-import { UntypedFormGroup, UntypedFormControl, Validators, FormGroup, FormBuilder } from '@angular/forms';
+import { Validators, FormGroup, FormBuilder } from '@angular/forms';
 import { Router, ActivatedRoute } from "@angular/router";
 import { AuthService } from 'app/shared/auth/auth.service';
-import { LoginResponse } from 'app/shared/models/login';
+import { LoginResponse, Menu } from 'app/shared/models/login';
 import { HttpResponse } from 'app/shared/models/response';
 import { NgxSpinnerService } from "ngx-spinner";
 import { Subject } from 'rxjs';
 import { jwtDecode } from "jwt-decode";
-import { SetLocalStorageData, TokenPayload } from 'app/shared/models/auth';
-import { ROUTE_BY_ROLE } from 'app/shared/constant-url/route-by-role';
+import {  SetsCookiesData, TokenPayload } from 'app/shared/models/auth';
+import { RouteInfo } from 'app/shared/vertical-menu/vertical-menu.metadata';
 
 @Component({
   selector: 'app-login-page',
@@ -31,6 +31,7 @@ export class LoginPageComponent implements OnInit, OnDestroy{
     private fb: FormBuilder,
     ) {
   }
+
   ngOnInit(): void {
     this.initializeLoginForm();
   }
@@ -79,22 +80,10 @@ export class LoginPageComponent implements OnInit, OnDestroy{
         if (result.result && res.hasOwnProperty('data')) {
 
           localStorage.clear();
+
           this.isLoginFailed = false;
 
-          const { accessToken, refreshToken, accessTokenExpires } = result.data;
-
-          const { sub, role } = jwtDecode(accessToken) as TokenPayload;
-          console.log(sub, role)
-          const isSetUserData = this.setUserData({ accessToken, refreshToken, accessTokenExpires, clientId: sub, role});
-
-          if (isSetUserData) {
-            this.spinner.hide();
-            console.log(ROUTE_BY_ROLE[role])
-            this.router.navigate([ROUTE_BY_ROLE[role]]);
-          } else {
-            this.spinner.hide();
-            this.errorMessage = 'Что-то пошло не так,попробуйте позже';
-          }
+          this.loginDetailsSetup(result.data);
 
         } else {
 
@@ -112,15 +101,87 @@ export class LoginPageComponent implements OnInit, OnDestroy{
       })
   }
 
-  private setUserData(data: SetLocalStorageData): boolean {
-    return this.authService.setLocalStorage(data)
+  private loginDetailsSetup(res: LoginResponse){
+    const { accessToken, refreshToken, userRoles, menu } = res;
+
+    const { sub } = jwtDecode(accessToken) as TokenPayload;
+
+
+    if ( !userRoles && !menu && userRoles.length === 0) {
+      this.errorMessage = 'Что-то пошло не так, просьба обратиться в техническую поддержку';
+      return;
+    }
+
+    if(menu?.length > 0) {
+      this.setMenu(menu);
+    } else {
+      console.log("Отсутствует меню");
+    }
+
+
+    const isSetUserData = this.setUserData({ accessToken, refreshToken, clientId: sub, userRoles});
+
+    if (isSetUserData) {
+      this.spinner.hide();
+
+      this.router.navigate(['sm']);
+    } else {
+      this.spinner.hide();
+      this.errorMessage = 'Что-то пошло не так, попробуйте позже';
+    }
   }
 
-  onForgotPassword() {
+  private setMenu(menuData: Menu[]): void {
+    let setMenu = [];
+    menuData?.forEach((menu) => {
+      const route: RouteInfo = {
+          path: menu.path,
+          title: menu.name,
+          icon: menu.icon,
+          class: menu?.group?.lines?.length > 0  ? 'has-sub': '',
+          badge: menu.badge,
+          badgeClass: menu.badgeClass,
+          isExternalLink: menu.externalLink,
+          submenu:   menu?.group?.lines?.length >0 ? this.changeMenu(menu?.group?.lines) : [],
+      }
+      setMenu.push(route);
+    });
+
+
+    this.authService.setMenu(setMenu);
+  }
+
+  private changeMenu(menuData: Menu[]): RouteInfo[] {
+    if(menuData?.length>0){
+      return  menuData.map((menu) => {
+        const route: RouteInfo = {
+            path: menu.path,
+            title: menu.name,
+            icon: menu.icon,
+            class: menu?.group?.lines?.length > 0    ? 'has-sub': '',
+            badge: menu.badge,
+            badgeClass: menu.badgeClass,
+            isExternalLink: menu.externalLink,
+            submenu:  menu?.group?.lines?.length>0?this.changeMenu(menu?.group?.lines):[],
+        }
+        return route;
+      });
+    }
+  }
+
+  private setUserData(data: SetsCookiesData): boolean {
+
+    return this.authService.setCookies(data);
+
+  }
+
+  
+
+  private onForgotPassword() {
         this.router.navigate(['/forgotpassword']);
   }
 
-  onRegister() {
+  private onRegister() {
         this.router.navigate(['/register']);
   }
 

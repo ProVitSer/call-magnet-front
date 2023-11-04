@@ -6,6 +6,6 @@ import { ApiRoutingModule } from './api-routing.module';
 @NgModule({
   declarations: [ApiComponent],
   imports: [ApiRoutingModule],
-  exports:[]
+  exports:[ApiComponent]
 })
 export class ApiModule { }

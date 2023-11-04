@@ -75,22 +75,10 @@ export class DragDropComponent implements OnDestroy {
 
     this.subsNgFor.add(dragulaService.dropModel(this.MANY_ITEMS)
     .subscribe(({ el, target, source, sourceModel, targetModel, item }) => {
-      console.log('dropModel:');
-      console.log(el);
-      console.log(source);
-      console.log(target);
-      console.log(sourceModel);
-      console.log(targetModel);
-      console.log(item);
     })
   );
   this.subsNgFor.add(dragulaService.removeModel(this.MANY_ITEMS)
     .subscribe(({ el, source, item, sourceModel }) => {
-      console.log('removeModel:');
-      console.log(el);
-      console.log(source);
-      console.log(sourceModel);
-      console.log(item);
     })
   );
 

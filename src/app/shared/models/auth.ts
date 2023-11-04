@@ -1,15 +1,17 @@
+import { Menu } from "./login";
 
 export interface TokenPayload {
     sub: string;
-    role: string;
     iat: number;
     exp: number;
 }
 
-export interface SetLocalStorageData {
-    clientId: string;
-    role: string;
+export interface SetsCookiesData extends UserData{
     accessToken: string;
     refreshToken: string;
-    accessTokenExpires: number;
+}
+
+export interface UserData {
+    clientId: string;
+    userRoles: string[];
 }

@@ -2,4 +2,6 @@
 export const environment = {
     production: false,
     API_GATEWAY_URL: '',
+    CRYPTO_SK: '',
+    CRYPTO_IV: ''
 }

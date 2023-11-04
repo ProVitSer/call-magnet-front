@@ -5,6 +5,8 @@ import { SmsSendComponent } from './components/send/sms-send.component';
 import { SmsStatisticComponent } from './components/statistic/sms-statistic.component';
 import { SmsMassSendingComponent } from './components/mass-sending/sms-mass-sending.component';
 import { SmsNoAnswerCallSendingComponent } from './components/no-answer-call-sending/sms-no-answer-call-sending.component';
+import { AuthGuard } from 'app/shared/auth/auth-guard.service';
+import { RoleGuard } from 'app/shared/auth/role-guard.service';
 
 
 const routes: Routes = [
@@ -12,36 +14,47 @@ const routes: Routes = [
     path: 'send',
     component: SmsSendComponent,
     data: {
-      title: 'Отправка'
+      title: 'Отправка',
+      expectedRole: ['SmallBusiness']
+
     },
+    canActivate: [AuthGuard, RoleGuard],
   },
   {
     path: 'statistic',
     component: SmsStatisticComponent,
     data: {
-      title: 'Статистика'
+      title: 'Статистика',
+      expectedRole: ['SmallBusiness']
     },
+    canActivate: [AuthGuard, RoleGuard],
   },
   {
     path: 'mass-sending',
     component: SmsMassSendingComponent,
     data: {
-      title: 'Массовая рассылка'
+      title: 'Массовая рассылка',
+      expectedRole: ['SmallBusiness']
     },
+    canActivate: [AuthGuard, RoleGuard],
   },
   {
     path: 'no-answer-call-sending',
     component: SmsNoAnswerCallSendingComponent,
     data: {
-      title: 'Неотвеченные вызовы'
+      title: 'Неотвеченные вызовы',
+      expectedRole: ['SmallBusiness']
     },
+    canActivate: [AuthGuard, RoleGuard],
   },
   {
     path: 'settings',
     component: SmsSettingsComponent,
     data: {
-      title: 'Настройки'
+      title: 'Настройки',
+      expectedRole: ['SmallBusiness']
     },
+    canActivate: [AuthGuard, RoleGuard],
   },
 ];
 

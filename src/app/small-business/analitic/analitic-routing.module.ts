@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { AnaliticComponent } from './components/analitic.component';
+import { AuthGuard } from 'app/shared/auth/auth-guard.service';
+import { RoleGuard } from 'app/shared/auth/role-guard.service';
 
 
 const routes: Routes = [
@@ -8,8 +10,10 @@ const routes: Routes = [
     path: '',
     component: AnaliticComponent,
     data: {
-      title: 'Аналитика'
+      title: 'Аналитика',
+      expectedRole: ['SmallBusiness']
     },
+    canActivate: [AuthGuard, RoleGuard],
   },
 ];
 

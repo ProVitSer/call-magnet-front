@@ -4,6 +4,8 @@ import { AutoDialSettingsComponent } from './components/settings/settings.compon
 import { AutoDialReportsComponent } from './components/reports/reports.component';
 import { AutoDialTasksComponent } from './components/tasks/tasks.component';
 import { AutoDialCreateComponent } from './components/create/create.component';
+import { AuthGuard } from 'app/shared/auth/auth-guard.service';
+import { RoleGuard } from 'app/shared/auth/role-guard.service';
 
 
 const routes: Routes = [
@@ -11,29 +13,37 @@ const routes: Routes = [
     path: 'create',
     component: AutoDialCreateComponent,
     data: {
-      title: 'Создать'
+      title: 'Создать',
+      expectedRole: ['SmallBusiness']
     },
+    canActivate: [AuthGuard, RoleGuard],
   },
   {
     path: 'settings',
     component: AutoDialSettingsComponent,
     data: {
-      title: 'Настройки'
+      title: 'Настройки',
+      expectedRole: ['SmallBusiness']
     },
+    canActivate: [AuthGuard, RoleGuard],
   },
   {
     path: 'reports',
     component: AutoDialReportsComponent,
     data: {
-      title: 'Статистика'
+      title: 'Статистика',
+      expectedRole: ['SmallBusiness']
     },
+    canActivate: [AuthGuard, RoleGuard],
   },
   {
     path: 'tasks',
     component: AutoDialTasksComponent,
     data: {
-      title: 'Задания на обзвон'
+      title: 'Задания на обзвон',
+      expectedRole: ['SmallBusiness']
     },
+    canActivate: [AuthGuard, RoleGuard],
   },
 ];
 

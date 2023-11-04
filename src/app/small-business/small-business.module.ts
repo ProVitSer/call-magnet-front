@@ -5,8 +5,7 @@ import { NgApexchartsModule } from 'ng-apexcharts';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AngularResizedEventModule } from 'angular-resize-event';
 import { MatchHeightModule } from "../shared/directives/match-height.directive";
-import { SmallBusinessRoutingModule } from './small-business-routing.module';
-import { DashboardSmallBusinessComponent } from './dashboard-small-business/dashboard-small-business.component';
+import { DashboardSmallBusinessComponent } from './dashboard-small-business/components/dashboard-small-business.component';
 
 
 @NgModule({
@@ -17,7 +16,6 @@ import { DashboardSmallBusinessComponent } from './dashboard-small-business/dash
         MatchHeightModule,
         NgApexchartsModule,
         AngularResizedEventModule,
-        SmallBusinessRoutingModule
     ],
     exports: [],
     declarations: [
