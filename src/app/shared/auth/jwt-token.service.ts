@@ -9,43 +9,27 @@ export class JWTTokenService {
     constructor(private router: Router, private authService: AuthService) { }
 
 
-  decodeToken() {
+  private decodeToken() {
     const token = this.authService.getToken();
-    if (token) {
+    if (token !== null) {
       try {
-        return jwtDecode(token);
+        this.decodedToken = jwtDecode(token);
       } catch (error) {
         this.router.navigate(['/']);
         return true;
       }
     }
-    this.decodedToken = jwtDecode(token);
-  }
-
-  getDecodeToken() {
-    const token = this.authService.getToken();
-    if (token) {
-      try {
-        return jwtDecode(token);
-      } catch (error) {
-        this.router.navigate(['/']);
-        return true;
-      }
-    }
-    return false;
   }
 
 
-  getExpiryTime() {
+  private getExpiryTime() {
     this.decodeToken();
     return this.decodedToken ? this.decodedToken.exp : null;
   }
 
-  isTokenExpired(): boolean {
+  public isTokenExpired(): boolean {
     const expiryTime: number = +this.getExpiryTime();
-
     if (expiryTime) {
-
       return 1000 * expiryTime - new Date().getTime() < 5000;
     } else {
       return false;

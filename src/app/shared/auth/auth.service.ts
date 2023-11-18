@@ -1,12 +1,12 @@
 import { Router } from '@angular/router';
 import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { catchError, tap } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'environments/environment';
-import { LoginModel, LoginResponse } from '../models/login';
+import { LoginModel, LoginResponse, UserData } from '../models/login';
 import { HttpResponse } from '../models/response';
-import { SetsCookiesData, UserData } from '../models/auth';
+import { RefreshTokenResponse, SetsCookiesData } from '../models/auth';
 import { CookieService } from 'ngx-cookie-service';
 import { EncrDecrService } from './encr-decr.service';
 import { RouteInfo } from '../vertical-menu/vertical-menu.metadata';
@@ -29,11 +29,14 @@ export class AuthService {
       .pipe(catchError(this.errorHandler));
   }
 
-  // public refreshToken(): Observable<HttpResponse<LoginResponse>> {
-  //   return this.http
-  //     .post<HttpResponse<LoginResponse>>(`${this.serverUrl}auth/login`, payload)
-  //     .pipe(catchError(this.errorHandler));
-  // }
+  public refreshToken(): Observable<HttpResponse<RefreshTokenResponse>> {
+
+    return this.http
+      .get<HttpResponse<LoginResponse>>(`${this.serverUrl}auth/refresh`,  { headers: {
+        'Authorization': 'Bearer ' + JSON.parse(this.getRefreshToken())
+      } })
+      .pipe(catchError(this.errorHandler));
+  }
 
 
   public setCookies(data: SetsCookiesData): boolean {
@@ -44,37 +47,42 @@ export class AuthService {
     const encryptedRole: string = btoa(JSON.stringify({ userRoles: data.userRoles }));
 
     if(encryptedClient && encryptedAccessToken && encryptedRefreshToken){
-      this.cookieService.set(AuthService.projectKey + '-' + 'AUTH-C', encryptedClient);
-      this.cookieService.set(AuthService.projectKey + '-' + 'AUTH-AC', encryptedAccessToken);
-      this.cookieService.set(AuthService.projectKey + '-' + 'AUTH-RT', encryptedRefreshToken);
-      this.cookieService.set(AuthService.projectKey + '-' + 'AUTH-R', encryptedRole);
+      this.cookieService.set(AuthService.projectKey + '-' + 'AUTH-C', encryptedClient,1,'/');
+      this.cookieService.set(AuthService.projectKey + '-' + 'AUTH-AC', encryptedAccessToken,1,'/');
+      this.cookieService.set(AuthService.projectKey + '-' + 'AUTH-RT', encryptedRefreshToken,1,'/');
+      this.cookieService.set(AuthService.projectKey + '-' + 'AUTH-R', encryptedRole,1,'/');
 
       return true;
     }
     return false;
   }
 
-  public getRefreshToken(): string {
+  public setACToCookies(token: string){
+    const encryptedAccessToken: string = btoa(JSON.stringify(token));
+    this.cookieService.set(AuthService.projectKey + '-' + 'AUTH-AC', encryptedAccessToken,1,'/');
+
+  }
+
+  public getRefreshToken(): string | null  {
     const refreshToken = atob(this.cookieService.get(`${AuthService.projectKey}-AUTH-RT`));
-    if (refreshToken) {
+    if (refreshToken !== "") {
       return refreshToken;
     }
     return null;
   }
   
   
-  public getToken(): string {
+  public getToken(): string | null {
     const accessToken = atob(this.cookieService.get(`${AuthService.projectKey}-AUTH-AC`));
-    if (accessToken) {
+    if (accessToken !== "") {
       return accessToken;
     }
-    this.logout();
     return null;
   }
 
   public getUser(): UserData {
     const getUser = atob(this.cookieService.get(`${AuthService.projectKey}-AUTH-U`));
-    if (getUser) {
+    if (getUser !== "") {
       const user = JSON.parse(getUser);
       if (user) {
         return user.clientId;
@@ -85,7 +93,7 @@ export class AuthService {
 
   public getUserRole(): string[] {
     const data = atob(this.cookieService.get(`${AuthService.projectKey}-AUTH-R`));
-    if (data) {
+    if (data !== "") {
       const user: UserData = JSON.parse(data);
       if (!user.userRoles) {
         return null;
@@ -116,7 +124,7 @@ export class AuthService {
 
   public isUserLoggedIn(): boolean {
     const ac = atob(this.cookieService.get(`${AuthService.projectKey}-AUTH-AC`));
-    if (ac) {
+    if (ac !== "") {
       return true;
     } else {
       return false;
