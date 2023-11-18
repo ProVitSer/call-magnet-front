@@ -124,7 +124,7 @@ export class LoginPageComponent implements OnInit, OnDestroy{
     if (isSetUserData) {
       this.spinner.hide();
 
-      this.router.navigate(['sm']);
+      this.router.navigate(['sm/dashboard']);
     } else {
       this.spinner.hide();
       this.errorMessage = 'Что-то пошло не так, попробуйте позже';
