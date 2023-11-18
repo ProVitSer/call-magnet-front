@@ -13,16 +13,11 @@
                 <h4 class="mb-2 card-title">Вход в платформу</h4>
                 <p>С возвращением, авторизуйтесь для входа на платформу</p>
 
-                <div *ngIf="errorMessage" class="row mb-0">
-                  <div class="col-12 col-md-12">
-                    <div class="alert alert-light-danger">
-                      <span class="fa fa-exclamation-triangle"></span>
-                      <span>
-                        {{ errorMessage }}.
-                      </span>
-                    </div>
-                  </div>
-                </div>
+                <ngb-alert type="light-danger" class="mb-2" *ngIf="isLoginFailed && isAlertVisible" (click)="closeAlert()">
+                  <p class="mb-0">{{ errorMessage }}</p>
+                </ngb-alert>
+
+
                 <form [formGroup]="loginForm">
                   <div class="form-group">
                     <input type="text" formControlName="email" class="form-control" placeholder="Email"
@@ -36,7 +31,6 @@
                   
                   <fieldset class="form-group position-relative has-icon-right">
                     <input  [type]="showPassword ? 'text' : 'password'" formControlName="password"
-                    (keyup.enter)="onSubmit()"
                      class="form-control" id="Password" placeholder="Пароль"
                      [ngClass]="{
                       'is-invalid': loginFormSubmitted && lf.password.invalid,
@@ -67,6 +61,9 @@
                   </div>
                 </form>
                 <hr>
+                <div class="d-flex justify-content-between align-items-center">
+                  <ngx-spinner></ngx-spinner>
+                </div>
               </div>
             </div>
           </div>

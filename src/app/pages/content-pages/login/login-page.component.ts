@@ -21,8 +21,9 @@ export class LoginPageComponent implements OnInit, OnDestroy{
   loginFormSubmitted = false;
   isLoginFailed = false;
   ngDestroy$ = new Subject();
-  errorMessage: string;
+  errorMessage: string = '';
   public showPassword: boolean = false;
+  isAlertVisible = true;
 
   constructor(private router: Router, private authService: AuthService,
     private spinner: NgxSpinnerService,
@@ -54,8 +55,13 @@ export class LoginPageComponent implements OnInit, OnDestroy{
   }
 
   
+  closeAlert(){
+    this.isAlertVisible = false;
+  }
+
   onSubmit() {
     this.loginFormSubmitted = true;
+
     if (this.loginForm.invalid) {
       return;
     }
@@ -94,10 +100,10 @@ export class LoginPageComponent implements OnInit, OnDestroy{
         }
       },
       (e) => {
+        this.isAlertVisible = true;
         this.spinner.hide();
-        this.isLoginFailed = true;
         this.errorMessage = e;
-        this.cdr.markForCheck();
+        this.isLoginFailed = true;
       })
   }
 
@@ -115,7 +121,7 @@ export class LoginPageComponent implements OnInit, OnDestroy{
     if(menu?.length > 0) {
       this.setMenu(menu);
     } else {
-      console.log("Отсутствует меню");
+      this.router.navigate(['/']);
     }
 
 
