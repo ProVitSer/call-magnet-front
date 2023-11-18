@@ -10,13 +10,8 @@ import { ErrorPageComponent } from "./error/error-page.component";
 import { ForgotPasswordPageComponent } from "./forgot-password/forgot-password-page.component";
 import { LoginPageComponent } from "./login/login-page.component";
 import { RegisterPageComponent } from "./register/register-page.component";
-import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
-import { HttpClient } from '@angular/common/http';
-import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
-export function createTranslateLoader(http: HttpClient) {
-  return new TranslateHttpLoader(http, "./assets/i18n/", ".json");
-}
+
 
 @NgModule({
   imports: [
@@ -25,13 +20,6 @@ export function createTranslateLoader(http: HttpClient) {
     FormsModule,
     ReactiveFormsModule,
     NgbModule,
-    TranslateModule.forChild({
-      loader: {
-        provide: TranslateLoader,
-        useFactory: createTranslateLoader,
-        deps: [HttpClient]
-      }
-    }),
     NgxSpinnerModule
   ],
   declarations: [
