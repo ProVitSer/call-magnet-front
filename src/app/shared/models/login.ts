@@ -24,3 +24,8 @@ export interface LoginResponse {
     userRoles: string[];
     menu: Menu[];
 }
+
+export interface UserData {
+    clientId: string;
+    userRoles: string[];
+}
