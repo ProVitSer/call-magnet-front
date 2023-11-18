@@ -13,7 +13,6 @@
           "options": {
             "allowedCommonJsDependencies": [
               "dragula",
-              "firebase/app",
               "@mattlewis92/dom-autoscroller",
               "angular-calendar/date-adapters/date-fns",
               "prismjs/plugins/copy-to-clipboard/prism-copy-to-clipboard",
@@ -28,7 +27,8 @@
               "sweetalert2",
               "screenfull",
               "clipboard",
-              "prismjs"
+              "prismjs",
+              "crypto-js"
             ],
             "outputPath": "dist",
             "index": "src/index.html",
