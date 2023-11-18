@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { UsersProfileComponent } from './users-profile/users-profile.component';
 
-import { UserProfilePageComponent } from "./user-profile/user-profile-page.component";
 
 const routes: Routes = [
   {
@@ -9,11 +9,11 @@ const routes: Routes = [
     children: [
       {
         path: 'profile',
-        component: UserProfilePageComponent,
+        component: UsersProfileComponent,
         data: {
-          title: 'User Profile Page'
+          title: 'Профиль'
         }
-      }
+      },
     ]
   }
 ];
