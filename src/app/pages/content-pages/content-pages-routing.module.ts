@@ -5,6 +5,7 @@ import { ErrorPageComponent } from "./error/error-page.component";
 import { ForgotPasswordPageComponent } from "./forgot-password/forgot-password-page.component";
 import { LoginPageComponent } from "./login/login-page.component";
 import { RegisterPageComponent } from "./register/register-page.component";
+import { VerifyPageComponent } from './verify/verify-page.component';
 
 
 const routes: Routes = [
@@ -15,14 +16,14 @@ const routes: Routes = [
         path: 'error',
         component: ErrorPageComponent,
         data: {
-          title: 'Error Page'
+          title: 'Error'
         }
       },
       {
         path: 'forgotpassword',
         component: ForgotPasswordPageComponent,
         data: {
-          title: 'Forgot Password Page'
+          title: 'Восстановление пароля'
         }
       },   
       
@@ -30,17 +31,23 @@ const routes: Routes = [
         path: 'login',
         component: LoginPageComponent,
         data: {
-          title: 'Login Page'
+          title: 'Авторизация'
         }
       },
       {
         path: 'register',
         component: RegisterPageComponent,
         data: {
-          title: 'Register Page'
+          title: 'Регистрация'
+        }
+      },
+      {
+        path: 'verify/:id',
+        component: VerifyPageComponent,
+        data: {
+          title: ''
         }
       }   
-      
     ]
   }
 ];
