@@ -2,11 +2,11 @@ import { Router } from '@angular/router';
 import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { environment } from 'environments/environment';
 import { LoginModel, LoginResponse, UserData } from '../models/login';
 import { HttpResponse } from '../models/response';
-import { RefreshTokenResponse, SetsCookiesData } from '../models/auth';
+import { RefreshTokenResponse, RegisterUserData, RegisterUserResponse, SetsCookiesData, VerifyUserResponse } from '../models/auth';
 import { CookieService } from 'ngx-cookie-service';
 import { EncrDecrService } from './encr-decr.service';
 import { RouteInfo } from '../vertical-menu/vertical-menu.metadata';
@@ -30,11 +30,22 @@ export class AuthService {
   }
 
   public refreshToken(): Observable<HttpResponse<RefreshTokenResponse>> {
-
     return this.http
       .get<HttpResponse<LoginResponse>>(`${this.serverUrl}auth/refresh`,  { headers: {
         'Authorization': 'Bearer ' + JSON.parse(this.getRefreshToken())
       } })
+      .pipe(catchError(this.errorHandler));
+  }
+
+  public register(data: RegisterUserData): Observable<HttpResponse<RegisterUserResponse>> {
+    return this.http
+      .post<HttpResponse<RegisterUserResponse>>(`${this.serverUrl}auth/register`, data)
+      .pipe(catchError(this.errorHandler));
+  }
+
+  public verify(verifyId: string): Observable<HttpResponse<VerifyUserResponse>> {
+    return this.http
+      .post<HttpResponse<VerifyUserResponse>>(`${this.serverUrl}auth/verify-user`, { token: verifyId})
       .pipe(catchError(this.errorHandler));
   }
 
@@ -139,14 +150,11 @@ export class AuthService {
 
   private errorHandler(e) {
     let errorMessage = '';
-    let errorRes = '';
-    if (e.error instanceof ErrorEvent) {
+    if (e.error && e.error.message) {
       errorMessage = e.error.message;
-      errorRes = e.error.message;
     } else {
       errorMessage = `Error Code: ${e.status}\nMessage: ${e.message}`;
-      errorRes = `${e.error.message} `;
     }
-    return throwError(errorRes);
+    return throwError(errorMessage);
   }
 }
