@@ -1,4 +1,4 @@
-import { Menu, UserData } from "./login";
+import { UserData } from "./login";
 
 export interface TokenPayload {
     sub: string;
@@ -11,8 +11,23 @@ export interface SetsCookiesData extends UserData {
     refreshToken: string;
 }
 
-
-
 export interface RefreshTokenResponse {
     accessToken: string;
 }
+
+export interface RegisterUserData {
+    firstname: string;
+    lastname: string;
+    email: string;
+    phoneNumber: number;
+    password: string;
+    company: string;
+}
+
+export interface RegisterUserResponse {
+    email: string;
+    message: string;
+}
+
+
+export interface VerifyUserResponse extends RegisterUserResponse{}
