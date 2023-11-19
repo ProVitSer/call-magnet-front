@@ -1,9 +1,12 @@
-import { Component, ViewChild, OnInit } from '@angular/core';
-import { NgForm, UntypedFormGroup, FormControl, Validators, UntypedFormBuilder } from '@angular/forms';
-
-// import custom validator to validate that password and confirm password fields match
+import { Component, OnInit } from '@angular/core';
+import { UntypedFormGroup, Validators, UntypedFormBuilder } from '@angular/forms';
 import { MustMatch } from '../../../shared/directives/must-match.validator';
 import { Router } from '@angular/router';
+import { AuthService } from 'app/shared/auth/auth.service';
+import { RegisterUserResponse } from 'app/shared/models/auth';
+import { HttpResponse } from 'app/shared/models/response';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { SweetalertService } from 'app/shared/services/sweetalert.service';
 
 @Component({
   selector: 'app-register-page',
@@ -14,18 +17,18 @@ import { Router } from '@angular/router';
 export class RegisterPageComponent implements OnInit {
   registerFormSubmitted = false;
   registerForm: UntypedFormGroup;
-  constructor(private formBuilder: UntypedFormBuilder, private router: Router) { }
+  constructor(private fb: UntypedFormBuilder, private router: Router, private authService: AuthService, private spinner: NgxSpinnerService) { }
 
   ngOnInit() {
-    this.registerForm = this.formBuilder.group({
+    this.registerForm = this.fb.group({
       name: ['', Validators.required],
       lastname: ['', Validators.required],
-      phone: ['', [Validators.required]],
+      phone: ['', [Validators.required, Validators.pattern(/^((\+7|7|8)+([0-9]){10})$/)]],
       companyName: ['', [Validators.required]],
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(8)]],
       confirmPassword: ['', Validators.required],
-      acceptTerms: [false, Validators.requiredTrue]
+      // acceptTerms: [false, Validators.requiredTrue] // пока убираем, добавим когда будет политика
     }, {
       validator: MustMatch('password', 'confirmPassword')
     });
@@ -35,14 +38,47 @@ export class RegisterPageComponent implements OnInit {
     return this.registerForm.controls;
   }
 
-
-  //  On submit click, reset field value
   onSubmit() {
     this.registerFormSubmitted = true;
+
     if (this.registerForm.invalid) {
       return;
     }
 
-    this.router.navigate(['/pages/login']);
+    this.spinner.show(undefined,
+      {
+        type: 'ball-triangle-path',
+        size: 'medium',
+        bdColor: 'rgba(0, 0, 0, 0.8)',
+        color: '#fff',
+        fullScreen: true
+      });
+
+
+
+    const dataToSend = {
+      email: this.registerForm.value.email,
+      password: this.registerForm.value.password,
+      firstname: this.registerForm.value.name,
+      lastname: this.registerForm.value.lastname,
+      phoneNumber: this.registerForm.value.phone,
+      company: this.registerForm.value.companyName,
+
+    };
+
+    this.authService.register(dataToSend).subscribe(
+      (res: HttpResponse<RegisterUserResponse>) => {
+        const result = res;
+        if (result.result && res.hasOwnProperty('data')) {
+          this.spinner.hide();
+          return SweetalertService.successAlert('Регистрация прошла успешно', 'Вам на почту будет отправлено пиьсмо с подтверждением')
+        }
+        this.spinner.hide();
+        SweetalertService.errorAlert('Ошибка регистрации', 'Что-то пошло не так, просьба обратиться в техническую поддержку')
+      },
+      (e) => {
+        this.spinner.hide();
+        SweetalertService.errorAlert('Ошибка регистрации', e)
+      })
   }
 }
