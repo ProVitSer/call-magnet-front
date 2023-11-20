@@ -1,5 +1,4 @@
-import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from "@angular/router";
 import { AuthService } from 'app/shared/auth/auth.service';
 import { VerifyUserResponse } from 'app/shared/models/auth';
@@ -25,8 +24,6 @@ export class VerifyPageComponent implements OnInit, OnDestroy{
     private authService: AuthService,
     private spinner: NgxSpinnerService,
     private route: ActivatedRoute,
-    private cdr: ChangeDetectorRef,
-    private fb: FormBuilder,
     ) {
   }
 
@@ -34,7 +31,7 @@ export class VerifyPageComponent implements OnInit, OnDestroy{
     this.route.params.subscribe(params => {
       this.verificationCode = params['id'];
       if(!UtilService.isUUIDv4(this.verificationCode)) {
-        return SweetalertService.errorAlert('Ошибка валидации','Передан некорректный проверочный id')
+        return SweetalertService.errorAlert('','Некорректная ссылка')
       }
 
       this.spinner.show(undefined,
@@ -61,7 +58,7 @@ export class VerifyPageComponent implements OnInit, OnDestroy{
         const result = res;
         if (result.result && res.hasOwnProperty('data')) {
           this.spinner.hide();
-          SweetalertService.autoCloseSuccessAlert('Верификация пройдена успешно', 'Сейчас вы будите перенаправлены на страницу автовризации', this.redirectTimeout);
+          SweetalertService.autoCloseSuccessAlert('', 'Сейчас вы будите перенаправлены на страницу автовризации', this.redirectTimeout);
           setTimeout(() => {
             this.router.navigate(['/login']);
           }, this.redirectTimeout);
