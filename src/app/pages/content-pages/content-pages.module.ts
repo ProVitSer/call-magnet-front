@@ -10,6 +10,8 @@ import { ErrorPageComponent } from "./error/error-page.component";
 import { ForgotPasswordPageComponent } from "./forgot-password/forgot-password-page.component";
 import { LoginPageComponent } from "./login/login-page.component";
 import { RegisterPageComponent } from "./register/register-page.component";
+import { VerifyPageComponent } from './verify/verify-page.component';
+import { ResetPasswordPageComponent } from './reset-password/reset-password-page.component';
 
 
 
@@ -26,7 +28,9 @@ import { RegisterPageComponent } from "./register/register-page.component";
     ErrorPageComponent,
     ForgotPasswordPageComponent,
     LoginPageComponent,
-    RegisterPageComponent
+    RegisterPageComponent,
+    VerifyPageComponent,
+    ResetPasswordPageComponent
   ]
 })
 export class ContentPagesModule { }

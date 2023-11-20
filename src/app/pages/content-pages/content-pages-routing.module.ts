@@ -6,6 +6,7 @@ import { ForgotPasswordPageComponent } from "./forgot-password/forgot-password-p
 import { LoginPageComponent } from "./login/login-page.component";
 import { RegisterPageComponent } from "./register/register-page.component";
 import { VerifyPageComponent } from './verify/verify-page.component';
+import { ResetPasswordPageComponent } from './reset-password/reset-password-page.component';
 
 
 const routes: Routes = [
@@ -44,6 +45,13 @@ const routes: Routes = [
       {
         path: 'verify/:id',
         component: VerifyPageComponent,
+        data: {
+          title: ''
+        }
+      },
+      {
+        path: 'reset-password/:id',
+        component: ResetPasswordPageComponent,
         data: {
           title: ''
         }

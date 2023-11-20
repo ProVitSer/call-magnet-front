@@ -24,10 +24,26 @@ export interface RegisterUserData {
     company: string;
 }
 
-export interface RegisterUserResponse {
+export class BaseAuthResponse {
     email: string;
     message: string;
 }
 
+export interface RegisterUserResponse extends BaseAuthResponse{};
 
-export interface VerifyUserResponse extends RegisterUserResponse{}
+export interface VerifyUserResponse extends BaseAuthResponse{}
+
+export interface ForogtPasswordData {
+    email: string;
+}
+
+export interface ForogtPasswordResponse extends BaseAuthResponse{}
+
+export interface VerificationCodeResponse {
+    isValid: boolean;
+}
+
+export interface ResetPasswordData {
+    verificationCode: string;
+    password: string;
+}

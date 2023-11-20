@@ -1,12 +1,12 @@
 import { Router } from '@angular/router';
 import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
-import { catchError, tap } from 'rxjs/operators';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { catchError } from 'rxjs/operators';
+import { HttpClient } from '@angular/common/http';
 import { environment } from 'environments/environment';
 import { LoginModel, LoginResponse, UserData } from '../models/login';
 import { HttpResponse } from '../models/response';
-import { RefreshTokenResponse, RegisterUserData, RegisterUserResponse, SetsCookiesData, VerifyUserResponse } from '../models/auth';
+import { BaseAuthResponse, ForogtPasswordData, ForogtPasswordResponse, RefreshTokenResponse, RegisterUserData, RegisterUserResponse, SetsCookiesData, VerificationCodeResponse, VerifyUserResponse, ResetPasswordData} from '../models/auth';
 import { CookieService } from 'ngx-cookie-service';
 import { EncrDecrService } from './encr-decr.service';
 import { RouteInfo } from '../vertical-menu/vertical-menu.metadata';
@@ -43,12 +43,31 @@ export class AuthService {
       .pipe(catchError(this.errorHandler));
   }
 
+  public forogtPassword(data: ForogtPasswordData): Observable<HttpResponse<ForogtPasswordResponse>> {
+    return this.http
+      .post<HttpResponse<ForogtPasswordResponse>>(`${this.serverUrl}auth/forgot-password`, data)
+      .pipe(catchError(this.errorHandler));
+  }
+
+
   public verify(verifyId: string): Observable<HttpResponse<VerifyUserResponse>> {
     return this.http
       .post<HttpResponse<VerifyUserResponse>>(`${this.serverUrl}auth/verify-user`, { token: verifyId})
       .pipe(catchError(this.errorHandler));
   }
 
+
+  public checkVerificationCode(id: string): Observable<HttpResponse<VerificationCodeResponse>> {
+    return this.http
+      .post<HttpResponse<VerificationCodeResponse>>(`${this.serverUrl}auth/check-verification-code`, { code: id})
+      .pipe(catchError(this.errorHandler));
+  }
+
+  public resetPassword(data: ResetPasswordData): Observable<HttpResponse<BaseAuthResponse>> {
+    return this.http
+      .post<HttpResponse<BaseAuthResponse>>(`${this.serverUrl}auth/reset-password`, data)
+      .pipe(catchError(this.errorHandler));
+  }
 
   public setCookies(data: SetsCookiesData): boolean {
 
@@ -149,6 +168,7 @@ export class AuthService {
   }
 
   private errorHandler(e) {
+    console.log(e)
     let errorMessage = '';
     if (e.error && e.error.message) {
       errorMessage = e.error.message;
