@@ -9,6 +9,8 @@ import { NgSelectModule } from "@ng-select/ng-select";
 import { SwiperModule } from "ngx-swiper-wrapper";
 import { PipeModule } from "app/shared/pipes/pipe.module";
 import { NgxDatatableModule } from "@swimlane/ngx-datatable";
+import { UsersProfileComponent } from "./users-profile/users-profile.component";
+import { TagInputModule } from 'ngx-chips';
 
 @NgModule({
   imports: [
@@ -22,9 +24,10 @@ import { NgxDatatableModule } from "@swimlane/ngx-datatable";
     SwiperModule,
     PipeModule,
     NgxDatatableModule,
+    TagInputModule
   ],
   declarations: [
-    
+    UsersProfileComponent
   ],
 })
 export class FullPagesModule {}

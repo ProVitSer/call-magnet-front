@@ -1,202 +1,176 @@
-<section class="users-view">
-  <!-- Media object starts -->
-  <div class="row">
-    <div class="col-12 col-sm-7">
-      <div class="media d-flex align-items-center">
-        <a href="javascript:;">
-          <img src="assets/img/portrait/small/avatar-s-2.png" alt="user view avatar"
-            class="users-avatar-shadow rounded" height="64" width="64">
+<div class="row">
+  <div class="col-12">
+    <div class="content-header">Профиль</div>
+    <p class="content-sub-header mb-1">Основные данные аккаунта</p>
+  </div>
+</div>
+<!-- Account Settings starts -->
+<div class="row">
+  <div class="col-md-3 mt-3">
+    <!-- Nav tabs -->
+    <ul class="nav flex-column nav-pills" id="myTab" role="tablist">
+      <li class="nav-item">
+        <a class="nav-link" href="javascript:;" [ngClass]="{active: activeTab === 'general'}"
+          (click)="setActiveTab('general')" id="general-tab" data-toggle="tab" role="tab" aria-controls="general"
+          aria-selected="true">
+          <i class="ft-settings mr-1 align-middle"></i>
+          <span class="align-middle">Основные</span>
         </a>
-        <div class="media-body ml-3">
-          <h4>
-            <span class="users-view-name mr-1">Dean Stanley</span>
-            <span class="text-muted font-medium-1">
-              <span>@</span>
-              <span class="users-view-username">dean3004</span>
-            </span>
-          </h4>
-          <span class="mr-1">ID:</span>
-          <span class="users-view-id">300</span>
-        </div>
-      </div>
-    </div>
-    <div class="col-12 col-sm-5 d-flex justify-content-end align-items-center">
-      <a href="javaScript:void(0);" class="btn btn-sm bg-light-secondary mr-2 px-3 py-1"><i class="ft-mail"></i></a>
-      <a href="javaScript:void(0);" class="btn btn-sm bg-light-secondary mr-2 px-3 py-1">Profile</a>
-      <!-- <a [routerLink]="['/pages/users-edit']" class="btn btn-sm btn-primary px-3 py-1">Edit</a> -->
-    </div>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="javascript:;" [ngClass]="{active: activeTab === 'change-password'}"
+          (click)="setActiveTab('change-password')" id="change-password-tab" data-toggle="tab" role="tab"
+          aria-controls="change-password" aria-selected="false">
+          <i class="ft-lock mr-1 align-middle"></i>
+          <span class="align-middle">Смена пароля</span>
+        </a>
+      </li>
+    </ul>
   </div>
-  <!-- Media object ends -->
+  <div class="col-md-9">
+    <!-- Tab panes -->
+    <div class="card">
+      <div class="card-content">
+        <div class="card-body">
+          <div class="tab-content">
+            <!-- General Tab -->
+            <div class="tab-pane" [ngClass]="{active: activeTab === 'general'}" id="general" role="tabpanel"
+              aria-labelledby="general-tab">
 
-  <div class="row">
-    <div class="col-12">
-      <!-- Card data starts -->
-      <div class="card">
-        <div class="card-content">
-          <div class="card-body">
-            <div class="row">
-              <div class="col-12 col-xl-4">
-                <table class="table table-borderless">
-                  <tbody>
-                    <tr>
-                      <td>Registered:</td>
-                      <td>2019/01/01</td>
-                    </tr>
-                    <tr>
-                      <td>Latest Activity:</td>
-                      <td class="users-view-latest-activity">2019/04/30</td>
-                    </tr>
-                    <tr>
-                      <td>Verified:</td>
-                      <td class="users-view-verified">Yes</td>
-                    </tr>
-                    <tr>
-                      <td>Role:</td>
-                      <td class="users-view-role">Staff</td>
-                    </tr>
-                    <tr>
-                      <td>Status:</td>
-                      <td><span class="badge bg-light-success users-view-status">Active</span></td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-              <div class="col-12 col-xl-8 users-module">
-                <div class="table-responsive">
-                  <table class="table mb-0">
-                    <thead>
-                      <tr>
-                        <th>Module Permission</th>
-                        <th>Read</th>
-                        <th>Write</th>
-                        <th>Create</th>
-                        <th>Delete</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <td>Users</td>
-                        <td>Yes</td>
-                        <td>No</td>
-                        <td>No</td>
-                        <td>Yes</td>
-                      </tr>
-                      <tr>
-                        <td>Articles</td>
-                        <td>No</td>
-                        <td>Yes</td>
-                        <td>No</td>
-                        <td>Yes</td>
-                      </tr>
-                      <tr>
-                        <td>Staff</td>
-                        <td>Yes</td>
-                        <td>Yes</td>
-                        <td>No</td>
-                        <td>No</td>
-                      </tr>
-                    </tbody>
-                  </table>
+              <form [formGroup]="generalForm" (ngSubmit)="onGeneralFormSubmit()">
+                <div class="row">
+                  <div class="col-12 form-group">
+                    <label for="firstname">Имя</label>
+                    <div class="controls">
+                      <input type="text" formControlName="firstname" class="form-control" placeholder="Имя"
+                        [ngClass]="{ 'is-invalid': generalFormSubmitted && gf.firstname.invalid, 'is-valid': generalFormSubmitted && !gf.firstname.invalid }"
+                        required>
+                      <div *ngIf="generalFormSubmitted && (gf.firstname.invalid || gf.firstname.errors?.required)"
+                        class="help-block mt-1 text-danger"> <i class="ft-alert-circle align-middle"></i> Обязательно для заполнения
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-12 form-group">
+                    <label for="lastname">Фамилия</label>
+                    <div class="controls">
+                      <input type="text" formControlName="lastname" class="form-control" placeholder="Фамилия"
+                        [ngClass]="{ 'is-invalid': generalFormSubmitted && gf.lastname.invalid, 'is-valid': generalFormSubmitted && !gf.lastname.invalid }"
+                        required>
+                      <div *ngIf="generalFormSubmitted && (gf.lastname.invalid || gf.lastname.errors?.required)"
+                        class="help-block mt-1 text-danger"> <i class="ft-alert-circle align-middle"></i> Обязательно для заполнения
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-12 form-group">
+                    <label>Почта</label>
+                    <div class="controls">
+                      <input type="text" class="form-control" [value]="email" disabled>
+                    </div>
+                  </div>
+
+
+                  <div class="col-12 form-group">
+                    <label for="phoneNumber">Телефон</label>
+                    <div class="controls">
+                      <input type="text" formControlName="phoneNumber" class="form-control" placeholder="Телефон"
+                        aria-invalid="false"
+                        [ngClass]="{ 'is-invalid': generalFormSubmitted && gf.phoneNumber.invalid, 'is-valid': generalFormSubmitted && !gf.phoneNumber.invalid }"
+                        required>
+                      <div *ngIf="generalFormSubmitted && (gf.phoneNumber.invalid || gf.phoneNumber.errors?.required)"
+                        class="help-block mt-1 text-danger"> <i class="ft-alert-circle align-middle"></i> Обязательно для заполнения
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-12 form-group">
+                    <label for="company">Название компании</label>
+                    <div class="controls">
+                      <input type="text" formControlName="company" class="form-control" placeholder="Название компании"
+                        aria-invalid="false"
+                        [ngClass]="{ 'is-invalid': generalFormSubmitted && gf.company.invalid, 'is-valid': generalFormSubmitted && !gf.company.invalid }"
+                        required>
+                      <div *ngIf="generalFormSubmitted && (gf.company.invalid || gf.company.errors?.required)"
+                        class="help-block mt-1 text-danger"> <i class="ft-alert-circle align-middle"></i> Обязательно для заполнения
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-12 form-group">
+                    <label for="company">Доступный функционал</label>
+                    <div class="card-body">
+                      <button
+                        *ngFor="let button of buttons"
+                        type="button"
+                        class="btn"
+                        [class]="button.class"
+                      >
+                        {{ button.label }}
+                      </button>
+                    </div>
+                  </div>
+    
+                  <div class="col-12 d-flex flex-sm-row flex-column justify-content-end">
+                    <button type="submit" class="btn btn-primary mr-sm-2 mb-1">Сохранить</button>
+                    <!-- <button type="reset" class="btn btn-secondary mb-1">Отмена</button> -->
+                  </div>
                 </div>
-              </div>
+              </form>
             </div>
+
+            <!-- Change Password Tab -->
+            <!-- <div class="tab-pane" [ngClass]="{active: activeTab === 'change-password'}" id="change-password"
+              role="tabpanel" aria-labelledby="change-password-tab">
+              <form [formGroup]="changePasswordForm" (ngSubmit)="onChangePasswordFormSubmit()">
+                <div class="form-group">
+                  <label for="old-password">Старый пароль</label>
+                  <div class="controls">
+                    <input type="password" formControlName="oldPassword" class="form-control" placeholder="Старый пароль"
+                      [ngClass]="{ 'is-invalid': changePasswordFormSubmitted && cpf.oldPassword.invalid, 'is-valid': changePasswordFormSubmitted && !cpf.oldPassword.invalid }"
+                      required>
+                    <div
+                      *ngIf="changePasswordFormSubmitted && (cpf.oldPassword.invalid || cpf.oldPassword.errors?.required)"
+                      class="help-block mt-1 text-danger"> <i class="ft-alert-circle align-middle"></i> Обязательно для заполнения
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="new-password">Новый пароль</label>
+                  <div class="controls">
+                    <input type="password" formControlName="newPassword" class="form-control" placeholder="Новый пароль"
+                      [ngClass]="{ 'is-invalid': changePasswordFormSubmitted && cpf.newPassword.invalid, 'is-valid': changePasswordFormSubmitted && !cpf.newPassword.invalid }"
+                      required>
+                    <div
+                      *ngIf="changePasswordFormSubmitted && (cpf.newPassword.invalid || cpf.newPassword.errors?.required)"
+                      class="help-block mt-1 text-danger"> <i class="ft-alert-circle align-middle"></i> Обязательно для заполнения
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="retype-new-password">Повторите новый пароль</label>
+                  <div class="controls">
+                    <input type="password" formControlName="retypeNewPassword" class="form-control"
+                      placeholder="Новый пароль"
+                      [ngClass]="{ 'is-invalid': changePasswordFormSubmitted && cpf.retypeNewPassword.invalid, 'is-valid': changePasswordFormSubmitted && !cpf.retypeNewPassword.invalid }"
+                      required>
+                    <div
+                      *ngIf="changePasswordFormSubmitted && (cpf.retypeNewPassword.invalid || cpf.retypeNewPassword.errors?.required)"
+                      class="help-block mt-1 text-danger"> <i class="ft-alert-circle align-middle"></i> Обязательно для заполнения
+                    </div>
+                  </div>
+                </div>
+                <div class="d-flex flex-sm-row flex-column justify-content-end">
+                  <button type="submit" class="btn btn-primary mr-sm-2 mb-1">Сохранить</button>
+                  <button type="reset" class="btn btn-secondary mb-1">Отмена</button>
+                </div>
+              </form>
+            </div> -->
+
           </div>
         </div>
       </div>
-      <!-- Card data ends -->
-    </div>
-    <div class="col-12">
-      <!-- User detail starts -->
-      <div class="card">
-        <div class="card-content">
-          <div class="card-body">
-            <div class="row bg-primary bg-lighten-4 rounded mb-3 mx-1 text-center text-lg-left">
-              <div class="col-12 col-sm-4 p-3 d-flex align-itms-center">
-                <h6 class="primary align-self-center mb-0 mx-1">Posts:</h6>
-                <span class="font-large-1 primary">125</span>
-              </div>
-              <div class="col-12 col-sm-4 p-3 d-flex align-itms-center">
-                <h6 class="primary align-self-center mb-0 mx-1">Followers:</h6>
-                <span class="font-large-1 primary">534</span>
-              </div>
-              <div class="col-12 col-sm-4 p-3 d-flex align-itms-center">
-                <h6 class="primary align-self-center mb-0 mx-1">Following:</h6>
-                <span class="font-large-1 primary">256</span>
-              </div>
-            </div>
-
-            <div class="col-12">
-              <div class="table-responsive">
-                <table class="table table-borderless">
-                  <tbody>
-                    <tr>
-                      <td>Username:</td>
-                      <td class="users-view-username">dean3004</td>
-                    </tr>
-                    <tr>
-                      <td>Name:</td>
-                      <td class="users-view-name">Dean Stanley</td>
-                    </tr>
-                    <tr>
-                      <td>E-mail:</td>
-                      <td>deanstanley@gmail.com</td>
-                    </tr>
-                    <tr>
-                      <td>Company:</td>
-                      <td>XYZ Corp. Ltd.</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-
-              <h5 class="mb-2 text-bold-500"><i class="ft-link mr-2"></i>Social Links</h5>
-              <div class="table-responsive">
-                <table class="table table-borderless">
-                  <tbody>
-                    <tr>
-                      <td>Twitter:</td>
-                      <td><a href="javascript:;">https://www.twitter.com/</a></td>
-                    </tr>
-                    <tr>
-                      <td>Facebook:</td>
-                      <td><a href="javascript:;">https://www.facebook.com/</a></td>
-                    </tr>
-                    <tr>
-                      <td>Instagram:</td>
-                      <td><a href="javascript:;">https://www.instagram.com/</a></td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-
-              <h5 class="mb-2 text-bold-500"><i class="ft-info mr-2"></i> Personal Info</h5>
-              <div class="table-responsive">
-                <table class="table table-borderless m-0">
-                  <tbody>
-                    <tr>
-                      <td>Birthday:</td>
-                      <td>1990/04/03</td>
-                    </tr>
-                    <tr>
-                      <td>Country:</td>
-                      <td>USA</td>
-                    </tr>
-                    <tr>
-                      <td>Languages:</td>
-                      <td>English</td>
-                    </tr>
-                    <tr>
-                      <td>Contact:</td>
-                      <td>+(305) 254 24668</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <!-- User detail ends -->
     </div>
   </div>
-</section>
+</div>
+<!-- Account Settings ends -->
