@@ -24,6 +24,7 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
   public isCollapsed = true;
   layoutSub: Subscription;
   configSub: Subscription;
+  toggleClass = "ft-maximize";
 
 
   @Output()
@@ -131,5 +132,13 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
 
   toggleSidebar() {
     this.layoutService.toggleSidebarSmallScreen(this.hideSidebar);
+  }
+
+  ToggleClass() {
+    if (this.toggleClass === "ft-maximize") {
+      this.toggleClass = "ft-minimize";
+    } else {
+      this.toggleClass = "ft-maximize";
+    }
   }
 }
