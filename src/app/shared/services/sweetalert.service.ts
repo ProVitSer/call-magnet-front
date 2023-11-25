@@ -25,6 +25,20 @@ export class SweetalertService {
           });
     }
 
+    public static successAlertWithFunc(title: string, text: string, func: Function){
+      swal.fire({
+          title,
+          text,
+          icon: "success",
+          customClass: {
+            confirmButton: 'btn btn-primary'
+          },
+          buttonsStyling: false,
+        }).then(() => {
+          func()
+        })
+  }
+
     public static autoCloseSuccessAlert(title: string, text: string, timer: number){
         let timerInterval
         swal.fire({
