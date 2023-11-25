@@ -3,7 +3,6 @@ import { Injectable } from '@angular/core';
 import { AuthService } from './auth.service';
 import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
-import { Observable } from 'rxjs';
 
 @Injectable()
 export class RoleGuard implements CanActivate {
