@@ -117,17 +117,7 @@ export class UsersProfileComponent implements OnInit {
 
     };
 
-    this.userProfileService.updateClientInfo(dataToSend).subscribe(
-      (res: HttpResponse<UpdateClientInfoResponse>) => {
-        const result = res;
-        if (result.result && res.hasOwnProperty('data')) {
-          SweetalertService.successAlertWithFunc('', 'Данные обновлены успешно', this.reloadPage);
-          ;
-        }
-      },
-      (e) => {
-        SweetalertService.errorAlert('Ошибка обновление данных', e)
-    })
+    return this.updateClientInfo(dataToSend);
   }
 
 
@@ -142,7 +132,21 @@ export class UsersProfileComponent implements OnInit {
       return SweetalertService.errorAlert('Ошибка обновление пароля', 'Действующий и новый пароль должны отличаться!')
     }
 
-    this.changePassword({ oldPassword: this.changePasswordForm.value.oldPassword, newPassword: this.changePasswordForm.value.newPassword });
+    return this.changePassword({ oldPassword: this.changePasswordForm.value.oldPassword, newPassword: this.changePasswordForm.value.newPassword });
+  }
+
+  private updateClientInfo(data: UpdateClientInfoData){
+    this.userProfileService.updateClientInfo(data).subscribe(
+      (res: HttpResponse<UpdateClientInfoResponse>) => {
+        const result = res;
+        if (result.result && res.hasOwnProperty('data')) {
+          SweetalertService.successAlertWithFunc('', 'Данные обновлены успешно', this.reloadPage);
+          ;
+        }
+      },
+      (e) => {
+        SweetalertService.errorAlert('Ошибка обновление данных', e)
+    })
   }
 
   private changePassword(data: ChangePasswordData){
