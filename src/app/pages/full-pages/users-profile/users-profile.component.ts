@@ -110,10 +110,10 @@ export class UsersProfileComponent implements OnInit {
     }
 
     const dataToSend = {
-      firstname: this.generalForm.value.name,
+      firstname: this.generalForm.value.firstname,
       lastname: this.generalForm.value.lastname,
-      phoneNumber: this.generalForm.value.phone,
-      company: this.generalForm.value.companyName,
+      phoneNumber: this.generalForm.value.phoneNumber,
+      company: this.generalForm.value.company,
 
     };
 
