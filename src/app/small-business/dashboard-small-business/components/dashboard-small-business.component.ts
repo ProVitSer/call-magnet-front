@@ -16,9 +16,7 @@ export class DashboardSmallBusinessComponent implements OnInit, OnDestroy {
 constructor(private router: Router,private route: ActivatedRoute,private dashboardRequestService: DashboardRequestService){}
 
   ngOnInit(): void {
-     this.dashboardRequestService.test().subscribe((res) => {
-      console.log()
-     })
+
   }
 
   ngOnDestroy(): void {

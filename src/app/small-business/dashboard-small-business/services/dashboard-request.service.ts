@@ -16,14 +16,6 @@ export class DashboardRequestService {
         private http: HttpClient
         ) {}
     
-    
-    test(): Observable<any> {
-        const res =  this.http
-          .post(`http://localhost:2300/v1/auth/update-password`, this.httpOptions)
-          .pipe(catchError(this.errorHandler));
-        return res;
-    }
-
 
     errorHandler(error) {
         let errorMessage = '';
