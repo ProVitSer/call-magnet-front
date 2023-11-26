@@ -1,8 +1,8 @@
 import { ChangeDetectorRef, Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { UntypedFormGroup, UntypedFormControl, Validators, UntypedFormBuilder } from '@angular/forms';
 import { UserProfileService } from './services/user-profile.service';
-import { MustMatch } from 'app/shared/directives/must-match.validator';
-import { ClientInfoResponse, UpdateClientInfoResponse } from './models/client-info';
+import { MustMatch } from '../../../shared/directives/must-match.validator';
+import { ChangePasswordData, ClientInfoResponse, UpdateClientInfoData, UpdateClientInfoResponse } from './models/client-info';
 import { HttpResponse } from 'app/shared/models/response';
 import { SweetalertService } from 'app/shared/services/sweetalert.service';
 
@@ -32,6 +32,8 @@ export class UsersProfileComponent implements OnInit {
   ngOnInit(): void {
     this.initGeneralForm();
     this.getClientInfo();
+    this.initChangePassFrom();
+
   }
 
   get gf() {
@@ -42,7 +44,13 @@ export class UsersProfileComponent implements OnInit {
     return this.changePasswordForm.controls;
   }
 
+  reloadPage() {
+    location.reload();
+  }
 
+  setActiveTab(tab) {
+    this.activeTab = tab;
+  }
 
   private initGeneralForm(){
     this.generalForm = new UntypedFormGroup({
@@ -53,15 +61,15 @@ export class UsersProfileComponent implements OnInit {
     });
   }
 
-  // private initChangePassFrom(){
-  //   this.changePasswordForm = this.fb.group({
-  //     oldPassword: new UntypedFormControl('', [Validators.required]),
-  //     newPassword: new UntypedFormControl('', [Validators.required]),
-  //     retypeNewPassword: new UntypedFormControl('', [Validators.required])
-  //   }, {
-  //     validator: MustMatch('password', 'confirmPassword')
-  //   });
-  // }
+  private initChangePassFrom(){
+    this.changePasswordForm = this.fb.group({
+      oldPassword: new UntypedFormControl('', [Validators.required]),
+      newPassword: new UntypedFormControl('', [Validators.required, Validators.minLength(8), Validators.maxLength(15)]),
+      retypeNewPassword: new UntypedFormControl('', [Validators.required])
+    }, {
+      validator: MustMatch('newPassword', 'retypeNewPassword')
+    });
+  }
 
   private getClientInfo(){
     this.userProfileService.getClientInfo().subscribe(
@@ -92,9 +100,7 @@ export class UsersProfileComponent implements OnInit {
     this.cdr.markForCheck();
   }
 
-  setActiveTab(tab) {
-    this.activeTab = tab;
-  }
+
 
 
   onGeneralFormSubmit() {
@@ -122,17 +128,34 @@ export class UsersProfileComponent implements OnInit {
       (e) => {
         SweetalertService.errorAlert('Ошибка обновление данных', e)
     })
-
   }
 
-  reloadPage() {
-    location.reload();
-  }
+
 
   onChangePasswordFormSubmit() {
     this.changePasswordFormSubmitted = true;
     if (this.changePasswordForm.invalid) {
       return;
     }
+
+    if(this.changePasswordForm.value.oldPassword === this.changePasswordForm.value.newPassword){
+      return SweetalertService.errorAlert('Ошибка обновление пароля', 'Действующий и новый пароль должны отличаться!')
+    }
+
+    this.changePassword({ oldPassword: this.changePasswordForm.value.oldPassword, newPassword: this.changePasswordForm.value.newPassword });
+  }
+
+  private changePassword(data: ChangePasswordData){
+    this.userProfileService.changePassword(data).subscribe(
+      (res: HttpResponse<UpdateClientInfoResponse>) => {
+        const result = res;
+        if (result.result && res.hasOwnProperty('data')) {
+          SweetalertService.successAlertWithFunc('', 'Данные обновлены успешно', this.reloadPage);
+          ;
+        }
+      },
+      (e) => {
+        SweetalertService.errorAlert('Ошибка обновление пароля', e)
+    })
   }
 }

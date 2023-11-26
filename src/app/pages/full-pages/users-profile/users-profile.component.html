@@ -120,7 +120,7 @@
             </div>
 
             <!-- Change Password Tab -->
-            <!-- <div class="tab-pane" [ngClass]="{active: activeTab === 'change-password'}" id="change-password"
+            <div class="tab-pane" [ngClass]="{active: activeTab === 'change-password'}" id="change-password"
               role="tabpanel" aria-labelledby="change-password-tab">
               <form [formGroup]="changePasswordForm" (ngSubmit)="onChangePasswordFormSubmit()">
                 <div class="form-group">
@@ -142,9 +142,19 @@
                       [ngClass]="{ 'is-invalid': changePasswordFormSubmitted && cpf.newPassword.invalid, 'is-valid': changePasswordFormSubmitted && !cpf.newPassword.invalid }"
                       required>
                     <div
-                      *ngIf="changePasswordFormSubmitted && (cpf.newPassword.invalid || cpf.newPassword.errors?.required)"
+                      *ngIf="changePasswordFormSubmitted  && (cpf.newPassword.errors?.required)"
                       class="help-block mt-1 text-danger"> <i class="ft-alert-circle align-middle"></i> Обязательно для заполнения
                     </div>
+                    <div
+                      *ngIf="changePasswordFormSubmitted && (!cpf.newPassword.errors?.required && cpf.newPassword.errors?.minlength )"
+                      class="help-block mt-1 text-danger"> <i class="ft-alert-circle align-middle"></i> Пароль должен
+                      содержать не менее 8 символов
+                    </div>
+                    <div
+                      *ngIf="changePasswordFormSubmitted && (!cpf.newPassword.errors?.required && !cpf.newPassword.errors?.minlength && cpf.newPassword.errors?.maxlength )"
+                      class="help-block mt-1 text-danger"> <i class="ft-alert-circle align-middle"></i> Пароль не может быть больше 15 символов
+                    </div>
+                    
                   </div>
                 </div>
                 <div class="form-group">
@@ -160,12 +170,18 @@
                     </div>
                   </div>
                 </div>
+
+                <div *ngIf="changePasswordFormSubmitted && (cpf.retypeNewPassword.errors?.mustMatch)"
+                class="help-block mt-1 text-danger"> <i class="ft-alert-circle align-middle"></i>Пароли не
+                совпадают
+              </div>
+
                 <div class="d-flex flex-sm-row flex-column justify-content-end">
                   <button type="submit" class="btn btn-primary mr-sm-2 mb-1">Сохранить</button>
-                  <button type="reset" class="btn btn-secondary mb-1">Отмена</button>
+                  <!-- <button type="reset" class="btn btn-secondary mb-1">Отмена</button> -->
                 </div>
               </form>
-            </div> -->
+            </div>
 
           </div>
         </div>

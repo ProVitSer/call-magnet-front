@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { environment } from 'environments/environment';
-import { ClientInfoResponse, UpdateClientInfoData, UpdateClientInfoResponse } from "../models/client-info";
+import { ChangePasswordData, ChangePasswordResponse, ClientInfoResponse, UpdateClientInfoData, UpdateClientInfoResponse } from "../models/client-info";
 import { HttpResponse } from "app/shared/models/response";
 import { Router } from "@angular/router";
 import { HttpClient } from "@angular/common/http";
@@ -29,6 +29,13 @@ export class UserProfileService {
     public updateClientInfo(data: UpdateClientInfoData): Observable<HttpResponse<UpdateClientInfoResponse>> {
       return this.http
         .put<HttpResponse<UpdateClientInfoResponse>>(`${this.userProfile_url}/update-client-info`, data)
+        .pipe(catchError(this.errorHandler));
+    }
+
+    
+    public changePassword(data: ChangePasswordData): Observable<HttpResponse<ChangePasswordResponse>> {
+      return this.http
+        .put<HttpResponse<ChangePasswordResponse>>(`${this.userProfile_url}/change-password`, data)
         .pipe(catchError(this.errorHandler));
     }
 

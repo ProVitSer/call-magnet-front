@@ -1,3 +1,7 @@
+export interface BaseUsersResponse {
+    message: string;
+}
+
 export interface ClientInfoResponse {
     firstname: string;
     lastname: string;
@@ -17,9 +21,8 @@ export enum Status {
 
 
 
-export interface UpdateClientInfoResponse {
+export interface UpdateClientInfoResponse extends BaseUsersResponse{
     result: boolean;
-    message: string;
 }
 
 
@@ -29,3 +32,10 @@ export interface UpdateClientInfoData {
     phoneNumber: string;
     company: string;
 }
+
+export interface ChangePasswordData {
+    oldPassword: string;
+    newPassword: string;
+}
+
+export interface ChangePasswordResponse extends BaseUsersResponse {}
