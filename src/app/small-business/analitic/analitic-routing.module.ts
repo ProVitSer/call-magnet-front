@@ -11,7 +11,7 @@ const routes: Routes = [
     component: AnaliticComponent,
     data: {
       title: 'Аналитика',
-      expectedRole: ['SmallBusiness']
+      expectedRole: ['analitic']
     },
     canActivate: [AuthGuard, RoleGuard],
   },

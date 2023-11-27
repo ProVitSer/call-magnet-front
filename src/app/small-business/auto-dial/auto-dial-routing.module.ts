@@ -14,7 +14,7 @@ const routes: Routes = [
     component: AutoDialCreateComponent,
     data: {
       title: 'Создать',
-      expectedRole: ['SmallBusiness']
+      expectedRole: ['analitic']
     },
     canActivate: [AuthGuard, RoleGuard],
   },
@@ -23,7 +23,7 @@ const routes: Routes = [
     component: AutoDialSettingsComponent,
     data: {
       title: 'Настройки',
-      expectedRole: ['SmallBusiness']
+      expectedRole: ['analitic']
     },
     canActivate: [AuthGuard, RoleGuard],
   },
@@ -32,7 +32,7 @@ const routes: Routes = [
     component: AutoDialReportsComponent,
     data: {
       title: 'Статистика',
-      expectedRole: ['SmallBusiness']
+      expectedRole: ['analitic']
     },
     canActivate: [AuthGuard, RoleGuard],
   },
@@ -41,7 +41,7 @@ const routes: Routes = [
     component: AutoDialTasksComponent,
     data: {
       title: 'Задания на обзвон',
-      expectedRole: ['SmallBusiness']
+      expectedRole: ['analitic']
     },
     canActivate: [AuthGuard, RoleGuard],
   },

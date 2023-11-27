@@ -15,7 +15,7 @@ const routes: Routes = [
     component: SmsSendComponent,
     data: {
       title: 'Отправка',
-      expectedRole: ['SmallBusiness']
+      expectedRole: ['sms']
 
     },
     canActivate: [AuthGuard, RoleGuard],
@@ -25,7 +25,7 @@ const routes: Routes = [
     component: SmsStatisticComponent,
     data: {
       title: 'Статистика',
-      expectedRole: ['SmallBusiness']
+      expectedRole: ['sms']
     },
     canActivate: [AuthGuard, RoleGuard],
   },
@@ -34,7 +34,7 @@ const routes: Routes = [
     component: SmsMassSendingComponent,
     data: {
       title: 'Массовая рассылка',
-      expectedRole: ['SmallBusiness']
+      expectedRole: ['sms']
     },
     canActivate: [AuthGuard, RoleGuard],
   },
@@ -43,7 +43,7 @@ const routes: Routes = [
     component: SmsNoAnswerCallSendingComponent,
     data: {
       title: 'Неотвеченные вызовы',
-      expectedRole: ['SmallBusiness']
+      expectedRole: ['sms']
     },
     canActivate: [AuthGuard, RoleGuard],
   },
@@ -52,7 +52,7 @@ const routes: Routes = [
     component: SmsSettingsComponent,
     data: {
       title: 'Настройки',
-      expectedRole: ['SmallBusiness']
+      expectedRole: ['sms']
     },
     canActivate: [AuthGuard, RoleGuard],
   },

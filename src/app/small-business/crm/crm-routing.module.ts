@@ -11,7 +11,7 @@ const routes: Routes = [
     component: CrmSettingsComponent,
     data: {
       title: 'Настройки',
-      expectedRole: ['SmallBusiness']
+      expectedRole: ['crm']
     },
     canActivate: [AuthGuard, RoleGuard],
   },

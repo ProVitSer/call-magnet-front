@@ -11,7 +11,7 @@ const routes: Routes = [
     component: ApiComponent,
     data: {
       title: '3CX API',
-      expectedRole: ['SmallBusiness']
+      expectedRole: ['api']
     },
     canActivate: [AuthGuard, RoleGuard],
   },

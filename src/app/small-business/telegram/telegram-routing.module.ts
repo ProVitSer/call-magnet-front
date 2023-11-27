@@ -12,7 +12,7 @@ const routes: Routes = [
     component: TelegramNoAnswerCallComponent,
     data: {
       title: 'Неотвеченные вызовы',
-      expectedRole: ['Professional']
+      expectedRole: ['telegram']
     },
     canActivate: [AuthGuard, RoleGuard],
   },
@@ -21,7 +21,7 @@ const routes: Routes = [
     component: TelegramCallComponent,
     data: {
       title: 'Звонки',
-      expectedRole: ['Professional']
+      expectedRole: ['telegram']
     },
     canActivate: [AuthGuard, RoleGuard],
   },

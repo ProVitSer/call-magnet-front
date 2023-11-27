@@ -9,10 +9,7 @@ const routes: Routes = [
   {
     path: '',
     component: DashboardSmallBusinessComponent,
-    data: {
-      expectedRole: ['SmallBusiness']
-    },
-    canActivate: [AuthGuard, RoleGuard],
+    canActivate: [AuthGuard],
   }
 ];
 
