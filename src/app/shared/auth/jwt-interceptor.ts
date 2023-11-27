@@ -8,6 +8,7 @@ import { ToastrService } from 'ngx-toastr';
 import { JWTTokenService } from './jwt-token.service';
 import { RefreshTokenResponse } from '../models/auth';
 import { HttpResponse } from '../models/response';
+import { AuthRequestService } from './auth-request.service';
 
 
 @Injectable()
@@ -16,6 +17,7 @@ export class JwtInterceptor implements HttpInterceptor {
   private refreshTokenSubject: BehaviorSubject<any> = new BehaviorSubject<any>(null);
   constructor(
     private authService: AuthService,
+    private authRequestService: AuthRequestService,
     private toastrService: ToastrService,
     private jwtTokenService: JWTTokenService
   ) {}
@@ -65,7 +67,7 @@ export class JwtInterceptor implements HttpInterceptor {
       const refreshToken = this.authService.getRefreshToken();
 
       if (refreshToken){
-        return this.authService.refreshToken().pipe(
+        return this.authRequestService.refreshToken().pipe(
           switchMap((res: HttpResponse<RefreshTokenResponse>) => {
             if(res.data && res.data.accessToken){
               this.isRefreshing = false;

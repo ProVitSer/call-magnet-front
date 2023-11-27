@@ -2,11 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { UntypedFormGroup, Validators, UntypedFormBuilder } from '@angular/forms';
 import { MustMatch } from '../../../shared/directives/must-match.validator';
 import { Router } from '@angular/router';
-import { AuthService } from 'app/shared/auth/auth.service';
 import { RegisterUserResponse } from 'app/shared/models/auth';
 import { HttpResponse } from 'app/shared/models/response';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { SweetalertService } from 'app/shared/services/sweetalert.service';
+import { AuthRequestService } from 'app/shared/auth/auth-request.service';
 
 @Component({
   selector: 'app-register-page',
@@ -17,7 +17,7 @@ import { SweetalertService } from 'app/shared/services/sweetalert.service';
 export class RegisterPageComponent implements OnInit {
   registerFormSubmitted = false;
   registerForm: UntypedFormGroup;
-  constructor(private fb: UntypedFormBuilder, private router: Router, private authService: AuthService, private spinner: NgxSpinnerService) { }
+  constructor(private fb: UntypedFormBuilder, private router: Router, private authRequestService: AuthRequestService, private spinner: NgxSpinnerService) { }
 
   ngOnInit() {
     this.registerForm = this.fb.group({
@@ -66,7 +66,7 @@ export class RegisterPageComponent implements OnInit {
 
     };
 
-    this.authService.register(dataToSend).subscribe(
+    this.authRequestService.register(dataToSend).subscribe(
       (res: HttpResponse<RegisterUserResponse>) => {
         const result = res;
         if (result.result && res.hasOwnProperty('data')) {

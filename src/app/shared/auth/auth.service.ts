@@ -1,13 +1,7 @@
 import { Router } from '@angular/router';
 import { Injectable } from '@angular/core';
-import { Observable, throwError } from 'rxjs';
-import { catchError } from 'rxjs/operators';
-import { HttpClient } from '@angular/common/http';
-import { environment } from 'environments/environment';
-import { LoginModel, LoginResponse, UserData, UserRoles } from '../models/login';
-import { HttpResponse } from '../models/response';
-import { BaseAuthResponse, ForogtPasswordData, ForogtPasswordResponse, RefreshTokenResponse, RegisterUserData, RegisterUserResponse, SetsCookiesData, VerificationCodeResponse, 
-  VerifyUserResponse, ResetPasswordData, UpdateUserData, EncryptedUserData} from '../models/auth';
+import { UserData, UserRoles } from '../models/login';
+import { SetsCookiesData, UpdateUserData, EncryptedUserData} from '../models/auth';
 import { CookieService } from 'ngx-cookie-service';
 import { EncrDecrService } from './encr-decr.service';
 import { RouteInfo } from '../vertical-menu/vertical-menu.metadata';
@@ -16,59 +10,12 @@ const MENU_DATA = 'menu';
 @Injectable()
 export class AuthService {
   private static projectKey = 'call-magnet';
-  private readonly serverUrl = environment.API_GATEWAY_URL;
   constructor( 
     public router: Router, 
-    private http: HttpClient,
     private cookieService: CookieService,
     private EncrDecr: EncrDecrService
     ) {}
 
-  public signIn(payload: LoginModel): Observable<HttpResponse<LoginResponse>> {
-    return this.http
-      .post<HttpResponse<LoginResponse>>(`${this.serverUrl}auth/login`, payload)
-      .pipe(catchError(this.errorHandler));
-  }
-
-  public refreshToken(): Observable<HttpResponse<RefreshTokenResponse>> {
-    return this.http
-      .get<HttpResponse<LoginResponse>>(`${this.serverUrl}auth/refresh`,  { headers: {
-        'Authorization': 'Bearer ' + JSON.parse(this.getRefreshToken())
-      } })
-      .pipe(catchError(this.errorHandler));
-  }
-
-  public register(data: RegisterUserData): Observable<HttpResponse<RegisterUserResponse>> {
-    return this.http
-      .post<HttpResponse<RegisterUserResponse>>(`${this.serverUrl}auth/register`, data)
-      .pipe(catchError(this.errorHandler));
-  }
-
-  public forogtPassword(data: ForogtPasswordData): Observable<HttpResponse<ForogtPasswordResponse>> {
-    return this.http
-      .post<HttpResponse<ForogtPasswordResponse>>(`${this.serverUrl}auth/forgot-password`, data)
-      .pipe(catchError(this.errorHandler));
-  }
-
-
-  public verify(verifyId: string): Observable<HttpResponse<VerifyUserResponse>> {
-    return this.http
-      .post<HttpResponse<VerifyUserResponse>>(`${this.serverUrl}auth/verify-user`, { token: verifyId})
-      .pipe(catchError(this.errorHandler));
-  }
-
-
-  public checkVerificationCode(id: string): Observable<HttpResponse<VerificationCodeResponse>> {
-    return this.http
-      .post<HttpResponse<VerificationCodeResponse>>(`${this.serverUrl}auth/check-verification-code`, { code: id})
-      .pipe(catchError(this.errorHandler));
-  }
-
-  public resetPassword(data: ResetPasswordData): Observable<HttpResponse<BaseAuthResponse>> {
-    return this.http
-      .post<HttpResponse<BaseAuthResponse>>(`${this.serverUrl}auth/reset-password`, data)
-      .pipe(catchError(this.errorHandler));
-  }
 
   public setCookies(data: SetsCookiesData): boolean {
 
@@ -145,7 +92,7 @@ export class AuthService {
       lastname: data.lastname,
       company: data.company
     });
-    
+
     this.cookieService.set(AuthService.projectKey + '-' + 'AUTH-C', encryptedClient,1,'/');
 
   }
@@ -196,13 +143,5 @@ export class AuthService {
     this.router.navigate(['/login']);
   }
 
-  private errorHandler(e) {
-    let errorMessage = '';
-    if (e.error && e.error.message) {
-      errorMessage = e.error.message;
-    } else {
-      errorMessage = `Error Code: ${e.status}\nMessage: ${e.message}`;
-    }
-    return throwError(errorMessage);
-  }
+
 }

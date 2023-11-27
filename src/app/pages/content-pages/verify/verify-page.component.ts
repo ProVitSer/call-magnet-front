@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from "@angular/router";
-import { AuthService } from 'app/shared/auth/auth.service';
+import { AuthRequestService } from 'app/shared/auth/auth-request.service';
 import { VerifyUserResponse } from 'app/shared/models/auth';
 import { HttpResponse } from 'app/shared/models/response';
 import { SweetalertService } from 'app/shared/services/sweetalert.service';
@@ -21,7 +21,7 @@ export class VerifyPageComponent implements OnInit, OnDestroy{
   private redirectTimeout = 10000;
   constructor(
     private router: Router, 
-    private authService: AuthService,
+    private authRequestService: AuthRequestService,
     private spinner: NgxSpinnerService,
     private route: ActivatedRoute,
     ) {
@@ -53,7 +53,7 @@ export class VerifyPageComponent implements OnInit, OnDestroy{
   }
 
   private verifyUser(verifyId: string){
-    this.authService.verify(verifyId).subscribe(
+    this.authRequestService.verify(verifyId).subscribe(
       (res: HttpResponse<VerifyUserResponse>) => {
         const result = res;
         if (result.result && res.hasOwnProperty('data')) {

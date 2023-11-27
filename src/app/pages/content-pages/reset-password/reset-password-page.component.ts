@@ -1,6 +1,7 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from "@angular/router";
+import { AuthRequestService } from 'app/shared/auth/auth-request.service';
 import { AuthService } from 'app/shared/auth/auth.service';
 import { MustMatch } from 'app/shared/directives/must-match.validator';
 import { BaseAuthResponse } from 'app/shared/models/auth';
@@ -27,10 +28,9 @@ export class ResetPasswordPageComponent implements OnInit {
   constructor(
     private fb: UntypedFormBuilder,
     private router: Router, 
-    private authService: AuthService,
+    private authRequestService: AuthRequestService,
     private spinner: NgxSpinnerService,
     private route: ActivatedRoute,
-    private cdRef: ChangeDetectorRef
     ) {
       this.resetPasswordForm = this.fb.group({
         password: ['', [Validators.required, Validators.minLength(8)]],
@@ -78,7 +78,7 @@ export class ResetPasswordPageComponent implements OnInit {
       return;
     }
 
-    this.authService.resetPassword({ verificationCode: this.verificationCode, password: this.resetPasswordForm.value.password}).subscribe(
+    this.authRequestService.resetPassword({ verificationCode: this.verificationCode, password: this.resetPasswordForm.value.password}).subscribe(
       (res: HttpResponse<BaseAuthResponse>) => {
         const result = res;
         if (result.result && res.hasOwnProperty('data')) {
@@ -101,7 +101,7 @@ export class ResetPasswordPageComponent implements OnInit {
 
   private async checkVerificationCode(id: string): Promise<void> {
     try {
-      const result = await this.authService.checkVerificationCode(id).toPromise();
+      const result = await this.authRequestService.checkVerificationCode(id).toPromise();
       if (result.result && result.hasOwnProperty('data')) {
         this.spinner.hide();
         if(!result.data.isValid){

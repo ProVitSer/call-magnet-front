@@ -9,6 +9,7 @@ import { Subject } from 'rxjs';
 import { jwtDecode } from "jwt-decode";
 import {  SetsCookiesData, TokenPayload } from 'app/shared/models/auth';
 import { RouteInfo } from 'app/shared/vertical-menu/vertical-menu.metadata';
+import { AuthRequestService } from 'app/shared/auth/auth-request.service';
 
 @Component({
   selector: 'app-login-page',
@@ -25,7 +26,10 @@ export class LoginPageComponent implements OnInit, OnDestroy{
   public showPassword: boolean = false;
   isAlertVisible = true;
 
-  constructor(private router: Router, private authService: AuthService,
+  constructor(
+    private router: Router, 
+    private authService: AuthService,
+    private authRequestService: AuthRequestService,
     private spinner: NgxSpinnerService,
     private cdr: ChangeDetectorRef,
     private fb: FormBuilder,
@@ -79,7 +83,7 @@ export class LoginPageComponent implements OnInit, OnDestroy{
         password: this.loginForm.value.password,
       };
 
-    this.authService.signIn(dataToSend).subscribe(
+    this.authRequestService.signIn(dataToSend).subscribe(
       (res: HttpResponse<LoginResponse>) => {
         const result = res;
         if (result.result && res.hasOwnProperty('data')) {

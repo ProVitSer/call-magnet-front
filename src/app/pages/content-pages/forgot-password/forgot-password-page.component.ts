@@ -1,7 +1,7 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormGroup, NgForm, UntypedFormBuilder, Validators } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { FormGroup, UntypedFormBuilder, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from "@angular/router";
-import { AuthService } from 'app/shared/auth/auth.service';
+import { AuthRequestService } from 'app/shared/auth/auth-request.service';
 import { ForogtPasswordResponse } from 'app/shared/models/auth';
 import { HttpResponse } from 'app/shared/models/response';
 import { SweetalertService } from 'app/shared/services/sweetalert.service';
@@ -16,7 +16,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 export class ForgotPasswordPageComponent implements OnInit {
     forogtPasswordForm: FormGroup;
     forogtPasswordSubmitted = false;
-    constructor(private router: Router, private route: ActivatedRoute, private fb: UntypedFormBuilder, private spinner: NgxSpinnerService, private authService: AuthService) { }
+    constructor(private router: Router, private route: ActivatedRoute, private fb: UntypedFormBuilder, private spinner: NgxSpinnerService, private authRequestService: AuthRequestService) { }
 
     ngOnInit(): void {
         this.forogtPasswordForm = this.fb.group({
@@ -49,7 +49,7 @@ export class ForgotPasswordPageComponent implements OnInit {
     }
 
     private forogtPassword(email: string){
-        this.authService.forogtPassword({ email }).subscribe(      
+        this.authRequestService.forogtPassword({ email }).subscribe(      
             (res: HttpResponse<ForogtPasswordResponse>) => {
             const result = res;
             if (result.result && res.hasOwnProperty('data')) {

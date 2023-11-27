@@ -29,6 +29,7 @@ import { JwtInterceptor } from "./shared/auth/jwt-interceptor";
 import { CookieService } from 'ngx-cookie-service';
 import { RoleGuard } from "./shared/auth/role-guard.service";
 import { JWTTokenService } from "./shared/auth/jwt-token.service";
+import { AuthRequestService } from "./shared/auth/auth-request.service";
 
 
 
@@ -65,6 +66,7 @@ export function createTranslateLoader(handler: HttpBackend) {
   ],
   providers: [
     AuthService,
+    AuthRequestService,
     AuthGuard,
     DragulaService,
     CookieService,
