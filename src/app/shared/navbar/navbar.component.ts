@@ -25,6 +25,8 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
   layoutSub: Subscription;
   configSub: Subscription;
   toggleClass = "ft-maximize";
+  fio = '';
+  company = '';
 
 
   @Output()
@@ -65,6 +67,8 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
     else {
       this.isSmallScreen = false;
     }
+
+    this.setUserInfo();
   }
 
   ngAfterViewInit() {
@@ -140,5 +144,11 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
     } else {
       this.toggleClass = "ft-maximize";
     }
+  }
+
+  private setUserInfo(){
+    const client = this.authService.getUser();
+    this.fio = `${client.firstname} ${client.lastname}`;
+    this.company = client.company;
   }
 }

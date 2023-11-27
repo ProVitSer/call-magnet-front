@@ -65,8 +65,13 @@
           <li class="dropdown nav-item mr-1" placement="bottom-left" display="static" ngbDropdown >
             <a class="nav-link dropdown-toggle user-dropdown d-flex align-items-end" id="dropdownBasic2"
               href="javascript:;" data-toggle="dropdown" ngbDropdownToggle>
+              <div class="user d-md-flex d-none mr-2">
+                <span class="text-right">{{ fio }}</span>
+                <span class="text-right text-muted font-small-3" >{{ company }}</span>
+              </div>
               <img class="avatar" src="assets/img/profile/avatar.jpg" alt="avatar" height="35" width="35" />
             </a>
+            
             <div class="dropdown-menu text-left dropdown-menu-right m-0 pb-0" aria-labelledby="dropdownBasic2"
               ngbDropdownMenu>
               <a class="dropdown-item" routerLink="/profile">
@@ -82,6 +87,9 @@
               </a>
             </div>
           </li>
+
+
+
           <!-- <li class="nav-item d-none d-lg-block mr-2 mt-1">
             <a class="nav-link notification-sidebar-toggle" (click)="toggleNotificationSidebar();"><i
                 class="ft-align-right font-medium-3"></i></a>
