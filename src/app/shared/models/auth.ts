@@ -1,4 +1,4 @@
-import { LoginResponse, UserData } from "./login";
+import { LoginResponse } from "./login";
 
 export interface TokenPayload {
     sub: string;
@@ -47,4 +47,17 @@ export interface VerificationCodeResponse {
 export interface ResetPasswordData {
     verificationCode: string;
     password: string;
+}
+
+export interface EncryptedUserData {
+    clientId: string;
+    firstname: string;
+    lastname: string;
+    company: string;
+}
+
+export interface UpdateUserData {
+    firstname: string;
+    lastname: string;
+    company: string;
 }

@@ -6,7 +6,8 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from 'environments/environment';
 import { LoginModel, LoginResponse, UserData, UserRoles } from '../models/login';
 import { HttpResponse } from '../models/response';
-import { BaseAuthResponse, ForogtPasswordData, ForogtPasswordResponse, RefreshTokenResponse, RegisterUserData, RegisterUserResponse, SetsCookiesData, VerificationCodeResponse, VerifyUserResponse, ResetPasswordData} from '../models/auth';
+import { BaseAuthResponse, ForogtPasswordData, ForogtPasswordResponse, RefreshTokenResponse, RegisterUserData, RegisterUserResponse, SetsCookiesData, VerificationCodeResponse, 
+  VerifyUserResponse, ResetPasswordData, UpdateUserData, EncryptedUserData} from '../models/auth';
 import { CookieService } from 'ngx-cookie-service';
 import { EncrDecrService } from './encr-decr.service';
 import { RouteInfo } from '../vertical-menu/vertical-menu.metadata';
@@ -70,14 +71,8 @@ export class AuthService {
   }
 
   public setCookies(data: SetsCookiesData): boolean {
-    const client = {
-      clientId: data.clientId,
-      firstname: data.firstname,
-      lastname: data.lastname,
-      company: data.company,
-    }
 
-    const encryptedClient: string = btoa(unescape(encodeURIComponent(JSON.stringify(client))));
+    const encryptedClient: string = this.encryptedUserData(data);
 
     const encryptedAccessToken: string = btoa(JSON.stringify(data.accessToken));
     const encryptedRefreshToken: string = btoa(JSON.stringify(data.refreshToken));
@@ -92,6 +87,16 @@ export class AuthService {
       return true;
     }
     return false;
+  }
+
+  private encryptedUserData(data: EncryptedUserData){
+    const client = {
+      clientId: data.clientId,
+      firstname: data.firstname,
+      lastname: data.lastname,
+      company: data.company,
+    }
+    return btoa(unescape(encodeURIComponent(JSON.stringify(client))));
   }
 
   public setACToCookies(token: string){
@@ -126,6 +131,23 @@ export class AuthService {
       }
     }
     return null;
+  }
+
+  public updateUserData(data: UpdateUserData){
+    const user = this.getUser();
+    if(user == null) return;
+
+    this.cookieService.delete(`${AuthService.projectKey}-AUTH-C`, '/');
+
+    const encryptedClient: string = this.encryptedUserData({
+      clientId: user.clientId,
+      firstname: data.firstname,
+      lastname: data.lastname,
+      company: data.company
+    });
+    
+    this.cookieService.set(AuthService.projectKey + '-' + 'AUTH-C', encryptedClient,1,'/');
+
   }
 
   public getUserRole(): string[] {

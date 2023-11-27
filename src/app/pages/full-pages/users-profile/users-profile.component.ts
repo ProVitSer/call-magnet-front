@@ -5,6 +5,7 @@ import { MustMatch } from '../../../shared/directives/must-match.validator';
 import { ChangePasswordData, ClientInfoResponse, UpdateClientInfoData, UpdateClientInfoResponse } from './models/client-info';
 import { HttpResponse } from 'app/shared/models/response';
 import { SweetalertService } from 'app/shared/services/sweetalert.service';
+import { AuthService } from 'app/shared/auth/auth.service';
 
 @Component({
   selector: 'app-users-profile',
@@ -26,7 +27,7 @@ export class UsersProfileComponent implements OnInit {
   // { label: 'API', class: 'btn btn-outline-custom-light mr-1 mb-1'},
 
 
-  constructor(private fb: UntypedFormBuilder, private cdr: ChangeDetectorRef,private readonly userProfileService: UserProfileService) { }
+  constructor(private fb: UntypedFormBuilder, private cdr: ChangeDetectorRef,private readonly userProfileService: UserProfileService, private authService: AuthService) { }
 
 
   ngOnInit(): void {
@@ -140,6 +141,9 @@ export class UsersProfileComponent implements OnInit {
       (res: HttpResponse<UpdateClientInfoResponse>) => {
         const result = res;
         if (result.result && res.hasOwnProperty('data')) {
+          
+          this.authService.updateUserData(data);
+
           SweetalertService.successAlertWithFunc('', 'Данные обновлены успешно', this.reloadPage);
           ;
         }
