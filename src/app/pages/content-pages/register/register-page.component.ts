@@ -71,7 +71,7 @@ export class RegisterPageComponent implements OnInit {
         const result = res;
         if (result.result && res.hasOwnProperty('data')) {
           this.spinner.hide();
-          return SweetalertService.successAlert('Регистрация прошла успешно', 'Вам на почту будет отправлено пиьсмо с подтверждением')
+          return SweetalertService.successAlertWithFunc('Регистрация прошла успешно', 'Вам на почту будет отправлено пиьсмо с подтверждением', this.toLoginPage.bind(this));
         }
         this.spinner.hide();
         SweetalertService.errorAlert('Ошибка регистрации', 'Что-то пошло не так, просьба обратиться в техническую поддержку')
@@ -80,5 +80,9 @@ export class RegisterPageComponent implements OnInit {
         this.spinner.hide();
         SweetalertService.errorAlert('Ошибка регистрации', e)
       })
+  }
+
+  private toLoginPage(){
+    this.router.navigate(['/login']);
   }
 }
