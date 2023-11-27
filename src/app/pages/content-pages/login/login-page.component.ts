@@ -27,7 +27,6 @@ export class LoginPageComponent implements OnInit, OnDestroy{
 
   constructor(private router: Router, private authService: AuthService,
     private spinner: NgxSpinnerService,
-    private route: ActivatedRoute,
     private cdr: ChangeDetectorRef,
     private fb: FormBuilder,
     ) {
@@ -108,7 +107,7 @@ export class LoginPageComponent implements OnInit, OnDestroy{
   }
 
   private loginDetailsSetup(res: LoginResponse){
-    const { accessToken, refreshToken, userRoles, menu } = res;
+    const { accessToken, userRoles, menu } = res;
 
     const { sub } = jwtDecode(accessToken) as TokenPayload;
 
@@ -125,7 +124,8 @@ export class LoginPageComponent implements OnInit, OnDestroy{
     }
 
 
-    const isSetUserData = this.setUserData({ accessToken, refreshToken, clientId: sub, userRoles});
+
+    const isSetUserData = this.setUserData({ ...res, clientId: sub});
 
     if (isSetUserData) {
       this.spinner.hide();
@@ -180,15 +180,4 @@ export class LoginPageComponent implements OnInit, OnDestroy{
     return this.authService.setCookies(data);
 
   }
-
-  
-
-  private onForgotPassword() {
-        this.router.navigate(['/forgotpassword']);
-  }
-
-  private onRegister() {
-        this.router.navigate(['/register']);
-  }
-
 }

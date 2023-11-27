@@ -4,7 +4,7 @@ import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'environments/environment';
-import { LoginModel, LoginResponse, UserData } from '../models/login';
+import { LoginModel, LoginResponse, UserData, UserRoles } from '../models/login';
 import { HttpResponse } from '../models/response';
 import { BaseAuthResponse, ForogtPasswordData, ForogtPasswordResponse, RefreshTokenResponse, RegisterUserData, RegisterUserResponse, SetsCookiesData, VerificationCodeResponse, VerifyUserResponse, ResetPasswordData} from '../models/auth';
 import { CookieService } from 'ngx-cookie-service';
@@ -70,8 +70,15 @@ export class AuthService {
   }
 
   public setCookies(data: SetsCookiesData): boolean {
+    const client = {
+      clientId: data.clientId,
+      firstname: data.firstname,
+      lastname: data.lastname,
+      company: data.company,
+    }
 
-    const encryptedClient: string = btoa(JSON.stringify({ clientId: data.clientId}));
+    const encryptedClient: string = btoa(unescape(encodeURIComponent(JSON.stringify(client))));
+
     const encryptedAccessToken: string = btoa(JSON.stringify(data.accessToken));
     const encryptedRefreshToken: string = btoa(JSON.stringify(data.refreshToken));
     const encryptedRole: string = btoa(JSON.stringify({ userRoles: data.userRoles }));
@@ -111,11 +118,11 @@ export class AuthService {
   }
 
   public getUser(): UserData {
-    const getUser = atob(this.cookieService.get(`${AuthService.projectKey}-AUTH-U`));
+    const getUser = decodeURIComponent(escape(atob(this.cookieService.get(`${AuthService.projectKey}-AUTH-C`))));
     if (getUser !== "") {
       const user = JSON.parse(getUser);
       if (user) {
-        return user.clientId;
+        return user;
       }
     }
     return null;
@@ -124,11 +131,11 @@ export class AuthService {
   public getUserRole(): string[] {
     const data = atob(this.cookieService.get(`${AuthService.projectKey}-AUTH-R`));
     if (data !== "") {
-      const user: UserData = JSON.parse(data);
-      if (!user.userRoles) {
+      const roles: UserRoles = JSON.parse(data);
+      if (!roles.userRoles) {
         return null;
       }
-      return user.userRoles;
+      return roles.userRoles;
     }
     return null;
   }
@@ -168,7 +175,6 @@ export class AuthService {
   }
 
   private errorHandler(e) {
-    console.log(e)
     let errorMessage = '';
     if (e.error && e.error.message) {
       errorMessage = e.error.message;
