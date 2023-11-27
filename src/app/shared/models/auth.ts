@@ -1,4 +1,4 @@
-import { UserData } from "./login";
+import { LoginResponse, UserData } from "./login";
 
 export interface TokenPayload {
     sub: string;
@@ -6,9 +6,10 @@ export interface TokenPayload {
     exp: number;
 }
 
-export interface SetsCookiesData extends UserData {
+export interface SetsCookiesData extends LoginResponse {
     accessToken: string;
     refreshToken: string;
+    clientId: string;
 }
 
 export interface RefreshTokenResponse {

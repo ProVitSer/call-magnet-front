@@ -21,11 +21,21 @@ export interface Group {
 export interface LoginResponse {
     accessToken: string;
     refreshToken: string;
+    firstname: string;
+    lastname: string;
+    company: string;
     userRoles: string[];
     menu: Menu[];
 }
 
 export interface UserData {
     clientId: string;
+    firstname: string;
+    lastname: string;
+    company: string;
+}
+
+
+export interface UserRoles {
     userRoles: string[];
 }
