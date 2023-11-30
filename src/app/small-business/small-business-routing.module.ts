@@ -31,4 +31,9 @@ export const SM_ROUTES: Routes = [
     path: 'telegram',
     loadChildren: async () => (await import('./telegram/telegram.module')).TelegramModule
   }, 
+  {
+    path: 'faq',
+    loadChildren: async () => (await import('./faq/faq.module')).FaqModule
+  }, 
+  
 ];
