@@ -11,6 +11,7 @@ import { PipeModule } from "app/shared/pipes/pipe.module";
 import { NgxDatatableModule } from "@swimlane/ngx-datatable";
 import { UsersProfileComponent } from "./users-profile/users-profile.component";
 import { TagInputModule } from 'ngx-chips';
+import { NotificationPageComponent } from "./notification/notification-page.component";
 
 @NgModule({
   imports: [
@@ -27,7 +28,9 @@ import { TagInputModule } from 'ngx-chips';
     TagInputModule
   ],
   declarations: [
-    UsersProfileComponent
+    UsersProfileComponent,
+    NotificationPageComponent,
+    
   ],
 })
 export class FullPagesModule {}

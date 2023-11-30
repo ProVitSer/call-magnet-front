@@ -61,6 +61,71 @@
       <div class="collapse navbar-collapse d-block" id="navbarSupportedContent">
         <ul class="navbar-nav">
 
+
+
+
+          <li class="dropdown nav-item" placement="bottom-left" display="static" ngbDropdown >
+            <a class="nav-link dropdown-toggle dropdown-notification p-0 mt-2" id="drp-notification" href="javascript:;"
+              data-toggle="dropdown" ngbDropdownToggle><i class="ft-bell font-medium-3"></i><span
+                class="notification badge badge-pill badge-danger">2</span></a>
+            <ul ngbDropdownMenu
+              class="notification-dropdown dropdown-menu dropdown-menu-media dropdown-menu-right m-0 overflow-hidden">
+
+              <li class="dropdown-menu-header">
+                <div class="dropdown-header d-flex justify-content-between m-0 px-3 py-2 white bg-primary">
+                  <div class="d-flex">
+                    <i class="ft-bell font-medium-3 d-flex align-items-center mr-2"></i><span class="noti-title">2 новых уведомлений</span>
+                  </div>
+                  <span class="text-bold-400 cursor-pointer">Прочитать все</span>
+                </div>
+              </li>
+              <li class="scrollable-container" [perfectScrollbar]>
+                <a class="d-flex justify-content-between read-notification" href="javascript:void(0)">
+                  <div class="media d-flex align-items-center">
+                    <div class="media-left">
+                      <div class="avatar bg-primary bg-lighten-3 mr-3 p-1">
+                        <span class="avatar-content font-medium-2">CM</span>
+                      </div>
+                    </div>
+                    <div class="media-body">
+                      <h6 class="m-0">
+                        <span>CallMagnet</span><small class="grey lighten-1 font-italic float-right">5 мин назад</small>
+                      </h6>
+                      <small class="noti-text"><br></small>
+                      <h6 class="noti-text font-small-3 m-0">
+                        Спасибо за регистрацию на нашем сервисе. Всю информацию о настройке можно найти в разделе FAQ
+                      </h6>
+                    </div>
+                  </div>                  
+                </a>
+                <!-- <div class="d-flex justify-content-between cursor-pointer read-notification">
+                  <div class="media d-flex align-items-center">
+                    <div class="media-left">
+                      <div class="avatar bg-info bg-lighten-4 mr-3 p-1">
+                        <div class="avatar-content font-medium-2">
+                          <i class="fa-solid fa-comment-sms text-info"></i>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="media-body">
+                      <h6 class="m-0">
+                        <span>Отчет сгенерирован</span><small class="grey lighten-1 font-italic float-right">35 часов назад</small>
+                      </h6>
+                    </div>
+                  </div>
+                </div> -->
+
+              </li>
+              <li class="dropdown-menu-footer">
+                <div class="noti-footer text-center cursor-pointer primary border-top text-bold-400 py-1">
+                  Все уведомления
+                </div>
+              </li>
+            </ul>
+          </li>
+
+
+
          
           <li class="dropdown nav-item mr-1" placement="bottom-left" display="static" ngbDropdown >
             <a class="nav-link dropdown-toggle user-dropdown d-flex align-items-end" id="dropdownBasic2"
