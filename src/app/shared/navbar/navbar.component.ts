@@ -1,12 +1,13 @@
-import { Component, Output, EventEmitter, OnDestroy, OnInit, AfterViewInit, ChangeDetectorRef, HostListener } from '@angular/core';
-import { TranslateService } from '@ngx-translate/core';
+import { Component, Output, EventEmitter, OnDestroy, OnInit, AfterViewInit, ChangeDetectorRef, HostListener, Input } from '@angular/core';
 import { LayoutService } from '../services/layout.service';
 import { Subscription } from 'rxjs';
 import { ConfigService } from '../services/config.service';
 import { UntypedFormControl } from '@angular/forms';
-import { LISTITEMS } from '../data/template-search';
 import { Router } from '@angular/router';
 import { AuthService } from '../auth/auth.service';
+import { NotificationService } from '../services/notification.service';
+import { HttpResponse } from '../models/response';
+import { GetClientNotificationsReponse } from '../models/notification';
 
 @Component({
   selector: "app-navbar",
@@ -25,17 +26,16 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
   layoutSub: Subscription;
   configSub: Subscription;
   toggleClass = "ft-maximize";
-  fio = '';
-  company = '';
-
+  fio: string = '';
+  company: string = '';
+  numberOfNewNotifications: number = 0;
+  notifications: string;
 
   @Output()
   toggleHideSidebar = new EventEmitter<Object>();
 
   @Output()
   seachTextEmpty = new EventEmitter<boolean>();
-
-  listItems = [];
   control = new UntypedFormControl();
 
   public config: any = {};
@@ -46,6 +46,7 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
     private configService: ConfigService, 
     private cdr: ChangeDetectorRef,
     private authService: AuthService,
+    private notificationService: NotificationService
     ) {
 
     this.config = this.configService.templateConf;
@@ -59,7 +60,6 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.listItems = LISTITEMS;
 
     if (this.innerWidth < 1200) {
       this.isSmallScreen = true;
@@ -69,10 +69,11 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     this.setUserInfo();
+    this.getUserNotifications();
+
   }
 
   ngAfterViewInit() {
-
     this.configSub = this.configService.templateConf$.subscribe((templateConf) => {
       if (templateConf) {
         this.config = templateConf;
@@ -150,5 +151,26 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
     const client = this.authService.getUser();
     this.fio = `${client.firstname} ${client.lastname}`;
     this.company = client.company;
+  }
+
+
+  private getUserNotifications(){
+    const notifications = this.notificationService.getUserNotifications('7').subscribe(
+      (res: HttpResponse<GetClientNotificationsReponse[]>) => {
+        const result = res;
+        if (result.result && res.hasOwnProperty('data')) {
+          this.setNewNotification(result.data)
+
+        }
+      },
+      (e) => {
+        console.log(e)
+    })
+  }
+
+  private setNewNotification(data: GetClientNotificationsReponse[]){
+    this.numberOfNewNotifications = data.filter((n: GetClientNotificationsReponse) => !n.isRead).length;
+    this.notifications = this.notificationService.formatNavbarNotifications(data);
+    this.cdr.markForCheck();
   }
 }
