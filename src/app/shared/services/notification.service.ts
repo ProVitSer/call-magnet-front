@@ -100,17 +100,39 @@ export class BaseTag {
   }
 
   private setNotificationTime(){
-    const dateString = this.data.createdAt;
+    const dateString = this.data.created;
     const targetDate = moment(dateString);
     const currentDate = moment();
     if (targetDate.isSame(currentDate, 'day')) {
       const millisecondsDiff = currentDate.diff(targetDate);
       const hoursDiff = Math.floor(millisecondsDiff / (1000 * 60 * 60));
+      let hoursDescription: string = '';
 
-      this.time = `${hoursDiff} часов назад`;
+      if(hoursDiff == 0) {
+        hoursDescription = `Недавно`
+      } else if (hoursDiff == 1){
+        hoursDescription = `Час дня назад`
+      } else if([2,3,4].includes(hoursDiff)){
+        hoursDescription = `${hoursDiff} часа назад`
+      } else {
+        hoursDescription = `${hoursDiff} часов назад`
+      }
+
+      this.time = `${hoursDescription}`;
     } else {
       const daysDiff = currentDate.diff(targetDate, 'days');
-      this.time = `${daysDiff} дней назад`;
+
+      let dayDescription: string = '';
+
+      if([0,1].includes(daysDiff)) {
+        dayDescription = `1 день назад`
+      } else if ([2,3,4].includes(daysDiff)){
+        dayDescription = `${daysDiff} дня назад`
+      } else {
+        dayDescription = `${daysDiff} дней назад`
+      }
+
+      this.time = `${dayDescription}`;
     }
   }
 

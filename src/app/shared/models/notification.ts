@@ -28,7 +28,7 @@ export interface GetClientNotificationsReponse {
     link?: string;
     isRead: boolean;
     author: NotificationAuthor;
-    createdAt: string;
+    created: string;
 }
 
 export interface FormatNavbarNotificationsData {
