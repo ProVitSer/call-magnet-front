@@ -2,7 +2,7 @@ import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { environment } from 'environments/environment';
 import { Observable, throwError } from "rxjs";
-import { AvatarType, FormatNavbarNotificationsData, GetClientNotificationsReponse, NotificationType } from "../models/notification";
+import { AvatarType, FormatNavbarNotificationsData, GetClientNotificationsReponse, GetNotificationListData, GetNotificationListReponse, NotificationType } from "../models/notification";
 import { HttpResponse } from "../models/response";
 import { catchError } from "rxjs/operators";
 import * as moment from 'moment';
@@ -24,9 +24,20 @@ export class NotificationService {
 
     
     public markNotificationsIsRead(notificationId: string): Observable<HttpResponse<object>> {
-      console.log(notificationId)
       return this.http
         .put<HttpResponse<object>>(`${this.serverUrl}notification/mark-read`, {ids: [notificationId] })
+        .pipe(catchError(this.errorHandler));
+    }
+
+    public deleteNotification(notificationId: string): Observable<HttpResponse<object>> {
+      return this.http
+        .put<HttpResponse<object>>(`${this.serverUrl}notification/delete`, { notificationId })
+        .pipe(catchError(this.errorHandler));
+    }
+
+    public getNotificationsList(data: GetNotificationListData): Observable<HttpResponse<GetNotificationListReponse>> {
+      return this.http
+        .post<HttpResponse<GetNotificationListReponse>>(`${this.serverUrl}notification/list`,data)
         .pipe(catchError(this.errorHandler));
   }
 
@@ -41,6 +52,19 @@ export class NotificationService {
       })
       return notifications;
     }
+
+    public formatNotificationsForPage(data: GetClientNotificationsReponse[]): FormatNavbarNotificationsData[] {
+      let notifications: FormatNavbarNotificationsData[] = [];
+      data.map((n: GetClientNotificationsReponse) => {
+        const notificationProv = this.getProvider(n.type);
+        notifications.push({
+          id: n.id,
+          content:notificationProv.formatFullByType(n)
+        });
+      })
+      return notifications;
+    }
+
 
     public getProvider(type: NotificationType): FormatNotifications {
       if (!(type in FORMAT_NAVBAR_NOTI_PROV)) return;
@@ -163,9 +187,33 @@ class FormatAlertNotification extends FormatNotifications{
   }
 
   public formatFull(data: GetClientNotificationsReponse, baseTag: BaseTag): string {
-    throw new Error("Method not implemented.");
+    return this._formatFull(data, baseTag)
+
   }
 
+  public _formatFull(data: GetClientNotificationsReponse, baseTag: BaseTag): string {
+    return `<li class="timeline-line"></li>
+    <li class="timeline-item">
+      <div class="timeline-badge">
+        <span class="bg-primary bg-lighten-4">
+          <i class="ft-award primary"></i>
+        </span>
+      </div>
+      <div class="timeline-card card shadow-z-1">
+        <div class="card-content">
+          <div class="card-body">
+          <div class="del-notification"></div>
+            <h4 class="card-title mb-0">${data.fullTitle}</h4>
+            <div class="card-subtitle text-muted mt-0">
+              <span class="font-small-3">${baseTag.getNotificationTime}</span>
+            </div>
+            ${data.html}
+          </div>
+        </div>
+      </div>
+    </li>
+    `
+  }
 
   private _formatSmall(data: GetClientNotificationsReponse, baseTag: BaseTag): string {
     return `<a class="d-flex justify-content-between ${baseTag.read}" href="javascript:void(0)">
@@ -177,11 +225,11 @@ class FormatAlertNotification extends FormatNotifications{
       </div>
       <div class="media-body">
       <h6 class="m-0">
-      <span>${data.title}</span><small class="grey lighten-1 font-italic float-right">${baseTag.getNotificationTime}</small>
+      <span>${data.smallTitle}</span><small class="grey lighten-1 font-italic float-right">${baseTag.getNotificationTime}</small>
     </h6>
-    </br>
+    <small class="noti-text">Уведомление</small>
     <h6 class="noti-text font-small-3 m-0">
-      ${data.smalText}
+      ${data.smallText}
     </h6>
       </div>
     </div>
@@ -196,6 +244,11 @@ class FormatReportNotification extends FormatNotifications{
   }
 
   public formatFull(data: GetClientNotificationsReponse, baseTag: BaseTag): string {
+    return this._formatFull(data, baseTag)
+
+  }
+
+  public _formatFull(data: GetClientNotificationsReponse, baseTag: BaseTag): string {
     throw new Error("Method not implemented.");
   }
 
@@ -212,7 +265,7 @@ class FormatReportNotification extends FormatNotifications{
       <div class="media-body">
         <h6 class="m-0">
         <a href=${data.link} target="_blank">
-          <span>${data.title}</span><small class="grey lighten-1 font-italic float-right">${baseTag.getNotificationTime}</small>
+          <span>${data.smallTitle}</span><small class="grey lighten-1 font-italic float-right">${baseTag.getNotificationTime}</small>
         </h6>
         </a>
       </div>
@@ -228,6 +281,11 @@ class FormatCustomNotification extends FormatNotifications{
   }
 
   public formatFull(data: GetClientNotificationsReponse, baseTag: BaseTag): string {
+    return this._formatFull(data, baseTag)
+
+  }
+
+  public _formatFull(data: GetClientNotificationsReponse, baseTag: BaseTag): string {
     throw new Error("Method not implemented.");
   }
 
@@ -241,10 +299,10 @@ class FormatCustomNotification extends FormatNotifications{
       </div>
       <div class="media-body">
         <h6 class="m-0">
-          <span>${data.title}</span><small class="grey lighten-1 font-italic float-right">${baseTag.getNotificationTime}</small>
+          <span>${data.smallTitle}</span><small class="grey lighten-1 font-italic float-right">${baseTag.getNotificationTime}</small>
         </h6>
         <h6 class="noti-text font-small-3 m-0">
-        ${data.smalText}
+        ${data.smallText}
         </h6>
       </div>
     </div>

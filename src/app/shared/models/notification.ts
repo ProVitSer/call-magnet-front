@@ -22,8 +22,9 @@ export interface GetClientNotificationsReponse {
     avatarType: AvatarType;
     icon?: string;
     img?: string;
-    title: string;
-    smalText: string;
+    smallTitle: string;
+    fullTitle: string;
+    smallText: string;
     html: string;
     link?: string;
     isRead: boolean;
@@ -36,4 +37,13 @@ export interface FormatNavbarNotificationsData {
     content: string;
 }
 
+export interface GetNotificationListData {
+    offset?: number;
+    limit: number;
+}
 
+
+export interface GetNotificationListReponse {
+    notifications: GetClientNotificationsReponse[];
+    count: number;
+}
