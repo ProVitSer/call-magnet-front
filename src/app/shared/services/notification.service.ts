@@ -2,7 +2,7 @@ import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { environment } from 'environments/environment';
 import { Observable, throwError } from "rxjs";
-import { AvatarType, GetClientNotificationsReponse, NotificationType } from "../models/notification";
+import { AvatarType, FormatNavbarNotificationsData, GetClientNotificationsReponse, NotificationType } from "../models/notification";
 import { HttpResponse } from "../models/response";
 import { catchError } from "rxjs/operators";
 import * as moment from 'moment';
@@ -16,19 +16,28 @@ export class NotificationService {
       private http: HttpClient,
     ) {}
 
-
-
     public getUserNotifications(limit: string): Observable<HttpResponse<GetClientNotificationsReponse[]>> {
         return this.http
           .get<HttpResponse<GetClientNotificationsReponse[]>>(`${this.serverUrl}notification?limit=${limit}`,)
           .pipe(catchError(this.errorHandler));
     }
 
-    public formatNavbarNotifications(data: GetClientNotificationsReponse[]): string {
-      let notifications: string = '';
+    
+    public markNotificationsIsRead(notificationId: string): Observable<HttpResponse<object>> {
+      console.log(notificationId)
+      return this.http
+        .put<HttpResponse<object>>(`${this.serverUrl}notification/mark-read`, {ids: [notificationId] })
+        .pipe(catchError(this.errorHandler));
+  }
+
+    public formatNavbarNotifications(data: GetClientNotificationsReponse[]): FormatNavbarNotificationsData[] {
+      let notifications: FormatNavbarNotificationsData[] = [];
       data.map((n: GetClientNotificationsReponse) => {
         const notificationProv = this.getProvider(n.type);
-        notifications += notificationProv.formatSmallByType(n);
+        notifications.push({
+          id: n.id,
+          content:notificationProv.formatSmallByType(n)
+        });
       })
       return notifications;
     }
@@ -221,8 +230,6 @@ class FormatCustomNotification extends FormatNotifications{
 
   }
 }
-
-
 
 const FORMAT_NAVBAR_NOTI_PROV: {[key in NotificationType]: FormatNotifications} = {
   [NotificationType.alert]: new FormatAlertNotification(),

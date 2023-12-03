@@ -31,6 +31,9 @@ export interface GetClientNotificationsReponse {
     createdAt: string;
 }
 
-
+export interface FormatNavbarNotificationsData {
+    id: string;
+    content: string;
+}
 
 

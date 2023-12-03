@@ -13,36 +13,6 @@
           <a class="nav-link apptogglefullscreen" id="navbar-fullscreen" href="javascript:;" appToggleFullscreen
             (click)="ToggleClass()"><i class=" {{toggleClass}} font-medium-3"></i></a>
         </li>
-        <!-- <li class="nav-item nav-search">
-          <a class="nav-link nav-link-search" id="navbar-search" href="javascript:" (click)="toggleSearchOpenClass(true)"><i
-              class="ft-search font-medium-3"></i></a>
-          <div class="search-input {{searchOpenClass}}">
-            <div class="search-input-icon">
-              <i class="ft-search font-medium-3"></i>
-            </div>
-            <input [formControl]="control" #search class="input" type="text" placeholder="Explore Apex..." tabindex="0"
-              autofocus data-search="template-search" [appAutocomplete]="autocomplete" (keyup.enter)="onEnter()" (keydown.esc)="onEscEvent()" (keyup)="onSearchKey($event)" />
-            <div class="search-input-close" (click)="toggleSearchOpenClass(false)">
-              <i class="ft-x font-medium-3"></i>
-            </div>
-
-            <app-autocomplete #autocomplete="appAutocomplete">
-              <ng-template appAutocompleteContent >
-                <ng-container *ngIf="(listItems | filter: control.value) as result">
-                  <app-option #searchResults *ngFor="let option of result" [url]="option.url" [value]="option.name" (click)="redirectTo(option.url);" (mouseenter)="removeActiveClass()"  >
-                    <div class="d-flex align-items-center justify-content-between w-100">
-                      <div class="d-flex align-items-center justify-content-start">
-                        <i class="{{option.icon}} mr-2"></i>
-                        <span>{{ option.name }}</span>
-                      </div>
-                    </div>
-                  </app-option>
-                  <app-option class="no-result" *ngIf="!result.length">No results found.</app-option>
-                </ng-container>
-              </ng-template>
-            </app-autocomplete>
-          </div>
-        </li> -->
       </ul>
       <div class="navbar-brand-center">
         <div class="navbar-header">
@@ -60,10 +30,6 @@
     <div class="navbar-container">
       <div class="collapse navbar-collapse d-block" id="navbarSupportedContent">
         <ul class="navbar-nav">
-
-
-
-
           <li class="dropdown nav-item" placement="bottom-left" display="static" ngbDropdown >
             <a class="nav-link dropdown-toggle dropdown-notification p-0 mt-2" id="drp-notification" href="javascript:;"
               data-toggle="dropdown" ngbDropdownToggle>
@@ -79,29 +45,22 @@
                   <div class="d-flex">
                     <i class="ft-bell font-medium-3 d-flex align-items-center mr-2"></i><span class="noti-title">{{ numberOfNewNotifications }} новых уведомлений</span>
                   </div>
-                  <span class="text-bold-400 cursor-pointer">Прочитать все</span>
+                  <span class="text-bold-400 cursor-pointer" (click)="readAllNotification()">Прочитать все</span>
                 </div>
               </li>
 
 
-
-
               <li class="scrollable-container" [perfectScrollbar]>
-                <!-- <div [innerHTML]="notifications"    (mouseenter)="onMouseEnter($event)"></div> -->
-                <div [innerHTML]="notifications"></div>
-
               </li>
+
               <li class="dropdown-menu-footer">
-                <div class="noti-footer text-center cursor-pointer primary border-top text-bold-400 py-1">
+                <div class="noti-footer text-center cursor-pointer primary border-top text-bold-400 py-1" [routerLink]="['/notification']">
                   Все уведомления
                 </div>
               </li>
             </ul>
           </li>
 
-
-
-         
           <li class="dropdown nav-item mr-1" placement="bottom-left" display="static" ngbDropdown >
             <a class="nav-link dropdown-toggle user-dropdown d-flex align-items-end" id="dropdownBasic2"
               href="javascript:;" data-toggle="dropdown" ngbDropdownToggle>
@@ -127,20 +86,8 @@
               </a>
             </div>
           </li>
-
-
-
-          <!-- <li class="nav-item d-none d-lg-block mr-2 mt-1">
-            <a class="nav-link notification-sidebar-toggle" (click)="toggleNotificationSidebar();"><i
-                class="ft-align-right font-medium-3"></i></a>
-          </li> -->
         </ul>
       </div>
     </div>
   </div>
-
-
-
-
-
 </nav>
