@@ -1,49 +1,59 @@
 import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { FormatNavbarNotificationsData, GetClientNotificationsReponse, GetNotificationListReponse } from 'app/shared/models/notification';
 import { HttpResponse } from 'app/shared/models/response';
 import { NotificationService } from 'app/shared/services/notification.service';
 import { SweetalertService } from 'app/shared/services/sweetalert.service';
 
 @Component({
-  selector: 'app-notification-right-page',
-  templateUrl: './notification-page.component.html',
-  styleUrls: ['./notification-page.component.scss']
+  selector: 'app-notifications-right-page',
+  templateUrl: './notifications-page.component.html',
+  styleUrls: ['./notifications-page.component.scss'],
+
 })
-export class NotificationPageComponent implements OnInit, AfterViewInit {
-  @ViewChild('targetElement') targetElement: ElementRef;
+export class NotificationsPageComponent implements OnInit, AfterViewInit {
   notificationExist: boolean = false;
-  private notificationInitLimit: number = 1;
-  private notificationNextLimit: number = 1;
+  private notificationInitLimit: number = 7;
+  private notificationNextLimit: number = 7;
   private notificationsMap: string[] = [];
   private countNotification: number;
   moreNotifications: boolean = false;
+  notificationTargetElement: string;
 
   constructor(
     private cdr: ChangeDetectorRef,
     private renderer: Renderer2,
     private el: ElementRef,
-    private notificationService: NotificationService) {
+    private notificationService: NotificationService,
+    private route: ActivatedRoute, 
+    private router: Router) {
     
   }
 
   ngOnInit(): void {
-    this.getUserNotifications();
+    this.route.fragment.subscribe((fragment: string) => {
+      if (fragment) {
+        this.notificationTargetElement = fragment
+      }
+    }); 
+
   }
 
   ngAfterViewInit(): void {
-    setTimeout(() => {
-      this.scrollToElement();
-    }, 1000);
+    this.getUserNotifications();
   }
 
   scrollToElement() {
-    if (this.targetElement && this.targetElement.nativeElement) {
-      this.targetElement.nativeElement.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'nearest' });
+    if(this.notificationTargetElement){
+      const divElement = this.el.nativeElement.querySelector(`[notificationId="${this.notificationTargetElement}"]`);
+      if (divElement) {
+        divElement.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'nearest' });
+      }
     }
   }
 
   private getUserNotifications(){
-    const notifications = this.notificationService.getNotificationsList({ limit: this.notificationInitLimit }).subscribe(
+    this.notificationService.getNotificationsList({ limit: this.notificationInitLimit }).subscribe(
       (res: HttpResponse<GetNotificationListReponse>) => {
         const result = res;
         if (result.result && res.hasOwnProperty('data')) {
@@ -66,16 +76,20 @@ export class NotificationPageComponent implements OnInit, AfterViewInit {
     const scrollableContainer = this.el.nativeElement.querySelector('.notifications-timeline');
 
     notifications.forEach(item => {
+
       this.notificationsMap.push(item.id);
 
       const newDiv = this.renderer.createElement('div');
+
       this.renderer.setAttribute(newDiv, 'notificationId', item.id);
+
       this.renderer.setProperty(newDiv, 'innerHTML', item.content);
+
       this.renderer.appendChild(scrollableContainer, newDiv);
 
       this.addDelIcon(item);
-
     });
+    this.scrollToElement();
 
   }
 

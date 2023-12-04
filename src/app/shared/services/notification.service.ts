@@ -216,7 +216,7 @@ class FormatAlertNotification extends FormatNotifications{
   }
 
   private _formatSmall(data: GetClientNotificationsReponse, baseTag: BaseTag): string {
-    return `<a class="d-flex justify-content-between ${baseTag.read}" href="javascript:void(0)">
+    return `<a class="d-flex justify-content-between ${baseTag.read}">
     <div class="media d-flex align-items-center">
       <div class="media-left">
         <div class="avatar bg-primary bg-lighten-3 mr-3 p-1">
@@ -290,7 +290,7 @@ class FormatCustomNotification extends FormatNotifications{
   }
 
   private _formatSmall(data: GetClientNotificationsReponse, baseTag: BaseTag): string {
-    return `<a class="d-flex justify-content-between ${baseTag.read}" href="javascript:void(0)">
+    return `<a class="d-flex justify-content-between ${baseTag.read}">
     <div class="media d-flex align-items-center">
       <div class="media-left">
         <div class="mr-3">

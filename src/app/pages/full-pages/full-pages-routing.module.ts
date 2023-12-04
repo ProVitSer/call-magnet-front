@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { UsersProfileComponent } from './users-profile/users-profile.component';
-import { NotificationPageComponent } from './notification/notification-page.component';
+import { NotificationsPageComponent } from './notifications/notifications-page.component';
 import { AuthGuard } from 'app/shared/auth/auth-guard.service';
 
 
@@ -18,8 +18,8 @@ const routes: Routes = [
         canActivate: [AuthGuard],
       },
       {
-        path: 'notification',
-        component: NotificationPageComponent,
+        path: 'notifications',
+        component: NotificationsPageComponent,
         data: {
           title: 'Уведомление'
         },

@@ -11,7 +11,7 @@ import { PipeModule } from "app/shared/pipes/pipe.module";
 import { NgxDatatableModule } from "@swimlane/ngx-datatable";
 import { UsersProfileComponent } from "./users-profile/users-profile.component";
 import { TagInputModule } from 'ngx-chips';
-import { NotificationPageComponent } from "./notification/notification-page.component";
+import { NotificationsPageComponent } from "./notifications/notifications-page.component";
 
 @NgModule({
   imports: [
@@ -29,7 +29,7 @@ import { NotificationPageComponent } from "./notification/notification-page.comp
   ],
   declarations: [
     UsersProfileComponent,
-    NotificationPageComponent,
+    NotificationsPageComponent,
     
   ],
 })
