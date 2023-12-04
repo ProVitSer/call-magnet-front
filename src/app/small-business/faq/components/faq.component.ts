@@ -12,14 +12,14 @@ import { FAQ, FAQMain } from '../models/faq.model';
 export class FaqComponent {
 
   faqMain: FAQMain;
-  swiperIndex = 2;
+  swiperIndex = 0;
 
   @ViewChild(SwiperDirective, { static: false }) directiveRef?: SwiperDirective;
 
   public swiperCenterOpt1Config: SwiperConfigInterface = {
     slidesPerView: 'auto',
     centeredSlides: true,
-    initialSlide: 2,
+    initialSlide: 0,
     spaceBetween: 30,
     navigation: {
       nextEl: '.swiper-button-next',
