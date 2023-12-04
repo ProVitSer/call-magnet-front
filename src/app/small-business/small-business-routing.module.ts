@@ -24,6 +24,10 @@ export const SM_ROUTES: Routes = [
     loadChildren: async () => (await import('./auto-dial/auto-dial.module')).AutoDialModule
   },
   {
+    path: 'kpi',
+    loadChildren: async () => (await import('./kpi/kpi.module')).KpiModule
+  },
+  {
     path: 'sms',
     loadChildren: async () => (await import('./sms/sms.module')).SmsModule
   }, 
