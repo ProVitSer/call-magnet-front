@@ -51,6 +51,21 @@
                       обязательно
                       для заполнения</div>
                   </div>
+
+                  <div class="form-group" >
+                    <ng-select 
+                    formControlName="simultaneousCall" 
+                    placeholder="Одновременные вызовы" 
+                    [items]="simultaneousCalls" 
+                    bindLabel="name"  
+                    [(ngModel)]="selectedSimultaneousCalls"
+                     required>
+                    </ng-select>
+                    <div *ngIf="registerFormSubmitted && (rf.simultaneousCall.errors?.required)" class="help-block mt-1 text-danger"> 
+                      <i class="ft-alert-circle align-middle"></i>Почта обязательно для заполнения</div>
+                  </div>
+
+
                   <div class="form-group">
                     <input type="email" formControlName="email" class="form-control mb-2" placeholder="Email"
                       [ngClass]="{ 'is-invalid': registerFormSubmitted && rf.email.invalid, 'is-valid': registerFormSubmitted && !rf.email.invalid }"

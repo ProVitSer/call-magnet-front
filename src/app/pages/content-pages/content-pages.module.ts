@@ -12,6 +12,7 @@ import { LoginPageComponent } from "./login/login-page.component";
 import { RegisterPageComponent } from "./register/register-page.component";
 import { VerifyPageComponent } from './verify/verify-page.component';
 import { ResetPasswordPageComponent } from './reset-password/reset-password-page.component';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 
 
@@ -22,7 +23,8 @@ import { ResetPasswordPageComponent } from './reset-password/reset-password-page
     FormsModule,
     ReactiveFormsModule,
     NgbModule,
-    NgxSpinnerModule
+    NgxSpinnerModule,
+    NgSelectModule
   ],
   declarations: [
     ErrorPageComponent,
@@ -30,7 +32,8 @@ import { ResetPasswordPageComponent } from './reset-password/reset-password-page
     LoginPageComponent,
     RegisterPageComponent,
     VerifyPageComponent,
-    ResetPasswordPageComponent
+    ResetPasswordPageComponent,
+    
   ]
 })
 export class ContentPagesModule { }

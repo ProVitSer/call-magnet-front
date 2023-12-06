@@ -8,6 +8,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { SweetalertService } from 'app/shared/services/sweetalert.service';
 import { AuthRequestService } from 'app/shared/auth/auth-request.service';
 
+
 @Component({
   selector: 'app-register-page',
   templateUrl: './register-page.component.html',
@@ -17,6 +18,22 @@ import { AuthRequestService } from 'app/shared/auth/auth-request.service';
 export class RegisterPageComponent implements OnInit {
   registerFormSubmitted = false;
   registerForm: UntypedFormGroup;
+  simultaneousCalls = [
+    { value: 4, name: '4 SC' },
+    { value: 8, name: '8 SC' },
+    { value: 16, name: '16 SC'},
+    { value: 24, name: '24 SC' },
+    { value: 32, name: '32 SC' },
+    { value: 48, name: '48 SC' },
+    { value: 64, name: '64 SC' },
+    { value: 96, name: '96 SC' },
+    { value: 128, name: '128 SC' },
+    { value: 192, name: '192 SC' },
+    { value: 256, name: '256 SC' },
+    { value: 512, name: '512 SC' },
+    { value: 1024, name: '1024 SC' },
+  ];
+  selectedSimultaneousCalls: any;
   constructor(private fb: UntypedFormBuilder, private router: Router, private authRequestService: AuthRequestService, private spinner: NgxSpinnerService) { }
 
   ngOnInit() {
@@ -28,6 +45,7 @@ export class RegisterPageComponent implements OnInit {
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(8)]],
       confirmPassword: ['', Validators.required],
+      simultaneousCall: ['', Validators.required],
       // acceptTerms: [false, Validators.requiredTrue] // пока убираем, добавим когда будет политика
     }, {
       validator: MustMatch('password', 'confirmPassword')
@@ -54,8 +72,6 @@ export class RegisterPageComponent implements OnInit {
         fullScreen: true
       });
 
-
-
     const dataToSend = {
       email: this.registerForm.value.email,
       password: this.registerForm.value.password,
@@ -63,9 +79,8 @@ export class RegisterPageComponent implements OnInit {
       lastname: this.registerForm.value.lastname,
       phoneNumber: this.registerForm.value.phone,
       company: this.registerForm.value.companyName,
-
+      simultaneousCall: this.registerForm.value.simultaneousCall.value
     };
-
     this.authRequestService.register(dataToSend).subscribe(
       (res: HttpResponse<RegisterUserResponse>) => {
         const result = res;
@@ -85,4 +100,5 @@ export class RegisterPageComponent implements OnInit {
   private toLoginPage(){
     this.router.navigate(['/login']);
   }
+
 }
