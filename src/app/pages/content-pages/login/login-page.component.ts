@@ -1,6 +1,6 @@
 import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { Validators, FormGroup, FormBuilder } from '@angular/forms';
-import { Router, ActivatedRoute } from "@angular/router";
+import { Router } from "@angular/router";
 import { AuthService } from 'app/shared/auth/auth.service';
 import { LoginResponse, Menu } from 'app/shared/models/login';
 import { HttpResponse } from 'app/shared/models/response';
