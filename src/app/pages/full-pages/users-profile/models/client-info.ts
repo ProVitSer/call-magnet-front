@@ -1,3 +1,5 @@
+import { Roles } from "app/shared/models/user";
+
 export interface BaseUsersResponse {
     message: string;
 }
@@ -9,10 +11,8 @@ export interface ClientInfoResponse {
     phoneNumber: string;
     company: string;
     status: Status;
-    roles: string[];
+    roles: Roles[];
 }
-
-
 
 export enum Status {
     active = 'active',
@@ -21,7 +21,7 @@ export enum Status {
 
 
 
-export interface UpdateClientInfoResponse extends BaseUsersResponse{
+export interface UpdateClientInfoResponse extends BaseUsersResponse {
     result: boolean;
 }
 

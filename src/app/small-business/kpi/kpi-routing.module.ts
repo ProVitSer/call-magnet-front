@@ -4,6 +4,7 @@ import { AuthGuard } from 'app/shared/auth/auth-guard.service';
 import { RoleGuard } from 'app/shared/auth/role-guard.service';
 import { KpiSettingsComponent } from './components/settings/kpi-settings.component';
 import { KpiStatisticComponent } from './components/statistic/kpi-statistic.component';
+import { Roles } from 'app/shared/models/user';
 
 
 const routes: Routes = [
@@ -12,7 +13,7 @@ const routes: Routes = [
     component: KpiStatisticComponent,
     data: {
       title: 'Статистика',
-      expectedRole: ['kpi']
+      expectedRole: [Roles.kpi]
     },
     canActivate: [AuthGuard, RoleGuard],
   },
@@ -22,7 +23,7 @@ const routes: Routes = [
     component: KpiSettingsComponent,
     data: {
       title: 'Настройки',
-      expectedRole: ['kpi']
+      expectedRole: [Roles.kpi]
     },
     canActivate: [AuthGuard, RoleGuard],
   },

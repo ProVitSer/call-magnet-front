@@ -1,3 +1,5 @@
+import { Roles } from "./user";
+
 export interface LoginModel {
     email: string;
     password: string;
@@ -24,18 +26,7 @@ export interface LoginResponse {
     firstname: string;
     lastname: string;
     company: string;
-    userRoles: string[];
+    userRoles: Roles[];
     menu: Menu[];
 }
 
-export interface UserData {
-    clientId: string;
-    firstname: string;
-    lastname: string;
-    company: string;
-}
-
-
-export interface UserRoles {
-    userRoles: string[];
-}

@@ -4,6 +4,7 @@ import { TelegramNoAnswerCallComponent } from './components/no-answer-call/no-an
 import { TelegramCallComponent } from './components/call/call.component';
 import { AuthGuard } from 'app/shared/auth/auth-guard.service';
 import { RoleGuard } from 'app/shared/auth/role-guard.service';
+import { Roles } from 'app/shared/models/user';
 
 
 const routes: Routes = [
@@ -12,7 +13,7 @@ const routes: Routes = [
     component: TelegramNoAnswerCallComponent,
     data: {
       title: 'Неотвеченные вызовы',
-      expectedRole: ['telegram']
+      expectedRole: [Roles.telegram]
     },
     canActivate: [AuthGuard, RoleGuard],
   },
@@ -21,7 +22,7 @@ const routes: Routes = [
     component: TelegramCallComponent,
     data: {
       title: 'Звонки',
-      expectedRole: ['telegram']
+      expectedRole: [Roles.telegram]
     },
     canActivate: [AuthGuard, RoleGuard],
   },

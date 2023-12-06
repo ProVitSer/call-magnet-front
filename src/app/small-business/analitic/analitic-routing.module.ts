@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { AnaliticComponent } from './components/analitic.component';
 import { AuthGuard } from 'app/shared/auth/auth-guard.service';
 import { RoleGuard } from 'app/shared/auth/role-guard.service';
+import { Roles } from 'app/shared/models/user';
 
 
 const routes: Routes = [
@@ -11,7 +12,7 @@ const routes: Routes = [
     component: AnaliticComponent,
     data: {
       title: 'Аналитика',
-      expectedRole: ['analitic']
+      expectedRole: [Roles.analitic]
     },
     canActivate: [AuthGuard, RoleGuard],
   },

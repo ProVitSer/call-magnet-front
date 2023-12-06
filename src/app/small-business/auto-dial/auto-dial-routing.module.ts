@@ -6,6 +6,7 @@ import { AutoDialTasksComponent } from './components/tasks/tasks.component';
 import { AutoDialCreateComponent } from './components/create/create.component';
 import { AuthGuard } from 'app/shared/auth/auth-guard.service';
 import { RoleGuard } from 'app/shared/auth/role-guard.service';
+import { Roles } from 'app/shared/models/user';
 
 
 const routes: Routes = [
@@ -14,7 +15,7 @@ const routes: Routes = [
     component: AutoDialCreateComponent,
     data: {
       title: 'Создать',
-      expectedRole: ['analitic']
+      expectedRole: [Roles.autoDial]
     },
     canActivate: [AuthGuard, RoleGuard],
   },
@@ -23,7 +24,7 @@ const routes: Routes = [
     component: AutoDialSettingsComponent,
     data: {
       title: 'Настройки',
-      expectedRole: ['analitic']
+      expectedRole: [Roles.autoDial]
     },
     canActivate: [AuthGuard, RoleGuard],
   },
@@ -32,7 +33,7 @@ const routes: Routes = [
     component: AutoDialReportsComponent,
     data: {
       title: 'Статистика',
-      expectedRole: ['analitic']
+      expectedRole: [Roles.autoDial]
     },
     canActivate: [AuthGuard, RoleGuard],
   },
@@ -41,7 +42,7 @@ const routes: Routes = [
     component: AutoDialTasksComponent,
     data: {
       title: 'Задания на обзвон',
-      expectedRole: ['analitic']
+      expectedRole: [Roles.autoDial]
     },
     canActivate: [AuthGuard, RoleGuard],
   },

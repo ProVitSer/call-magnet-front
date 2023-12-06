@@ -1,10 +1,10 @@
 import { Router } from '@angular/router';
 import { Injectable } from '@angular/core';
-import { UserData, UserRoles } from '../models/login';
 import { SetsCookiesData, UpdateUserData, EncryptedUserData} from '../models/auth';
 import { CookieService } from 'ngx-cookie-service';
 import { EncrDecrService } from './encr-decr.service';
 import { RouteInfo } from '../vertical-menu/vertical-menu.metadata';
+import { UserData, UserRoles } from '../models/user';
 const MENU_DATA = 'menu';
 
 @Injectable()

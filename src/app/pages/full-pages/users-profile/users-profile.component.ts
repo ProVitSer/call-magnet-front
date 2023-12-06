@@ -6,6 +6,7 @@ import { ChangePasswordData, ClientInfoResponse, UpdateClientInfoData, UpdateCli
 import { HttpResponse } from 'app/shared/models/response';
 import { SweetalertService } from 'app/shared/services/sweetalert.service';
 import { AuthService } from 'app/shared/auth/auth.service';
+import { AVALIABLE_ROLES, Roles, USER_ROLES_DESCRIPTION } from 'app/shared/models/user';
 
 @Component({
   selector: 'app-users-profile',
@@ -22,10 +23,6 @@ export class UsersProfileComponent implements OnInit {
   changePasswordForm: UntypedFormGroup;
   email = ''
   buttons = [];
-
-  // { label: '3cx', class: 'btn btn-success mr-1 mb-1'},
-  // { label: 'API', class: 'btn btn-outline-custom-light mr-1 mb-1'},
-
 
   constructor(private fb: UntypedFormBuilder, private cdr: ChangeDetectorRef,private readonly userProfileService: UserProfileService, private authService: AuthService) { }
 
@@ -94,14 +91,27 @@ export class UsersProfileComponent implements OnInit {
       company: data.company,
     });
 
-    data.roles.map((r: string) => {
-      this.buttons.push({label: r, class: 'btn btn-success mr-1 mb-1'});
-    })
-   
+    this.setAvailableFunctionality(data);
+
+
     this.cdr.markForCheck();
   }
 
+  private setAvailableFunctionality(data: ClientInfoResponse){
+    const avaliableFunc = [];
+    const unavaliableFunc = [];
+    AVALIABLE_ROLES.map((r: Roles) => {
+        if(data.roles.includes(r)){
+          avaliableFunc.push({ label: USER_ROLES_DESCRIPTION[r], class: 'btn btn-success mr-1 mb-1' })
+        } else {
+          unavaliableFunc.push({ label: USER_ROLES_DESCRIPTION[r], class: 'btn btn-outline-custom-light mr-1 mb-1'})
 
+        }
+    });
+
+    this.buttons.push(...avaliableFunc, ...unavaliableFunc)
+
+  }
 
 
   onGeneralFormSubmit() {
