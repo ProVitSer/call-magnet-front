@@ -40,11 +40,9 @@ export class JwtInterceptor implements HttpInterceptor {
 
     return next?.handle(authReq).pipe(
       catchError((error) => {
-
         if (error instanceof HttpErrorResponse && error.url.includes('/refresh') && error.status !== 200) {
           this.toastrService.error('Сессия истекла, пожалуйста, авторизуйтесь.');
           this.authService.logout();
-          return throwError(error);
         }
 
         if (tokenExp) {
@@ -80,7 +78,6 @@ export class JwtInterceptor implements HttpInterceptor {
             }
           }),
           catchError((error) => {
-            console.log(error)
             return throwError(error);
           })
         );
@@ -94,7 +91,6 @@ export class JwtInterceptor implements HttpInterceptor {
       filter((token) => token !== null),
       take(1),
       switchMap((token) => {
-        console.log(token)
         return next.handle(this.addTokenHeader(request, token)
       )})
     );
