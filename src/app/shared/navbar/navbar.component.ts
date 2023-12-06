@@ -205,19 +205,23 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
 
       const click = fromEvent(newDiv, 'click')
       .pipe(takeUntil(this.destroy$))
-      .subscribe(() => this.onClick(item.id));
+      .subscribe(() => this.onNotificationClick(item.id));
 
     this.subscriptionsMap[item.id] = mouseenter;
 
     });
   }
 
-  onClick(id: string){
+  onNotificationClick(id: string){
     const navigationExtras = {
       fragment: id.toString(),
     };
 
     this.router.navigate(['/notifications'], navigationExtras);
+  }
+
+  toNotifications(){
+    this.router.navigate(['/notifications']);
   }
 
   handleNotificationEnter(id: string) {
