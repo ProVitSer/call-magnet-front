@@ -2,9 +2,6 @@ import {
   Component, OnInit, ViewChild, OnDestroy,
   ElementRef, AfterViewInit, ChangeDetectorRef, HostListener
 } from "@angular/core";
-import { ROUTES } from './vertical-menu-routes.config';
-import { HROUTES } from '../horizontal-menu/navigation-routes.config';
-
 import { Router } from "@angular/router";
 import { TranslateService } from '@ngx-translate/core';
 import { customAnimations } from "../animations/custom-animations";
@@ -12,6 +9,7 @@ import { DeviceDetectorService } from 'ngx-device-detector';
 import { ConfigService } from '../services/config.service';
 import { Subscription } from 'rxjs';
 import { LayoutService } from '../services/layout.service';
+import { AuthService } from "../auth/auth.service";
 
 @Component({
   selector: "app-sidebar",
@@ -38,7 +36,8 @@ export class VerticalMenuComponent implements OnInit, AfterViewInit, OnDestroy {
     private layoutService: LayoutService,
     private configService: ConfigService,
     private cdr: ChangeDetectorRef,
-    private deviceService: DeviceDetectorService
+    private deviceService: DeviceDetectorService,
+    private auth: AuthService
   ) {
     this.config = this.configService.templateConf;
     this.innerWidth = window.innerWidth;
@@ -47,7 +46,7 @@ export class VerticalMenuComponent implements OnInit, AfterViewInit, OnDestroy {
 
 
   ngOnInit() {
-    this.menuItems = ROUTES;
+    this.menuItems = this.auth.getMenu();
   }
 
   ngAfterViewInit() {
@@ -86,11 +85,11 @@ export class VerticalMenuComponent implements OnInit, AfterViewInit, OnDestroy {
 
     if (this.config.layout.menuPosition === "Top") { // Horizontal Menu
       if (this.innerWidth < 1200) { // Screen size < 1200
-        this.menuItems = HROUTES;
+        this.menuItems = this.auth.getMenu();
       }
     }
     else if (this.config.layout.menuPosition === "Side") { // Vertical Menu{
-      this.menuItems = ROUTES;
+      this.menuItems = this.auth.getMenu();
     }
 
 

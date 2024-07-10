@@ -6,20 +6,15 @@ import { NgxSpinnerModule } from 'ngx-spinner';
 
 import { ContentPagesRoutingModule } from "./content-pages-routing.module";
 
-import { ComingSoonPageComponent } from "./coming-soon/coming-soon-page.component";
 import { ErrorPageComponent } from "./error/error-page.component";
 import { ForgotPasswordPageComponent } from "./forgot-password/forgot-password-page.component";
-import { LockScreenPageComponent } from "./lock-screen/lock-screen-page.component";
 import { LoginPageComponent } from "./login/login-page.component";
-import { MaintenancePageComponent } from "./maintenance/maintenance-page.component";
 import { RegisterPageComponent } from "./register/register-page.component";
-import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
-import { HttpClient } from '@angular/common/http';
-import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { VerifyPageComponent } from './verify/verify-page.component';
+import { ResetPasswordPageComponent } from './reset-password/reset-password-page.component';
+import { NgSelectModule } from '@ng-select/ng-select';
 
-export function createTranslateLoader(http: HttpClient) {
-  return new TranslateHttpLoader(http, "./assets/i18n/", ".json");
-}
+
 
 @NgModule({
   imports: [
@@ -28,23 +23,17 @@ export function createTranslateLoader(http: HttpClient) {
     FormsModule,
     ReactiveFormsModule,
     NgbModule,
-    TranslateModule.forChild({
-      loader: {
-        provide: TranslateLoader,
-        useFactory: createTranslateLoader,
-        deps: [HttpClient]
-      }
-    }),
-    NgxSpinnerModule
+    NgxSpinnerModule,
+    NgSelectModule
   ],
   declarations: [
-    ComingSoonPageComponent,
     ErrorPageComponent,
     ForgotPasswordPageComponent,
-    LockScreenPageComponent,
     LoginPageComponent,
-    MaintenancePageComponent,
-    RegisterPageComponent
+    RegisterPageComponent,
+    VerifyPageComponent,
+    ResetPasswordPageComponent,
+    
   ]
 })
 export class ContentPagesModule { }

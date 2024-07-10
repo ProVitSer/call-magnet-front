@@ -1,0 +1,29 @@
+<div class="row">
+  <div class="col-12">
+    <div class="content-header">Уведомления</div>
+    <p class="content-sub-header mb-1">На данной странице вы найдете все поступившие для вас уведомления.</p>
+  </div>
+</div>
+<h2 class="text-center py-4"></h2>
+<!--Vertical Timeline Starts-->
+<section id="vertical-timeline-right" class="timeline-right timeline-wrapper col-sm-10 col-12 offset-sm-1" >
+
+  <ul class="timeline" >
+    <li class="timeline-line mt-4"></li>
+    <li class="timeline-group">
+      <div *ngIf="notificationExist"><h5><span class="badge badge-primary cursor-default">Начало</span></h5></div>
+
+    </li>
+  </ul>
+  <ul class="timeline">
+    <div class="notifications-timeline"></div>
+  </ul>
+
+  <div class="text-center py-4">
+    <div *ngIf="moreNotifications"><button class="btn btn-primary" (click)="moreNotification()">Загрузить еще</button></div>
+    <div *ngIf="!notificationExist">
+      <p class="text-center">Нет уведомлений</p>
+    </div>
+  </div>
+</section>
+<!--Vertical Timeline Ends-->

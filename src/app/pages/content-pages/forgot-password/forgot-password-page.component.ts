@@ -1,6 +1,11 @@
-import { Component, ViewChild } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { FormGroup, UntypedFormBuilder, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from "@angular/router";
+import { AuthRequestService } from 'app/shared/auth/auth-request.service';
+import { ForogtPasswordResponse } from 'app/shared/models/auth';
+import { HttpResponse } from 'app/shared/models/response';
+import { SweetalertService } from 'app/shared/services/sweetalert.service';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
     selector: 'app-forgot-password-page',
@@ -8,23 +13,63 @@ import { Router, ActivatedRoute } from "@angular/router";
     styleUrls: ['./forgot-password-page.component.scss']
 })
 
-export class ForgotPasswordPageComponent {
-    @ViewChild('f') forogtPasswordForm: NgForm;
+export class ForgotPasswordPageComponent implements OnInit {
+    forogtPasswordForm: FormGroup;
+    forogtPasswordSubmitted = false;
+    constructor(private router: Router, private route: ActivatedRoute, private fb: UntypedFormBuilder, private spinner: NgxSpinnerService, private authRequestService: AuthRequestService) { }
 
-    constructor(private router: Router,
-        private route: ActivatedRoute) { }
-
-    // On submit click, reset form fields
-    onSubmit() {
-        this.forogtPasswordForm.reset();
+    ngOnInit(): void {
+        this.forogtPasswordForm = this.fb.group({
+            email: ['', [Validators.required, Validators.email]]
+        });
     }
 
-    // On login link click
+    get rf() {
+        return this.forogtPasswordForm.controls;
+    }
+
+
+    onSubmit() {
+        this.forogtPasswordSubmitted = true;
+
+        if (this.forogtPasswordForm.invalid) {
+          return;
+        }
+
+        this.spinner.show(undefined,
+            {
+              type: 'ball-triangle-path',
+              size: 'medium',
+              bdColor: 'rgba(0, 0, 0, 0.8)',
+              color: '#fff',
+              fullScreen: true
+        });
+
+        this.forogtPassword(this.forogtPasswordForm.value.email);
+    }
+
+    private forogtPassword(email: string){
+        this.authRequestService.forogtPassword({ email }).subscribe(      
+            (res: HttpResponse<ForogtPasswordResponse>) => {
+            const result = res;
+            if (result.result && res.hasOwnProperty('data')) {
+              this.spinner.hide();
+              return SweetalertService.successAlert('', 'Вам на почту будет отправлено пиьсмо со ссылкой на восстановление пароля')
+            }
+            this.spinner.hide();
+            SweetalertService.errorAlert('Ошибка восстановление пароля', 'Что-то пошло не так, просьба обратиться в техническую поддержку')
+          },
+          (e) => {
+            this.spinner.hide();
+            SweetalertService.errorAlert('Ошибка восстановление пароля', e)
+            this.forogtPasswordForm.reset();
+          })
+    }
+
     onLogin() {
         this.router.navigate(['login'], { relativeTo: this.route.parent });
     }
 
-    // On registration link click
     onRegister() {
         this.router.navigate(['register'], { relativeTo: this.route.parent });
     }

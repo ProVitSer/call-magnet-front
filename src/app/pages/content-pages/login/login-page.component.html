@@ -10,50 +10,59 @@
                 <img src="assets/img/gallery/login.png" alt="" class="img-fluid" width="300" height="230">
               </div>
               <div class="col-lg-6 col-12 px-4 py-3">
-                <h4 class="mb-2 card-title">Login</h4>
-                <p>Welcome back, please login to your account.</p>
-                <ngb-alert type="light-danger" class="mb-2" *ngIf="isLoginFailed" (close)="isLoginFailed = false">
-                  <p class="mb-0">Login failed!</p>
+                <h4 class="mb-2 card-title">Вход в платформу</h4>
+                <p>С возвращением, авторизуйтесь для входа на платформу</p>
+
+                <ngb-alert type="light-danger" class="mb-2" *ngIf="isLoginFailed && isAlertVisible" (click)="closeAlert()">
+                  <p class="mb-0">{{ errorMessage }}</p>
                 </ngb-alert>
+
+
                 <form [formGroup]="loginForm">
                   <div class="form-group">
-                    <input type="text" formControlName="username" class="form-control" placeholder="Username"
-                      [ngClass]="{ 'is-invalid': loginFormSubmitted && lf.username.invalid, 'is-valid': loginFormSubmitted && !lf.username.invalid }"
+                    <input type="text" formControlName="email" class="form-control" placeholder="Email"
+                      [ngClass]="{ 'is-invalid': loginFormSubmitted && lf.email.invalid, 'is-valid': loginFormSubmitted && !lf.email.invalid }"
                       required>
-                    <div *ngIf="loginFormSubmitted && (lf.username.invalid || lf.username.errors?.required)"
-                      class="help-block mt-1 text-danger"> <i class="ft-alert-circle align-middle"></i> This is
-                      required</div>
+                    <div *ngIf="loginFormSubmitted && (lf.email.invalid || lf.email.errors?.required)"
+                      class="help-block mt-1 text-danger"> <i class="ft-alert-circle align-middle"></i> Обязательно для
+                      заполнения</div>
                   </div>
-                  <div class="form-group">
-                    <input type="password" formControlName="password" class="form-control" placeholder="Old Password"
-                      [ngClass]="{ 'is-invalid': loginFormSubmitted && lf.password.invalid, 'is-valid': loginFormSubmitted && !lf.password.invalid }"
-                      required>
-                    <div *ngIf="loginFormSubmitted && (lf.password.invalid || lf.password.errors?.required)"
-                      class="help-block mt-1 text-danger"> <i class="ft-alert-circle align-middle"></i> This is required
+
+                  
+                  <fieldset class="form-group position-relative has-icon-right">
+                    <input  [type]="showPassword ? 'text' : 'password'" formControlName="password"
+                     class="form-control" id="Password" placeholder="Пароль"
+                     [ngClass]="{
+                      'is-invalid': loginFormSubmitted && lf.password.invalid,
+                      'is-valid': loginFormSubmitted && !lf.password.invalid
+                    }">
+                    <div class="form-control-position cursor-pointer">
+                      <i class="ft-eye" (click)="showPassword = !showPassword"  [class.hide]="showPassword"></i>
                     </div>
-                  </div>
+                    <div class="form-control-position cursor-pointer">
+                      <i class="ft-eye-off " (click)="showPassword = !showPassword"   [class.hide]="!showPassword"></i>
+                    </div>
+                  </fieldset>
+                  <div *ngIf="loginFormSubmitted && (lf.password.invalid || lf.password.errors?.required)"
+                  class="help-block mt-1 text-danger">
+                  <i class="ft-alert-circle align-middle"></i> Обязательно для
+                  заполнения
+                </div>
                   <div class="d-sm-flex justify-content-between mb-3 font-small-2">
                     <div class="remember-me mb-2 mb-sm-0">
-                      <div class="checkbox auth-checkbox">
-                        <input type="checkbox" formControlName="rememberMe" class="form-control" id="rememberMe">
-                        <label for="rememberMe"><span class="font-small-2 mb-3 font-weight-normal">Remember Me</span></label>
-                      </div>
                     </div>
-                    <a [routerLink]="['/pages/forgotpassword']">Forgot Password?</a>
+                    <a [routerLink]="['/forgotpassword']">Забыли пароль?</a>
                   </div>
+
+                  
                   <div class="d-flex justify-content-between flex-sm-row flex-column">
-                    <a [routerLink]="['/pages/register']" class="btn bg-light-primary mb-2 mb-sm-0">Register</a>
-                    <a  class="btn btn-primary" (click)="onSubmit()">Login</a>
+                    <a [routerLink]="['/register']" class="btn bg-light-primary mb-2 mb-sm-0">Регистрация</a>
+                    <a class="btn btn-primary" (click)="onSubmit()">Войти в систему</a>
                   </div>
                 </form>
                 <hr>
                 <div class="d-flex justify-content-between align-items-center">
-                  <h6 class="text-primary m-0">Or Login With</h6>
                   <ngx-spinner></ngx-spinner>
-                  <div class="login-options">
-                    <a class="btn btn-sm btn-social-icon btn-facebook mr-1"><span class="fa fa-facebook"></span></a>
-                    <a class="btn btn-sm btn-social-icon btn-twitter mr-1"><span class="fa fa-twitter"></span></a>
-                  </div>
                 </div>
               </div>
             </div>

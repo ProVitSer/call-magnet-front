@@ -1,13 +1,14 @@
-import { Component, Output, EventEmitter, OnDestroy, OnInit, AfterViewInit, ChangeDetectorRef, Inject, Renderer2, ViewChild, ElementRef, ViewChildren, QueryList, HostListener } from '@angular/core';
-import { TranslateService } from '@ngx-translate/core';
+import { Component, Output, EventEmitter, OnDestroy, OnInit, AfterViewInit, ChangeDetectorRef, HostListener, ElementRef, Renderer2 } from '@angular/core';
 import { LayoutService } from '../services/layout.service';
-import { Subscription } from 'rxjs';
+import { Subject, Subscription, fromEvent } from 'rxjs';
 import { ConfigService } from '../services/config.service';
-import { DOCUMENT } from '@angular/common';
-import { CustomizerService } from '../services/customizer.service';
 import { UntypedFormControl } from '@angular/forms';
-import { LISTITEMS } from '../data/template-search';
 import { Router } from '@angular/router';
+import { AuthService } from '../auth/auth.service';
+import { NotificationService } from '../services/notification.service';
+import { HttpResponse } from '../models/response';
+import { GetClientNotificationsReponse } from '../models/notification';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: "app-navbar",
@@ -15,43 +16,44 @@ import { Router } from '@angular/router';
   styleUrls: ["./navbar.component.scss"]
 })
 export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
-  currentLang = "en";
-  selectedLanguageText = "English";
-  selectedLanguageFlag = "./assets/img/flags/us.png";
-  toggleClass = "ft-maximize";
   placement = "bottom-right";
   logoUrl = 'assets/img/logo.png';
   menuPosition = 'Side';
   isSmallScreen = false;
   protected innerWidth: any;
-  searchOpenClass = "";
   transparentBGClass = "";
   hideSidebar: boolean = true;
   public isCollapsed = true;
   layoutSub: Subscription;
   configSub: Subscription;
-
-  @ViewChild('search') searchElement: ElementRef;
-  @ViewChildren('searchResults') searchResults: QueryList<any>;
+  toggleClass = "ft-maximize";
+  fio: string = '';
+  company: string = '';
+  numberOfNewNotifications: number = 0;
+  notificationsIds: string[];
 
   @Output()
   toggleHideSidebar = new EventEmitter<Object>();
 
   @Output()
   seachTextEmpty = new EventEmitter<boolean>();
-
-  listItems = [];
   control = new UntypedFormControl();
 
   public config: any = {};
+  private destroy$ = new Subject<void>();
+  private subscriptionsMap: { [key: string]: Subscription } = {};
 
-  constructor(public translate: TranslateService,
+  constructor(
     private layoutService: LayoutService,
     private router: Router,
-    private configService: ConfigService, private cdr: ChangeDetectorRef) {
+    private renderer: Renderer2,
+    private configService: ConfigService, 
+    private el: ElementRef,
+    private cdr: ChangeDetectorRef,
+    private authService: AuthService,
+    private notificationService: NotificationService
+    ) {
 
-    const browserLang: string = translate.getBrowserLang();
-    translate.use(browserLang.match(/en|es|pt|de/) ? browserLang : "en");
     this.config = this.configService.templateConf;
     this.innerWidth = window.innerWidth;
 
@@ -63,7 +65,6 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.listItems = LISTITEMS;
 
     if (this.innerWidth < 1200) {
       this.isSmallScreen = true;
@@ -71,10 +72,14 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
     else {
       this.isSmallScreen = false;
     }
+
+    this.setUserInfo();
+    this.getUserNotifications();
+
   }
 
-  ngAfterViewInit() {
 
+  ngAfterViewInit() {
     this.configSub = this.configService.templateConf$.subscribe((templateConf) => {
       if (templateConf) {
         this.config = templateConf;
@@ -92,6 +97,12 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
     if (this.configSub) {
       this.configSub.unsubscribe();
     }
+
+    Object.values(this.subscriptionsMap).forEach(subscription => subscription.unsubscribe());
+
+
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   @HostListener('window:resize', ['$event'])
@@ -104,6 +115,11 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
       this.isSmallScreen = false;
     }
   }
+
+  logout() {
+    this.authService.logout();
+  }
+
 
   loadLayout() {
 
@@ -127,68 +143,12 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
 
   }
 
-  onSearchKey(event: any) {
-    if (this.searchResults && this.searchResults.length > 0) {
-      this.searchResults.first.host.nativeElement.classList.add('first-active-item');
-    }
-
-    if (event.target.value === "") {
-      this.seachTextEmpty.emit(true);
-    }
-    else {
-      this.seachTextEmpty.emit(false);
-    }
+  toggleNotificationSidebar() {
+    this.layoutService.toggleNotificationSidebar(true);
   }
 
-  removeActiveClass() {
-    if (this.searchResults && this.searchResults.length > 0) {
-      this.searchResults.first.host.nativeElement.classList.remove('first-active-item');
-    }
-  }
-
-  onEscEvent() {
-    this.control.setValue("");
-    this.searchOpenClass = '';
-    this.seachTextEmpty.emit(true);
-  }
-
-  onEnter() {
-    if (this.searchResults && this.searchResults.length > 0) {
-      let url = this.searchResults.first.url;
-      if (url && url != '') {
-        this.control.setValue("");
-        this.searchOpenClass = '';
-        this.router.navigate([url]);
-        this.seachTextEmpty.emit(true);
-      }
-    }
-  }
-
-  redirectTo(value) {
-    this.router.navigate([value]);
-    this.seachTextEmpty.emit(true);
-  }
-
-
-  ChangeLanguage(language: string) {
-    this.translate.use(language);
-
-    if (language === 'en') {
-      this.selectedLanguageText = "English";
-      this.selectedLanguageFlag = "./assets/img/flags/us.png";
-    }
-    else if (language === 'es') {
-      this.selectedLanguageText = "Spanish";
-      this.selectedLanguageFlag = "./assets/img/flags/es.png";
-    }
-    else if (language === 'pt') {
-      this.selectedLanguageText = "Portuguese";
-      this.selectedLanguageFlag = "./assets/img/flags/pt.png";
-    }
-    else if (language === 'de') {
-      this.selectedLanguageText = "German";
-      this.selectedLanguageFlag = "./assets/img/flags/de.png";
-    }
+  toggleSidebar() {
+    this.layoutService.toggleSidebarSmallScreen(this.hideSidebar);
   }
 
   ToggleClass() {
@@ -199,30 +159,94 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  toggleSearchOpenClass(display) {
-    this.control.setValue("");
-    if (display) {
-      this.searchOpenClass = 'open';
-      setTimeout(() => {
-        this.searchElement.nativeElement.focus();
-      }, 0);
+  private setUserInfo(){
+    const client = this.authService.getUser();
+    this.fio = `${client.firstname} ${client.lastname}`;
+    this.company = client.company;
+  }
+
+
+  private getUserNotifications(){
+    const notifications = this.notificationService.getUserNotifications('7').subscribe(
+      (res: HttpResponse<GetClientNotificationsReponse[]>) => {
+        const result = res;
+        if (result.result && res.hasOwnProperty('data')) {
+          this.setNotificationsIds(result.data);
+          this.setCountNotification(result.data);
+          this.setNotifications(result.data)
+          this.cdr.markForCheck();
+        }
+      },
+      (e) => {
+    })
+  }
+
+  private setCountNotification(data: GetClientNotificationsReponse[]){
+    this.numberOfNewNotifications = data.filter((n: GetClientNotificationsReponse) => !n.isRead).length; 
+  }
+
+  private setNotificationsIds(data: GetClientNotificationsReponse[]){
+    this.notificationsIds = data.map((n: GetClientNotificationsReponse) => n.id);
+  }
+
+  private setNotifications(data: GetClientNotificationsReponse[]){
+    const notifications = this.notificationService.formatNavbarNotifications(data);
+    const scrollableContainer = this.el.nativeElement.querySelector('.scrollable-container');
+
+    notifications.forEach(item => {
+      const newDiv = this.renderer.createElement('div');
+      this.renderer.setAttribute(newDiv, 'notificationId', item.id);
+      this.renderer.setProperty(newDiv, 'innerHTML', item.content);
+      this.renderer.appendChild(scrollableContainer, newDiv);
+
+      const mouseenter = fromEvent(newDiv, 'mouseenter')
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(() => this.handleNotificationEnter(item.id));
+
+      const click = fromEvent(newDiv, 'click')
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(() => this.onNotificationClick(item.id));
+
+    this.subscriptionsMap[item.id] = mouseenter;
+
+    });
+  }
+
+  onNotificationClick(id: string){
+    const navigationExtras = {
+      fragment: id.toString(),
+    };
+
+    this.router.navigate(['/notifications'], navigationExtras);
+  }
+
+  toNotifications(){
+    this.router.navigate(['/notifications']);
+  }
+
+  handleNotificationEnter(id: string) {
+    this.numberOfNewNotifications = (this.numberOfNewNotifications != 0) ? this.numberOfNewNotifications - 1 : this.numberOfNewNotifications;
+
+    const divElement = this.el.nativeElement.querySelector(`[notificationId="${id}"]`);
+    if (divElement && this.subscriptionsMap[id]) {
+      this.subscriptionsMap[id].unsubscribe();
+    };
+
+    const mediaElement = divElement.querySelector('.media.d-flex.align-items-center');
+    if (mediaElement) {
+      mediaElement.classList.add('read-notification');
+    };
+
+    this.notificationService.markNotificationsIsRead(id).subscribe();
+    this.cdr.markForCheck();
+  }
+
+  readAllNotification(){
+    if(this.notificationsIds.length != 0){
+      this.notificationsIds.map((id: string) => {
+        this.handleNotificationEnter(id);
+      })
     }
-    else {
-      this.searchOpenClass = '';
-    }
-    this.seachTextEmpty.emit(true);
-
-
-
   }
 
-
-
-  toggleNotificationSidebar() {
-    this.layoutService.toggleNotificationSidebar(true);
-  }
-
-  toggleSidebar() {
-    this.layoutService.toggleSidebarSmallScreen(this.hideSidebar);
-  }
 }
