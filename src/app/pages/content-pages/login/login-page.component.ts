@@ -2,14 +2,15 @@ import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { Validators, FormGroup, FormBuilder } from '@angular/forms';
 import { Router } from "@angular/router";
 import { AuthService } from 'app/shared/auth/auth.service';
-import { LoginResponse, Menu } from 'app/shared/models/login';
+import { LoginResponse } from 'app/shared/models/login';
 import { HttpResponse } from 'app/shared/models/response';
 import { NgxSpinnerService } from "ngx-spinner";
 import { Subject } from 'rxjs';
 import { jwtDecode } from "jwt-decode";
-import {  SetsCookiesData, TokenPayload } from 'app/shared/models/auth';
+import {  Products, SetsCookiesData, TokenPayload } from 'app/shared/models/auth';
 import { RouteInfo } from 'app/shared/vertical-menu/vertical-menu.metadata';
 import { AuthRequestService } from 'app/shared/auth/auth-request.service';
+import { BASE_ROLE_MENU, Menu, MENU_BY_PRODUCT_TYPE } from 'app/shared/models/menu';
 
 @Component({
   selector: 'app-login-page',
@@ -84,15 +85,14 @@ export class LoginPageComponent implements OnInit, OnDestroy{
       };
 
     this.authRequestService.signIn(dataToSend).subscribe(
-      (res: HttpResponse<LoginResponse>) => {
-        const result = res;
-        if (result.result && res.hasOwnProperty('data')) {
+      (res: LoginResponse) => {
+         if (res) {
 
           localStorage.clear();
 
           this.isLoginFailed = false;
 
-          this.loginDetailsSetup(result.data);
+          this.loginDetailsSetup(res);
 
         } else {
 
@@ -111,25 +111,19 @@ export class LoginPageComponent implements OnInit, OnDestroy{
   }
 
   private loginDetailsSetup(res: LoginResponse){
-    const { accessToken, userRoles, menu } = res;
 
-    const { sub } = jwtDecode(accessToken) as TokenPayload;
+    const { accessToken } = res;
 
+    const { userId, clientId, products, permissions, roles } = jwtDecode(accessToken) as TokenPayload;
 
-    if ( !userRoles && !menu && userRoles.length === 0) {
+    if ( !userId && !products && products.length === 0 && !permissions && !roles && !clientId) {
       this.errorMessage = 'Что-то пошло не так, просьба обратиться в техническую поддержку';
       return;
     }
 
-    if(menu?.length > 0) {
-      this.setMenu(menu);
-    } else {
-      this.router.navigate(['/']);
-    }
+    this.setMenuByProducts(this.getUserMenuByProducts(products));   
 
-
-
-    const isSetUserData = this.setUserData({ ...res, clientId: sub});
+    const isSetUserData = this.setUserData({ accessToken, clientId, userId, products, permissions, roles });
 
     if (isSetUserData) {
       this.spinner.hide();
@@ -141,7 +135,19 @@ export class LoginPageComponent implements OnInit, OnDestroy{
     }
   }
 
-  private setMenu(menuData: Menu[]): void {
+  public getUserMenuByProducts(products: Products[]): Menu[] {
+    const menu: Menu[] = [...BASE_ROLE_MENU];
+
+    for (const prod of products) {
+
+        menu.push(...MENU_BY_PRODUCT_TYPE[prod.productType]);
+
+    }
+
+    return menu.sort((a, b) => a.code - b.code);
+}
+
+  private setMenuByProducts(menuData: Menu[]): void {
     let setMenu = [];
     menuData?.forEach((menu) => {
       const route: RouteInfo = {
@@ -156,7 +162,6 @@ export class LoginPageComponent implements OnInit, OnDestroy{
       }
       setMenu.push(route);
     });
-
 
     this.authService.setMenu(setMenu);
   }
@@ -184,4 +189,6 @@ export class LoginPageComponent implements OnInit, OnDestroy{
     return this.authService.setCookies(data);
 
   }
+
 }
+

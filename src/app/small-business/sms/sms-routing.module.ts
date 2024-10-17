@@ -3,11 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { SmsSettingsComponent } from './components/settings/sms-settings.component';
 import { SmsSendComponent } from './components/send/sms-send.component';
 import { SmsStatisticComponent } from './components/statistic/sms-statistic.component';
-import { SmsMassSendingComponent } from './components/mass-sending/sms-mass-sending.component';
-import { SmsNoAnswerCallSendingComponent } from './components/no-answer-call-sending/sms-no-answer-call-sending.component';
 import { AuthGuard } from 'app/shared/auth/auth-guard.service';
-import { RoleGuard } from 'app/shared/auth/role-guard.service';
-import { Roles } from 'app/shared/models/user';
 
 
 const routes: Routes = [
@@ -16,46 +12,25 @@ const routes: Routes = [
     component: SmsSendComponent,
     data: {
       title: 'Отправка',
-      expectedRole: [Roles.sms]
 
     },
-    canActivate: [AuthGuard, RoleGuard],
+    canActivate: [AuthGuard],
   },
   {
     path: 'statistic',
     component: SmsStatisticComponent,
     data: {
       title: 'Статистика',
-      expectedRole: [Roles.sms]
     },
-    canActivate: [AuthGuard, RoleGuard],
-  },
-  {
-    path: 'mass-sending',
-    component: SmsMassSendingComponent,
-    data: {
-      title: 'Массовая рассылка',
-      expectedRole: [Roles.sms]
-    },
-    canActivate: [AuthGuard, RoleGuard],
-  },
-  {
-    path: 'no-answer-call-sending',
-    component: SmsNoAnswerCallSendingComponent,
-    data: {
-      title: 'Неотвеченные вызовы',
-      expectedRole: [Roles.sms]
-    },
-    canActivate: [AuthGuard, RoleGuard],
+    canActivate: [AuthGuard],
   },
   {
     path: 'settings',
     component: SmsSettingsComponent,
     data: {
       title: 'Настройки',
-      expectedRole: [Roles.sms]
     },
-    canActivate: [AuthGuard, RoleGuard],
+    canActivate: [AuthGuard],
   },
 ];
 

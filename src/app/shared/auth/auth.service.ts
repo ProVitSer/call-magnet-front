@@ -1,15 +1,15 @@
 import { Router } from '@angular/router';
 import { Injectable } from '@angular/core';
-import { SetsCookiesData, UpdateUserData, EncryptedUserData} from '../models/auth';
+import { SetsCookiesData, EncryptedUserData} from '../models/auth';
 import { CookieService } from 'ngx-cookie-service';
 import { EncrDecrService } from './encr-decr.service';
 import { RouteInfo } from '../vertical-menu/vertical-menu.metadata';
-import { UserData, UserRoles } from '../models/user';
+import { UserData } from '../models/user';
 const MENU_DATA = 'menu';
 
 @Injectable()
 export class AuthService {
-  private static projectKey = 'call-magnet';
+  private static projectKey = 'pac';
   constructor( 
     public router: Router, 
     private cookieService: CookieService,
@@ -19,17 +19,13 @@ export class AuthService {
 
   public setCookies(data: SetsCookiesData): boolean {
 
-    const encryptedClient: string = this.encryptedUserData(data);
+    const encryptedClient: string = this.encryptedUserData({ clientId: String(data.clientId)});
 
     const encryptedAccessToken: string = btoa(JSON.stringify(data.accessToken));
-    const encryptedRefreshToken: string = btoa(JSON.stringify(data.refreshToken));
-    const encryptedRole: string = btoa(JSON.stringify({ userRoles: data.userRoles }));
 
-    if(encryptedClient && encryptedAccessToken && encryptedRefreshToken){
+    if(encryptedClient && encryptedAccessToken){
       this.cookieService.set(AuthService.projectKey + '-' + 'AUTH-C', encryptedClient,1,'/');
       this.cookieService.set(AuthService.projectKey + '-' + 'AUTH-AC', encryptedAccessToken,1,'/');
-      this.cookieService.set(AuthService.projectKey + '-' + 'AUTH-RT', encryptedRefreshToken,1,'/');
-      this.cookieService.set(AuthService.projectKey + '-' + 'AUTH-R', encryptedRole,1,'/');
 
       return true;
     }
@@ -37,12 +33,11 @@ export class AuthService {
   }
 
   private encryptedUserData(data: EncryptedUserData){
+
     const client = {
       clientId: data.clientId,
-      firstname: data.firstname,
-      lastname: data.lastname,
-      company: data.company,
     }
+
     return btoa(unescape(encodeURIComponent(JSON.stringify(client))));
   }
 
@@ -80,44 +75,47 @@ export class AuthService {
     return null;
   }
 
-  public updateUserData(data: UpdateUserData){
-    const user = this.getUser();
-    if(user == null) return;
+//   public updateUserData(data: UpdateUserData){
+//     const user = this.getUser();
+//     if(user == null) return;
 
-    this.cookieService.delete(`${AuthService.projectKey}-AUTH-C`, '/');
+//     this.cookieService.delete(`${AuthService.projectKey}-AUTH-C`, '/');
 
-    const encryptedClient: string = this.encryptedUserData({
-      clientId: user.clientId,
-      firstname: data.firstname,
-      lastname: data.lastname,
-      company: data.company
-    });
+//     const encryptedClient: string = this.encryptedUserData({
+//       clientId: String(user.clientId),
+//       firstname: data.firstname,
+//       lastname: data.lastname,
+//       company: data.company
+//     });
 
-    this.cookieService.set(AuthService.projectKey + '-' + 'AUTH-C', encryptedClient,1,'/');
+//     this.cookieService.set(AuthService.projectKey + '-' + 'AUTH-C', encryptedClient,1,'/');
 
-  }
+//   }
 
-  public getUserRole(): string[] {
-    const data = atob(this.cookieService.get(`${AuthService.projectKey}-AUTH-R`));
-    if (data !== "") {
-      const roles: UserRoles = JSON.parse(data);
-      if (!roles.userRoles) {
-        return null;
-      }
-      return roles.userRoles;
-    }
-    return null;
-  }
+//   public getUserRole(): string[] {
+//     const data = atob(this.cookieService.get(`${AuthService.projectKey}-AUTH-R`));
+//     if (data !== "") {
+//       const roles: UserRoles = JSON.parse(data);
+//       if (!roles.userRoles) {
+//         return null;
+//       }
+//       return roles.userRoles;
+//     }
+//     return null;
+//   }
 
   public setMenu(menu: RouteInfo[]): void {
+
     if (menu) {
       localStorage.setItem(MENU_DATA, this.EncrDecr.encryptUsingAES256(menu));
     }
   }
 
   public getMenu(): RouteInfo[] {
+
     if(localStorage.getItem(MENU_DATA)){
       const DECRYPT_DATA = this.EncrDecr.decryptUsingAES256(localStorage.getItem(MENU_DATA));
+
       const MENU = JSON.parse(DECRYPT_DATA);
 
       if (MENU) {
@@ -142,6 +140,4 @@ export class AuthService {
     localStorage.clear();
     this.router.navigate(['/login']);
   }
-
-
 }

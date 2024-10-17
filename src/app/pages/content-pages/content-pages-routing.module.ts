@@ -4,7 +4,6 @@ import { Routes, RouterModule } from '@angular/router';
 import { ErrorPageComponent } from "./error/error-page.component";
 import { ForgotPasswordPageComponent } from "./forgot-password/forgot-password-page.component";
 import { LoginPageComponent } from "./login/login-page.component";
-import { RegisterPageComponent } from "./register/register-page.component";
 import { VerifyPageComponent } from './verify/verify-page.component';
 import { ResetPasswordPageComponent } from './reset-password/reset-password-page.component';
 
@@ -33,13 +32,6 @@ const routes: Routes = [
         component: LoginPageComponent,
         data: {
           title: 'Авторизация'
-        }
-      },
-      {
-        path: 'register',
-        component: RegisterPageComponent,
-        data: {
-          title: 'Регистрация'
         }
       },
       {

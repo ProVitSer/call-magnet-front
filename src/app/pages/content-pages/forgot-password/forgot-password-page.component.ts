@@ -70,7 +70,7 @@ export class ForgotPasswordPageComponent implements OnInit {
         this.router.navigate(['login'], { relativeTo: this.route.parent });
     }
 
-    onRegister() {
-        this.router.navigate(['register'], { relativeTo: this.route.parent });
-    }
+    // onRegister() {
+    //     this.router.navigate(['register'], { relativeTo: this.route.parent });
+    // }
 }

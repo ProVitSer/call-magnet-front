@@ -10,8 +10,8 @@
                 <img src="assets/img/gallery/login.png" alt="" class="img-fluid" width="300" height="230">
               </div>
               <div class="col-lg-6 col-12 px-4 py-3">
-                <h4 class="mb-2 card-title">Вход в платформу</h4>
-                <p>С возвращением, авторизуйтесь для входа на платформу</p>
+                <h4 class="mb-2 card-title text-center">Вход в платформу</h4>
+                <p class=" text-center">С возвращением, авторизуйтесь для входа на платформу</p>
 
                 <ngb-alert type="light-danger" class="mb-2" *ngIf="isLoginFailed && isAlertVisible" (click)="closeAlert()">
                   <p class="mb-0">{{ errorMessage }}</p>
@@ -56,8 +56,8 @@
 
                   
                   <div class="d-flex justify-content-between flex-sm-row flex-column">
-                    <a [routerLink]="['/register']" class="btn bg-light-primary mb-2 mb-sm-0">Регистрация</a>
-                    <a class="btn btn-primary" (click)="onSubmit()">Войти в систему</a>
+                    <!-- <a  class="btn bg-light-primary mb-2 mb-sm-0">Регистрация</a> -->
+                    <a class="btn btn-block btn-primary mt-2" (click)="onSubmit()">Войти в систему</a>
                   </div>
                 </form>
                 <hr>

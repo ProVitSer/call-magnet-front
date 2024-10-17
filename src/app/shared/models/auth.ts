@@ -1,16 +1,22 @@
+import { ProductType } from "./license";
 import { LoginResponse } from "./login";
+import { Permission, Role } from "./user";
+
 
 export interface TokenPayload {
-    sub: string;
-    iat: number;
-    exp: number;
+    userId: number;
+    clientId: number;
+    permissions: Permission[];
+    roles: Role[];
+    products: Products[];
 }
 
-export interface SetsCookiesData extends LoginResponse {
-    accessToken: string;
-    refreshToken: string;
-    clientId: string;
+export interface Products {
+    id: number;
+    productType: ProductType;
 }
+
+export interface SetsCookiesData extends LoginResponse, TokenPayload {}
 
 export interface RefreshTokenResponse {
     accessToken: string;
@@ -51,13 +57,4 @@ export interface ResetPasswordData {
 
 export interface EncryptedUserData {
     clientId: string;
-    firstname: string;
-    lastname: string;
-    company: string;
-}
-
-export interface UpdateUserData {
-    firstname: string;
-    lastname: string;
-    company: string;
 }

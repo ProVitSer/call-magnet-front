@@ -2,11 +2,10 @@ import { ChangeDetectorRef, Component, OnInit, ViewEncapsulation } from '@angula
 import { UntypedFormGroup, UntypedFormControl, Validators, UntypedFormBuilder } from '@angular/forms';
 import { UserProfileService } from './services/user-profile.service';
 import { MustMatch } from '../../../shared/directives/must-match.validator';
-import { ChangePasswordData, ClientInfoResponse, UpdateClientInfoData, UpdateClientInfoResponse } from './models/client-info';
+import { ChangePasswordData, UpdateClientInfoResponse } from './models/client-info';
 import { HttpResponse } from 'app/shared/models/response';
 import { SweetalertService } from 'app/shared/services/sweetalert.service';
 import { AuthService } from 'app/shared/auth/auth.service';
-import { AVALIABLE_ROLES, Roles, USER_ROLES_DESCRIPTION } from 'app/shared/models/user';
 
 @Component({
   selector: 'app-users-profile',
@@ -29,7 +28,7 @@ export class UsersProfileComponent implements OnInit {
 
   ngOnInit(): void {
     this.initGeneralForm();
-    this.getClientInfo();
+    // this.getClientInfo();
     this.initChangePassFrom();
 
   }
@@ -69,49 +68,49 @@ export class UsersProfileComponent implements OnInit {
     });
   }
 
-  private getClientInfo(){
-    this.userProfileService.getClientInfo().subscribe(
-      (res: HttpResponse<ClientInfoResponse>) => {
-        const result = res;
-        if (result.result && res.hasOwnProperty('data')) {
-          this.setClientInfoToFrom(result.data);
-        }
-      },
-      (e) => {
-        SweetalertService.errorAlert('Ошибка получение данных по аккаунту', e)
-    })
-  }
+//   private getClientInfo(){
+//     this.userProfileService.getClientInfo().subscribe(
+//       (res: HttpResponse<ClientInfoResponse>) => {
+//         const result = res;
+//         if (result.result && res.hasOwnProperty('data')) {
+//           this.setClientInfoToFrom(result.data);
+//         }
+//       },
+//       (e) => {
+//         SweetalertService.errorAlert('Ошибка получение данных по аккаунту', e)
+//     })
+//   }
 
-  private setClientInfoToFrom(data: ClientInfoResponse){
-    this.email = data.email;
-    this.generalForm.patchValue({
-      firstname: data.firstname,
-      lastname: data.lastname,
-      phoneNumber: data.phoneNumber,
-      company: data.company,
-    });
+//   private setClientInfoToFrom(data: ClientInfoResponse){
+//     this.email = data.email;
+//     this.generalForm.patchValue({
+//       firstname: data.firstname,
+//       lastname: data.lastname,
+//       phoneNumber: data.phoneNumber,
+//       company: data.company,
+//     });
 
-    this.setAvailableFunctionality(data);
+//     this.setAvailableFunctionality(data);
 
 
-    this.cdr.markForCheck();
-  }
+//     this.cdr.markForCheck();
+//   }
 
-  private setAvailableFunctionality(data: ClientInfoResponse){
-    const avaliableFunc = [];
-    const unavaliableFunc = [];
-    AVALIABLE_ROLES.map((r: Roles) => {
-        if(data.roles.includes(r)){
-          avaliableFunc.push({ label: USER_ROLES_DESCRIPTION[r], class: 'btn btn-success mr-1 mb-1' })
-        } else {
-          unavaliableFunc.push({ label: USER_ROLES_DESCRIPTION[r], class: 'btn btn-outline-custom-light mr-1 mb-1'})
+//   private setAvailableFunctionality(data: ClientInfoResponse){
+//     const avaliableFunc = [];
+//     const unavaliableFunc = [];
+//     AVALIABLE_ROLES.map((r: Roles) => {
+//         if(data.roles.includes(r)){
+//           avaliableFunc.push({ label: USER_ROLES_DESCRIPTION[r], class: 'btn btn-success mr-1 mb-1' })
+//         } else {
+//           unavaliableFunc.push({ label: USER_ROLES_DESCRIPTION[r], class: 'btn btn-outline-custom-light mr-1 mb-1'})
 
-        }
-    });
+//         }
+//     });
 
-    this.buttons.push(...avaliableFunc, ...unavaliableFunc)
+//     this.buttons.push(...avaliableFunc, ...unavaliableFunc)
 
-  }
+//   }
 
 
   onGeneralFormSubmit() {
@@ -128,7 +127,7 @@ export class UsersProfileComponent implements OnInit {
 
     };
 
-    return this.updateClientInfo(dataToSend);
+    // return this.updateClientInfo(dataToSend);
   }
 
 
@@ -146,22 +145,22 @@ export class UsersProfileComponent implements OnInit {
     return this.changePassword({ oldPassword: this.changePasswordForm.value.oldPassword, newPassword: this.changePasswordForm.value.newPassword });
   }
 
-  private updateClientInfo(data: UpdateClientInfoData){
-    this.userProfileService.updateClientInfo(data).subscribe(
-      (res: HttpResponse<UpdateClientInfoResponse>) => {
-        const result = res;
-        if (result.result && res.hasOwnProperty('data')) {
+//   private updateClientInfo(data: UpdateClientInfoData){
+//     this.userProfileService.updateClientInfo(data).subscribe(
+//       (res: HttpResponse<UpdateClientInfoResponse>) => {
+//         const result = res;
+//         if (result.result && res.hasOwnProperty('data')) {
           
-          this.authService.updateUserData(data);
+//           this.authService.updateUserData(data);
 
-          SweetalertService.successAlertWithFunc('', 'Данные обновлены успешно', this.reloadPage);
-          ;
-        }
-      },
-      (e) => {
-        SweetalertService.errorAlert('Ошибка обновление данных', e)
-    })
-  }
+//           SweetalertService.successAlertWithFunc('', 'Данные обновлены успешно', this.reloadPage);
+//           ;
+//         }
+//       },
+//       (e) => {
+//         SweetalertService.errorAlert('Ошибка обновление данных', e)
+//     })
+//   }
 
   private changePassword(data: ChangePasswordData){
     this.userProfileService.changePassword(data).subscribe(

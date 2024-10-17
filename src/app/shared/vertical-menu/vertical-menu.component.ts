@@ -85,10 +85,12 @@ export class VerticalMenuComponent implements OnInit, AfterViewInit, OnDestroy {
 
     if (this.config.layout.menuPosition === "Top") { // Horizontal Menu
       if (this.innerWidth < 1200) { // Screen size < 1200
+
         this.menuItems = this.auth.getMenu();
       }
     }
     else if (this.config.layout.menuPosition === "Side") { // Vertical Menu{
+
       this.menuItems = this.auth.getMenu();
     }
 

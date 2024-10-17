@@ -8,26 +8,22 @@ import { TranslateHttpLoader } from "@ngx-translate/http-loader";
 import { StoreModule } from "@ngrx/store";
 import { DragulaService } from "ng2-dragula";
 import { NgxSpinnerModule } from 'ngx-spinner';
-
 import {
   PerfectScrollbarModule,
   PERFECT_SCROLLBAR_CONFIG,
   PerfectScrollbarConfigInterface
 } from 'ngx-perfect-scrollbar';
-
 import { AppRoutingModule } from "./app-routing.module";
 import { SharedModule } from "./shared/shared.module";
 import * as fromApp from './store/app.reducer';
 import { AppComponent } from "./app.component";
 import { ContentLayoutComponent } from "./layouts/content/content-layout.component";
 import { FullLayoutComponent } from "./layouts/full/full-layout.component";
-
 import { AuthService } from "./shared/auth/auth.service";
 import { AuthGuard } from "./shared/auth/auth-guard.service";
 import { WINDOW_PROVIDERS } from './shared/services/window.service';
 import { JwtInterceptor } from "./shared/auth/jwt-interceptor";
 import { CookieService } from 'ngx-cookie-service';
-import { RoleGuard } from "./shared/auth/role-guard.service";
 import { JWTTokenService } from "./shared/auth/jwt-token.service";
 import { AuthRequestService } from "./shared/auth/auth-request.service";
 
@@ -77,7 +73,6 @@ export function createTranslateLoader(handler: HttpBackend) {
     { provide: PERFECT_SCROLLBAR_CONFIG, useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG },
     WINDOW_PROVIDERS,
     AuthGuard,
-    RoleGuard,
     JWTTokenService,
     {
       provide: HTTP_INTERCEPTORS,

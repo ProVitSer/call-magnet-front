@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { environment } from 'environments/environment';
-import { ChangePasswordData, ChangePasswordResponse, ClientInfoResponse, UpdateClientInfoData, UpdateClientInfoResponse } from "../models/client-info";
+import { ChangePasswordData, ChangePasswordResponse, UpdateClientInfoData, UpdateClientInfoResponse } from "../models/client-info";
 import { HttpResponse } from "app/shared/models/response";
 import { Router } from "@angular/router";
 import { HttpClient } from "@angular/common/http";
@@ -20,11 +20,11 @@ export class UserProfileService {
    ) {}
 
 
-    public getClientInfo(): Observable<HttpResponse<ClientInfoResponse>> {
-      return this.http
-        .get<HttpResponse<ClientInfoResponse>>(`${this.userProfile_url}/client-info`)
-        .pipe(catchError(this.errorHandler));
-    }
+    // public getClientInfo(): Observable<HttpResponse<ClientInfoResponse>> {
+    //   return this.http
+    //     .get<HttpResponse<ClientInfoResponse>>(`${this.userProfile_url}/client-info`)
+    //     .pipe(catchError(this.errorHandler));
+    // }
 
     public updateClientInfo(data: UpdateClientInfoData): Observable<HttpResponse<UpdateClientInfoResponse>> {
       return this.http

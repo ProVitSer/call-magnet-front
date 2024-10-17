@@ -1,4 +1,4 @@
-import { Injectable, AfterViewInit } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { jwtDecode } from "jwt-decode";
 import { Router } from '@angular/router';
 import { AuthService } from './auth.service';
