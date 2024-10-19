@@ -3,14 +3,14 @@ import { Validators, FormGroup, FormBuilder } from '@angular/forms';
 import { Router } from "@angular/router";
 import { AuthService } from 'app/shared/auth/auth.service';
 import { LoginResponse } from 'app/shared/models/login';
-import { HttpResponse } from 'app/shared/models/response';
 import { NgxSpinnerService } from "ngx-spinner";
 import { Subject } from 'rxjs';
 import { jwtDecode } from "jwt-decode";
-import {  Products, SetsCookiesData, TokenPayload } from 'app/shared/models/auth';
+import { SetsCookiesData, TokenPayload } from 'app/shared/models/auth';
 import { RouteInfo } from 'app/shared/vertical-menu/vertical-menu.metadata';
 import { AuthRequestService } from 'app/shared/auth/auth-request.service';
 import { BASE_ROLE_MENU, Menu, MENU_BY_PRODUCT_TYPE } from 'app/shared/models/menu';
+import { Products } from 'app/shared/models/license';
 
 @Component({
   selector: 'app-login-page',
@@ -114,7 +114,7 @@ export class LoginPageComponent implements OnInit, OnDestroy{
 
     const { accessToken } = res;
 
-    const { userId, clientId, products, permissions, roles } = jwtDecode(accessToken) as TokenPayload;
+    const { userId, clientId, products, permissions, roles, firstname, lastname, company } = jwtDecode(accessToken) as TokenPayload;
 
     if ( !userId && !products && products.length === 0 && !permissions && !roles && !clientId) {
       this.errorMessage = 'Что-то пошло не так, просьба обратиться в техническую поддержку';
@@ -123,7 +123,7 @@ export class LoginPageComponent implements OnInit, OnDestroy{
 
     this.setMenuByProducts(this.getUserMenuByProducts(products));   
 
-    const isSetUserData = this.setUserData({ accessToken, clientId, userId, products, permissions, roles });
+    const isSetUserData = this.setUserData({ accessToken, clientId, userId, products, permissions, roles, firstname, lastname, company });
 
     if (isSetUserData) {
       this.spinner.hide();

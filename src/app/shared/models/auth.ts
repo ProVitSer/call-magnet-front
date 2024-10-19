@@ -1,19 +1,16 @@
-import { ProductType } from "./license";
+import { Products, ProductType } from "./license";
 import { LoginResponse } from "./login";
 import { Permission, Role } from "./user";
 
-
 export interface TokenPayload {
     userId: number;
+    firstname: string;
+    lastname: string;
+    company: string;
     clientId: number;
     permissions: Permission[];
     roles: Role[];
     products: Products[];
-}
-
-export interface Products {
-    id: number;
-    productType: ProductType;
 }
 
 export interface SetsCookiesData extends LoginResponse, TokenPayload {}
@@ -40,21 +37,10 @@ export interface RegisterUserResponse extends BaseAuthResponse{};
 
 export interface VerifyUserResponse extends BaseAuthResponse{}
 
-export interface ForogtPasswordData {
-    email: string;
-}
-
-export interface ForogtPasswordResponse extends BaseAuthResponse{}
-
-export interface VerificationCodeResponse {
-    isValid: boolean;
-}
-
-export interface ResetPasswordData {
-    verificationCode: string;
-    password: string;
-}
-
 export interface EncryptedUserData {
-    clientId: string;
+    clientId: number;
+    userId: number;
+    firstname: string;
+    lastname: string;
+    company: string;
 }

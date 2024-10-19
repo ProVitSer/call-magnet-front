@@ -1,11 +1,9 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from "@angular/router";
-import { AuthRequestService } from 'app/shared/auth/auth-request.service';
-import { AuthService } from 'app/shared/auth/auth.service';
+import { UserProfileService } from 'app/pages/full-pages/users-profile/services/user-profile.service';
 import { MustMatch } from 'app/shared/directives/must-match.validator';
 import { BaseAuthResponse } from 'app/shared/models/auth';
-import { HttpResponse } from 'app/shared/models/response';
 import { SweetalertService } from 'app/shared/services/sweetalert.service';
 import { UtilService } from 'app/shared/services/util.service';
 import { NgxSpinnerService } from "ngx-spinner";
@@ -28,7 +26,7 @@ export class ResetPasswordPageComponent implements OnInit {
   constructor(
     private fb: UntypedFormBuilder,
     private router: Router, 
-    private authRequestService: AuthRequestService,
+    private userProfileService: UserProfileService,
     private spinner: NgxSpinnerService,
     private route: ActivatedRoute,
     ) {
@@ -47,9 +45,13 @@ export class ResetPasswordPageComponent implements OnInit {
   async ngOnInit(): Promise<void> {
 
     this.route.params.subscribe(params => {
+
       this.verificationCode = params['id'];
+
       if(!UtilService.isUUIDv4(this.verificationCode)) {
+
         SweetalertService.errorAlert('','Некорректная ссылка');
+
         return setTimeout(() => {
           this.router.navigate(['/error']);
         }, this.redirectTimeout);
@@ -78,16 +80,21 @@ export class ResetPasswordPageComponent implements OnInit {
       return;
     }
 
-    this.authRequestService.resetPassword({ verificationCode: this.verificationCode, password: this.resetPasswordForm.value.password}).subscribe(
-      (res: HttpResponse<BaseAuthResponse>) => {
-        const result = res;
-        if (result.result && res.hasOwnProperty('data')) {
+    this.userProfileService.resetPassword({ verificationCode: this.verificationCode, password: this.resetPasswordForm.value.password }).subscribe(
+      (res: BaseAuthResponse) => {
+
+        if (res) {
+
           SweetalertService.autoCloseSuccessAlert('', 'Сейчас вы будите перенаправлены на страницу автовризации', this.redirectTimeout);
+
           setTimeout(() => {
             this.router.navigate(['/login']);
           }, this.redirectTimeout);
+
         } else {
-          SweetalertService.errorAlert('', 'Что-то пошло не так, просьба обратиться в техническую поддержку')
+
+          SweetalertService.errorAlert('', 'Что-то пошло не так, просьба обратиться в техническую поддержку');
+
         }
       },
       (e) => {
@@ -99,27 +106,31 @@ export class ResetPasswordPageComponent implements OnInit {
   }
 
 
-  private async checkVerificationCode(id: string): Promise<void> {
+  private async checkVerificationCode(verificationCode: string): Promise<void> {
     try {
-      const result = await this.authRequestService.checkVerificationCode(id).toPromise();
-      if (result.result && result.hasOwnProperty('data')) {
+
+      const result = await this.userProfileService.checkVerificationCode(verificationCode).toPromise();
+
+      if (!result.isValid) {
+
         this.spinner.hide();
-        if(!result.data.isValid){
+
+        if(!result){
+
           SweetalertService.errorAlert('', 'Ссылка на востановление пароля не корректна или истек ее срок');
+
           setTimeout(() => {
             this.router.navigate(['/error']);
           }, this.redirectTimeout);
-          return;
-        };
 
-        this.isButtonResetDisabled = !result.data.isValid;
-        return;
+          return;
+
+        };
       }
-      this.spinner.hide();
-      SweetalertService.errorAlert('', 'Что-то пошло не так, просьба обратиться в техническую поддержку')
+
     } catch(e){
-      this.spinner.hide();
-      SweetalertService.errorAlert('', e);
+        this.spinner.hide();
+        SweetalertService.errorAlert('', 'Что-то пошло не так, просьба обратиться в техническую поддержку')
     }
   }
 

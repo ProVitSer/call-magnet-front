@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
 import { HttpInterceptor, HttpHandler, HttpRequest } from '@angular/common/http';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, throwError } from 'rxjs';
 import { HttpEvent } from '@angular/common/http';
 import { AuthService } from './auth.service';
 import { ToastrService } from 'ngx-toastr';
 import { JWTTokenService } from './jwt-token.service';
 import { AuthRequestService } from './auth-request.service';
+import { catchError } from 'rxjs/operators';
 
 
 @Injectable()
@@ -27,32 +28,24 @@ export class JwtInterceptor implements HttpInterceptor {
 
     const tokenExp = this.jwtTokenService.isTokenExpired();
 
-    return next?.handle(authReq).pipe()
+    if (authReq.url.includes('/refresh')){}
+    else {
+      if(token){
+        authReq = this.addTokenHeader(req, token);
+      }
+    }
 
+    if (tokenExp) {
+        this.toastrService.error('Сессия истекла, пожалуйста, авторизуйтесь.');
+        this.authService.logout();
+    }
 
-    // if (authReq.url.includes('/refresh')){}
-    // else {
-    //   if(token){
-    //     authReq = this.addTokenHeader(req, token);
-    //   }
-    // }
+    return next?.handle(authReq).pipe(
+        catchError((error) => {
+            return throwError(error);
+        })
+    )
 
-    // return next?.handle(authReq).pipe(
-    //   catchError((error) => {
-    //     // if (error instanceof HttpErrorResponse && error.url.includes('/refresh') && error.status !== 200) {
-    //     //   this.toastrService.error('Сессия истекла, пожалуйста, авторизуйтесь.');
-    //     //   this.authService.logout();
-    //     // }
-
-    //     if (tokenExp) {
-    //       return this.handle401Error(authReq, next);
-    //     }
-    //     if (error instanceof HttpErrorResponse && !authReq.url.includes('/login') && error.status === 401) {
-    //       return this.handle401Error(authReq, next);
-    //     }
-    //     return throwError(error);
-    //   })
-    // );
   }
  
 

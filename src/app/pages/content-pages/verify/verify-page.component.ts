@@ -2,7 +2,6 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from "@angular/router";
 import { AuthRequestService } from 'app/shared/auth/auth-request.service';
 import { VerifyUserResponse } from 'app/shared/models/auth';
-import { HttpResponse } from 'app/shared/models/response';
 import { SweetalertService } from 'app/shared/services/sweetalert.service';
 import { UtilService } from 'app/shared/services/util.service';
 import { NgxSpinnerService } from "ngx-spinner";
@@ -28,10 +27,15 @@ export class VerifyPageComponent implements OnInit, OnDestroy{
   }
 
   ngOnInit(): void {
+
     this.route.params.subscribe(params => {
+        
       this.verificationCode = params['id'];
+
       if(!UtilService.isUUIDv4(this.verificationCode)) {
-        return SweetalertService.errorAlert('','Некорректная ссылка')
+
+        return SweetalertService.errorAlert('','Некорректная ссылка');
+
       }
 
       this.spinner.show(undefined,
@@ -44,6 +48,7 @@ export class VerifyPageComponent implements OnInit, OnDestroy{
         });
                 
       this.verifyUser(this.verificationCode);
+
     });
   }
 
@@ -52,24 +57,38 @@ export class VerifyPageComponent implements OnInit, OnDestroy{
     this.ngDestroy$.complete();
   }
 
-  private verifyUser(verifyId: string){
-    this.authRequestService.verify(verifyId).subscribe(
-      (res: HttpResponse<VerifyUserResponse>) => {
+  private verifyUser(verificationCode: string){
+
+    this.authRequestService.verify(verificationCode).subscribe(
+
+      (res: VerifyUserResponse) => {
+
         const result = res;
-        if (result.result && res.hasOwnProperty('data')) {
+
+        if (result) {
+
           this.spinner.hide();
+
           SweetalertService.autoCloseSuccessAlert('', 'Сейчас вы будите перенаправлены на страницу автовризации', this.redirectTimeout);
+
           setTimeout(() => {
             this.router.navigate(['/login']);
           }, this.redirectTimeout);
+
         } else {
+
           this.spinner.hide();
-          SweetalertService.errorAlert('Ошибка верификации', 'Что-то пошло не так, просьба обратиться в техническую поддержку')
+
+          SweetalertService.errorAlert('Ошибка верификации', 'Что-то пошло не так, просьба обратиться в техническую поддержку');
+
         }
       },
       (e) => {
+
         this.spinner.hide();
+
         SweetalertService.errorAlert('Ошибка верификации', e);
+        
         setTimeout(() => {
           this.router.navigate(['/error']);
         }, this.redirectTimeout);

@@ -29,7 +29,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
     ErrorPageComponent,
     ForgotPasswordPageComponent,
     LoginPageComponent,
-    VerifyPageComponent,
+    // VerifyPageComponent,
     ResetPasswordPageComponent,
     
   ]

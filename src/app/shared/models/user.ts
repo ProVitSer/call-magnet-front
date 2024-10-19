@@ -1,5 +1,6 @@
 export interface UserData {
     clientId: number;
+    userId: number;
     firstname: string;
     lastname: string;
     company: string;

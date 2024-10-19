@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, UntypedFormBuilder, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from "@angular/router";
-import { AuthRequestService } from 'app/shared/auth/auth-request.service';
-import { ForogtPasswordResponse } from 'app/shared/models/auth';
-import { HttpResponse } from 'app/shared/models/response';
+import { BaseUsersResponse } from 'app/pages/full-pages/users-profile/models/user-info';
+import { UserProfileService } from 'app/pages/full-pages/users-profile/services/user-profile.service';
 import { SweetalertService } from 'app/shared/services/sweetalert.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 
@@ -16,7 +15,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 export class ForgotPasswordPageComponent implements OnInit {
     forogtPasswordForm: FormGroup;
     forogtPasswordSubmitted = false;
-    constructor(private router: Router, private route: ActivatedRoute, private fb: UntypedFormBuilder, private spinner: NgxSpinnerService, private authRequestService: AuthRequestService) { }
+    constructor(private router: Router, private route: ActivatedRoute, private fb: UntypedFormBuilder, private spinner: NgxSpinnerService, private userProfileService: UserProfileService) { }
 
     ngOnInit(): void {
         this.forogtPasswordForm = this.fb.group({
@@ -49,10 +48,10 @@ export class ForgotPasswordPageComponent implements OnInit {
     }
 
     private forogtPassword(email: string){
-        this.authRequestService.forogtPassword({ email }).subscribe(      
-            (res: HttpResponse<ForogtPasswordResponse>) => {
+        this.userProfileService.forogtPassword({ email }).subscribe(      
+            (res: BaseUsersResponse) => {
             const result = res;
-            if (result.result && res.hasOwnProperty('data')) {
+            if (result) {
               this.spinner.hide();
               return SweetalertService.successAlert('', 'Вам на почту будет отправлено пиьсмо со ссылкой на восстановление пароля')
             }

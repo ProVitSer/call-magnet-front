@@ -2,10 +2,11 @@ import { ChangeDetectorRef, Component, OnInit, ViewEncapsulation } from '@angula
 import { UntypedFormGroup, UntypedFormControl, Validators, UntypedFormBuilder } from '@angular/forms';
 import { UserProfileService } from './services/user-profile.service';
 import { MustMatch } from '../../../shared/directives/must-match.validator';
-import { ChangePasswordData, UpdateClientInfoResponse } from './models/client-info';
-import { HttpResponse } from 'app/shared/models/response';
+import { ChangePasswordData, UpdateClientInfoData, UpdateClientInfoResponse, UserInfoResponse } from './models/user-info';
 import { SweetalertService } from 'app/shared/services/sweetalert.service';
 import { AuthService } from 'app/shared/auth/auth.service';
+import { AVALIABLE_PRODUCT, LICENSE_PRODUCT_DESCRIPTION, ProductType } from 'app/shared/models/license';
+import { TokenPayload } from 'app/shared/models/auth';
 
 @Component({
   selector: 'app-users-profile',
@@ -22,13 +23,19 @@ export class UsersProfileComponent implements OnInit {
   changePasswordForm: UntypedFormGroup;
   email = ''
   buttons = [];
+  company = '';
 
-  constructor(private fb: UntypedFormBuilder, private cdr: ChangeDetectorRef,private readonly userProfileService: UserProfileService, private authService: AuthService) { }
+  constructor(
+    private fb: UntypedFormBuilder, 
+    private cdr: ChangeDetectorRef,
+    private readonly userProfileService: UserProfileService, 
+    private authService: AuthService
+    ) { }
 
 
   ngOnInit(): void {
     this.initGeneralForm();
-    // this.getClientInfo();
+    this.getUserInfo();
     this.initChangePassFrom();
 
   }
@@ -54,7 +61,6 @@ export class UsersProfileComponent implements OnInit {
       firstname: new UntypedFormControl('', [Validators.required]),
       lastname: new UntypedFormControl('', [Validators.required]),
       phoneNumber: new UntypedFormControl('', [Validators.pattern(/^((\+7|7|8)+([0-9]){10})$/)]),
-      company: new UntypedFormControl('', [Validators.required])
     });
   }
 
@@ -68,108 +74,131 @@ export class UsersProfileComponent implements OnInit {
     });
   }
 
-//   private getClientInfo(){
-//     this.userProfileService.getClientInfo().subscribe(
-//       (res: HttpResponse<ClientInfoResponse>) => {
-//         const result = res;
-//         if (result.result && res.hasOwnProperty('data')) {
-//           this.setClientInfoToFrom(result.data);
-//         }
-//       },
-//       (e) => {
-//         SweetalertService.errorAlert('Ошибка получение данных по аккаунту', e)
-//     })
-//   }
+  private getUserInfo(){
 
-//   private setClientInfoToFrom(data: ClientInfoResponse){
-//     this.email = data.email;
-//     this.generalForm.patchValue({
-//       firstname: data.firstname,
-//       lastname: data.lastname,
-//       phoneNumber: data.phoneNumber,
-//       company: data.company,
-//     });
+    const userInfo = this.authService.getUser();
 
-//     this.setAvailableFunctionality(data);
+    this.userProfileService.getUserInfo(userInfo.userId).subscribe(
+      (res: UserInfoResponse) => {
 
+        if (res) {
 
-//     this.cdr.markForCheck();
-//   }
+          this.setUserInfoToFrom(res);
 
-//   private setAvailableFunctionality(data: ClientInfoResponse){
-//     const avaliableFunc = [];
-//     const unavaliableFunc = [];
-//     AVALIABLE_ROLES.map((r: Roles) => {
-//         if(data.roles.includes(r)){
-//           avaliableFunc.push({ label: USER_ROLES_DESCRIPTION[r], class: 'btn btn-success mr-1 mb-1' })
-//         } else {
-//           unavaliableFunc.push({ label: USER_ROLES_DESCRIPTION[r], class: 'btn btn-outline-custom-light mr-1 mb-1'})
+        }
+      },
+      (e) => {
+        SweetalertService.errorAlert('Ошибка получение данных по аккаунту', e)
+    })
+  }
 
-//         }
-//     });
+  private setUserInfoToFrom(data: UserInfoResponse){
 
-//     this.buttons.push(...avaliableFunc, ...unavaliableFunc)
+    this.email = data.email;
+    this.company = data.company,
 
-//   }
+    this.generalForm.patchValue({
+      firstname: data.firstname,
+      lastname: data.lastname,
+      phoneNumber: data.phoneNumber,
+    });
+
+    this.setAvailableFunctionality(data);
+
+    this.cdr.markForCheck();
+  }
+
+  private setAvailableFunctionality(data: UserInfoResponse){
+
+    const avaliableFunc = [];
+
+    const unavaliableFunc = [];
+
+    AVALIABLE_PRODUCT.map((r: ProductType) => {
+
+        if(data.products.includes(r)){
+          avaliableFunc.push({ label: LICENSE_PRODUCT_DESCRIPTION[r], class: 'btn btn-success mr-1 mb-1' })
+        } else {
+          unavaliableFunc.push({ label: LICENSE_PRODUCT_DESCRIPTION[r], class: 'btn btn-outline-custom-light mr-1 mb-1'})
+
+        }
+    });
+
+    this.buttons.push(...avaliableFunc, ...unavaliableFunc)
+
+  }
 
 
   onGeneralFormSubmit() {
     this.generalFormSubmitted = true;
+
     if (this.generalForm.invalid) {
       return;
     }
+
+    const tokenData = this.authService.getTokenData();
 
     const dataToSend = {
       firstname: this.generalForm.value.firstname,
       lastname: this.generalForm.value.lastname,
       phoneNumber: this.generalForm.value.phoneNumber,
       company: this.generalForm.value.company,
+      userId: tokenData.userId,
 
     };
 
-    // return this.updateClientInfo(dataToSend);
+
+    this.updateClientInfo(dataToSend, tokenData);
+
   }
-
-
 
   onChangePasswordFormSubmit() {
     this.changePasswordFormSubmitted = true;
+
     if (this.changePasswordForm.invalid) {
-      return;
+    
+        return;
+    
     }
 
     if(this.changePasswordForm.value.oldPassword === this.changePasswordForm.value.newPassword){
       return SweetalertService.errorAlert('Ошибка обновление пароля', 'Действующий и новый пароль должны отличаться!')
     }
 
-    return this.changePassword({ oldPassword: this.changePasswordForm.value.oldPassword, newPassword: this.changePasswordForm.value.newPassword });
+    const userInfo = this.authService.getUser();
+
+    return this.changePassword({ userId: userInfo.userId ,oldPassword: this.changePasswordForm.value.oldPassword, newPassword: this.changePasswordForm.value.newPassword });
   }
 
-//   private updateClientInfo(data: UpdateClientInfoData){
-//     this.userProfileService.updateClientInfo(data).subscribe(
-//       (res: HttpResponse<UpdateClientInfoResponse>) => {
-//         const result = res;
-//         if (result.result && res.hasOwnProperty('data')) {
-          
-//           this.authService.updateUserData(data);
+  private updateClientInfo(data: UpdateClientInfoData, tokenData: TokenPayload){
 
-//           SweetalertService.successAlertWithFunc('', 'Данные обновлены успешно', this.reloadPage);
-//           ;
-//         }
-//       },
-//       (e) => {
-//         SweetalertService.errorAlert('Ошибка обновление данных', e)
-//     })
-//   }
+    this.userProfileService.updateUserInfo({ ... data }).subscribe(
+      (res: UpdateClientInfoResponse) => {
+
+        if (res) {
+
+
+            this.authService.updateUserData({ 
+                clientId: tokenData.clientId, 
+                userId: tokenData.userId,
+                firstname: data.firstname,
+                lastname: data.lastname,
+                company: data.company
+            });
+
+            SweetalertService.successAlertWithFunc('', 'Данные обновлены успешно', this.reloadPage);
+          
+        }
+      },
+      (e) => {
+        SweetalertService.errorAlert('Ошибка обновление данных', e)
+    })
+  }
 
   private changePassword(data: ChangePasswordData){
     this.userProfileService.changePassword(data).subscribe(
-      (res: HttpResponse<UpdateClientInfoResponse>) => {
-        const result = res;
-        if (result.result && res.hasOwnProperty('data')) {
-          SweetalertService.successAlertWithFunc('', 'Данные обновлены успешно', this.reloadPage);
-          ;
-        }
+      (res: UpdateClientInfoResponse) => {
+        SweetalertService.successAlertWithFunc('', 'Данные обновлены успешно', this.reloadPage);
       },
       (e) => {
         SweetalertService.errorAlert('Ошибка обновление пароля', e)
