@@ -11,6 +11,7 @@ import { RouteInfo } from 'app/shared/vertical-menu/vertical-menu.metadata';
 import { AuthRequestService } from 'app/shared/auth/auth-request.service';
 import { BASE_ROLE_MENU, Menu, MENU_BY_PRODUCT_TYPE } from 'app/shared/models/menu';
 import { Products } from 'app/shared/models/license';
+import { JWTTokenService } from 'app/shared/auth/jwt-token.service';
 
 @Component({
   selector: 'app-login-page',
@@ -34,11 +35,14 @@ export class LoginPageComponent implements OnInit, OnDestroy{
     private spinner: NgxSpinnerService,
     private cdr: ChangeDetectorRef,
     private fb: FormBuilder,
+    private jwtTokenService: JWTTokenService
     ) {
   }
 
   ngOnInit(): void {
-    this.initializeLoginForm();
+  
+    this.onInit();
+
   }
 
   ngOnDestroy(): void {
@@ -50,6 +54,26 @@ export class LoginPageComponent implements OnInit, OnDestroy{
     return this.loginForm.controls;
   }
 
+
+  private onInit(){
+
+    const token = this.authService.getToken();
+
+    if(token){
+
+        const tokenExp = this.jwtTokenService.isTokenExpired(token);
+
+        if(!tokenExp){
+
+            return this.router.navigate(['sm/dashboard']);
+
+        }
+    } 
+
+    this.initializeLoginForm();
+
+    this.router.navigate(['sm/dashboard']);
+  }
 
   initializeLoginForm() {
     this.loginForm = this.fb.group({
