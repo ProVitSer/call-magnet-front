@@ -74,6 +74,7 @@ export class ResetPasswordPageComponent implements OnInit {
   }
 
   resetPassword(){
+
     this.resetPasswordSubmitted = true;
 
     if (this.resetPasswordForm.invalid) {
@@ -110,22 +111,20 @@ export class ResetPasswordPageComponent implements OnInit {
     try {
 
       const result = await this.userProfileService.checkVerificationCode(verificationCode).toPromise();
-
-      if (!result.isValid) {
+      if(result.isValid) {
 
         this.spinner.hide();
+        this.isButtonResetDisabled = false;
 
-        if(!result){
+      } else {
 
-          SweetalertService.errorAlert('', 'Ссылка на востановление пароля не корректна или истек ее срок');
+        SweetalertService.errorAlert('', 'Ссылка на востановление пароля не корректна или истек ее срок');
 
-          setTimeout(() => {
-            this.router.navigate(['/error']);
-          }, this.redirectTimeout);
+        setTimeout(() => {
+          this.router.navigate(['/error']);
+        }, this.redirectTimeout);
 
-          return;
-
-        };
+        return;
       }
 
     } catch(e){
