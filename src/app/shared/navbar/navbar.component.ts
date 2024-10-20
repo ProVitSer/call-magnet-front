@@ -72,8 +72,10 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
     else {
       this.isSmallScreen = false;
     }
-
+    console.log('ngOnInit')
     this.setUserInfo();
+    console.log('ngOnInit')
+
     this.getUserNotifications();
 
   }
@@ -168,12 +170,12 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private getUserNotifications(){
     const notifications = this.notificationService.getUserNotifications('7').subscribe(
-      (res: HttpResponse<GetClientNotificationsReponse[]>) => {
-        const result = res;
-        if (result.result && res.hasOwnProperty('data')) {
-          this.setNotificationsIds(result.data);
-          this.setCountNotification(result.data);
-          this.setNotifications(result.data)
+      (res: GetClientNotificationsReponse[]) => {
+        console.log(res)
+        if (res) {
+          this.setNotificationsIds(res);
+          this.setCountNotification(res);
+          this.setNotifications(res)
           this.cdr.markForCheck();
         }
       },

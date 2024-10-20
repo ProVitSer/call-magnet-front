@@ -16,29 +16,31 @@ export class NotificationService {
       private http: HttpClient,
     ) {}
 
-    public getUserNotifications(limit: string): Observable<HttpResponse<GetClientNotificationsReponse[]>> {
+    public getUserNotifications(limit: string): Observable<GetClientNotificationsReponse[]> {
+        console.log(limit)
+
         return this.http
-          .get<HttpResponse<GetClientNotificationsReponse[]>>(`${this.serverUrl}notification?limit=${limit}`,)
-          .pipe(catchError(this.errorHandler));
+        .get<GetClientNotificationsReponse[]>(`${this.serverUrl}/user/notification/list?limit=${limit}`,)
+        .pipe(catchError(this.errorHandler));
     }
 
     
     public markNotificationsIsRead(notificationId: string): Observable<HttpResponse<object>> {
       return this.http
-        .put<HttpResponse<object>>(`${this.serverUrl}notification/mark-read`, {ids: [notificationId] })
+        .put<HttpResponse<object>>(`${this.serverUrl}/user/notification/mark-read`, { ids: [ Number(notificationId) ] })
         .pipe(catchError(this.errorHandler));
     }
 
     public deleteNotification(notificationId: string): Observable<HttpResponse<object>> {
       return this.http
-        .put<HttpResponse<object>>(`${this.serverUrl}notification/delete`, { notificationId })
+        .put<HttpResponse<object>>(`${this.serverUrl}/user/notification/delete`, { notificationId: Number(notificationId) })
         .pipe(catchError(this.errorHandler));
     }
 
-    public getNotificationsList(data: GetNotificationListData): Observable<HttpResponse<GetNotificationListReponse>> {
+    public getNotificationsList(data: GetNotificationListData): Observable<GetNotificationListReponse> {
       return this.http
-        .post<HttpResponse<GetNotificationListReponse>>(`${this.serverUrl}notification/list`,data)
-        .pipe(catchError(this.errorHandler));
+      .post<GetNotificationListReponse>(`${this.serverUrl}/user/notification/list`,data)
+      .pipe(catchError(this.errorHandler));
   }
 
     public formatNavbarNotifications(data: GetClientNotificationsReponse[]): FormatNavbarNotificationsData[] {

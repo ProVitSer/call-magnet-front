@@ -54,14 +54,14 @@ export class NotificationsPageComponent implements OnInit, AfterViewInit {
 
   private getUserNotifications(){
     this.notificationService.getNotificationsList({ limit: this.notificationInitLimit }).subscribe(
-      (res: HttpResponse<GetNotificationListReponse>) => {
+      (res: GetNotificationListReponse) => {
         const result = res;
-        if (result.result && res.hasOwnProperty('data')) {
-          if(result.data.notifications.length != 0){
+        if (res) {
+          if(res.notifications.length != 0){
             this.notificationExist = true;
-            this.countNotification = result.data.notifications.length;
-            this.moreNotifications = (result.data.count > this.notificationInitLimit);
-            this.setNotifications(result.data.notifications);
+            this.countNotification = result.notifications.length;
+            this.moreNotifications = (result.count > this.notificationInitLimit);
+            this.setNotifications(result.notifications);
             this.cdr.markForCheck();
           }
         }
@@ -95,13 +95,13 @@ export class NotificationsPageComponent implements OnInit, AfterViewInit {
 
   private moreNotification(){
     const notifications = this.notificationService.getNotificationsList({ limit: this.notificationNextLimit, offset: this.countNotification }).subscribe(
-      (res: HttpResponse<GetNotificationListReponse>) => {
+      (res: GetNotificationListReponse) => {
         const result = res;
-        if (result.result && res.hasOwnProperty('data')) {
-          if(result.data.notifications.length != 0){
-            this.countNotification = this.countNotification + result.data.notifications.length;
-            this.setNotifications(result.data.notifications);
-            this.moreNotifications = !(this.countNotification == res.data.count);
+        if (res) {
+          if(res.notifications.length != 0){
+            this.countNotification = this.countNotification + result.notifications.length;
+            this.setNotifications(result.notifications);
+            this.moreNotifications = !(this.countNotification == res.count);
           } else {
             this.moreNotifications = false;
           }
