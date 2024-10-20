@@ -1,20 +1,17 @@
 import { Injectable } from '@angular/core';
 import { HttpInterceptor, HttpHandler, HttpRequest } from '@angular/common/http';
-import { BehaviorSubject, Observable, throwError } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
 import { HttpEvent } from '@angular/common/http';
 import { AuthService } from './auth.service';
 import { ToastrService } from 'ngx-toastr';
 import { JWTTokenService } from './jwt-token.service';
-import { AuthRequestService } from './auth-request.service';
 import { catchError } from 'rxjs/operators';
 
 
 @Injectable()
 export class JwtInterceptor implements HttpInterceptor {
-  private refreshTokenSubject: BehaviorSubject<any> = new BehaviorSubject<any>(null);
   constructor(
     private authService: AuthService,
-    private authRequestService: AuthRequestService,
     private toastrService: ToastrService,
     private jwtTokenService: JWTTokenService
   ) {}
@@ -24,21 +21,29 @@ export class JwtInterceptor implements HttpInterceptor {
     
     let authReq = req;
 
-    const token = this.authService.getToken();
-
-    const tokenExp = this.jwtTokenService.isTokenExpired();
-
-    if (authReq.url.includes('/refresh')){}
+    if (authReq.url.includes('/login')){}
+    else if (authReq.url.includes('/refresh')){}
     else {
-      if(token){
-        authReq = this.addTokenHeader(req, token);
-      }
+      
+        const token = this.authService.getToken();
+
+        if (!token) {
+            this.authService.logout();
+        }
+
+        const tokenExp = this.jwtTokenService.isTokenExpired(token);
+
+        if (tokenExp) {
+            this.toastrService.error('Сессия истекла, пожалуйста, авторизуйтесь.');
+            this.authService.logout();
+        }      
+
+
+        if(token){
+            authReq = this.addTokenHeader(req, token);
+        }
     }
 
-    if (tokenExp) {
-        this.toastrService.error('Сессия истекла, пожалуйста, авторизуйтесь.');
-        this.authService.logout();
-    }
 
     return next?.handle(authReq).pipe(
         catchError((error) => {
