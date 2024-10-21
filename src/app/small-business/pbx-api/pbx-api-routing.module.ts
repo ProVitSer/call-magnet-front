@@ -1,13 +1,13 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { ApiComponent } from './components/api.component';
+import { PbxApiComponent } from './components/pbx-api.component';
 import { AuthGuard } from 'app/shared/auth/auth-guard.service';
 
 
 const routes: Routes = [
   {
     path: '',
-    component: ApiComponent,
+    component: PbxApiComponent,
     data: {
       title: '3CX API',
     },
@@ -19,4 +19,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class ApiRoutingModule { }
+export class PbxApiRoutingModule { }
