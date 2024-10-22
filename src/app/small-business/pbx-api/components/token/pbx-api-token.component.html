@@ -1,0 +1,32 @@
+<!--Dropdown section starts-->
+<section id="dropdown">
+    <div class="row text-left">
+      <div class="col-sm-12">
+        <div class="content-header">API Token</div>
+      </div>
+    </div>
+
+    <div class="row text-left">
+      <!--Manual triggers starts-->
+      <div class="col-12">
+        <div class="card">
+          <div class="card-header">
+            <h4 class="card-title">Генерация токена для взаимодействия с API 3CX</h4>
+            <br>
+          </div>
+          <div class="card-content">
+            <div class="card-body">
+
+                <pre class="language-markup small-text">  {{ apiToken }} </pre>
+              </div>
+            <div class="card-body">
+                <button class="btn btn-primary bg-light-primary mr-1 mb-1" (click)="getApiToken()" >Сгенерировать</button>
+                <button class="btn btn-secondary bg-light-secondary mr-1 mb-1" (click)="copyToClipboard()">Копировать</button>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
