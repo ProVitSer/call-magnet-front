@@ -17,3 +17,7 @@ export interface UpdatePacConnectionData {
     ip?: string;
     port?: number;
 }
+
+export interface GetTokenResponse {
+    token: string;
+}

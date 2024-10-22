@@ -1,0 +1,48 @@
+<!--Extended Table starts-->
+<div class="row">
+    <div class="col-12">
+      <div class="content-header"></div>
+    </div>
+  </div>
+  <section id="extended">
+    <div class="row">
+      <div class="col-12">
+        <div class="card">
+          <div class="card-header">
+            <h4 class="card-title"></h4>
+          </div>
+          <div class="card-content">
+            <div class="card-body table-responsive">
+              <table class="table text-center m-0">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>IP адрес</th>
+                    <th>Порт</th>
+                    <th>Действия</th>
+                  </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of tableData; let i = index">
+                        <td>{{ i + 1 }}</td>
+                        <td>{{ item.ip }}</td>
+                        <td>{{ item.port }}</td>
+                    <td class="text-truncate">
+                      <a  class="danger p-0" (click)="removeSetting(i)">
+                        <i class="ft-x font-medium-3"></i>
+                      </a>
+                    </td>
+                  </tr>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!--Extended Table Ends-->

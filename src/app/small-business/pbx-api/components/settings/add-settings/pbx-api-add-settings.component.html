@@ -1,127 +1,112 @@
 <div class="row">
     <div class="col-sm-12">
-        <div class="content-header">Форма настройки подключения API 3CX</div>
+       <div class="content-header">Форма настройки подключения API 3CX</div>
     </div>
-</div>
-<section id="ngx">
+ </div>
+ <section id="ngx">
     <div class="card">
-        <div class="card-content">
-            <div class="card-body">
-
-                <aw-wizard #wizard [navBarLayout]="'large-empty-symbols'">
-
-                    <aw-wizard-step [stepTitle]="" [navigationSymbol]="{ symbol: '&#xf108;', fontFamily: 'FontAwesome' }">
-                        <form #workForm="ngForm" class="editForm" novalidate>
-                            <h4 class="head text-center">На какой OS установлена ваша АТС?</h4>
-                            <br/>
-                            <div class='row justify-content-center'>
-                                <div class='col-2'>
-                                    <div class="form-group">
-                                        <div class="custom-control custom-radio m-0">
-                                            <input type="radio" [(ngModel)]="selectedOS" #work required id="customRadioInline1" name="work" class="custom-control-input" value="linux">
-                                            <label class="custom-control-label" for="customRadioInline1">linux</label>
-                                        </div>
-                                        <div class="custom-control custom-radio m-0">
-                                            <input type="radio" [(ngModel)]="selectedOS" #work required id="customRadioInline2" name="work" class="custom-control-input" value="windows">
-                                            <label class="custom-control-label" for="customRadioInline2">windows</label>
-                                        </div>
-                                    </div>
-                                </div>
+       <div class="card-content">
+          <div class="card-body">
+             <aw-wizard #wizard [navBarLayout]="'large-empty-symbols'">
+             <aw-wizard-step [stepTitle]="" [navigationSymbol]="{ symbol: '&#xf108;', fontFamily: 'FontAwesome' }">
+             <form #workForm="ngForm" class="editForm" novalidate>
+                <h4 class="head text-center">На какой OS установлена ваша АТС?</h4>
+                <br/>
+                <div class='row justify-content-center'>
+                   <div class='col-2'>
+                      <div class="form-group">
+                         <div class="custom-control custom-radio m-0">
+                            <input type="radio" [(ngModel)]="selectedOS" #work required id="customRadioInline1" name="work" class="custom-control-input" value="linux">
+                            <label class="custom-control-label" for="customRadioInline1">linux</label>
+                         </div>
+                         <div class="custom-control custom-radio m-0">
+                            <input type="radio" [(ngModel)]="selectedOS" #work required id="customRadioInline2" name="work" class="custom-control-input" value="windows">
+                            <label class="custom-control-label" for="customRadioInline2">windows</label>
+                         </div>
+                      </div>
+                   </div>
+                </div>
+                <div class="form-group text-center space-20">
+                   <button uiSref="address" type="button" class="btn btn-info" [disabled]="!workForm.valid" awNextStep>
+                   Дальше
+                   <span>
+                   <i class="ft-chevron-right"></i>
+                   </span>
+                   </button>
+                </div>
+             </form>
+             </aw-wizard-step>
+             <aw-wizard-step [stepTitle]="" [navigationSymbol]="{ symbol: '&#xf019;', fontFamily: 'FontAwesome' }">
+             <div class="text-center">
+                <h4>Скачайте установочный файл, и установите по инструкции</h4>
+                <br/>
+                <div>
+                   <a href="" class="btn btn-success" download>Скачать инструкцию</a>
+                </div>
+                <br/>
+                <div *ngIf="selectedOS === 'linux'">
+                   <button (click)="downloadInstaller('linux')" class="btn btn-success">Скачать для Linux</button>
+                </div>
+                <div *ngIf="selectedOS === 'windows'">
+                   <button (click)="downloadInstaller('windows')" class="btn btn-success">Скачать для Windows</button>
+                </div>
+                <br>
+                <div class="form-group text-center">
+                   <button uiSref="work" type="button" class="btn btn-secondary mr-1" awPreviousStep>
+                   <span>
+                   <i class="ft-chevron-left"></i>
+                   </span>Назад</button>
+                   <button uiSref="address" type="button" class="btn btn-info" [disabled]="!workForm.valid" awNextStep>
+                   Дальше
+                   <span>
+                   <i class="ft-chevron-right"></i>
+                   </span>
+                   </button>
+                </div>
+                <ngx-spinner></ngx-spinner>
+             </div>
+             </aw-wizard-step>
+             <aw-wizard-step [stepTitle]="" [navigationSymbol]="{ symbol: '&#xf085;', fontFamily: 'FontAwesome' }">
+             <form #personalForm="ngForm" class="editForm" novalidate>
+                <h4 class="head text-center">Укажите данные для подключение к скаченному коннектору</h4>
+                <br/>
+                <div class='row'>
+                   <div class='col-12'>
+                      <div class="row justify-content-center">
+                         <div class='col-12 col-sm-2'>
+                            <div class="form-group">
+                               <label class="form-control-label center-label" for="ip">IP адрес</label>
+                               <input class="form-control input-md" ngModel  [(ngModel)]="pacIp" #ip="ngModel" required id="ip" name="ip" type="text" size="50">
+                               <small class="form-text text-muted danger" *ngIf="!ip.valid && (ip.dirty || ip.touched)">Поле обязательно для заполнения!</small>
                             </div>
-                            <div class="form-group text-center space-20">
-                                <button uiSref="address" type="button" class="btn btn-info" [disabled]="!workForm.valid" awNextStep>
-                                    Дальше
-                                    <span>
-                                        <i class="ft-chevron-right"></i>
-                                    </span>
-                                </button>
+                         </div>
+                         <div class='col-12 col-sm-2'>
+                            <div class="form-group">
+                               <label class="form-control-label center-label" for="port">Порт</label>
+                               <input class="form-control input-md center-input" ngModel  [(ngModel)]="pacPort" #port="ngModel" required id="port" name="port" type="text">
+                               <small class="form-text text-muted danger" *ngIf="!port.valid && (port.dirty || port.touched)">Поле обязательно для заполнения!</small>
                             </div>
-                        </form>
-                    </aw-wizard-step>
-
-
-                    <aw-wizard-step [stepTitle]="" [navigationSymbol]="{ symbol: '&#xf019;', fontFamily: 'FontAwesome' }">
-                        <div class="text-center">
-                            <h4>Скачайте установочный файл, и установите по инструкции</h4>
-                            <br/>
-
-                            <div>
-                                <a href="" class="btn btn-success" download>Скачать инструкцию</a>
-                            </div>
-                            <br/>
-                            <div *ngIf="selectedOS === 'linux'">
-                                <button (click)="downloadInstaller('linux')" class="btn btn-success">Скачать для Linux</button>
-                            </div>
-                            <div *ngIf="selectedOS === 'windows'">
-                                <button (click)="downloadInstaller('windows')" class="btn btn-success">Скачать для Windows</button>
-                            </div>
-                            <br>
-
-                            <div class="form-group text-center">
-                                <button uiSref="work" type="button" class="btn btn-secondary mr-1" awPreviousStep>
-                                    <span>
-                                        <i class="ft-chevron-left"></i>
-                                    </span>Назад</button>
-                                <button uiSref="address" type="button" class="btn btn-info" [disabled]="!workForm.valid" awNextStep>
-                                        Дальше
-                                        <span>
-                                            <i class="ft-chevron-right"></i>
-                                        </span>
-                                    </button>
-                            </div>
-                            <ngx-spinner></ngx-spinner>
-                        </div>
-
-                    </aw-wizard-step>
-
-
-
-                    <aw-wizard-step [stepTitle]="" [navigationSymbol]="{ symbol: '&#xf085;', fontFamily: 'FontAwesome' }">
-                        <form #personalForm="ngForm" class="editForm" novalidate>
-                            <h4 class="head text-center">Укажите данные для подключение к скаченному коннектору</h4>
-                            <br/>
-                            <div class='row'>
-                                <div class='col-12'>
-                                    <div class="row justify-content-center">
-                                        <div class='col-12 col-sm-2'>
-                                            <div class="form-group">
-                                                <label class="form-control-label center-label" for="ip">IP адрес</label>
-                                                <input class="form-control input-md" ngModel  [(ngModel)]="pacIp" #ip="ngModel" required id="ip" name="ip" type="text" size="50">
-                                                <small class="form-text text-muted danger" *ngIf="!ip.valid && (ip.dirty || ip.touched)">Поле обязательно для заполнения!</small>
-                                            </div>
-                                        </div>
-                                        <div class='col-12 col-sm-2'>
-                                            <div class="form-group">
-                                                <label class="form-control-label center-label" for="port">Порт</label>
-                                                <input class="form-control input-md center-input" ngModel  [(ngModel)]="pacPort" #port="ngModel" required id="port" name="port" type="text">
-                                                <small class="form-text text-muted danger" *ngIf="!port.valid && (port.dirty || port.touched)">Поле обязательно для заполнения!</small>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="form-group text-center">
-                                        <button uiSref="work" type="button" class="btn btn-secondary mr-1" awPreviousStep>
-                                            <span>
-                                                <i class="ft-chevron-left"></i>
-                                            </span>Назад</button>
-                                        <button uiSref="address" type="button" class="btn btn-info" [disabled]="!workForm.valid" awNextStep (click)="addEndCheckConnection()">
-                                                Дальше
-                                                <span>
-                                                    <i class="ft-chevron-right"></i>
-                                                </span>
-                                            </button>
-                                    </div>
-                                </div>
-                            </div>
-                            <ngx-spinner></ngx-spinner>
-                        </form>
-    
-                    </aw-wizard-step>
-
-                </aw-wizard>
-
-
-            </div>
-        </div>
+                         </div>
+                      </div>
+                      <div class="form-group text-center">
+                         <button uiSref="work" type="button" class="btn btn-secondary mr-1" awPreviousStep>
+                         <span>
+                         <i class="ft-chevron-left"></i>
+                         </span>Назад</button>
+                         <button uiSref="address" type="button" class="btn btn-info" [disabled]="!workForm.valid" awNextStep (click)="addEndCheckConnection()">
+                         Дальше
+                         <span>
+                         <i class="ft-chevron-right"></i>
+                         </span>
+                         </button>
+                      </div>
+                   </div>
+                </div>
+                <ngx-spinner></ngx-spinner>
+             </form>
+             </aw-wizard-step>
+             </aw-wizard>
+          </div>
+       </div>
     </div>
-
-</section>
+ </section>
