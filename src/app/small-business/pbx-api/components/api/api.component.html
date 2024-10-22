@@ -1,0 +1,103 @@
+<div class="row">
+    <div class="col-12">
+        <div class="content-header">3CX API</div>
+        <p class="content-sub-header mb-1">Online примеры по REST API 3CX. Более подробную информацию можно получить в нашей документации.</p>
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="col-md-3 mt-3">
+        <ul class="nav flex-column nav-pills" id="myTab" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link" href="javascript:;" [ngClass]="{active: activeTab === 'call'}" (click)="setActiveTab('call')" id="call-tab" data-toggle="tab" role="tab" aria-controls="call" aria-selected="true">
+                    <i class="icon-call-in mr-1 align-middle"></i>
+                    <span class="align-middle">Вызовы</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="javascript:;" [ngClass]="{active: activeTab === 'user'}" (click)="setActiveTab('user')" id="user-tab" data-toggle="tab" role="tab" aria-controls="user" aria-selected="false">
+                    <i class="icon-user mr-1 align-middle"></i>
+                    <span class="align-middle">Пользователи</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="javascript:;" [ngClass]="{active: activeTab === 'group'}" (click)="setActiveTab('group')" id="group-tab" data-toggle="tab" role="tab" aria-controls="group" aria-selected="false">
+                    <i class="icon-users mr-1 align-middle"></i>
+                    <span class="align-middle">Группа вызовов</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="javascript:;" [ngClass]="{active: activeTab === 'queue'}" (click)="setActiveTab('queue')" id="queue-tab" data-toggle="tab" role="tab" aria-controls="queue" aria-selected="false">
+                    <i class="icon-shuffle mr-1 align-middle"></i>
+                    <span class="align-middle">Очереди</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="javascript:;" [ngClass]="{active: activeTab === 'contact'}" (click)="setActiveTab('contact')" id="contact-tab" data-toggle="tab" role="tab" aria-controls="contact" aria-selected="false">
+                    <i class="icon-note mr-1 align-middle"></i>
+                    <span class="align-middle">Контакты</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <div class="col-md-9">
+        <div class="card">
+            <div class="card-content">
+                <div class="card-body">
+                    <div class="tab-content">
+                        <div class="tab-pane" [ngClass]="{active: activeTab === 'call'}" id="call" role="tabpanel" aria-labelledby="call-tab">
+                        <div class="card-body">
+                            <ngb-accordion #acc="ngbAccordion" activeIds="ngb-panel-0">
+                              <ngb-panel>
+                                  <ng-template ngbPanelTitle>
+                                      <span>Получение информации об активных вызовах</span>
+                                    </ng-template>
+                                <ng-template ngbPanelContent>
+
+                                    <h5>Метод</h5>
+                                    GET /api/call/active-calls
+                                    <br>
+                                    <br>
+                                    <h5>URL</h5>
+                                    <p>{{ apiUrl }}/api/call/active-calls</p>
+                                    <h5>Пример ответа </h5>
+                                    <pre class="language-typescript  medium-text">
+ &#123;
+    "activeCallsInfo": [&#123;
+        "callId": 1,
+        "callDirection": 'Inbound',
+        "status": 'Dialing',
+        "localNumber": '102',
+        "remoteNumber": '79101234567'
+     &#125;]
+ &#125;
+                                    </pre>
+                                </ng-template>
+                                
+                              </ngb-panel>
+                            
+                            </ngb-accordion>
+                          </div>
+                        </div>
+
+
+                        <div class="tab-pane" [ngClass]="{active: activeTab === 'user'}" id="user" role="tabpanel" aria-labelledby="user-tab">
+                   
+                        </div>
+
+
+                        <div class="tab-pane" [ngClass]="{active: activeTab === 'group'}" id="group" role="tabpanel" aria-labelledby="group-tab"></div>
+                        <div class="tab-pane" [ngClass]="{active: activeTab === 'queue'}" id="queue" role="tabpanel" aria-labelledby="queue-tab"></div>
+                        <div class="tab-pane" [ngClass]="{active: activeTab === 'contact'}" id="contact" role="tabpanel" aria-labelledby="contact-tab"></div>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>
