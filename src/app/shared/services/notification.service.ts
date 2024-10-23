@@ -123,9 +123,11 @@ export class BaseTag {
     }
 
     private setNotificationTime() {
-        const dateString = this.data.created;
+        const dateString = this.data.createdAt;
+
         const targetDate = moment(dateString);
         const currentDate = moment();
+
         if (targetDate.isSame(currentDate, 'day')) {
             const millisecondsDiff = currentDate.diff(targetDate);
             const hoursDiff = Math.floor(millisecondsDiff / (1000 * 60 * 60));
