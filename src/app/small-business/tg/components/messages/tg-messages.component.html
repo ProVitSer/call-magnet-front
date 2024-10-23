@@ -1,0 +1,65 @@
+<section id="ngx-datatable-row-details">
+    <div class="row">
+      <div class="col-12">
+        <div class="card">
+          <div class="card-header">
+            <h4 class="card-title">Сообщения</h4>
+          </div>
+          <div class="card-content">
+            <div class="card-body">
+  
+              <ngx-datatable #tableRowDetails class="bootstrap core-bootstrap" [columnMode]="ColumnMode.force"
+                [headerHeight]="50" [footerHeight]="50" [rowHeight]="50" [limit]="10" [rows]="rows" [scrollbarH]="true">
+                <!-- <ngx-datatable-row-detail [rowHeight]="50">
+                  <ng-template let-row="row" let-expanded="expanded" ngx-datatable-row-detail-template>
+                    <div class="ml-5 my-1">
+                      <div><strong>Сообщение : </strong> {{ row.message }}</div>
+                    </div>
+                  </ng-template>
+                </ngx-datatable-row-detail> -->
+                <!-- <ngx-datatable-column [width]="50" [resizeable]="false" [sortable]="false" [draggable]="false"
+                  [canAutoResize]="false">
+                  <ng-template let-row="row" let-expanded="expanded" ngx-datatable-cell-template>
+                    <a href="javascript:void(0)" [class.datatable-icon-right]="!expanded"
+                      [class.datatable-icon-down]="expanded" title="Посмотреть сообщение"
+                      (click)="rowDetailsToggleExpand(row)">
+                    </a>
+                  </ng-template>
+                </ngx-datatable-column> -->
+                <ngx-datatable-column name="Ник" prop="userName" [width]="200">
+                    <ng-template let-row="row" let-name="value" ngx-datatable-cell-template>
+                      <div class="d-flex align-items-center">
+                        <div>
+                          <img class="rounded-circle mr-1" src="assets/img/portrait/small/{{row.avatar}}"
+                            height="32" width="32" alt="datatable-avatar">
+                        </div>
+                        <div class="cell-line-height">
+                          <p class="font-medium-1 line-height-1 mb-0">{{ name }}</p>
+                        </div>
+                      </div>
+                    </ng-template>
+                  </ngx-datatable-column>
+                <ngx-datatable-column name="Статус" prop="tgUserId" [width]="100">
+                  <ng-template let-tgUserId="value" ngx-datatable-cell-template>
+                    <div class="badge badge-pill"
+                    [ngClass]="{'bg-light-success': tgUserId, 'bg-light-warning': !tgUserId}">
+                    {{ tgUserId ? "Отвечен" : "Неотвечен" }}
+                    </div>
+                  </ng-template>
+                </ngx-datatable-column>
+                <ngx-datatable-footer>
+                    <ng-template ngx-datatable-footer-template let-rowCount="rowCount">
+                      <div class="custom-footer">
+                        <span>Всего элементов: {{ rowCount }}</span>
+                      </div>
+                    </ng-template>
+                  </ngx-datatable-footer>
+              </ngx-datatable>
+              <!-- ngx-datatable-row-details -->
+  
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>

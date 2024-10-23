@@ -1,4 +1,4 @@
-import { ProductType } from "./license";
+import { ProductType } from './license';
 
 export interface Menu {
     code: number;
@@ -98,42 +98,42 @@ export const API_MENU: Menu[] = [
         badge: 'Новое',
         badgeClass: 'badge badge-pill badge-primary float-right mr-1 mt-1',
         externalLink: false,
-        group: { lines: [
-            {
-                code: 1,
-                name: 'API',
-                path: '/sm/pbx-api/api',
-                icon: 'ft-share-2',
-                badge: '',
-                badgeClass: '',
-                externalLink: false,
-                group: { lines: [] },
-            },
-            {
-                code: 2,
-                name: 'Токен',
-                path: '/sm/pbx-api/token',
-                icon: 'icon-key',
-                badge: '',
-                badgeClass: '',
-                externalLink: false,
-                group: { lines: [] },
-            },
-            {
-                code: 3,
-                name: 'Настройки',
-                path: '/sm/pbx-api/settings',
-                icon: 'ft-settings',
-                badge: '',
-                badgeClass: '',
-                externalLink: false,
-                group: { lines: [] },
-            },
-        ] },
+        group: {
+            lines: [
+                {
+                    code: 1,
+                    name: 'API',
+                    path: '/sm/pbx-api/api',
+                    icon: 'ft-share-2',
+                    badge: '',
+                    badgeClass: '',
+                    externalLink: false,
+                    group: { lines: [] },
+                },
+                {
+                    code: 2,
+                    name: 'Токен',
+                    path: '/sm/pbx-api/token',
+                    icon: 'icon-key',
+                    badge: '',
+                    badgeClass: '',
+                    externalLink: false,
+                    group: { lines: [] },
+                },
+                {
+                    code: 3,
+                    name: 'Настройки',
+                    path: '/sm/pbx-api/settings',
+                    icon: 'ft-settings',
+                    badge: '',
+                    badgeClass: '',
+                    externalLink: false,
+                    group: { lines: [] },
+                },
+            ],
+        },
     },
 ];
-
-
 
 // export const CQA_MENU: Menu[] = [
 //     {
@@ -227,13 +227,57 @@ export const API_MENU: Menu[] = [
 //     },
 // ];
 
-// export const TELEGRAM_MENU: Menu[] = [];
+export const TELEGRAM_MENU: Menu[] = [
+    {
+        code: 4,
+        path: '/sm/tg',
+        name: 'Telegram',
+        icon: 'ft-send',
+        badge: '',
+        badgeClass: 'badge badge-pill badge-primary float-right mr-1 mt-1',
+        externalLink: false,
+        group: {
+            lines: [
+                {
+                    code: 1,
+                    name: 'Пользователи',
+                    path: '/sm/tg/users',
+                    icon: 'ft-users',
+                    badge: '',
+                    badgeClass: '',
+                    externalLink: false,
+                    group: { lines: [] },
+                },
+                {
+                    code: 2,
+                    name: 'Сообщения',
+                    path: '/sm/tg/messages',
+                    icon: 'ft-message-square',
+                    badge: '',
+                    badgeClass: '',
+                    externalLink: false,
+                    group: { lines: [] },
+                },
+                {
+                    code: 3,
+                    name: 'Настройки',
+                    path: '/sm/tg/settings',
+                    icon: 'ft-settings',
+                    badge: '',
+                    badgeClass: '',
+                    externalLink: false,
+                    group: { lines: [] },
+                },
+            ],
+        },
+    },
+];
 
 export const MENU_BY_PRODUCT_TYPE: { [prod in ProductType]?: Menu[] } = {
     [ProductType.api]: API_MENU,
     // [ProductType.sms]: SMS_MENU,
     // [ProductType.cqa]: CQA_MENU,
     // [ProductType.bitrix]: CRM_MENU,
-    // [ProductType.telegram]: TELEGRAM_MENU,
+    [ProductType.telegram]: TELEGRAM_MENU,
     // [ProductType.analitic]: CALL_ANALITICS_MENU,
 };
