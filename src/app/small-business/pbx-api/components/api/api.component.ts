@@ -13,7 +13,7 @@ export class ApiComponent {
     changePasswordFormSubmitted = false;
     alertVisible = true;
     generalForm: UntypedFormGroup;
-    apiUrl = `${environment.API_GATEWAY_URL}`;
+    apiUrl = `${environment.API_GATEWAY_URL}/pac`;
     constructor() {}
 
     reloadPage() {
