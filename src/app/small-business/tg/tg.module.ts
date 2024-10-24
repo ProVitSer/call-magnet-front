@@ -9,15 +9,17 @@ import { TagInputModule } from 'ngx-chips';
 import { ArchwizardModule } from 'angular-archwizard';
 import { CustomFormsModule } from 'ngx-custom-validators';
 import { UiSwitchModule } from 'ngx-ui-switch';
-import { QuillModule } from 'ngx-quill';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { TgRoutingModule } from './tg-routing.module';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { PipeModule } from 'app/shared/pipes/pipe.module';
 import { TgMessagesComponent } from './components/messages/tg-messages.component';
+import { NgbDatepickerModule } from '@ng-bootstrap/ng-bootstrap';
+import { TgUsersComponent } from './components/users/tg-users.component';
+import { AddTgUserModalComponent } from './components/users/add-tg-user/add-tg-user-modal.component';
 
 @NgModule({
-    declarations: [TgMessagesComponent],
+    declarations: [TgMessagesComponent, TgUsersComponent, AddTgUserModalComponent],
     imports: [
         TgRoutingModule,
         CommonModule,
@@ -31,11 +33,11 @@ import { TgMessagesComponent } from './components/messages/tg-messages.component
         ArchwizardModule,
         CustomFormsModule,
         UiSwitchModule,
-        QuillModule.forRoot(),
         NgxSpinnerModule,
         CommonModule,
         NgxDatatableModule,
         PipeModule,
+        NgbDatepickerModule,
     ],
     exports: [],
 })

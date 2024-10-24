@@ -7,17 +7,44 @@
           </div>
           <div class="card-content">
             <div class="card-body">
-  
-              <ngx-datatable #tableRowDetails class="bootstrap core-bootstrap" [columnMode]="ColumnMode.force"
-                [headerHeight]="50" [footerHeight]="50" [rowHeight]="50" [limit]="10" [rows]="rows" [scrollbarH]="true">
-                <!-- <ngx-datatable-row-detail [rowHeight]="50">
+                <fieldset class="form-group d-flex align-items-center">
+                    <label for="ngx-filter-ref" class="mb-0 me-2">
+                      <input
+                        id="ngx-MultiPurposeFilter-ref"
+                        class="form-control form-control-sm d-inline-block width-200"
+                        type="text"
+                        placeholder="Поиск по номеру телефона....."
+                        (keyup)="MultiPurposeFilterUpdate($event)"
+                      />
+                    </label>
+                    <div class="input-group mb-0 ml-2">
+                      <button class="btn btn-outline-secondary" (click)="d3.toggle()" type="button">
+                        Выбрать дату <i class="fa fa-calendar ml-2"></i>
+                      </button>
+                      <input type="text" class="form-control d-none" ngbDatepicker #d3="ngbDatepicker" [(ngModel)]="dateFilter" (ngModelChange)="onDateChange()"/>
+                    </div>
+                  </fieldset>
+              <ngx-datatable #tableRowDetails class="bootstrap core-bootstrap" 
+            [columnMode]="ColumnMode.force"
+            [headerHeight]="50" 
+            [footerHeight]="50" 
+            [rowHeight]="'auto'" 
+            [rows]="rows" 
+            [scrollbarH]="false"
+            [count]="totalRecords"
+            [limit]="pageSize"
+            [externalPaging]="true"
+            [offset]="currentPage - 1"
+            (page)='onPageChange($event)'
+            >
+                <ngx-datatable-row-detail [rowHeight]="50">
                   <ng-template let-row="row" let-expanded="expanded" ngx-datatable-row-detail-template>
                     <div class="ml-5 my-1">
                       <div><strong>Сообщение : </strong> {{ row.message }}</div>
                     </div>
                   </ng-template>
-                </ngx-datatable-row-detail> -->
-                <!-- <ngx-datatable-column [width]="50" [resizeable]="false" [sortable]="false" [draggable]="false"
+                </ngx-datatable-row-detail>
+                <ngx-datatable-column [width]="50" [resizeable]="false" [sortable]="false" [draggable]="false"
                   [canAutoResize]="false">
                   <ng-template let-row="row" let-expanded="expanded" ngx-datatable-cell-template>
                     <a href="javascript:void(0)" [class.datatable-icon-right]="!expanded"
@@ -25,38 +52,47 @@
                       (click)="rowDetailsToggleExpand(row)">
                     </a>
                   </ng-template>
-                </ngx-datatable-column> -->
-                <ngx-datatable-column name="Ник" prop="userName" [width]="200">
+                </ngx-datatable-column>
+                <ngx-datatable-column name="Id сообщения" prop="messageId" [width]="50" ></ngx-datatable-column>
+                <ngx-datatable-column name="Внешний номер" prop="externalNumber" [width]="50"></ngx-datatable-column>
+                <ngx-datatable-column name="Ник" prop="userName" [width]="50">
                     <ng-template let-row="row" let-name="value" ngx-datatable-cell-template>
                       <div class="d-flex align-items-center">
-                        <div>
-                          <img class="rounded-circle mr-1" src="assets/img/portrait/small/{{row.avatar}}"
-                            height="32" width="32" alt="datatable-avatar">
-                        </div>
-                        <div class="cell-line-height">
-                          <p class="font-medium-1 line-height-1 mb-0">{{ name }}</p>
-                        </div>
+                        <ng-container *ngIf="row.userName && row.userName.length > 0; else noNameTemplate">
+                          <!-- <img class="rounded-circle mr-2" src="assets/img/portrait/small/telegram.png"
+                            height="32" width="32" alt="datatable-avatar"> -->
+                            <i class="ft-send ft-2x" style="font-size: 24px; margin-right: 8px;"></i>
+                          <div class="cell-line-height">
+                            <p class="font-medium-1 line-height-1 mb-0">{{ name }}</p>
+                          </div>
+                        </ng-container>
+                        <ng-template #noNameTemplate>
+                          <div class="cell-line-height">
+                            <p class="font-medium-1 line-height-1 mb-0"></p>
+                          </div>
+                        </ng-template>
                       </div>
                     </ng-template>
                   </ngx-datatable-column>
-                <ngx-datatable-column name="Статус" prop="tgUserId" [width]="100">
+                  <ngx-datatable-column name="Имя" prop="name" [width]="50"></ngx-datatable-column>
+                  <ngx-datatable-column name="Внутренний номер" prop="localExtension" [width]="50"></ngx-datatable-column>
+                <ngx-datatable-column name="Статус" prop="tgUserId" [width]="50">
                   <ng-template let-tgUserId="value" ngx-datatable-cell-template>
                     <div class="badge badge-pill"
                     [ngClass]="{'bg-light-success': tgUserId, 'bg-light-warning': !tgUserId}">
-                    {{ tgUserId ? "Отвечен" : "Неотвечен" }}
+                    {{ tgUserId ? "Перезвонил" : "Пропущенный" }}
                     </div>
                   </ng-template>
                 </ngx-datatable-column>
-                <ngx-datatable-footer>
-                    <ng-template ngx-datatable-footer-template let-rowCount="rowCount">
+                <ngx-datatable-column name="Дата" prop="date" [width]="50"></ngx-datatable-column>
+                <!-- <ngx-datatable-footer>
+                    <ng-template ngx-datatable-footer-template let-rowCount="totalRecords">
                       <div class="custom-footer">
-                        <span>Всего элементов: {{ rowCount }}</span>
+                        <span>Всего элементов: {{ totalRecords }}</span>
                       </div>
                     </ng-template>
-                  </ngx-datatable-footer>
+                  </ngx-datatable-footer> -->
               </ngx-datatable>
-              <!-- ngx-datatable-row-details -->
-  
             </div>
           </div>
         </div>

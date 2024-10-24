@@ -1,0 +1,58 @@
+<div class="modal-header">
+    <h4 class="modal-title">Создать пользователя Telegram </h4>
+    <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+      x
+    </button>
+  </div>
+  <form [formGroup]="tgUserForm" (ngSubmit)="submitForm()">
+    <div class="modal-body taskboard-modal">
+      <div class="container">
+        <fieldset class="form-group position-relative has-icon-left">
+          <div class="form-control-position">
+            <i class="ft-edit-2"></i>
+          </div>
+          <input type="text" [formControl]="tgUserForm.controls['name']" formControlName="name" class="form-control"
+            id="todoName" placeholder="Имя" (keydown.enter)="$event.preventDefault()" required #todoName>
+            <div *ngIf="tgUserForm.get('name')?.invalid && (tgUserForm.get('name')?.touched || tgUserForm.get('name')?.dirty)" class="text-danger">
+                <div *ngIf="tgUserForm.get('name')?.errors?.required">Имя обязательно</div>
+              </div>
+          <div class="form-control-position control-position-right">
+            <i class="ft-edit-2"></i>
+          </div>
+        </fieldset>
+        <fieldset class="form-group position-relative has-icon-left">
+            <div class="form-control-position">
+              <i class="ft-send"></i>
+            </div>
+            <input type="text" [formControl]="tgUserForm.controls['tgUserName']" formControlName="tgUserName" class="form-control"
+              id="todoTgUserName" placeholder="Ник telegram" (keydown.enter)="$event.preventDefault()" required #todoTgUserName>
+              <div *ngIf="tgUserForm.get('tgUserName')?.invalid && (tgUserForm.get('tgUserName')?.touched || tgUserForm.get('tgUserName')?.dirty)" class="text-danger">
+                <div *ngIf="tgUserForm.get('tgUserName')?.errors?.required">Ник telegram обязателен</div>
+              </div>
+            <div class="form-control-position control-position-right">
+              <i class="ft-send"></i>
+            </div>
+          </fieldset>
+          <fieldset class="form-group position-relative has-icon-left">
+            <div class="form-control-position">
+              <i class="icon-call-end"></i>
+            </div>
+            <input type="text" [formControl]="tgUserForm.controls['extension']" formControlName="extension" class="form-control"
+              id="todoExtension" placeholder="Внутренний номер" (keydown.enter)="$event.preventDefault()" required #todoExtension>
+              <div *ngIf="tgUserForm.get('extension')?.invalid && (tgUserForm.get('extension')?.touched || tgUserForm.get('extension')?.dirty)" class="text-danger">
+                <div *ngIf="tgUserForm.get('extension')?.errors?.required">Внутренний номер обязателен</div>
+                <div *ngIf="tgUserForm.get('extension')?.errors?.pattern">Внутренний номер должен быть числом</div>
+              </div>
+            <div class="form-control-position control-position-right">
+              <i class="icon-call-end"></i>
+            </div>
+          </fieldset>
+      </div>
+    </div>
+    <div class="modal-footer taskboard-modal-footer">
+      <button class="btn btn-primary btn-save">
+        Сохранить
+      </button>
+    </div>
+  </form>
+  
