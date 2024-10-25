@@ -49,11 +49,7 @@ export class TgAddSettingsComponent {
         try {
             await this.tgSettingsService.createTgConfig(data);
             this.spinner.hide();
-            SweetalertService.autoCloseSuccessAlert(
-                '',
-                'Настройки успешно добавлены, теперь можно сгенерировать токен и пользоваться API',
-                5000,
-            );
+            SweetalertService.autoCloseSuccessAlert('', 'Настройки успешно добавлены', 5000);
 
             setTimeout(() => {
                 this.router.navigate(['sm/tg/settings']);

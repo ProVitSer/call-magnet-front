@@ -28,8 +28,13 @@
                         <td>{{ item.ip }}</td>
                         <td>{{ item.port }}</td>
                         <td>     
-                            <div class="badge badge-pill"
-                            [ngClass]="{'bg-light-success': item.status == 'online', 'bg-light-danger': item.status == 'offline'}">
+                            <div class="text-center"
+                            [ngClass]="{
+                                'btn btn-success bg-light-success mr-1 mb-1': item.status == 'online', 
+                                'btn btn-danger bg-light-danger mr-1 mb-1': item.status == 'offline'}"
+                                 style="font-size: 15px; padding: 0.5px 1px; width: 150px;"
+
+                                >
                             {{ item.status == 'online' ? "online" : "offline" }}
                         </div>
                     </td>
