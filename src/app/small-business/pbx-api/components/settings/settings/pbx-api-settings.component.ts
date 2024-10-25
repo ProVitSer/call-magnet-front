@@ -33,7 +33,7 @@ export class PbxApiSettingsComponent implements OnInit {
                 }
             },
             (e) => {
-                console.error('Ошибка проверки настроек:', e);
+                SweetalertService.errorAlert('Ошибка проверки настроек', e.error?.error?.message || 'Проблемы с получением данных');
             },
         );
     }

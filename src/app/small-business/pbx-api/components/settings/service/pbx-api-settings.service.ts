@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { environment } from 'environments/environment';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
-import { AddPacConnectionData, GetTokenResponse, PbxApiSettings, UpdatePacConnectionData } from '../models/pbx-api-settings.module.ts';
+import { AddPacConnectionData, GetTokenResponse, PbxApiSettings, UpdatePacConnectionData } from '../models/pbx-api-settings.model.js';
 import { catchError } from 'rxjs/operators';
 import { throwError, firstValueFrom } from 'rxjs';
 
