@@ -17,9 +17,11 @@ import { TgMessagesComponent } from './components/messages/tg-messages.component
 import { NgbDatepickerModule } from '@ng-bootstrap/ng-bootstrap';
 import { TgUsersComponent } from './components/users/tg-users.component';
 import { AddTgUserModalComponent } from './components/users/add-tg-user/add-tg-user-modal.component';
+import { TgAddSettingsComponent } from './components/settings/add-settings/tg-add-settings.component';
+import { TgSettingsComponent } from './components/settings/tg-settings.component';
 
 @NgModule({
-    declarations: [TgMessagesComponent, TgUsersComponent, AddTgUserModalComponent],
+    declarations: [TgMessagesComponent, TgUsersComponent, AddTgUserModalComponent, TgAddSettingsComponent, TgSettingsComponent],
     imports: [
         TgRoutingModule,
         CommonModule,

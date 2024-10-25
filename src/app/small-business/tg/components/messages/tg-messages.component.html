@@ -55,10 +55,10 @@
                 </ngx-datatable-column>
                 <ngx-datatable-column name="Id сообщения" prop="messageId" [width]="50" ></ngx-datatable-column>
                 <ngx-datatable-column name="Внешний номер" prop="externalNumber" [width]="50"></ngx-datatable-column>
-                <ngx-datatable-column name="Ник" prop="userName" [width]="50">
+                <ngx-datatable-column name="Ник" prop="tgUserName" [width]="50">
                     <ng-template let-row="row" let-name="value" ngx-datatable-cell-template>
                       <div class="d-flex align-items-center">
-                        <ng-container *ngIf="row.userName && row.userName.length > 0; else noNameTemplate">
+                        <ng-container *ngIf="row.tgUserName && row.tgUserName.length > 0; else noNameTemplate">
                           <!-- <img class="rounded-circle mr-2" src="assets/img/portrait/small/telegram.png"
                             height="32" width="32" alt="datatable-avatar"> -->
                             <i class="ft-send ft-2x" style="font-size: 24px; margin-right: 8px;"></i>
