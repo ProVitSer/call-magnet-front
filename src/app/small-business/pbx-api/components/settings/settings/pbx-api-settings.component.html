@@ -18,6 +18,7 @@
                     <th>#</th>
                     <th>IP адрес</th>
                     <th>Порт</th>
+                    <th>Статус подключения</th>
                     <th>Действия</th>
                   </tr>
                 </thead>
@@ -26,12 +27,19 @@
                         <td>{{ i + 1 }}</td>
                         <td>{{ item.ip }}</td>
                         <td>{{ item.port }}</td>
+                        <td>     
+                            <div class="badge badge-pill"
+                            [ngClass]="{'bg-light-success': item.status == 'online', 'bg-light-danger': item.status == 'offline'}">
+                            {{ item.status == 'online' ? "online" : "offline" }}
+                        </div>
+                    </td>
                     <td class="text-truncate">
                       <a  class="danger p-0" (click)="removeSetting(i)">
                         <i class="ft-x font-medium-3"></i>
                       </a>
                     </td>
                   </tr>
+                  <td></td>
                   <td></td>
                   <td></td>
                   <td></td>

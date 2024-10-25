@@ -21,13 +21,16 @@ export class PbxApiSettingsComponent implements OnInit {
 
     ngOnInit(): void {
         this.pbxApiSettingsService.getPacConfig().subscribe(
-            (settings) => {
+            async (settings) => {
                 if (settings == null) {
                     this.router.navigate(['add'], { relativeTo: this.route });
                 } else {
+                    const checkStatus = await this.pbxApiSettingsService.checkConnection();
+
                     this.tableData.push({
                         ip: settings.ip,
                         port: settings.port,
+                        status: checkStatus.online ? 'online' : 'offline',
                     });
                     this.changeDetector.detectChanges();
                 }

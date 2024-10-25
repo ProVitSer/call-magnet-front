@@ -21,3 +21,7 @@ export interface UpdatePacConnectionData {
 export interface GetTokenResponse {
     token: string;
 }
+
+export interface CheckConnectionResult {
+    online: boolean;
+}

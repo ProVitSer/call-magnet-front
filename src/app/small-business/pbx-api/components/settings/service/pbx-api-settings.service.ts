@@ -2,7 +2,13 @@ import { Injectable } from '@angular/core';
 import { environment } from 'environments/environment';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
-import { AddPacConnectionData, GetTokenResponse, PbxApiSettings, UpdatePacConnectionData } from '../models/pbx-api-settings.model.js';
+import {
+    AddPacConnectionData,
+    CheckConnectionResult,
+    GetTokenResponse,
+    PbxApiSettings,
+    UpdatePacConnectionData,
+} from '../models/pbx-api-settings.model.js';
 import { catchError } from 'rxjs/operators';
 import { throwError, firstValueFrom } from 'rxjs';
 
@@ -78,6 +84,16 @@ export class PbxApiSettingsService {
     public async getToken() {
         return firstValueFrom(
             this.http.get<GetTokenResponse>(`${this.pacUrl}/api-token`).pipe(
+                catchError((error) => {
+                    throw error;
+                }),
+            ),
+        );
+    }
+
+    public async checkConnection() {
+        return firstValueFrom(
+            this.http.get<CheckConnectionResult>(`${this.pacUrl}/pac-connector/check-connection`).pipe(
                 catchError((error) => {
                     throw error;
                 }),
