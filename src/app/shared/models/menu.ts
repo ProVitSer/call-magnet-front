@@ -26,18 +26,45 @@ export const BASE_ROLE_MENU: Menu[] = [
         externalLink: false,
         group: { lines: [] },
     },
+
     {
         code: 9,
+        name: 'VoIP мост',
+        path: '/sm/voip',
+        icon: 'ft-phone-call',
+        badge: '',
+        badgeClass: '',
+        externalLink: false,
+        group: {
+            lines: [
+                {
+                    code: 1,
+                    name: 'Настройки',
+                    path: '/sm/voip/settings',
+                    icon: 'ft-settings',
+                    badge: '',
+                    badgeClass: '',
+                    externalLink: false,
+                    group: { lines: [] },
+                },
+            ],
+        },
+    },
+
+    {
+        code: 10,
         name: 'FAQ',
         path: '/sm/faq',
         icon: 'icon-question',
         badge: '',
         badgeClass: '',
         externalLink: false,
-        group: { lines: [] },
+        group: {
+            lines: [],
+        },
     },
     {
-        code: 10,
+        code: 11,
         name: 'Поддержка',
         path: 'https://icep.omnidesk.ru/',
         icon: 'ft-life-buoy',
@@ -171,61 +198,51 @@ export const API_MENU: Menu[] = [
 //     },
 // ];
 
-// export const SMS_MENU: Menu[] = [
-//     {
-//         code: 7,
-//         name: 'SMS',
-//         path: '',
-//         icon: 'icon-speech',
-//         badge: '',
-//         badgeClass: '',
-//         externalLink: false,
-//         group: {
-//             lines: [
-//                 {
-//                     code: 1,
-//                     name: 'Создать',
-//                     path: '/sm/sms/send',
-//                     icon: 'icon-share-alt',
-//                     badge: '',
-//                     badgeClass: '',
-//                     externalLink: false,
-//                     group: { lines: [] },
-//                 },
-//                 {
-//                     code: 2,
-//                     name: 'Массовая рассылка',
-//                     path: '/sm/sms/mass-sending',
-//                     icon: 'icon-users',
-//                     badge: '',
-//                     badgeClass: '',
-//                     externalLink: false,
-//                     group: { lines: [] },
-//                 },
-//                 {
-//                     code: 3,
-//                     name: 'Статистика',
-//                     path: '/sm/sms/statistic',
-//                     icon: 'ft-align-left',
-//                     badge: '',
-//                     badgeClass: '',
-//                     externalLink: false,
-//                     group: { lines: [] },
-//                 },
-//                 {
-//                     code: 4,
-//                     name: 'Настройки',
-//                     path: '/sm/sms/settings',
-//                     icon: 'ft-settings',
-//                     badge: '',
-//                     badgeClass: '',
-//                     externalLink: false,
-//                     group: { lines: [] },
-//                 },
-//             ],
-//         },
-//     },
-// ];
+export const SMS_MENU: Menu[] = [
+    {
+        code: 7,
+        name: 'SMS',
+        path: '',
+        icon: 'icon-speech',
+        badge: '',
+        badgeClass: '',
+        externalLink: false,
+        group: {
+            lines: [
+                {
+                    code: 1,
+                    name: 'Отправить',
+                    path: '/sm/sms/send',
+                    icon: 'icon-share-alt',
+                    badge: '',
+                    badgeClass: '',
+                    externalLink: false,
+                    group: { lines: [] },
+                },
+                {
+                    code: 2,
+                    name: 'Статистика',
+                    path: '/sm/sms/statistic',
+                    icon: 'ft-align-left',
+                    badge: '',
+                    badgeClass: '',
+                    externalLink: false,
+                    group: { lines: [] },
+                },
+                {
+                    code: 3,
+                    name: 'Настройки',
+                    path: '/sm/sms/settings',
+                    icon: 'ft-settings',
+                    badge: '',
+                    badgeClass: '',
+                    externalLink: false,
+                    group: { lines: [] },
+                },
+            ],
+        },
+    },
+];
 
 export const TELEGRAM_MENU: Menu[] = [
     {
@@ -275,7 +292,7 @@ export const TELEGRAM_MENU: Menu[] = [
 
 export const MENU_BY_PRODUCT_TYPE: { [prod in ProductType]?: Menu[] } = {
     [ProductType.api]: API_MENU,
-    // [ProductType.sms]: SMS_MENU,
+    [ProductType.sms]: SMS_MENU,
     // [ProductType.cqa]: CQA_MENU,
     // [ProductType.bitrix]: CRM_MENU,
     [ProductType.telegram]: TELEGRAM_MENU,
