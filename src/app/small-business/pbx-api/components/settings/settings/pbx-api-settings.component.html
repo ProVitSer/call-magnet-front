@@ -28,11 +28,11 @@
                         <td>{{ item.ip }}</td>
                         <td>{{ item.port }}</td>
                         <td>     
-                            <div class="text-center"
+                            <div  
                             [ngClass]="{
-                                'btn btn-success bg-light-success mr-1 mb-1': item.status == 'online', 
-                                'btn btn-danger bg-light-danger mr-1 mb-1': item.status == 'offline'}"
-                                 style="font-size: 15px; padding: 0.5px 1px; width: 150px;"
+                                'bg-light-success mr-1 mb-1': item.status === 'online',
+                                'bg-light-danger': item.status == 'offline'
+                                }"
 
                                 >
                             {{ item.status == 'online' ? "online" : "offline" }}
