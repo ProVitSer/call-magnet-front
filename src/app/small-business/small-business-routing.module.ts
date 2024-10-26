@@ -18,6 +18,10 @@ export const SM_ROUTES: Routes = [
         loadChildren: async () => (await import('./voip/voip.module')).VoipModule,
     },
     {
+        path: 'sms',
+        loadChildren: async () => (await import('./sms/sms.module')).SmsModule,
+    },
+    {
         path: 'faq',
         loadChildren: async () => (await import('./faq/faq.module')).FaqModule,
     },
