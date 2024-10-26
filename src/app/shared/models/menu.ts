@@ -90,31 +90,31 @@ export const CALL_ANALITICS_MENU: Menu[] = [
     },
 ];
 
-// export const CRM_MENU: Menu[] = [
-//     {
-//         code: 3,
-//         name: 'CRM',
-//         path: '',
-//         icon: 'ft-layout',
-//         badge: '',
-//         badgeClass: '',
-//         externalLink: false,
-//         group: {
-//             lines: [
-//                 {
-//                     code: 1,
-//                     name: 'Настройки',
-//                     path: '/sm/crm/settings',
-//                     icon: 'ft-settings',
-//                     badge: '',
-//                     badgeClass: '',
-//                     externalLink: false,
-//                     group: { lines: [] },
-//                 },
-//             ],
-//         },
-//     },
-// ];
+export const CRM_MENU: Menu[] = [
+    {
+        code: 3,
+        name: 'CRM',
+        path: '',
+        icon: 'ft-layout',
+        badge: '',
+        badgeClass: '',
+        externalLink: false,
+        group: {
+            lines: [
+                {
+                    code: 1,
+                    name: 'Настройки',
+                    path: '/sm/crm/settings',
+                    icon: 'ft-settings',
+                    badge: '',
+                    badgeClass: '',
+                    externalLink: false,
+                    group: { lines: [] },
+                },
+            ],
+        },
+    },
+];
 
 export const API_MENU: Menu[] = [
     {
@@ -294,7 +294,7 @@ export const MENU_BY_PRODUCT_TYPE: { [prod in ProductType]?: Menu[] } = {
     [ProductType.api]: API_MENU,
     [ProductType.sms]: SMS_MENU,
     // [ProductType.cqa]: CQA_MENU,
-    // [ProductType.bitrix]: CRM_MENU,
+    [ProductType.bitrix]: CRM_MENU,
     [ProductType.telegram]: TELEGRAM_MENU,
     // [ProductType.analitic]: CALL_ANALITICS_MENU,
 };
