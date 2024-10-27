@@ -18,7 +18,7 @@ export interface Group {
 export const BASE_ROLE_MENU: Menu[] = [
     {
         code: 1,
-        name: 'Панель управления',
+        name: 'Информ панель',
         path: '/sm/dashboard',
         icon: 'ft-monitor',
         badge: '',
@@ -28,7 +28,7 @@ export const BASE_ROLE_MENU: Menu[] = [
     },
 
     {
-        code: 9,
+        code: 11,
         name: 'VoIP мост',
         path: '/sm/voip',
         icon: 'ft-phone-call',
@@ -52,7 +52,7 @@ export const BASE_ROLE_MENU: Menu[] = [
     },
 
     {
-        code: 10,
+        code: 12,
         name: 'FAQ',
         path: '/sm/faq',
         icon: 'icon-question',
@@ -64,7 +64,7 @@ export const BASE_ROLE_MENU: Menu[] = [
         },
     },
     {
-        code: 11,
+        code: 13,
         name: 'Поддержка',
         path: 'https://icep.omnidesk.ru/',
         icon: 'ft-life-buoy',
@@ -92,7 +92,7 @@ export const CALL_ANALITICS_MENU: Menu[] = [
 
 export const CRM_MENU: Menu[] = [
     {
-        code: 3,
+        code: 9,
         name: 'CRM',
         path: '',
         icon: 'ft-layout',
@@ -118,7 +118,7 @@ export const CRM_MENU: Menu[] = [
 
 export const API_MENU: Menu[] = [
     {
-        code: 4,
+        code: 3,
         path: '/sm/pbx-api',
         name: '3CX API',
         icon: 'ft-repeat',
@@ -162,45 +162,45 @@ export const API_MENU: Menu[] = [
     },
 ];
 
-// export const CQA_MENU: Menu[] = [
-//     {
-//         code: 6,
-//         name: 'KPI колл-центра',
-//         path: '',
-//         icon: 'ft-users',
-//         badge: '',
-//         badgeClass: '',
-//         externalLink: false,
-//         group: {
-//             lines: [
-//                 {
-//                     code: 1,
-//                     name: 'Статистика',
-//                     path: '/sm/cqa/statistic',
-//                     icon: 'ft-align-left',
-//                     badge: '',
-//                     badgeClass: '',
-//                     externalLink: false,
-//                     group: { lines: [] },
-//                 },
-//                 {
-//                     code: 2,
-//                     name: 'Настройки',
-//                     path: '/sm/cqa/settings',
-//                     icon: 'ft-settings',
-//                     badge: '',
-//                     badgeClass: '',
-//                     externalLink: false,
-//                     group: { lines: [] },
-//                 },
-//             ],
-//         },
-//     },
-// ];
+export const CQA_MENU: Menu[] = [
+    {
+        code: 6,
+        name: 'KPI колл-центра',
+        path: '',
+        icon: 'ft-users',
+        badge: '',
+        badgeClass: '',
+        externalLink: false,
+        group: {
+            lines: [
+                {
+                    code: 1,
+                    name: 'Статистика',
+                    path: '/sm/cqa/statistic',
+                    icon: 'ft-align-left',
+                    badge: '',
+                    badgeClass: '',
+                    externalLink: false,
+                    group: { lines: [] },
+                },
+                {
+                    code: 2,
+                    name: 'Настройки',
+                    path: '/sm/cqa/settings',
+                    icon: 'ft-settings',
+                    badge: '',
+                    badgeClass: '',
+                    externalLink: false,
+                    group: { lines: [] },
+                },
+            ],
+        },
+    },
+];
 
 export const SMS_MENU: Menu[] = [
     {
-        code: 7,
+        code: 8,
         name: 'SMS',
         path: '',
         icon: 'icon-speech',
@@ -246,7 +246,7 @@ export const SMS_MENU: Menu[] = [
 
 export const TELEGRAM_MENU: Menu[] = [
     {
-        code: 4,
+        code: 10,
         path: '/sm/tg',
         name: 'Telegram',
         icon: 'ft-send',
@@ -290,11 +290,70 @@ export const TELEGRAM_MENU: Menu[] = [
     },
 ];
 
+export const SMART_ROUTING_MENU: Menu[] = [
+    {
+        code: 4,
+        path: '/sm/smart-routing',
+        name: 'Умная маршрутизация',
+        icon: 'icon-shuffle',
+        badge: '',
+        badgeClass: 'badge badge-pill badge-primary float-right mr-1 mt-1',
+        externalLink: false,
+        group: {
+            lines: [
+                {
+                    code: 3,
+                    name: 'Настройки',
+                    path: '/sm/smart-routing/settings',
+                    icon: 'ft-settings',
+                    badge: '',
+                    badgeClass: '',
+                    externalLink: false,
+                    group: { lines: [] },
+                },
+            ],
+        },
+    },
+];
+
+export const MISSED_CALL_MENU: Menu[] = [
+    {
+        code: 5,
+        path: '/sm/missed-call',
+        name: 'Пропущенные вызовы',
+        icon: 'ft-phone-missed',
+        badge: '',
+        badgeClass: 'badge badge-pill badge-primary float-right mr-1 mt-1',
+        externalLink: false,
+        group: {
+            lines: [],
+        },
+    },
+];
+
+export const TTS_MENU: Menu[] = [
+    {
+        code: 7,
+        path: '/sm/tts',
+        name: 'Синтез речи',
+        icon: 'ft-file-text',
+        badge: '',
+        badgeClass: 'badge badge-pill badge-primary float-right mr-1 mt-1',
+        externalLink: false,
+        group: {
+            lines: [],
+        },
+    },
+];
+
 export const MENU_BY_PRODUCT_TYPE: { [prod in ProductType]?: Menu[] } = {
+    [ProductType.analitic]: CALL_ANALITICS_MENU,
     [ProductType.api]: API_MENU,
+    [ProductType.sm]: SMART_ROUTING_MENU,
+    [ProductType.missedCall]: MISSED_CALL_MENU,
+    [ProductType.cqa]: CQA_MENU,
+    [ProductType.tts]: TTS_MENU,
     [ProductType.sms]: SMS_MENU,
-    // [ProductType.cqa]: CQA_MENU,
     [ProductType.bitrix]: CRM_MENU,
     [ProductType.telegram]: TELEGRAM_MENU,
-    // [ProductType.analitic]: CALL_ANALITICS_MENU,
 };
