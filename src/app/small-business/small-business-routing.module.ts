@@ -18,6 +18,11 @@ export const SM_ROUTES: Routes = [
         loadChildren: async () => (await import('./voip/voip.module')).VoipModule,
     },
     {
+        path: 'smart-routing',
+        loadChildren: async () => (await import('./smart-routing/smart-routing.module')).SmartRoutingModule,
+    },
+
+    {
         path: 'crm',
         loadChildren: async () => (await import('./crm/crm.module')).CrmModule,
     },

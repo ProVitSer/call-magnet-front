@@ -28,3 +28,9 @@ export interface CrmConfigData {
     hash: string;
     token: string;
 }
+
+export enum CrmService {
+    alfa = 'alfa-crm',
+    amocrm = 'amocrm',
+    bitrix = 'bitrix',
+}
