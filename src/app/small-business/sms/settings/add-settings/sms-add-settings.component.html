@@ -24,7 +24,6 @@
                                         </div>
                                     </div>
                                 </div>
-                                
                                 <div class="col-lg-4 col-md-12 col-12">
                                     <div class="card unavailable-card" style="opacity: 0.5;">
                                         <div class="card-content text-center">
@@ -56,8 +55,6 @@
                             </div>
                         </form>
                     </aw-wizard-step>
-
-
                     <aw-wizard-step [stepTitle]="" [navigationSymbol]="{ symbol: '&#xf1d8;', fontFamily: 'FontAwesome' }">
                         <form #personalForm="ngForm" class="editForm" novalidate>
                            <h4 class="head text-center">Укажите учетные данные для смс сервиса</h4>
@@ -79,10 +76,7 @@
                                           <small class="form-text text-muted danger" *ngIf="!password.valid && (password.dirty || password.touched)">Поле обязательно для заполнения!</small>
                                        </div>
                                     </div>
-
-                              
                                  </div>
-
                                  <div class="form-group">
                                     <label class="form-control-label center-label" for="text">Текст смс сообщения</label>
                                     <input class="form-control input-md center-input" ngModel  [(ngModel)]="smsText" #text="ngModel" required id="text" name="text" type="text">
@@ -105,8 +99,6 @@
                            <ngx-spinner></ngx-spinner>
                         </form>
                         </aw-wizard-step>
-
-
                 </aw-wizard>
             </div>
         </div>
