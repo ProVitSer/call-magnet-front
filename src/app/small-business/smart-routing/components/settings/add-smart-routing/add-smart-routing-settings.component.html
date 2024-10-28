@@ -42,7 +42,7 @@
                    </div>
                    <div class='col-md-4 col-12 '></div>
                    <div class='col-md-4 col-12' *ngIf="aiRouting">
-                      <div class="form-group">
+                      <div class="form-group" style="margin: 30px 20px 30px 50px;">
                          <label class="form-control-label center-label" for="defaultNumber">Номер маршрутизации по умолчанию</label>
                          <input class="form-control input-md center-input" ngModel [(ngModel)]="defaultRoutingNumber" #defaultNumber="ngModel" required id="defaultNumber" name="defaultNumber" type="text">
                          <small class="form-text text-muted danger" *ngIf="!defaultNumber.valid && (defaultNumber.dirty || defaultNumber.touched)">Поле обязательно для заполнения!</small>
