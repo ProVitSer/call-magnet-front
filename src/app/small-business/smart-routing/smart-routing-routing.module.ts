@@ -6,7 +6,7 @@ import { AddSmartRoutingSettingsComponent } from './components/settings/add-smar
 
 const routes: Routes = [
     {
-        path: 'settings',
+        path: '',
         component: SmartRoutingSettingsComponent,
         data: {
             title: 'Настройки Умной маршрутизации',
@@ -15,7 +15,7 @@ const routes: Routes = [
     },
 
     {
-        path: 'settings/add',
+        path: 'add',
         component: AddSmartRoutingSettingsComponent,
         data: {
             title: 'Настройки Умной маршрутизации',

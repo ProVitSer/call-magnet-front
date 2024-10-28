@@ -69,7 +69,7 @@ export class AddSmartRoutingSettingsComponent implements OnInit {
             SweetalertService.autoCloseSuccessAlert('', 'Настройки успешно добавлены', 5000);
 
             setTimeout(() => {
-                this.router.navigate(['sm/smart-routing/settings']);
+                this.router.navigate(['sm/smart-routing']);
             }, 5000);
         } catch (e) {
             this.spinner.hide();

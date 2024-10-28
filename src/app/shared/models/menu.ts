@@ -300,18 +300,7 @@ export const SMART_ROUTING_MENU: Menu[] = [
         badgeClass: 'badge badge-pill badge-primary float-right mr-1 mt-1',
         externalLink: false,
         group: {
-            lines: [
-                {
-                    code: 3,
-                    name: 'Настройки',
-                    path: '/sm/smart-routing/settings',
-                    icon: 'ft-settings',
-                    badge: '',
-                    badgeClass: '',
-                    externalLink: false,
-                    group: { lines: [] },
-                },
-            ],
+            lines: [],
         },
     },
 ];
