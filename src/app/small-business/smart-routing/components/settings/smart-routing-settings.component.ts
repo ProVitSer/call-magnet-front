@@ -1,11 +1,10 @@
 import { AfterViewInit, ChangeDetectorRef, Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ColumnMode, DatatableComponent } from '@swimlane/ngx-datatable';
 import { SweetalertService } from 'app/shared/services/sweetalert.service';
 import { SmartRoutingService } from './services/smart-routing.service';
 import { SmartRoutingConfigData } from './models/smart-routing.model';
 import Swal from 'sweetalert2';
-import { AddSmartRoutingSettingsModalComponent } from './add-smart-routing/add-smart-routing-settings-modal.component';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
     selector: 'app-smart-routing-settings',
@@ -22,7 +21,8 @@ export class SmartRoutingSettingsComponent implements OnInit, AfterViewInit {
     constructor(
         private readonly smartRoutingService: SmartRoutingService,
         private changeDetector: ChangeDetectorRef,
-        private modalService: NgbModal,
+        private router: Router,
+        private route: ActivatedRoute,
     ) {}
 
     ngOnInit() {}
@@ -44,14 +44,7 @@ export class SmartRoutingSettingsComponent implements OnInit, AfterViewInit {
     }
 
     async addSmartRouting() {
-        const modalRef = this.modalService.open(AddSmartRoutingSettingsModalComponent);
-        modalRef.componentInstance.addSmartRoutingAdded.subscribe(async (smartRoutingData: any) => {
-            try {
-                this.getSMConfig();
-            } catch (e) {
-                SweetalertService.errorAlert('', 'Ошибка добавление пользователя telegram');
-            }
-        });
+        this.router.navigate(['add'], { relativeTo: this.route });
     }
 
     async onDelete(row: SmartRoutingConfigData) {

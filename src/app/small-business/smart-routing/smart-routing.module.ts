@@ -15,10 +15,10 @@ import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { PipeModule } from 'app/shared/pipes/pipe.module';
 import { NgbDatepickerModule } from '@ng-bootstrap/ng-bootstrap';
 import { SmartRoutingSettingsComponent } from './components/settings/smart-routing-settings.component';
-import { AddSmartRoutingSettingsModalComponent } from './components/settings/add-smart-routing/add-smart-routing-settings-modal.component';
+import { AddSmartRoutingSettingsComponent } from './components/settings/add-smart-routing/add-smart-routing-settings.component';
 
 @NgModule({
-    declarations: [SmartRoutingSettingsComponent, AddSmartRoutingSettingsModalComponent],
+    declarations: [SmartRoutingSettingsComponent, AddSmartRoutingSettingsComponent],
     imports: [
         SmartRoutingRoutingModule,
         CommonModule,
