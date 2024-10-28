@@ -21,7 +21,10 @@ export const SM_ROUTES: Routes = [
         path: 'smart-routing',
         loadChildren: async () => (await import('./smart-routing/smart-routing.module')).SmartRoutingModule,
     },
-
+    {
+        path: 'missed-call',
+        loadChildren: async () => (await import('./missed-call/missed-call.module')).MissedCallModule,
+    },
     {
         path: 'crm',
         loadChildren: async () => (await import('./crm/crm.module')).CrmModule,

@@ -1,0 +1,83 @@
+<section id="ngx-datatable-row-details">
+    <div class="row">
+      <div class="col-12">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h4 class="card-title mb-0">Пропущенные вызовы</h4>
+                <button
+                  type="button"
+                  class="btn btn-success bg-light-success mr-3 mb-1"
+                  (click)="addMissedCallConfig()">
+                  <i class="ft-phone-missed"></i>
+                </button>
+              </div>
+          <div class="card-content">
+            <div class="card-body">
+              <ngx-datatable #tablesMC class="bootstrap core-bootstrap" 
+            [columnMode]="ColumnMode.force"
+            [headerHeight]="50" 
+            [footerHeight]="50" 
+            [rowHeight]="'auto'" 
+            [rows]="rows" 
+            [scrollbarH]="false">
+                <ngx-datatable-column name="Название транка" prop="trunkName" [width]="150">
+                    <ng-template let-row="row" let-name="value" ngx-datatable-cell-template>
+                      <div class="d-flex align-items-center">
+                        <i class="ft-2x" style="font-size: 15px; margin-right: 8px;"></i>
+                        <div class="cell-line-height">
+                          <p class="font-medium-1 line-height-1 mb-0">{{ row.trunkName }}</p>
+                        </div>
+                      </div>
+                    </ng-template>
+                  </ngx-datatable-column>
+
+
+                <ngx-datatable-column name="Сервис уведомления" prop="missedServiceType" [width]="150">
+                    <ng-template let-row="row" let-name="value" ngx-datatable-cell-template>
+                      <div class="center-image">
+                        <div class="center-image d-flex justify-content-around">
+                            <ng-container *ngFor="let service of row.missedServiceType">
+                              <img
+                                *ngIf="service === 'sms'"
+                                src="assets/img/icons/sms-mc-logo.png"
+                                alt="sms"
+                                style="width: 45px; height: 62px; margin: 0 5px;"
+                              />
+                              <img
+                                *ngIf="service === 'tg'"
+                                src="assets/img/icons/Telegram_logo.png"
+                                alt="tg"
+                                style="width: 45px; height: 50px; margin: 0 5px;"
+                              />
+                              <img
+                                *ngIf="service === 'crm'"
+                                src="assets/img/icons/crm-mc-logo.png"
+                                alt="crm"
+                                style="width: 45px; height: 50px; margin: 0 5px;"
+                              />
+                            </ng-container>
+                          </div>
+                        </div>
+                    </ng-template>
+                  </ngx-datatable-column>
+
+                  <ngx-datatable-column name="Действия" [width]="50">
+                    <ng-template let-row="row" ngx-datatable-cell-template>
+                      <div class="d-flex justify-content-start align-items-center">
+                        <p class="font-medium-1 line-height-1 mb-0">&nbsp; &nbsp; &nbsp;</p>
+                        <i
+                          class="ft-trash-2 text-danger cursor-pointer"
+                          style="font-size: 20px; margin-left: -10px;"  
+                          (click)="onDelete(row)"
+                          title="Удалить"
+                        ></i>
+                      </div>
+                    </ng-template>
+                  </ngx-datatable-column>
+              </ngx-datatable>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+</section>

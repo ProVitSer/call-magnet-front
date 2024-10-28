@@ -1,0 +1,19 @@
+.icon-tg::before {
+    content: "\f1d8"; /* Пример для иконки Telegram */
+}
+
+.icon-crm::before {
+    content: "\f0f7"; /* Пример иконки CRM */
+}
+
+.icon-sms::before {
+    content: "\f10b"; /* Пример иконки SMS */
+}
+
+.text-success {
+    color: #06f13d;
+}
+
+.text-muted {
+    color: #f80404;
+}
