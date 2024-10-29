@@ -41,4 +41,8 @@ export const SM_ROUTES: Routes = [
         path: 'tts',
         loadChildren: async () => (await import('./tts/tts.module')).TtsModule,
     },
+    {
+        path: 'cqa',
+        loadChildren: async () => (await import('./cqa/cqa.module')).CqaModule,
+    },
 ];

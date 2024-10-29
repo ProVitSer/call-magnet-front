@@ -3,7 +3,6 @@ import { ColumnMode, DatatableComponent } from '@swimlane/ngx-datatable';
 import { SweetalertService } from 'app/shared/services/sweetalert.service';
 import { TtsFilesService } from './service/tts-files..service';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
-import { TtsFilesData } from '../models/tts.model';
 import Swal from 'sweetalert2';
 import { Router, ActivatedRoute } from '@angular/router';
 
