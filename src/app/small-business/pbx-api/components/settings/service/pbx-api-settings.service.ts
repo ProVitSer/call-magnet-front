@@ -29,7 +29,6 @@ export class PbxApiSettingsService {
         return this.http
 
             .get(`${this.apiUrl}/software-distribution/programm`, { params: { os: selectedOS }, responseType: 'blob' })
-
             .subscribe(
                 (response: Blob) => {
                     const downloadURL = window.URL.createObjectURL(response);
