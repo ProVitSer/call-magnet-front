@@ -8,7 +8,12 @@
                 <div class="card-content">
                     <div class="card-body">
                         <div class="form-group switchery-info d-flex align-items-center">
-                            <ui-switch [(ngModel)]="isAiEnabled" class="switchery" (change)="toggleAiEvaluation()"></ui-switch>
+                            <ui-switch 
+                            [(ngModel)]="isAiEnabled" 
+                            class="switchery" 
+                            (click)="onToggleSwitch(uiSwitchComponent)"
+                            #uiSwitchComponent
+                            ></ui-switch>
                             <label for="switchery" class="ml-2">Включить AI робота оценки качества</label>
                         </div>
 
@@ -35,7 +40,6 @@
                                 <div class="col-md-6">
                                     <div class="form-group mb-4" *ngIf="!isAiEnabled && cqaMainAudioSrc">
                                         <audio controls [src]="cqaMainAudioSrc"></audio>
-                                        <source src="path/to/first-file.wav" type="audio/wav" />
                                     </div>
                                     <div class="form-group mt-4" *ngIf="!isAiEnabled && cqaGoodbyeAudioSrc">
                                         <audio controls [src]="cqaGoodbyeAudioSrc"></audio>

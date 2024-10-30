@@ -27,3 +27,18 @@ export interface GetCqaStatisticQuery {
     dateString?: string;
     managerNumber?: string;
 }
+
+export interface CqaConfig {
+    id: number;
+    audioFiles: { fileId: number; cqaFileType: CqaFileType }[];
+    voipTrunkId: string;
+    aiEnabled: boolean;
+    clientId: number;
+    createdAt: Date;
+    updatedAt: Date;
+}
+
+export enum CqaFileType {
+    cqaMain = 'cqa-main',
+    cqaGoodbye = 'cqa-goodbye',
+}
