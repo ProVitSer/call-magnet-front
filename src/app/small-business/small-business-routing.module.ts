@@ -2,8 +2,8 @@ import { Routes } from '@angular/router';
 
 export const SM_ROUTES: Routes = [
     {
-        path: 'dashboard',
-        loadChildren: async () => (await import('./dashboard-small-business/dashboard-small-business.module')).DashboardSmallBusinessModule,
+        path: 'analytics',
+        loadChildren: async () => (await import('./analytics/analytics.module')).AnalyticsModule,
     },
     {
         path: 'pbx-api',

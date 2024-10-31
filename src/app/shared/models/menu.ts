@@ -16,16 +16,16 @@ export interface Group {
 }
 
 export const BASE_ROLE_MENU: Menu[] = [
-    {
-        code: 1,
-        name: 'Информ панель',
-        path: '/sm/dashboard',
-        icon: 'ft-monitor',
-        badge: '',
-        badgeClass: '',
-        externalLink: false,
-        group: { lines: [] },
-    },
+    // {
+    //     code: 1,
+    //     name: 'Информ панель',
+    //     path: '/sm/dashboard',
+    //     icon: 'ft-monitor',
+    //     badge: '',
+    //     badgeClass: '',
+    //     externalLink: false,
+    //     group: { lines: [] },
+    // },
 
     {
         code: 11,
@@ -77,19 +77,39 @@ export const BASE_ROLE_MENU: Menu[] = [
 
 export const CALL_ANALITICS_MENU: Menu[] = [
     {
-        code: 2,
-        path: '/sm/call-analytics',
-        name: 'Аналитика',
+        code: 1,
+        path: '',
+        name: 'Панель аналитики',
         icon: 'ft-bar-chart-2',
-        //badge: 'Новое',
         badge: '',
-        // badgeClass: 'badge badge-pill badge-primary float-right mr-1 mt-1',
         badgeClass: '',
         externalLink: false,
-        group: { lines: [] },
+        group: {
+            lines: [
+                {
+                    code: 1,
+                    name: 'Аналитика',
+                    path: '/sm/analytics/call',
+                    icon: 'ft-bar-chart-2',
+                    badge: '',
+                    badgeClass: '',
+                    externalLink: false,
+                    group: { lines: [] },
+                },
+                {
+                    code: 2,
+                    name: 'CDR',
+                    path: '/sm/analytics/cdr',
+                    icon: 'ft-phone-call',
+                    badge: '',
+                    badgeClass: '',
+                    externalLink: false,
+                    group: { lines: [] },
+                },
+            ],
+        },
     },
 ];
-
 export const CRM_MENU: Menu[] = [
     {
         code: 9,
