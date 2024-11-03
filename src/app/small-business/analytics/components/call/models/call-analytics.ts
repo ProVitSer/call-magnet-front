@@ -45,3 +45,60 @@ export type ChartOptions = {
     theme: ApexTheme;
     responsive: ApexResponsive[];
 };
+
+export interface CallAnanliticsData {
+    totalDailyCalls: number;
+    totalDailyAnsweredCalls: number;
+    totalDailyUnansweredCalls: number;
+    averageDailyTalkTime: string;
+    extensionDaliyStatistic: {
+        maxInboundUnanswered: {
+            callTalkingDur: string;
+            id: number;
+            extension: string;
+            displayName: string;
+            inboundAnsweredCount: number;
+            inboundUnansweredCount: number;
+            outboundCallCount: number;
+            createdAt: Date;
+            updatedAt: Date;
+        }[];
+        maxCallTalkingDur: {
+            callTalkingDur: string;
+            id: number;
+            extension: string;
+            displayName: string;
+            inboundAnsweredCount: number;
+            inboundUnansweredCount: number;
+            outboundCallCount: number;
+            createdAt: Date;
+            updatedAt: Date;
+        }[];
+        maxInboundAnswered: {
+            callTalkingDur: string;
+            id: number;
+            extension: string;
+            displayName: string;
+            inboundAnsweredCount: number;
+            inboundUnansweredCount: number;
+            outboundCallCount: number;
+            createdAt: Date;
+            updatedAt: Date;
+        }[];
+    };
+    dayCallScheduleByHour: {
+        answered: number[];
+        unanswered: number[];
+    };
+    lastSevenDaysCalls: Record<
+        string,
+        {
+            answered: number;
+            unanswered: number;
+        }
+    >[];
+    dayRegionCall: {
+        name: string;
+        value: number;
+    }[];
+}

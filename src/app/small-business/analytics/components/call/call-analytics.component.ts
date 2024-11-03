@@ -1,12 +1,12 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import * as Chartist from 'chartist';
 import { ApexXAxis } from 'ng-apexcharts';
-import { Router, ActivatedRoute } from '@angular/router';
 import { Subject } from 'rxjs';
 import ChartistTooltip from 'chartist-plugin-tooltips-updated';
-import { DATA, pieChartColorScheme, pieChartSingle, THEME_COLORS } from './constaints';
-import { Chart, ChartOptions } from './models/call-analytics';
+import { WIDGET_СРФКЕ_DATA } from './constaints';
+import { CallAnanliticsData, Chart, ChartOptions } from './models/call-analytics';
 import { CallAnaliticsService } from './services/call-analytics.service';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
     selector: 'app-call-analytics',
@@ -15,21 +15,232 @@ import { CallAnaliticsService } from './services/call-analytics.service';
 })
 export class CallAnalyticsComponent implements OnInit, OnDestroy {
     ngDestroy$ = new Subject();
+    AllCallsWidget: Chart;
+    ProcessedCallsWidget: Chart;
+    MissedCallsWidget: Chart;
+    AverageTalkTimeWidget: Chart;
     xaxis: ApexXAxis;
-    columnChartOptions: Partial<ChartOptions>;
-    pieChartColorScheme = pieChartColorScheme;
-    pieChartShowLabels = true;
-    pieChartSingle = pieChartSingle;
-    pieChartShowLegend = true;
-    pieChartExplodeSlices = false;
-    pieChartDoughnut = true;
-    pieChartGradient = true;
+    weeklyLineChart: Partial<ChartOptions>;
+    CallSchedule: Partial<Chart>;
+    regionCallStatisticChartColorScheme = {
+        domain: ['#975AFF', '#40C057', '#F55252', '#2F8BE6', '#F77E17', '#616D89', '#9e9e9e', '#0C5C38'],
+    };
+    regionCallStatisticChartShowLabels = true;
+    regionCallStatisticData: {
+        name: string;
+        value: number;
+    }[] = [{ name: '', value: 0 }];
+    regionCallStatisticChartShowLegend = true;
+    regionCallStatisticChartExplodeSlices = false;
+    regionCallStatisticChartDoughnut = true;
+    regionCallStatisticChartGradient = true;
+    totalCalls = 0;
+    processedCalls = 0;
+    missedCalls = 0;
+    averageTalkTime = '00:00:00';
+    maxInboundAnswered: {
+        callTalkingDur: string;
+        id: number;
+        extension: string;
+        displayName: string;
+        inboundAnsweredCount: number;
+        inboundUnansweredCount: number;
+        outboundCallCount: number;
+    }[] = [
+        {
+            id: 4839,
+            extension: '204',
+            displayName: 'Московский',
+            inboundAnsweredCount: 0,
+            inboundUnansweredCount: 0,
+            outboundCallCount: 0,
+            callTalkingDur: '00:00:00',
+        },
+    ];
+    maxCallTalkingDur: {
+        callTalkingDur: string;
+        id: number;
+        extension: string;
+        displayName: string;
+        inboundAnsweredCount: number;
+        inboundUnansweredCount: number;
+        outboundCallCount: number;
+    }[] = [
+        {
+            id: 4839,
+            extension: '204',
+            displayName: 'Московский',
+            inboundAnsweredCount: 0,
+            inboundUnansweredCount: 0,
+            outboundCallCount: 0,
+            callTalkingDur: '00:00:00',
+        },
+    ];
+    maxInboundUnanswered: {
+        callTalkingDur: string;
+        id: number;
+        extension: string;
+        displayName: string;
+        inboundAnsweredCount: number;
+        inboundUnansweredCount: number;
+        outboundCallCount: number;
+    }[] = [
+        {
+            id: 4839,
+            extension: '204',
+            displayName: 'Московский',
+            inboundAnsweredCount: 0,
+            inboundUnansweredCount: 0,
+            outboundCallCount: 0,
+            callTalkingDur: '00:00:00',
+        },
+    ];
+    isDataLoaded = false;
+
     constructor(
-        private router: Router,
-        private route: ActivatedRoute,
         private callAnaliticsService: CallAnaliticsService,
-    ) {
-        this.columnChartOptions = {
+        private spinner: NgxSpinnerService,
+        private changeDetector: ChangeDetectorRef,
+    ) {}
+
+    async ngOnInit(): Promise<void> {
+        this.spinner.show(undefined, {
+            type: 'square-jelly-box',
+            size: 'small',
+            bdColor: 'rgba(0, 0, 0, 0.8)',
+            color: '#fff',
+            fullScreen: false,
+        });
+        const data = await this.callAnaliticsService.getCallAnalitics();
+
+        this.regionCallStatisticData = data.dayRegionCall;
+
+        this.totalCalls = data.totalDailyCalls;
+        this.processedCalls = data.totalDailyAnsweredCalls;
+        this.missedCalls = data.totalDailyUnansweredCalls;
+        this.averageTalkTime = data.averageDailyTalkTime;
+        this.maxInboundAnswered = data.extensionDaliyStatistic.maxInboundAnswered;
+        this.maxCallTalkingDur = data.extensionDaliyStatistic.maxCallTalkingDur;
+        this.maxInboundUnanswered = data.extensionDaliyStatistic.maxInboundUnanswered;
+
+        this.initWidgets();
+        this.initWeeklyLineChart(data);
+        this.initCallSchedule(data);
+        this.isDataLoaded = true;
+        this.spinner.hide();
+        this.changeDetector.detectChanges();
+    }
+
+    private transformData(data: Record<string, { answered: number; unanswered: number }>[]) {
+        const category: string[] = [];
+        const answered: number[] = [];
+        const unanswered: number[] = [];
+
+        data.forEach((dayData) => {
+            const date = Object.keys(dayData)[0];
+            const { answered: answeredCount, unanswered: unansweredCount } = dayData[date];
+
+            category.push(date);
+            answered.push(answeredCount);
+            unanswered.push(unansweredCount);
+        });
+
+        return { category, answered, unanswered };
+    }
+
+    ngOnDestroy(): void {
+        this.ngDestroy$.next(true);
+        this.ngDestroy$.complete();
+    }
+
+    onResized(event: any) {
+        setTimeout(() => {
+            this.fireRefreshEventOnWindow();
+        }, 300);
+    }
+
+    fireRefreshEventOnWindow = function () {
+        const evt = document.createEvent('HTMLEvents');
+        evt.initEvent('resize', true, false);
+        window.dispatchEvent(evt);
+    };
+
+    onSelect(event) {}
+
+    private initCallSchedule(data: CallAnanliticsData) {
+        this.CallSchedule = {
+            type: 'Line',
+            data: {
+                labels: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23],
+                series: [[...data.dayCallScheduleByHour.answered], [...data.dayCallScheduleByHour.unanswered]],
+            },
+            options: {
+                low: 0,
+                showArea: true,
+                fullWidth: true,
+                onlyInteger: true,
+                axisY: {
+                    low: 0,
+                    scaleMinSpace: 50,
+                },
+                axisX: {
+                    showGrid: false,
+                },
+                plugins: [
+                    ChartistTooltip({
+                        appendToBody: true,
+                        pointClass: 'ct-point-circle',
+                    }),
+                ],
+            },
+            events: {
+                created(data: any): void {
+                    const defs = data.svg.elem('defs');
+                    defs.elem('linearGradient', {
+                        id: 'gradient',
+                        x1: 0,
+                        y1: 1,
+                        x2: 0,
+                        y2: 0,
+                    })
+                        .elem('stop', {
+                            offset: 0,
+                            'stop-opacity': '0.2',
+                            'stop-color': 'rgba(255, 255, 255, 1)',
+                        })
+                        .parent()
+                        .elem('stop', {
+                            offset: 1,
+                            'stop-opacity': '0.2',
+                            'stop-color': 'rgba(181, 131, 255, 1)',
+                        });
+                },
+                draw(data: any): void {
+                    const circleRadius = 4;
+                    if (data.type === 'point') {
+                        const circle = new Chartist.Svg('circle', {
+                            cx: data.x,
+                            cy: data.y,
+                            r: circleRadius,
+                            'ct:value': data.value.y,
+                            'ct:meta': data.meta,
+                            style: 'pointer-events: all !important',
+                            class: 'ct-point-circle',
+                        });
+                        data.element.replace(circle);
+                    } else if (data.type === 'label') {
+                        const dX = data.width / 2 + (30 - data.width);
+                        data.element.attr({ x: data.element.attr('x') - dX });
+                    }
+                },
+            },
+        };
+    }
+
+    private initWeeklyLineChart(data: CallAnanliticsData) {
+        const columnChartOptionsData = this.transformData(data.lastSevenDaysCalls);
+
+        this.weeklyLineChart = {
             chart: {
                 height: 350,
                 type: 'bar',
@@ -40,7 +251,7 @@ export class CallAnalyticsComponent implements OnInit, OnDestroy {
                     enabled: false,
                 },
             },
-            colors: THEME_COLORS,
+            colors: ['#BDF8B6', '#FECBBA'],
             plotOptions: {
                 bar: {
                     horizontal: false,
@@ -62,18 +273,18 @@ export class CallAnalyticsComponent implements OnInit, OnDestroy {
             series: [
                 {
                     name: 'Обработанные вызовы',
-                    data: [50, 110, 90, 85, 115, 100, 90],
+                    data: columnChartOptionsData.answered,
                 },
                 {
                     name: 'Пропущенные вызовы',
-                    data: [40, 100, 80, 75, 105, 90, 80],
+                    data: columnChartOptionsData.unanswered,
                 },
             ],
             legend: {
                 show: false,
             },
             xaxis: {
-                categories: ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'],
+                categories: columnChartOptionsData.category,
                 axisBorder: {
                     color: '#BDBDBD44',
                 },
@@ -88,255 +299,169 @@ export class CallAnalyticsComponent implements OnInit, OnDestroy {
         };
     }
 
-    AllCalls: Chart = {
-        type: 'Line',
-        data: DATA['AllCalls'],
-        options: {
-            axisX: {
-                showGrid: false,
-                showLabel: false,
-                offset: 0,
-            },
-            axisY: {
-                showGrid: false,
-                low: 40,
-                showLabel: false,
-                offset: 0,
-            },
-            plugins: [
-                ChartistTooltip({
-                    appendToBody: true,
-                    currency: '$',
-                    pointClass: 'ct-point-regular',
+    private initWidgets() {
+        this.AllCallsWidget = {
+            type: 'Line',
+            data: WIDGET_СРФКЕ_DATA['AllCallsWidget'],
+            options: {
+                axisX: {
+                    showGrid: false,
+                    showLabel: false,
+                    offset: 0,
+                },
+                axisY: {
+                    showGrid: false,
+                    low: 40,
+                    showLabel: false,
+                    offset: 0,
+                },
+                plugins: [
+                    ChartistTooltip({
+                        appendToBody: true,
+                        currency: '$',
+                        pointClass: 'ct-point-regular',
+                    }),
+                ],
+                lineSmooth: Chartist.Interpolation.cardinal({
+                    tension: 0,
                 }),
-            ],
-            lineSmooth: Chartist.Interpolation.cardinal({
-                tension: 0,
-            }),
-            fullWidth: true,
-        },
-    };
+                fullWidth: true,
+            },
+        };
 
-    ProcessedCalls: Chart = {
-        type: 'Line',
-        data: DATA['ProcessedCalls'],
-        options: {
-            axisX: {
-                showGrid: false,
-                showLabel: false,
-                offset: 0,
-            },
-            axisY: {
-                showGrid: false,
-                low: 40,
-                showLabel: false,
-                offset: 0,
-            },
-            plugins: [
-                ChartistTooltip({
-                    appendToBody: true,
-                    currency: '$',
-                    pointClass: 'ct-point-regular',
+        this.ProcessedCallsWidget = {
+            type: 'Line',
+            data: WIDGET_СРФКЕ_DATA['ProcessedCallsWidget'],
+            options: {
+                axisX: {
+                    showGrid: false,
+                    showLabel: false,
+                    offset: 0,
+                },
+                axisY: {
+                    showGrid: false,
+                    low: 40,
+                    showLabel: false,
+                    offset: 0,
+                },
+                plugins: [
+                    ChartistTooltip({
+                        appendToBody: true,
+                        currency: '$',
+                        pointClass: 'ct-point-regular',
+                    }),
+                ],
+                lineSmooth: Chartist.Interpolation.cardinal({
+                    tension: 0,
                 }),
-            ],
-            lineSmooth: Chartist.Interpolation.cardinal({
-                tension: 0,
-            }),
-            fullWidth: true,
-        },
-        events: {
-            draw(data: any): void {
-                if (data.type === 'point') {
-                    const circle = new Chartist.Svg('circle', {
-                        cx: data.x,
-                        cy: data.y,
-                        r: 4,
-                        'ct:value': data.value.y,
-                        'ct:meta': data.meta,
-                        style: 'pointer-events: all !important',
-                        class: 'ct-point-regular',
-                    });
-                    data.element.replace(circle);
-                }
+                fullWidth: true,
             },
-        },
-    };
+            events: {
+                draw(data: any): void {
+                    if (data.type === 'point') {
+                        const circle = new Chartist.Svg('circle', {
+                            cx: data.x,
+                            cy: data.y,
+                            r: 4,
+                            'ct:value': data.value.y,
+                            'ct:meta': data.meta,
+                            style: 'pointer-events: all !important',
+                            class: 'ct-point-regular',
+                        });
+                        data.element.replace(circle);
+                    }
+                },
+            },
+        };
 
-    MissedCalls: Chart = {
-        type: 'Line',
-        data: DATA['MissedCalls'],
-        options: {
-            axisX: {
-                showGrid: false,
-                showLabel: false,
-                offset: 0,
-            },
-            axisY: {
-                showGrid: false,
-                low: 40,
-                showLabel: false,
-                offset: 0,
-            },
-            plugins: [
-                ChartistTooltip({
-                    appendToBody: true,
-                    currency: '$',
-                    pointClass: 'ct-point-regular',
+        this.MissedCallsWidget = {
+            type: 'Line',
+            data: WIDGET_СРФКЕ_DATA['MissedCallsWidget'],
+            options: {
+                axisX: {
+                    showGrid: false,
+                    showLabel: false,
+                    offset: 0,
+                },
+                axisY: {
+                    showGrid: false,
+                    low: 40,
+                    showLabel: false,
+                    offset: 0,
+                },
+                plugins: [
+                    ChartistTooltip({
+                        appendToBody: true,
+                        currency: '$',
+                        pointClass: 'ct-point-regular',
+                    }),
+                ],
+                lineSmooth: Chartist.Interpolation.cardinal({
+                    tension: 0,
                 }),
-            ],
-            lineSmooth: Chartist.Interpolation.cardinal({
-                tension: 0,
-            }),
-            fullWidth: true,
-        },
-        events: {
-            draw(data: any): void {
-                if (data.type === 'point') {
-                    const circle = new Chartist.Svg('circle', {
-                        cx: data.x,
-                        cy: data.y,
-                        r: 4,
-                        'ct:value': data.value.y,
-                        'ct:meta': data.meta,
-                        style: 'pointer-events: all !important',
-                        class: 'ct-point-regular',
-                    });
-                    data.element.replace(circle);
-                }
+                fullWidth: true,
             },
-        },
-    };
+            events: {
+                draw(data: any): void {
+                    if (data.type === 'point') {
+                        const circle = new Chartist.Svg('circle', {
+                            cx: data.x,
+                            cy: data.y,
+                            r: 4,
+                            'ct:value': data.value.y,
+                            'ct:meta': data.meta,
+                            style: 'pointer-events: all !important',
+                            class: 'ct-point-regular',
+                        });
+                        data.element.replace(circle);
+                    }
+                },
+            },
+        };
 
-    AverageTalkTime: Chart = {
-        type: 'Line',
-        data: DATA['AverageTalkTime'],
-        options: {
-            axisX: {
-                showGrid: false,
-                showLabel: false,
-                offset: 0,
-            },
-            axisY: {
-                showGrid: false,
-                low: 40,
-                showLabel: false,
-                offset: 0,
-            },
-            plugins: [
-                ChartistTooltip({
-                    appendToBody: true,
-                    currency: '$',
-                    pointClass: 'ct-point-regular',
+        this.AverageTalkTimeWidget = {
+            type: 'Line',
+            data: WIDGET_СРФКЕ_DATA['AverageTalkTimeWidget'],
+            options: {
+                axisX: {
+                    showGrid: false,
+                    showLabel: false,
+                    offset: 0,
+                },
+                axisY: {
+                    showGrid: false,
+                    low: 40,
+                    showLabel: false,
+                    offset: 0,
+                },
+                plugins: [
+                    ChartistTooltip({
+                        appendToBody: true,
+                        currency: '$',
+                        pointClass: 'ct-point-regular',
+                    }),
+                ],
+                lineSmooth: Chartist.Interpolation.cardinal({
+                    tension: 0,
                 }),
-            ],
-            lineSmooth: Chartist.Interpolation.cardinal({
-                tension: 0,
-            }),
-            fullWidth: true,
-        },
-        events: {
-            draw(data: any): void {
-                if (data.type === 'point') {
-                    const circle = new Chartist.Svg('circle', {
-                        cx: data.x,
-                        cy: data.y,
-                        r: 4,
-                        'ct:value': data.value.y,
-                        'ct:meta': data.meta,
-                        style: 'pointer-events: all !important',
-                        class: 'ct-point-regular',
-                    });
-                    data.element.replace(circle);
-                }
+                fullWidth: true,
             },
-        },
-    };
-
-    CallSchedule: Chart = {
-        type: 'Line',
-        data: DATA['CallSchedule'],
-        options: {
-            low: 0,
-            showArea: true,
-            fullWidth: true,
-            onlyInteger: true,
-            axisY: {
-                low: 0,
-                scaleMinSpace: 50,
+            events: {
+                draw(data: any): void {
+                    if (data.type === 'point') {
+                        const circle = new Chartist.Svg('circle', {
+                            cx: data.x,
+                            cy: data.y,
+                            r: 4,
+                            'ct:value': data.value.y,
+                            'ct:meta': data.meta,
+                            style: 'pointer-events: all !important',
+                            class: 'ct-point-regular',
+                        });
+                        data.element.replace(circle);
+                    }
+                },
             },
-            axisX: {
-                showGrid: false,
-            },
-            plugins: [
-                ChartistTooltip({
-                    appendToBody: true,
-                    pointClass: 'ct-point-circle',
-                }),
-            ],
-        },
-        events: {
-            created(data: any): void {
-                const defs = data.svg.elem('defs');
-                defs.elem('linearGradient', {
-                    id: 'gradient',
-                    x1: 0,
-                    y1: 1,
-                    x2: 0,
-                    y2: 0,
-                })
-                    .elem('stop', {
-                        offset: 0,
-                        'stop-opacity': '0.2',
-                        'stop-color': 'rgba(255, 255, 255, 1)',
-                    })
-                    .parent()
-                    .elem('stop', {
-                        offset: 1,
-                        'stop-opacity': '0.2',
-                        'stop-color': 'rgba(181, 131, 255, 1)',
-                    });
-            },
-            draw(data: any): void {
-                const circleRadius = 4;
-                if (data.type === 'point') {
-                    const circle = new Chartist.Svg('circle', {
-                        cx: data.x,
-                        cy: data.y,
-                        r: circleRadius,
-                        'ct:value': data.value.y,
-                        'ct:meta': data.meta,
-                        style: 'pointer-events: all !important',
-                        class: 'ct-point-circle',
-                    });
-                    data.element.replace(circle);
-                } else if (data.type === 'label') {
-                    const dX = data.width / 2 + (30 - data.width);
-                    data.element.attr({ x: data.element.attr('x') - dX });
-                }
-            },
-        },
-    };
-
-    ngOnInit(): void {}
-
-    ngOnDestroy(): void {
-        this.ngDestroy$.next(true);
-        this.ngDestroy$.complete();
-    }
-
-    onResized(event: any) {
-        setTimeout(() => {
-            this.fireRefreshEventOnWindow();
-        }, 300);
-    }
-
-    fireRefreshEventOnWindow = function () {
-        const evt = document.createEvent('HTMLEvents');
-        evt.initEvent('resize', true, false);
-        window.dispatchEvent(evt);
-    };
-
-    onSelect(event) {
-        //your code here
+        };
     }
 }
