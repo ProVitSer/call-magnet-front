@@ -11,7 +11,7 @@ import { Router } from '@angular/router';
 })
 export class CallAnaliticsService {
     private readonly apiUrl = `${environment.API_GATEWAY_URL}`;
-    private readonly ptgMessagesUrl = `${this.apiUrl}/call-analytics`;
+    private readonly analiticUrl = `${this.apiUrl}/call-analytics`;
 
     constructor(
         public router: Router,
@@ -20,7 +20,7 @@ export class CallAnaliticsService {
 
     public async getCallAnalitics() {
         return firstValueFrom(
-            this.http.get<CallAnanliticsData>(`${this.ptgMessagesUrl}`).pipe(
+            this.http.get<CallAnanliticsData>(`${this.analiticUrl}/analitic`).pipe(
                 catchError((error) => {
                     throw error;
                 }),

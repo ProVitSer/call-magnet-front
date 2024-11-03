@@ -36,7 +36,6 @@ import { TgSettingsComponent } from './components/settings/tg-settings.component
         CustomFormsModule,
         UiSwitchModule,
         NgxSpinnerModule,
-        CommonModule,
         NgxDatatableModule,
         PipeModule,
         NgbDatepickerModule,
