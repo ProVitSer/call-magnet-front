@@ -103,6 +103,12 @@ export class CallsAnalyticsComponent implements OnInit, OnDestroy {
         private changeDetector: ChangeDetectorRef,
     ) {}
 
+    ngAfterViewInit() {
+        setTimeout(() => {
+            this.changeDetector.detectChanges();
+        }, 100);
+    }
+
     async ngOnInit(): Promise<void> {
         this.spinner.show(undefined, {
             type: 'square-jelly-box',
@@ -126,9 +132,10 @@ export class CallsAnalyticsComponent implements OnInit, OnDestroy {
         this.initWidgets();
         this.initWeeklyLineChart(data);
         this.initCallSchedule(data);
-        this.isDataLoaded = true;
+
         this.spinner.hide();
         this.changeDetector.detectChanges();
+        this.isDataLoaded = true;
     }
 
     private transformData(data: Record<string, { answered: number; unanswered: number }>[]) {

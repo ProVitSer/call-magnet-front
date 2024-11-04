@@ -5,7 +5,6 @@ import { NgApexchartsModule } from 'ng-apexcharts';
 import { NgbDatepickerModule, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AngularResizedEventModule } from 'angular-resize-event';
 import { MatchHeightModule } from 'app/shared/directives/match-height.directive';
-import { ChartsModule } from 'ng2-charts';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { CallsAnalyticsComponent } from './components/calls/calls-analytics.component';
 import { AnalyticsRoutingModule } from './analytics-routing.module';
@@ -14,9 +13,11 @@ import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { PipeModule } from 'app/shared/pipes/pipe.module';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { FormsModule } from '@angular/forms';
+import { CallDetailComponent } from './components/call-detail/call-detail.component';
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 @NgModule({
-    declarations: [CallsAnalyticsComponent, CdrAnalyticsComponent],
+    declarations: [CallsAnalyticsComponent, CdrAnalyticsComponent, CallDetailComponent],
     imports: [
         CommonModule,
         AnalyticsRoutingModule,
@@ -25,7 +26,6 @@ import { FormsModule } from '@angular/forms';
         NgApexchartsModule,
         AngularResizedEventModule,
         MatchHeightModule,
-        ChartsModule,
         ChartistModule,
         NgxChartsModule,
         NgApexchartsModule,
@@ -35,6 +35,7 @@ import { FormsModule } from '@angular/forms';
         NgbModule,
         NgSelectModule,
         FormsModule,
+        NgxSpinnerModule,
     ],
 })
 export class AnalyticsModule {}
