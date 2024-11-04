@@ -56,11 +56,20 @@
                             "node_modules/@swimlane/ngx-datatable/assets/icons.css",
                             "src/assets/css/demo.css",
                             "src/assets/sass/core.scss",
-                            "src/styles.css"
+                            "src/styles.css",
+                            "node_modules/treant-js/Treant.css",
+                            "node_modules/treant-js/vendor/perfect-scrollbar/perfect-scrollbar.css"
                         ],
                         "scripts": [
                             "src/assets/vendor/pace/pace.min.js",
-                            "node_modules/apexcharts/dist/apexcharts.min.js"
+                            "node_modules/apexcharts/dist/apexcharts.min.js",
+                            "node_modules/jquery/dist/jquery.min.js",
+                            "node_modules/popper.js/dist/umd/popper.js",
+                            "node_modules/treant-js/vendor/jquery.easing.js",
+                            "node_modules/treant-js/vendor/jquery.mousewheel.js",
+                            "node_modules/treant-js/vendor/perfect-scrollbar/perfect-scrollbar.js",
+                            "node_modules/treant-js/vendor/raphael.js",
+                            "node_modules/treant-js/Treant.js"
                         ],
                         "vendorChunk": true,
                         "extractLicenses": false,

@@ -3,6 +3,8 @@ import { ColumnMode, DatatableComponent } from '@swimlane/ngx-datatable';
 import { SweetalertService } from 'app/shared/services/sweetalert.service';
 import { CdrAnaliticsService } from './services/cdr-analitics.service';
 import { format } from 'date-fns';
+import { CdrData } from './models/cdr-analytics';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
     selector: 'app-cdr-analytics',
@@ -29,6 +31,8 @@ export class CdrAnalyticsComponent implements OnInit {
     constructor(
         private changeDetector: ChangeDetectorRef,
         private readonly cdrAnaliticsService: CdrAnaliticsService,
+        private router: Router,
+        private route: ActivatedRoute,
     ) {
         this.rowsTemp = this.rows;
     }
@@ -57,11 +61,11 @@ export class CdrAnalyticsComponent implements OnInit {
         }
     }
 
-    rowDetailsToggleExpand(row) {
+    rowDetailsToggleExpand(row: CdrData) {
         this.tableRowDetails.rowDetail.toggleExpandRow(row);
     }
 
-    toggleExpandRowResponsive(row) {
+    toggleExpandRowResponsive(row: CdrData) {
         this.tableResponsive.rowDetail.toggleExpandRow(row);
     }
 
@@ -108,7 +112,7 @@ export class CdrAnalyticsComponent implements OnInit {
         this.changeDetector.markForCheck();
     }
 
-    async getVoiceFile(row: any) {
+    async getVoiceFile(row: CdrData) {
         try {
             if (row.recordingUrl) {
                 window.URL.revokeObjectURL(row.recordingUrl);
@@ -119,7 +123,7 @@ export class CdrAnalyticsComponent implements OnInit {
         }
     }
 
-    async downloadVoiceFile(row: any) {
+    async downloadVoiceFile(row: CdrData) {
         if (row.recordingUrl) {
             const url = row.recordingUrl;
             const filename = url.split('/').pop();
@@ -166,5 +170,13 @@ export class CdrAnalyticsComponent implements OnInit {
 
             return call;
         });
+    }
+
+    analyzeCall(rows: CdrData) {
+        this.redirectToCall(rows.callId);
+    }
+
+    redirectToCall(callId: number) {
+        this.router.navigate([`/sm/analytics/call/${callId}`]);
     }
 }
