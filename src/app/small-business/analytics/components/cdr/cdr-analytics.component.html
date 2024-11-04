@@ -63,8 +63,8 @@
                 <ngx-datatable-column name="Источник" prop="sourceDisplayName" [width]="50"></ngx-datatable-column>
                 <ngx-datatable-column name="Направление" prop="destinationDisplayName" [width]="50"></ngx-datatable-column>                
                 <ngx-datatable-column name="Статус" prop="answered" [width]="50">
-                  <ng-template let-tgUserId="value" ngx-datatable-cell-template>
-                    <div class="badge badge-pill"
+                    <ng-template let-row="row" let-answered="value" ngx-datatable-cell-template>
+                        <div class="badge badge-pill"
                     [ngClass]="{'bg-light-success': answered, 'bg-light-warning': !answered}">
                     {{ answered ? "Принятый" : "Пропущенный" }}
                     </div>
