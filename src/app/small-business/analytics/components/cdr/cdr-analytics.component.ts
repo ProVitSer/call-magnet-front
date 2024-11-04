@@ -101,6 +101,8 @@ export class CdrAnalyticsComponent implements OnInit {
         });
 
         this.rows = response.data;
+        this.colorizeRows(this.rows);
+
         this.rowsTemp = response.data;
         this.totalRecords = response.totalRecords;
         this.changeDetector.markForCheck();
@@ -140,9 +142,29 @@ export class CdrAnalyticsComponent implements OnInit {
             return '';
         }
 
-        const callIds = this.rows.map((r) => r.callId);
-        const isUnique = callIds.filter((id) => id === row.callId).length === 1;
-
-        return isUnique ? '' : { 'row-color': true };
+        return row.color ? { 'row-color': true } : '';
     };
+
+    private colorizeRows(rows: any) {
+        const colors = [true, false];
+        const callIdColorMap = {};
+        let currentColorIndex = 0;
+
+        return rows.map((call) => {
+            const { callId } = call;
+
+            if (callIdColorMap.hasOwnProperty(callId)) {
+                call.color = callIdColorMap[callId];
+            } else {
+                const color = colors[currentColorIndex];
+                call.color = color;
+
+                callIdColorMap[callId] = color;
+
+                currentColorIndex = 1 - currentColorIndex;
+            }
+
+            return call;
+        });
+    }
 }
