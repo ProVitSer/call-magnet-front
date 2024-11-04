@@ -4,16 +4,16 @@ import { ApexXAxis } from 'ng-apexcharts';
 import { Subject } from 'rxjs';
 import ChartistTooltip from 'chartist-plugin-tooltips-updated';
 import { WIDGET_СРФКЕ_DATA } from './constaints';
-import { CallAnanliticsData, Chart, ChartOptions } from './models/call-analytics';
-import { CallAnaliticsService } from './services/call-analytics.service';
+import { CallAnanliticsData, Chart, ChartOptions } from './models/calls-analytics';
+import { CallsAnaliticsService } from './services/calls-analytics.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
-    selector: 'app-call-analytics',
-    templateUrl: './call-analytics.component.html',
-    styleUrls: ['./call-analytics.component.scss'],
+    selector: 'app-calls-analytics',
+    templateUrl: './calls-analytics.component.html',
+    styleUrls: ['./calls-analytics.component.scss'],
 })
-export class CallAnalyticsComponent implements OnInit, OnDestroy {
+export class CallsAnalyticsComponent implements OnInit, OnDestroy {
     ngDestroy$ = new Subject();
     AllCallsWidget: Chart;
     ProcessedCallsWidget: Chart;
@@ -98,7 +98,7 @@ export class CallAnalyticsComponent implements OnInit, OnDestroy {
     isDataLoaded = false;
 
     constructor(
-        private callAnaliticsService: CallAnaliticsService,
+        private callsAnaliticsService: CallsAnaliticsService,
         private spinner: NgxSpinnerService,
         private changeDetector: ChangeDetectorRef,
     ) {}
@@ -111,7 +111,7 @@ export class CallAnalyticsComponent implements OnInit, OnDestroy {
             color: '#fff',
             fullScreen: false,
         });
-        const data = await this.callAnaliticsService.getCallAnalitics();
+        const data = await this.callsAnaliticsService.getCallAnalitics();
 
         this.regionCallStatisticData = data.dayRegionCall;
 

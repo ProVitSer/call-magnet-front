@@ -57,13 +57,13 @@ export class LoginPageComponent implements OnInit, OnDestroy {
             const tokenExp = this.jwtTokenService.isTokenExpired(token);
 
             if (!tokenExp) {
-                return this.router.navigate(['sm/analytics/call']);
+                return this.router.navigate(['sm/analytics/calls']);
             }
         }
 
         this.initializeLoginForm();
 
-        this.router.navigate(['sm/analytics/call']);
+        this.router.navigate(['sm/analytics/calls']);
     }
 
     initializeLoginForm() {
@@ -147,7 +147,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
         if (isSetUserData) {
             this.spinner.hide();
 
-            this.router.navigate(['sm/analytics/call']);
+            this.router.navigate(['sm/analytics/calls']);
         } else {
             this.spinner.hide();
             this.errorMessage = 'Что-то пошло не так, попробуйте позже';

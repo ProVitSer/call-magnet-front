@@ -89,7 +89,7 @@ export const CALL_ANALITICS_MENU: Menu[] = [
                 {
                     code: 1,
                     name: 'Аналитика',
-                    path: '/sm/analytics/call',
+                    path: '/sm/analytics/calls',
                     icon: 'ft-bar-chart-2',
                     badge: '',
                     badgeClass: '',

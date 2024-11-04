@@ -7,7 +7,7 @@ import { AngularResizedEventModule } from 'angular-resize-event';
 import { MatchHeightModule } from 'app/shared/directives/match-height.directive';
 import { ChartsModule } from 'ng2-charts';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
-import { CallAnalyticsComponent } from './components/call/call-analytics.component';
+import { CallsAnalyticsComponent } from './components/calls/calls-analytics.component';
 import { AnalyticsRoutingModule } from './analytics-routing.module';
 import { CdrAnalyticsComponent } from './components/cdr/cdr-analytics.component';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
@@ -16,7 +16,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { FormsModule } from '@angular/forms';
 
 @NgModule({
-    declarations: [CallAnalyticsComponent, CdrAnalyticsComponent],
+    declarations: [CallsAnalyticsComponent, CdrAnalyticsComponent],
     imports: [
         CommonModule,
         AnalyticsRoutingModule,
@@ -36,6 +36,5 @@ import { FormsModule } from '@angular/forms';
         NgSelectModule,
         FormsModule,
     ],
-    exports: [CallAnalyticsComponent],
 })
 export class AnalyticsModule {}

@@ -3,13 +3,13 @@ import { Injectable } from '@angular/core';
 import { firstValueFrom } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { environment } from 'environments/environment';
-import { CallAnanliticsData } from '../models/call-analytics';
+import { CallAnanliticsData } from '../models/calls-analytics';
 import { Router } from '@angular/router';
 
 @Injectable({
     providedIn: 'root',
 })
-export class CallAnaliticsService {
+export class CallsAnaliticsService {
     private readonly apiUrl = `${environment.API_GATEWAY_URL}`;
     private readonly analiticUrl = `${this.apiUrl}/call-analytics`;
 
