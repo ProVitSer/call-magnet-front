@@ -26,33 +26,6 @@ export class CallDetailComponent implements OnInit {
     @ViewChild('tableRowDetails') tableRowDetails: any;
     @ViewChild('tableResponsive') tableResponsive: any;
 
-    private data = {
-        name: 'CEO',
-        children: [
-            {
-                name: 'Operation Manager',
-                children: [
-                    {
-                        name: 'Manager I',
-                        children: [{ name: 'Worker I' }, { name: 'Worker III' }],
-                    },
-                    {
-                        name: 'Manager II',
-                        children: [{ name: 'Worker I' }, { name: 'Worker II' }],
-                    },
-                    {
-                        name: 'Manager III',
-                        children: [{ name: 'Worker I' }, { name: 'Worker IV' }],
-                    },
-                ],
-            },
-            {
-                name: 'Account',
-                children: [{ name: 'Receptionist' }, { name: 'Author' }],
-            },
-        ],
-    };
-
     constructor(
         private spinner: NgxSpinnerService,
         private changeDetector: ChangeDetectorRef,
@@ -120,64 +93,137 @@ export class CallDetailComponent implements OnInit {
 
     async onPageChange(pageInfo) {}
 
-    onTabChange(event: any) {
-        console.log(event.nextId === 2);
+    async onTabChange(event: any) {
         if (event.nextId === 2) {
-            this.drawChart();
+            this.removeCallFlow();
+
+            this.spinner.show(undefined, {
+                type: 'square-jelly-box',
+                size: 'small',
+                bdColor: 'rgba(0, 0, 0, 0.8)',
+                color: '#fff',
+                fullScreen: false,
+            });
+
+            setTimeout(() => {
+                this.drawCallFlow();
+            }, 5000);
         }
     }
 
-    private drawChart(): void {
+    private removeCallFlow(): void {
+        d3.select('app-bar-chart svg').remove();
+    }
+
+    private drawCallFlow() {
         const svg = d3.select('app-bar-chart').append('svg');
-        const width = 800;
-        const height = 600;
+
+        const width = 1200;
+        const height = 300;
+        const margin = { top: 20, right: 20, bottom: 20, left: 20 };
 
         svg.attr('width', width).attr('height', height);
 
-        const g = svg.append('g').attr('transform', 'translate(50, 50)');
+        const g = svg.append('g').attr('transform', `translate(${margin.left}, ${margin.top})`);
 
-        const root = d3.hierarchy(this.data);
-        const treeLayout = d3.tree().size([height - 100, width - 200]);
-        treeLayout(root);
+        // Сортируем данные по segmentId
+        const sortedData = this.rows.sort((a, b) => a.segmentId - b.segmentId);
 
-        g.selectAll('.link')
-            .data(root.links())
-            .enter()
+        // Определяем ширину и позицию блоков
+        const blockWidth = 200;
+        const blockHeight = 40;
+        const blockSpacing = 100;
+
+        // Определение маркера для стрелок
+        svg.append('defs')
+            .append('marker')
+            .attr('id', 'arrow')
+            .attr('viewBox', '0 -5 10 10')
+            .attr('refX', 10)
+            .attr('refY', 0)
+            .attr('markerWidth', 6)
+            .attr('markerHeight', 6)
+            .attr('orient', 'auto')
             .append('path')
-            .attr('class', 'link')
-            .attr(
-                'd',
-                d3
-                    .linkHorizontal()
-                    .x((d) => d.y)
-                    .y((d) => d.x),
-            )
-            .attr('fill', 'none')
-            .attr('stroke', '#cccccc')
-            .attr('stroke-width', 1.5);
+            .attr('d', 'M0,-5L10,0L0,5')
+            .attr('fill', 'rgba(0, 0, 0, 0.6)'); // Прозрачный чёрный цвет для стрелок
 
-        const node = g
-            .selectAll('.node')
-            .data(root.descendants())
-            .enter()
-            .append('g')
-            .attr('class', 'node')
-            .attr('transform', (d) => `translate(${d.y},${d.x})`);
+        let previousX = 0;
+        const y = height / 2 - blockHeight / 2;
 
-        node.append('rect')
-            .attr('width', 80)
-            .attr('height', 20)
-            .attr('y', -10)
-            .attr('x', -40)
-            .attr('rx', 5)
-            .attr('ry', 5)
-            .attr('fill', '#ffffff')
-            .attr('stroke', '#000000')
-            .attr('stroke-width', 1.5);
+        // Стили для блоков
+        const blockFillColor = '#f0f4f8'; // Светлый фон блока
+        const blockBorderColor = '#007BFF'; // Синий цвет рамки блока
 
-        node.append('text')
-            .attr('dy', '0.35em')
+        // Рисуем первый блок для sourceCallerId
+        g.append('rect')
+            .attr('x', previousX)
+            .attr('y', y)
+            .attr('width', blockWidth)
+            .attr('height', blockHeight)
+            .attr('fill', blockFillColor)
+            .attr('stroke', blockBorderColor)
+            .attr('stroke-width', 2)
+            .attr('rx', 10)
+            .attr('ry', 10); // Закруглённые углы
+
+        g.append('text')
+            .attr('x', previousX + blockWidth / 2)
+            .attr('y', y + blockHeight / 2)
+            .attr('dy', '.35em')
             .attr('text-anchor', 'middle')
-            .text((d) => d.data.name);
+            .text(sortedData[0].sourceCallerId);
+
+        // Рисуем остальные блоки для destinationDisplayName
+        sortedData.forEach((item, index) => {
+            const x = previousX + blockWidth + blockSpacing;
+
+            // Рисуем блок с destinationDisplayName
+            g.append('rect')
+                .attr('x', x)
+                .attr('y', y)
+                .attr('width', blockWidth)
+                .attr('height', blockHeight)
+                .attr('fill', blockFillColor)
+                .attr('stroke', blockBorderColor)
+                .attr('stroke-width', 2)
+                .attr('rx', 10)
+                .attr('ry', 10); // Закруглённые углы
+
+            g.append('text')
+                .attr('x', x + blockWidth / 2)
+                .attr('y', y + blockHeight / 2)
+                .attr('dy', '.35em')
+                .attr('text-anchor', 'middle')
+                .text(item.destinationDisplayName);
+
+            const lineY = y + blockHeight / 2;
+            g.append('line')
+                .attr('x1', previousX + blockWidth)
+                .attr('y1', lineY)
+                .attr('x2', x)
+                .attr('y2', lineY)
+                .attr('stroke', 'rgba(0, 0, 0, 0.4)') // Прозрачная линия
+                .attr('stroke-width', 1.5)
+                .attr('marker-end', 'url(#arrow)');
+
+            // Добавляем иконку ringingDuration под линией
+            g.append('text')
+                .attr('x', (previousX + x) / 2 + 100)
+                .attr('y', lineY + 20)
+                .attr('text-anchor', 'middle')
+                .text(`🔔 ${item.ringingDuration}`);
+
+            // Добавляем иконку talkingDuration над линией
+            g.append('text')
+                .attr('x', (previousX + x) / 2 + 100)
+                .attr('y', lineY - 10)
+                .attr('text-anchor', 'middle')
+                .text(`📞 ${item.talkingDuration}`);
+
+            previousX = x;
+        });
+
+        this.spinner.hide();
     }
 }

@@ -4,8 +4,10 @@
         <div class="card">
           <div class="card-content">
             <div class="card-body">
-              <!-- Nav-tabs -->
-              <ul ngbNav #nav="ngbNav" [activeId]="1" class="nav-tabs justify-content-left" (navChange)="onTabChange($event)">
+                <ngx-spinner></ngx-spinner>
+
+              <ul ngbNav #nav="ngbNav" [activeId]="2" class="nav-tabs justify-content-left" (navChange)="onTabChange($event)">
+
                 <li [ngbNavItem]="1">
                   <a ngbNavLink class="nav-link d-flex align-items-center">
                     <i class="ft-bar-chart-2 mr-1"></i>
@@ -97,6 +99,7 @@
                     <span class="d-none d-sm-block">Диаграма вызова</span>
                   </a>
                   <ng-template ngbNavContent>
+
                     <app-bar-chart></app-bar-chart>
                   </ng-template>
                 </li>
