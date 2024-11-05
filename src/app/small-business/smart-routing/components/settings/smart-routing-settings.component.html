@@ -42,13 +42,12 @@
                   </ngx-datatable-column>
                   <ngx-datatable-column name="Сервис маршрутизации" prop="routingService" [width]="50">
                     <ng-template let-row="row" let-name="value" ngx-datatable-cell-template>
-                      <div class="center-image">
-                        <img
-                          [src]="row.routingService === 'phonebook' ? 'assets/img/elements/smart-routing-phonebook.png' : 'assets/img/elements/smart-routing-bitrix.svg'"
-                          [alt]="row.routingService"
-                          style="width: 40px; height: 40px; margin: 0px 50px; "
-                        />
-                      </div>
+                      <button
+                        class="button-gradient gradient-mint"
+                        [ngStyle]="{ 'margin': '0 50px' }" 
+                      >
+                        {{ row.routingService === 'phonebook' ? 'Контакты' : 'Bitrix24' }}
+                      </button>
                     </ng-template>
                   </ngx-datatable-column>
                   <ngx-datatable-column name="Номер по умолчанию" prop="defaultRoutingNumber" [width]="50">
