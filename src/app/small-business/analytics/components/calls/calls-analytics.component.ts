@@ -134,8 +134,8 @@ export class CallsAnalyticsComponent implements OnInit, OnDestroy {
         this.initCallSchedule(data);
 
         this.spinner.hide();
-        this.changeDetector.detectChanges();
         this.isDataLoaded = true;
+        this.changeDetector.detectChanges();
     }
 
     private transformData(data: Record<string, { answered: number; unanswered: number }>[]) {
