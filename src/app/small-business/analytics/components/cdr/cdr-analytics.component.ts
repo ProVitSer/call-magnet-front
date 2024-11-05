@@ -51,6 +51,8 @@ export class CdrAnalyticsComponent implements OnInit {
 
             this.rows = response.data;
 
+            this.colorizeRows(this.rows);
+
             this.rowsTemp = response.data;
 
             this.totalRecords = response.totalRecords;
