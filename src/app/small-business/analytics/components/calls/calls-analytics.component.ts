@@ -50,7 +50,7 @@ export class CallsAnalyticsComponent implements OnInit, OnDestroy {
         {
             id: 4839,
             extension: '204',
-            displayName: 'Московский',
+            displayName: 'Неизвестный Человек',
             inboundAnsweredCount: 0,
             inboundUnansweredCount: 0,
             outboundCallCount: 0,
@@ -69,7 +69,7 @@ export class CallsAnalyticsComponent implements OnInit, OnDestroy {
         {
             id: 4839,
             extension: '204',
-            displayName: 'Московский',
+            displayName: 'Неизвестный Человек',
             inboundAnsweredCount: 0,
             inboundUnansweredCount: 0,
             outboundCallCount: 0,
@@ -88,7 +88,7 @@ export class CallsAnalyticsComponent implements OnInit, OnDestroy {
         {
             id: 4839,
             extension: '204',
-            displayName: 'Московский',
+            displayName: 'Неизвестный Человек',
             inboundAnsweredCount: 0,
             inboundUnansweredCount: 0,
             outboundCallCount: 0,
@@ -118,7 +118,7 @@ export class CallsAnalyticsComponent implements OnInit, OnDestroy {
             fullScreen: false,
         });
         const data = await this.callsAnaliticsService.getCallAnalitics();
-
+        console.log(data);
         this.regionCallStatisticData = data.dayRegionCall;
 
         this.totalCalls = data.totalDailyCalls;

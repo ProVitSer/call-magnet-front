@@ -178,8 +178,13 @@
                 width="35"
               >
                 <div class="avatar-content">
-                  {{ call.displayName[0] + call.displayName.split(' ')[1][0] || ''}}
-                </div>
+                    {{ 
+                        call.displayName.includes(',') 
+                          ? call.displayName.split(', ')[1][0] + call.displayName.split(', ')[0][0] 
+                          : call.displayName.includes(' ') 
+                            ? call.displayName[0] + call.displayName.split(' ')[1][0] 
+                            : call.displayName[0] 
+                      }}                </div>
               </div>
               <div class="media-body">
                 <h4 class="font-medium-1 mb-0">{{ call.displayName }}</h4>
@@ -214,8 +219,13 @@
                 width="35"
               >
                 <div class="avatar-content">
-                  {{ call.displayName[0] + call.displayName.split(' ')[1][0] }}
-                </div>
+                    {{ 
+                        call.displayName.includes(',') 
+                          ? call.displayName.split(', ')[1][0] + call.displayName.split(', ')[0][0] 
+                          : call.displayName.includes(' ') 
+                            ? call.displayName[0] + call.displayName.split(' ')[1][0] 
+                            : call.displayName[0] 
+                      }}                </div>
               </div>
               <div class="media-body">
                 <h4 class="font-medium-1 mb-0">{{ call.displayName }}</h4>
@@ -304,8 +314,13 @@
                 width="35"
               >
                 <div class="avatar-content">
-                  {{ call.displayName[0] + call.displayName.split(' ')[1][0] }}
-                </div>
+                    {{ 
+                        call.displayName.includes(',') 
+                          ? call.displayName.split(', ')[1][0] + call.displayName.split(', ')[0][0] 
+                          : call.displayName.includes(' ') 
+                            ? call.displayName[0] + call.displayName.split(' ')[1][0] 
+                            : call.displayName[0] 
+                      }}                </div>
               </div>
               <div class="media-body">
                 <h4 class="font-medium-1 mb-0">{{ call.displayName }}</h4>

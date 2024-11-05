@@ -15,10 +15,15 @@ export interface CdrData {
     callId: number;
     sourceDisplayName: string;
     destinationDisplayName: string;
+    sourceDn: string;
+    destinationDn: string;
+    sourceCallerId: string;
+    destinationCallerId: string;
     answered: boolean;
     ringingDuration: string;
     talkingDuration: string;
     reason: string;
+    segmentId: number;
     recordingUrl: string | null;
     date: string;
 }

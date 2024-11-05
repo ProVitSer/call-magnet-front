@@ -1,36 +1,20 @@
-<section class="users-edit ">
+<ngx-spinner name="call-details"></ngx-spinner>
+<section class="users-edit">
     <div class="row">
       <div class="col-12">
         <div class="card">
           <div class="card-content">
             <div class="card-body">
-                <ngx-spinner></ngx-spinner>
-
-              <ul ngbNav #nav="ngbNav" [activeId]="2" class="nav-tabs justify-content-left" (navChange)="onTabChange($event)">
-
+              <ngx-spinner name="call-flow"></ngx-spinner>
+              <ul ngbNav #nav="ngbNav" [activeId]="1" class="nav-tabs justify-content-left" (navChange)="onTabChange($event)">
                 <li [ngbNavItem]="1">
                   <a ngbNavLink class="nav-link d-flex align-items-center">
                     <i class="ft-bar-chart-2 mr-1"></i>
                     <span class="d-none d-sm-block">Cdr</span>
                   </a>
-
-
-                  
                   <ng-template ngbNavContent>
-                    <ngx-datatable #tableRowDetails class="bootstrap core-bootstrap"  
-                    [columnMode]="ColumnMode.force"
-                    [headerHeight]="50" 
-                    [footerHeight]="50" 
-                    [rowHeight]="'auto'" 
-                    [rows]="rows" 
-                    [scrollbarH]="false"
-                    [count]="totalRecords"
-                    [limit]="pageSize"
-                    [externalPaging]="true"
-                    [offset]="currentPage - 1"
-                    (page)='onPageChange($event)'
-                    >
-                    <ngx-datatable-row-detail [rowHeight]="'auto'" [width]="500" >
+                    <ngx-datatable #tableRowDetails class="bootstrap core-bootstrap" [columnMode]="ColumnMode.force" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [rows]="rows" [scrollbarH]="false" [count]="totalRecords" [limit]="pageSize" [externalPaging]="true" [offset]="currentPage - 1" (page)="onPageChange($event)">
+                      <ngx-datatable-row-detail [rowHeight]="'auto'" [width]="500">
                         <ng-template let-row="row" let-expanded="expanded" ngx-datatable-row-detail-template>
                           <div class="">
                             <br>
@@ -41,57 +25,39 @@
                           <br>
                         </ng-template>
                       </ngx-datatable-row-detail>
-                      <ngx-datatable-column [width]="50" [resizeable]="false" [sortable]="false" [draggable]="false"
-                        [canAutoResize]="false">
+                      <ngx-datatable-column [width]="50" [resizeable]="false" [sortable]="false" [draggable]="false" [canAutoResize]="false">
                         <ng-template let-row="row" let-expanded="expanded" ngx-datatable-cell-template>
-                          <a href="javascript:void(0)" [class.datatable-icon-right]="!expanded"
-                            [class.datatable-icon-down]="expanded" title="Посмотреть текст"
-                            (click)="rowDetailsToggleExpand(row)">
-                          </a>
+                          <a href="javascript:void(0)" [class.datatable-icon-right]="!expanded" [class.datatable-icon-down]="expanded" title="Посмотреть текст" (click)="rowDetailsToggleExpand(row)"></a>
                         </ng-template>
                       </ngx-datatable-column>
-                        <ngx-datatable-column name="Время вызова" prop="callDate" [width]="50" >
-                        </ngx-datatable-column>
-                        <ngx-datatable-column name="Источник" prop="sourceDisplayName" [width]="50"></ngx-datatable-column>
-                        <ngx-datatable-column name="Направление" prop="destinationDisplayName" [width]="50"></ngx-datatable-column>                
-                        <ngx-datatable-column name="Статус" prop="answered" [width]="50">
-                            <ng-template let-row="row" let-answered="value" ngx-datatable-cell-template>
-                                <div class="badge badge-pill"
-                            [ngClass]="{'bg-light-success': answered, 'bg-light-warning': !answered}">
+                      <ngx-datatable-column name="Время вызова" prop="callDate" [width]="50"></ngx-datatable-column>
+                      <ngx-datatable-column name="Источник" prop="sourceDisplayName" [width]="50"></ngx-datatable-column>
+                      <ngx-datatable-column name="Направление" prop="destinationDisplayName" [width]="50"></ngx-datatable-column>
+                      <ngx-datatable-column name="Статус" prop="answered" [width]="50">
+                        <ng-template let-row="row" let-answered="value" ngx-datatable-cell-template>
+                          <div class="badge badge-pill" [ngClass]="{ 'bg-light-success': answered, 'bg-light-warning': !answered }">
                             {{ answered ? "Отвечен" : "Без ответа" }}
-                            </div>
-                          </ng-template>
-                        </ngx-datatable-column>
-                        <ngx-datatable-column name="Ожидание" prop="ringingDuration" [width]="50"></ngx-datatable-column>                
-                        <ngx-datatable-column name="Разговор" prop="talkingDuration" [width]="50"></ngx-datatable-column>                
-                        <ngx-datatable-column name="Релиз" prop="reason" [width]="50"></ngx-datatable-column>            
-                        <ngx-datatable-column name="Действия" [width]="50">
-                            <ng-template let-row="row" ngx-datatable-cell-template>
-                              <div class="d-flex justify-content-start align-items-center">
-                                <p class="font-medium-1 line-height-1 mb-0"></p>
-                                <!-- Проверяем, есть ли recordingUrl -->
-                                <ng-container *ngIf="row.recordingUrl">
-                                  <i
-                                    class="ft-play text-success cursor-pointer"
-                                    style="font-size: 20px; margin-left: -10px;"  
-                                    (click)="getVoiceFile(row)"
-                                    title="Прослушать"
-                                  ></i>
-                                  <p class="font-medium-1 line-height-1 mb-0">&nbsp; &nbsp; &nbsp;</p>
-                                  <i
-                                    class="ft-download text-secondary cursor-pointer"
-                                    style="font-size: 20px; margin-left: -10px;"  
-                                    (click)="downloadVoiceFile(row)"
-                                    title="Скачать"
-                                  ></i>
-                                </ng-container>
-                                <p class="font-medium-1 line-height-1 mb-0">&nbsp; &nbsp; &nbsp;</p>
-                              </div>
-                            </ng-template>
-                          </ngx-datatable-column>  
-                      </ngx-datatable>
+                          </div>
+                        </ng-template>
+                      </ngx-datatable-column>
+                      <ngx-datatable-column name="Ожидание" prop="ringingDuration" [width]="50"></ngx-datatable-column>
+                      <ngx-datatable-column name="Разговор" prop="talkingDuration" [width]="50"></ngx-datatable-column>
+                      <ngx-datatable-column name="Релиз" prop="reason" [width]="50"></ngx-datatable-column>
+                      <ngx-datatable-column name="Действия" [width]="50">
+                        <ng-template let-row="row" ngx-datatable-cell-template>
+                          <div class="d-flex justify-content-start align-items-center">
+                            <p class="font-medium-1 line-height-1 mb-0"></p>
+                            <ng-container *ngIf="row.recordingUrl">
+                              <i class="ft-play text-success cursor-pointer" style="font-size: 20px; margin-left: -10px;" (click)="getVoiceFile(row)" title="Прослушать"></i>
+                              <p class="font-medium-1 line-height-1 mb-0">&nbsp; &nbsp; &nbsp;</p>
+                              <i class="ft-download text-secondary cursor-pointer" style="font-size: 20px; margin-left: -10px;" (click)="downloadVoiceFile(row)" title="Скачать"></i>
+                            </ng-container>
+                            <p class="font-medium-1 line-height-1 mb-0">&nbsp; &nbsp; &nbsp;</p>
+                          </div>
+                        </ng-template>
+                      </ngx-datatable-column>
+                    </ngx-datatable>
                   </ng-template>
-
                 </li>
                 <li [ngbNavItem]="2">
                   <a ngbNavLink class="nav-link d-flex align-items-center">
@@ -99,20 +65,61 @@
                     <span class="d-none d-sm-block">Диаграма вызова</span>
                   </a>
                   <ng-template ngbNavContent>
-
                     <app-bar-chart></app-bar-chart>
                   </ng-template>
                 </li>
-
                 <li [ngbNavItem]="3">
-                    <a ngbNavLink class="nav-link d-flex align-items-center">
-                      <i class="ft-message-square mr-1"></i>
-                      <span class="d-none d-sm-block">Распознавание диалога</span>
-                    </a>
-                    <ng-template ngbNavContent>
-      
-                    </ng-template>
-                  </li>
+                  <a ngbNavLink class="nav-link d-flex align-items-center">
+                    <i class="ft-message-square mr-1"></i>
+                    <span class="d-none d-sm-block">Распознавание диалога</span>
+                  </a>
+                  <ng-template ngbNavContent>
+
+
+
+                    <div class="chat-wrapper">
+                    <div class="accordion" *ngFor="let call of callsDetail; let i = index">
+                        <div class="accordion-header" (click)="toggleAccordion(i, $event)">
+                            <div class="header-content">
+                                <p class="call-info">{{ call.sourceDisplayName }} -> {{ call.destinationDisplayName }}
+                                    <span
+                                class="badge bg-light-primary duration"
+                                >{{ call.talkingDuration  }}</span>
+                                </p>
+                              </div>
+                              <span
+                              class="badge badge-status"
+                              [ngClass]="{
+                                'bg-light-info': call.sttRecognizeStatus === 'done',
+                                'bg-light-warning': call.sttRecognizeStatus === 'inProgress',
+                                'bg-light-danger': call.sttRecognizeStatus === 'error',
+                                'bg-light-success': call.sttRecognizeStatus === 'completed',
+                                'bg-light-primary': call.sttRecognizeStatus === 'notRecognize'
+                              }"
+                            >
+                              {{ getStatusLabel(call.sttRecognizeStatus) }}
+                            </span>
+                            <button class="btn btn-primary" (click)="startRecognition(call)">Распознать</button>
+                            <button class="btn btn-outline-info" style="margin-left: 15px" (click)="refresh(call)"><i class="ft-refresh-ccw"></i></button>
+                            <button class="btn btn-outline-danger" style="margin-left: 15px" (click)="deleteStt(call)"><i class="ft-trash-2"></i></button>
+
+                        </div>
+                        <div class="accordion-content" [ngClass]="{ 'hidden': !isAccordionOpen[i] }">
+                          <div class="chat-container">
+                            <div class="chat-messages">
+                                <div *ngFor="let message of call.textDialog" [ngClass]="{'message': true, 'sent': message.type === 'sent', 'received': message.type === 'received'}">
+                                    <div class="message-content">{{ message.text }}</div>
+                                  </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+
+
+                  </ng-template>
+                </li>
               </ul>
               <div class="tab-content">
                 <div [ngbNavOutlet]="nav"></div>

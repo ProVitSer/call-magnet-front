@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild, ViewEncapsulation, AfterViewChecked } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ActivatedRoute } from '@angular/router';
 import { ColumnMode, DatatableComponent } from '@swimlane/ngx-datatable';
@@ -6,12 +6,14 @@ import { CallDetailsService } from './services/call-detail.service';
 import { SweetalertService } from 'app/shared/services/sweetalert.service';
 import { CdrData } from '../cdr/models/cdr-analytics';
 import * as d3 from 'd3';
+import { CallDetailsData, STTProviderType, SttRecognizeStatus, TextDialogMessage } from './models/call-detail';
 
 @Component({
     selector: 'app-call-detail',
     templateUrl: './call-detail.component.html',
     styleUrls: ['./call-detail.component.scss', '../../../../../assets/sass/libs/datatables.scss'],
     encapsulation: ViewEncapsulation.None,
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CallDetailComponent implements OnInit {
     callId: string | null = null;
@@ -26,12 +28,16 @@ export class CallDetailComponent implements OnInit {
     @ViewChild('tableRowDetails') tableRowDetails: any;
     @ViewChild('tableResponsive') tableResponsive: any;
 
+    isAccordionOpen: boolean[] = [];
+    callsDetail: CallDetailsData[] = [];
     constructor(
         private spinner: NgxSpinnerService,
         private changeDetector: ChangeDetectorRef,
         private route: ActivatedRoute,
         private readonly callDetailsService: CallDetailsService,
-    ) {}
+    ) {
+        this.isAccordionOpen = Array(this.rows.length).fill(false);
+    }
 
     async ngOnInit(): Promise<void> {
         this.route.paramMap.subscribe(async (params) => {
@@ -42,16 +48,73 @@ export class CallDetailComponent implements OnInit {
 
     async loadCallData(callId: string) {
         try {
+            this.spinner.show('call-details', {
+                type: 'square-jelly-box',
+                size: 'small',
+                bdColor: 'rgba(0, 0, 0, 0.8)',
+                color: '#fff',
+                fullScreen: false,
+            });
             const response = await this.callDetailsService.getCallData(callId);
 
             this.rows = response;
 
             this.totalRecords = response.length;
 
+            if (response.length !== 0) {
+                await this.getSttDialog(response);
+            }
+
+            this.spinner.hide('call-details');
+
             this.changeDetector.detectChanges();
         } catch (e) {
             SweetalertService.errorAlert('', 'Ошибка загрузки данных');
         }
+    }
+
+    private async getSttDialog(data: CdrData[]) {
+        const needSttCalls = data.filter((c) => c.recordingUrl);
+
+        if (needSttCalls.length !== 0) {
+            for (const call of needSttCalls) {
+                const result = await this.callDetailsService.getSttDialog(String(call.segmentId));
+
+                if (result) {
+                    this.callsDetail.push({
+                        ...call,
+                        sttRecognizeStatus: result.sttRecognizeStatus,
+                        textDialog: result.textDialog ? this.formatTextDialog(result.textDialog) : [],
+                    });
+                } else {
+                    this.callsDetail.push({
+                        ...call,
+                        sttRecognizeStatus: SttRecognizeStatus.notRecognize,
+                        textDialog: [],
+                    });
+                }
+            }
+        }
+    }
+
+    private formatTextDialog(textDialog: string[]): TextDialogMessage[] {
+        const formatedDialod: TextDialogMessage[] = [];
+
+        textDialog.forEach((item, index) => {
+            if (index % 2) {
+                formatedDialod.push({
+                    type: 'sent',
+                    text: item,
+                });
+            } else {
+                formatedDialod.push({
+                    type: 'received',
+                    text: item,
+                });
+            }
+        });
+
+        return formatedDialod;
     }
 
     rowDetailsToggleExpand(row: CdrData) {
@@ -97,7 +160,7 @@ export class CallDetailComponent implements OnInit {
         if (event.nextId === 2) {
             this.removeCallFlow();
 
-            this.spinner.show(undefined, {
+            this.spinner.show('call-flow', {
                 type: 'square-jelly-box',
                 size: 'small',
                 bdColor: 'rgba(0, 0, 0, 0.8)',
@@ -224,6 +287,91 @@ export class CallDetailComponent implements OnInit {
             previousX = x;
         });
 
-        this.spinner.hide();
+        this.spinner.hide('call-flow');
+    }
+
+    toggleAccordion(index: number, event: any) {
+        if (event.target.className == 'header-content') {
+            this.isAccordionOpen[index] = !this.isAccordionOpen[index];
+        }
+    }
+
+    openDialog(index: number, event: Event) {
+        event.stopPropagation();
+        this.isAccordionOpen[index] = !this.isAccordionOpen[index];
+    }
+
+    async startRecognition(row: CallDetailsData) {
+        if (row.sttRecognizeStatus == SttRecognizeStatus.notRecognize) {
+            await this.callDetailsService.recognizeSpeech({
+                recordingUrl: row.recordingUrl,
+                applicationId: String(row.segmentId),
+                sttProviderType: STTProviderType.sber,
+            });
+
+            SweetalertService.autoCloseSuccessAlert(
+                '',
+                'Распознование может занять длительно время, отслеживайте статус готовности в панели напротив вызова',
+                5000,
+            );
+
+            const index = this.callsDetail.findIndex((item) => item.segmentId === row.segmentId);
+
+            if (index !== -1) {
+                this.callsDetail[index].sttRecognizeStatus = SttRecognizeStatus.inProgress;
+            }
+            this.changeDetector.detectChanges();
+        } else {
+            SweetalertService.autoCloseSuccessAlert(
+                '',
+                'Диалог уже преобразован. Если нужно запустить распознование заново, удалите запись и нажмите кнопку распознать',
+                5000,
+            );
+        }
+    }
+
+    getStatusLabel(status: SttRecognizeStatus): string {
+        switch (status) {
+            case SttRecognizeStatus.done:
+                return 'Еще чуть чуть';
+            case SttRecognizeStatus.inProgress:
+                return 'В процессе';
+            case SttRecognizeStatus.error:
+                return 'Ошибка';
+            case SttRecognizeStatus.completed:
+                return 'Завершено';
+            default:
+                return 'Не распознан';
+        }
+    }
+
+    async refresh(row: CdrData) {
+        const result = await this.callDetailsService.getSttDialog(String(row.segmentId));
+
+        if (result) {
+            const index = this.callsDetail.findIndex((item) => item.segmentId === row.segmentId);
+
+            if (index !== -1) {
+                this.callsDetail[index].sttRecognizeStatus = result.sttRecognizeStatus;
+                this.callsDetail[index].textDialog = result.textDialog ? this.formatTextDialog(result.textDialog) : [];
+            }
+
+            this.changeDetector.detectChanges();
+        }
+    }
+
+    async deleteStt(row: CallDetailsData) {
+        if (row.sttRecognizeStatus == SttRecognizeStatus.completed) {
+            const result = await this.callDetailsService.deleteSttDialog(String(row.segmentId));
+
+            const index = this.callsDetail.findIndex((item) => item.segmentId === row.segmentId);
+
+            if (index !== -1) {
+                this.callsDetail[index].sttRecognizeStatus = SttRecognizeStatus.notRecognize;
+                this.callsDetail[index].textDialog = [];
+            }
+
+            this.changeDetector.detectChanges();
+        }
     }
 }

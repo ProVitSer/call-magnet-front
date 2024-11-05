@@ -15,6 +15,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { FormsModule } from '@angular/forms';
 import { CallDetailComponent } from './components/call-detail/call-detail.component';
 import { NgxSpinnerModule } from 'ngx-spinner';
+import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 
 @NgModule({
     declarations: [CallsAnalyticsComponent, CdrAnalyticsComponent, CallDetailComponent],
@@ -32,10 +33,10 @@ import { NgxSpinnerModule } from 'ngx-spinner';
         NgxDatatableModule,
         PipeModule,
         NgbDatepickerModule,
-        NgbModule,
         NgSelectModule,
         FormsModule,
         NgxSpinnerModule,
+        PerfectScrollbarModule,
     ],
 })
 export class AnalyticsModule {}
