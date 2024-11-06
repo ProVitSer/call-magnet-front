@@ -108,6 +108,7 @@ export class CqaSettingsComponent implements OnInit {
                 } else {
                     uiSwitchComponent.checked = false;
                     this.isAiEnabled = false;
+                    this.loadAudioFiles();
                 }
             });
 

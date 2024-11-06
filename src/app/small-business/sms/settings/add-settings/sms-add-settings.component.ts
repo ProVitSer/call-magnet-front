@@ -51,14 +51,20 @@ export class SmsAddSettingsComponent {
             fullScreen: false,
         });
 
+        document.body.classList.add('block-user-interaction');
+
         try {
             await this.smsSettingsService.createSmsConfig(data);
+
             this.spinner.hide();
-            SweetalertService.autoCloseSuccessAlert('', 'Настройки успешно добавлены', 5000);
+
+            document.body.classList.remove('block-user-interaction');
+
+            SweetalertService.autoCloseSuccessAlert('', 'Настройки успешно добавлены', 2000);
 
             setTimeout(() => {
                 this.router.navigate(['sm/sms/settings']);
-            }, 5000);
+            }, 2000);
         } catch (e) {
             this.spinner.hide();
             SweetalertService.errorAlert('Ошибка подключения', e.error?.error || 'Проблемы с сохранением данных');

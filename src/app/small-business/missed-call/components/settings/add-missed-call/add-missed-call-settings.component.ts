@@ -56,12 +56,16 @@ export class AddMissedCallSettingsComponent implements OnInit {
             fullScreen: false,
         });
 
+        document.body.classList.add('block-user-interaction');
+
         try {
             await this.missedCallService.addMissedCallConfig(data);
 
             this.spinner.hide();
 
             SweetalertService.autoCloseSuccessAlert('', 'Настройки успешно добавлены', 2000);
+
+            document.body.classList.remove('block-user-interaction');
 
             setTimeout(() => {
                 this.router.navigate(['sm/missed-call']);

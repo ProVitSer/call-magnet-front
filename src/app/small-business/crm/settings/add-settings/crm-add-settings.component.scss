@@ -48,3 +48,7 @@
     max-width: 50%; /* Уменьшение изображения до половины размера */
     max-height: 100%; /* Изображение не выйдет за рамки контейнера */
 }
+
+.block-user-interaction {
+    pointer-events: none;
+}

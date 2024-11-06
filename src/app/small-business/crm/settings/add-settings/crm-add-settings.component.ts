@@ -51,6 +51,7 @@ export class CrmAddSettingsComponent {
             ...(this.crmDeadlineMin ? { deadlineMin: Number(this.crmDeadlineMin) } : {}),
             token: this.crmToken,
         };
+
         this.spinner.show(undefined, {
             type: 'square-jelly-box',
             size: 'small',
@@ -58,13 +59,21 @@ export class CrmAddSettingsComponent {
             color: '#fff',
             fullScreen: false,
         });
+
+        document.body.classList.add('block-user-interaction');
+
         try {
             await this.crmSettingsService.createCrmConfig(data);
+
             this.spinner.hide();
-            SweetalertService.autoCloseSuccessAlert('', 'Настройки успешно добавлены', 5000);
+
+            SweetalertService.autoCloseSuccessAlert('', 'Настройки успешно добавлены', 2000);
+
+            document.body.classList.remove('block-user-interaction');
+
             setTimeout(() => {
                 this.router.navigate(['sm/crm/settings']);
-            }, 5000);
+            }, 2000);
         } catch (e) {
             this.spinner.hide();
             SweetalertService.errorAlert('Ошибка подключения', e.error?.error || 'Проблемы с сохранением данных');

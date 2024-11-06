@@ -46,14 +46,20 @@ export class TgAddSettingsComponent {
             fullScreen: false,
         });
 
+        document.body.classList.add('block-user-interaction');
+
         try {
             await this.tgSettingsService.createTgConfig(data);
+
             this.spinner.hide();
-            SweetalertService.autoCloseSuccessAlert('', 'Настройки успешно добавлены', 5000);
+
+            SweetalertService.autoCloseSuccessAlert('', 'Настройки успешно добавлены', 2000);
+
+            document.body.classList.remove('block-user-interaction');
 
             setTimeout(() => {
                 this.router.navigate(['sm/tg/settings']);
-            }, 5000);
+            }, 2000);
         } catch (e) {
             this.spinner.hide();
             SweetalertService.errorAlert('Ошибка подключения', e.error?.error?.message || 'Проблемы с сохранением данных');

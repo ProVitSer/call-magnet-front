@@ -19,7 +19,7 @@ export class CqaSettingsService {
 
     public async createCqaConfig(formData: FormData) {
         return firstValueFrom(
-            this.http.put<void>(`${this.cqaConfigUrlUrl}/files`, formData, {}).pipe(
+            this.http.post<void>(`${this.cqaConfigUrlUrl}`, formData, {}).pipe(
                 catchError((error) => {
                     throw error;
                 }),

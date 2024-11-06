@@ -39,6 +39,8 @@ export class VoipAddSettingsComponent {
             applicationServiceType: this.applicationServiceType,
         };
 
+        document.body.classList.add('block-user-interaction');
+
         this.spinner.show(undefined, {
             type: 'square-jelly-box',
             size: 'small',
@@ -46,16 +48,19 @@ export class VoipAddSettingsComponent {
             color: '#fff',
             fullScreen: false,
         });
+
         try {
             await this.voipSettingsService.createTrunk(data);
 
             this.spinner.hide();
 
-            SweetalertService.autoCloseSuccessAlert('', 'Настройки успешно добавлены', 5000);
+            SweetalertService.autoCloseSuccessAlert('', 'Настройки успешно добавлены', 2000);
+
+            document.body.classList.remove('block-user-interaction');
 
             setTimeout(() => {
                 this.router.navigate(['sm/voip/settings']);
-            }, 5000);
+            }, 2000);
         } catch (e) {
             this.spinner.hide();
             SweetalertService.errorAlert('Ошибка подключения', e.error?.error?.message || 'Проблемы с сохранением данных');
