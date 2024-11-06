@@ -110,7 +110,7 @@ export class TgUsersComponent implements OnInit, AfterViewInit {
 
                     this.getUsers();
                 } catch (e) {
-                    SweetalertService.errorAlert('', 'Ошибка удаление пользователя');
+                    SweetalertService.errorAlert('', 'Ошибка удаления пользователя');
                 }
             }
         });
@@ -122,7 +122,7 @@ export class TgUsersComponent implements OnInit, AfterViewInit {
                 await this.tgUsersService.addTgUser(userData);
                 this.getUsers();
             } catch (e) {
-                SweetalertService.errorAlert('', 'Ошибка добавление пользователя telegram');
+                SweetalertService.errorAlert('', 'Ошибка добавления пользователя telegram');
             }
         });
     }

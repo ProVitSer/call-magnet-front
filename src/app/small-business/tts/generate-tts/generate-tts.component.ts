@@ -106,7 +106,7 @@ export class GenerateTtsFileComponent implements OnInit {
             this.hideSpinner();
             this.router.navigate(['sm/tts']);
         } catch (e) {
-            SweetalertService.errorAlert('', 'Ошибка при сохранение сгенерированного файла');
+            SweetalertService.errorAlert('', 'Ошибка при сохранении сгенерированного файла');
         }
     }
 

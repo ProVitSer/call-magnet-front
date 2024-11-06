@@ -66,7 +66,7 @@ export class SmartRoutingSettingsComponent implements OnInit, AfterViewInit {
 
                     this.getSMConfig();
                 } catch (e) {
-                    SweetalertService.errorAlert('', 'Ошибка удаление пользователя');
+                    SweetalertService.errorAlert('', 'Ошибка удаления пользователя');
                 }
             }
         });

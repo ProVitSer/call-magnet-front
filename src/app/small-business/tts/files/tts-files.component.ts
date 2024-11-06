@@ -161,7 +161,7 @@ export class TtsFilesComponent implements OnInit {
                 try {
                     await this.ttsFilesService.deleteTtsFile(row.ttsId);
 
-                    Swal.fire('Удалено!', `Запись ${row.name} был успешно удален.`, 'success');
+                    Swal.fire('Удалено!', `Запись ${row.name} была успешно удалена.`, 'success');
 
                     await this.loadTtsFiles();
                 } catch (e) {

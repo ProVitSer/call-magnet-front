@@ -29,7 +29,7 @@ export class SendSmsComponent implements OnInit {
             const settings = await this.smsSettingsService.getSmsConfigs();
 
             if (!settings) {
-                SweetalertService.errorAlert('Ошибка', 'У вас не настроен серсив отправки смс');
+                SweetalertService.errorAlert('Ошибка', 'У вас не настроен сервис отправки смс');
                 this.router.navigate(['sm/sms/settings/add']);
             }
         } catch (e) {
@@ -48,7 +48,7 @@ export class SendSmsComponent implements OnInit {
 
             try {
                 await this.sendSmsSettingsService.sendSms(data);
-                SweetalertService.autoCloseSuccessAlert('', 'Смс успешно поставлена у очередь на отправку', 3000);
+                SweetalertService.autoCloseSuccessAlert('', 'Смс успешно поставлена в очередь на отправку', 3000);
                 setTimeout(() => {
                     this.router.navigate(['sm/sms/statistic']);
                 }, 3000);

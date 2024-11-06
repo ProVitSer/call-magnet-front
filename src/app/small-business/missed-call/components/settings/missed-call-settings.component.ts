@@ -62,11 +62,11 @@ export class MissedCallSettingsComponent implements OnInit, AfterViewInit {
                 try {
                     await this.missedCallService.deleteMissedCall(row.id);
 
-                    Swal.fire('Удалено!', `Маршрутизации по номеру  ${row.trunkName} был успешно удален.`, 'success');
+                    Swal.fire('Удалено!', `Маршрутизация по номеру  ${row.trunkName} была успешно удалена.`, 'success');
 
                     this.getMCConfig();
                 } catch (e) {
-                    SweetalertService.errorAlert('', 'Ошибка удаление пользователя');
+                    SweetalertService.errorAlert('', 'Ошибка удаления маршрутизации');
                 }
             }
         });

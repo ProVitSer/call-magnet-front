@@ -64,7 +64,7 @@ export class TgSettingsComponent implements OnInit {
 
     async testSend(index: number, item: TgConfigData) {
         await this.tgSettingsService.sendTestMessage({ id: item.id });
-        SweetalertService.autoCloseSuccessAlert('', 'Проверьте чат, сообщение было отпарвлено', 2000);
+        SweetalertService.autoCloseSuccessAlert('', 'Проверьте чат, сообщение было отправлено', 2000);
     }
     catch(e) {
         SweetalertService.errorAlert('Ошибка подключения', e.error?.error?.message || ' ');

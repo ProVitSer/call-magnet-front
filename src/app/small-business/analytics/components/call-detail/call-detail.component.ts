@@ -288,7 +288,7 @@ export class CallDetailComponent implements OnInit {
 
             SweetalertService.autoCloseSuccessAlert(
                 '',
-                'Распознование может занять длительно время, отслеживайте статус готовности в панели напротив вызова',
+                'Распознавание может занять длительное время, отслеживайте статус готовности в панели напротив вызова',
                 5000,
             );
 
@@ -301,7 +301,7 @@ export class CallDetailComponent implements OnInit {
         } else {
             SweetalertService.autoCloseSuccessAlert(
                 '',
-                'Диалог уже преобразован. Если нужно запустить распознование заново, удалите запись и нажмите кнопку распознать',
+                'Диалог уже преобразован. Если нужно запустить распознавание заново, удалите запись и нажмите кнопку "Распознать"',
                 5000,
             );
         }
@@ -310,7 +310,7 @@ export class CallDetailComponent implements OnInit {
     getStatusLabel(status: SttRecognizeStatus): string {
         switch (status) {
             case SttRecognizeStatus.done:
-                return 'Еще чуть чуть';
+                return 'Еще чуть-чуть';
             case SttRecognizeStatus.inProgress:
                 return 'В процессе';
             case SttRecognizeStatus.error:

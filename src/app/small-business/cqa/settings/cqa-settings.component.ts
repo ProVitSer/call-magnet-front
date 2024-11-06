@@ -90,7 +90,7 @@ export class CqaSettingsComponent implements OnInit {
         if (uiSwitchComponent.checked) {
             Swal.fire({
                 title: 'Вы уверены?',
-                text: `В случае переключение на AI все ранее загруженные звуковые файлы будут удалены`,
+                text: `В случае переключения на AI все ранее загруженные звуковые файлы будут удалены`,
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
