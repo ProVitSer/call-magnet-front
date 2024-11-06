@@ -19,10 +19,26 @@ export class JwtInterceptor implements HttpInterceptor {
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<Object>> {
         let authReq = req;
 
-        if (authReq.url.includes('/login')) {
+        if (authReq.url.includes('/forgot-password')) {
+            return next?.handle(req).pipe(
+                catchError((error) => {
+                    return throwError(error);
+                }),
+            );
+        } else if (authReq.url.includes('/check-verification-code')) {
+            return next?.handle(req).pipe(
+                catchError((error) => {
+                    return throwError(error);
+                }),
+            );
+        } else if (authReq.url.includes('/login')) {
             /* empty */
-        } else if (authReq.url.includes('/refresh')) {
-            /* empty */
+        } else if (authReq.url.includes('/reset-password')) {
+            return next?.handle(req).pipe(
+                catchError((error) => {
+                    return throwError(error);
+                }),
+            );
         } else {
             const token = this.authService.getToken();
 

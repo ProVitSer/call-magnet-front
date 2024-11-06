@@ -114,7 +114,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
             (e) => {
                 this.isAlertVisible = true;
                 this.spinner.hide();
-                this.errorMessage = e;
+                this.errorMessage = 'Некорректные авторизационные данные';
                 this.isLoginFailed = true;
             },
         );

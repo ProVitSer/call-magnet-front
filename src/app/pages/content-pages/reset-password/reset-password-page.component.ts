@@ -103,6 +103,7 @@ export class ResetPasswordPageComponent implements OnInit {
     private async checkVerificationCode(verificationCode: string): Promise<void> {
         try {
             const result = await this.userProfileService.checkVerificationCode(verificationCode).toPromise();
+
             if (result.isValid) {
                 this.spinner.hide();
                 this.isButtonResetDisabled = false;
