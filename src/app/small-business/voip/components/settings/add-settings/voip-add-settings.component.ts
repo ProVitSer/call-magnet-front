@@ -13,10 +13,10 @@ import { ApplicationServiceType } from '../models/voip-settings.model';
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class VoipAddSettingsComponent {
-    authId = '';
-    authPassword = '';
-    pbxIp = '';
-    applicationServiceType = ApplicationServiceType.cqa;
+    public authId = '';
+    public authPassword = '';
+    public pbxIp = '';
+    public applicationServiceType = ApplicationServiceType.cqa;
 
     @ViewChild('wizard') wizard: WizardComponent;
     constructor(
@@ -24,7 +24,6 @@ export class VoipAddSettingsComponent {
         private ref: ChangeDetectorRef,
         private readonly voipSettingsService: VoipSettingsService,
         private spinner: NgxSpinnerService,
-        private route: ActivatedRoute,
     ) {}
     ngAfterViewInit() {
         setTimeout(() => {

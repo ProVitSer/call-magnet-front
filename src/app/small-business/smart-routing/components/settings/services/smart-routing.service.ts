@@ -10,8 +10,7 @@ import { AddSmartRouting, PbxExtensionList, SmartRoutingConfigData } from '../mo
     providedIn: 'root',
 })
 export class SmartRoutingService {
-    private readonly apiUrl = `${environment.API_GATEWAY_URL}`;
-    private readonly smartRoutingUrl = `${this.apiUrl}/smart-routing`;
+    private readonly smartRoutingUrl = environment.SMART_ROUTING_URL;
 
     constructor(
         public router: Router,

@@ -17,7 +17,6 @@ import { UntypedFormControl } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../auth/auth.service';
 import { NotificationService } from '../services/notification.service';
-import { HttpResponse } from '../models/response';
 import { GetClientNotificationsReponse } from '../models/notification';
 import { takeUntil } from 'rxjs/operators';
 

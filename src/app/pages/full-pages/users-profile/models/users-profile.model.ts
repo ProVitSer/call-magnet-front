@@ -1,5 +1,5 @@
-import { Products, ProductType } from "app/shared/models/license";
-import { Permission, Role } from "app/shared/models/user";
+import { ProductType } from 'app/shared/models/license';
+import { Permission, Role } from 'app/shared/models/user';
 
 export interface BaseUsersResponse {
     message: string;
@@ -13,7 +13,7 @@ export interface UserInfoResponse {
     company: string;
     license: string;
     products: ProductType[];
-    permissions: Permission[]
+    permissions: Permission[];
     roles: Role[];
 }
 
@@ -22,7 +22,8 @@ export enum Status {
     deactivated = 'deactivated',
 }
 
-export interface UpdateClientInfoResponse {};
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+export interface UpdateClientInfoResponse {}
 
 export interface UpdateClientInfoData {
     userId: number;
@@ -38,8 +39,9 @@ export interface ChangePasswordData {
     newPassword: string;
 }
 
-export interface ChangePasswordResponse extends BaseUsersResponse {}
+export type ChangePasswordResponse = BaseUsersResponse;
 
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface VerificationCodeResponse {}
 
 export interface ResetPasswordData {

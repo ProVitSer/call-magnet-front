@@ -10,9 +10,7 @@ import { firstValueFrom } from 'rxjs';
     providedIn: 'root',
 })
 export class TgSettingsService {
-    private readonly apiUrl = `${environment.API_GATEWAY_URL}`;
-
-    private readonly tgSettingsUrl = `${this.apiUrl}/tg/config`;
+    private readonly tgSettingsUrl = environment.TG_CONFIG_URL;
 
     constructor(
         public router: Router,

@@ -10,7 +10,7 @@ import { SweetalertService } from 'app/shared/services/sweetalert.service';
     styleUrls: ['./pbx-api-settings.component.scss'],
 })
 export class PbxApiSettingsComponent implements OnInit {
-    tableData = [];
+    public tableData = [];
     constructor(
         private pbxApiSettingsService: PbxApiSettingsService,
         private router: Router,

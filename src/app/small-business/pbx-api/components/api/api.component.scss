@@ -1,9 +1,9 @@
 .small-text {
-    font-size: 12px; 
+    font-size: 12px;
 }
 
 pre[class*='language-'] {
-background: #000000;
+    background: #000000;
 }
 
 .token.property,
@@ -13,5 +13,6 @@ background: #000000;
 .token.constant,
 .token.symbol,
 .token.deleted {
-  color: #a2ff00f5
+    color: #a2ff00f5;
 }
+

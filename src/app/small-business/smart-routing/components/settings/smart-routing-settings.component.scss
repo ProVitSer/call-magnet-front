@@ -81,7 +81,7 @@ input[type='checkbox']:checked + .switch-label:before {
     color: white;
     // background: linear-gradient(45deg, #6a11cb, #2575fc); /* Настройте градиент по вашему вкусу */
     border: none;
-    border-radius: 5px; /* Скругленные углы */
+    border-radius: 5px;
     cursor: pointer;
     text-align: center;
     transition: transform 0.2s;
@@ -90,3 +90,4 @@ input[type='checkbox']:checked + .switch-label:before {
 .button-gradient:hover {
     transform: scale(1.05); /* Эффект увеличения при наведении */
 }
+

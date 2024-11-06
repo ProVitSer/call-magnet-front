@@ -1,364 +1,365 @@
-
 <ngx-spinner></ngx-spinner>
 <div *ngIf="isDataLoaded">
-<div class="row" (resized)="onResized($event)">
-    <div class="col-xl-3 col-lg-6 col-md-6 col-12">
-      <div class="card gradient-purple-love">
-        <div class="card-content">
-          <div class="card-body py-0">
-            <div class="media pb-1">
-              <div class="media-body white text-left">
-                <h3 class="font-large-1 white mb-0">{{ totalCalls }}</h3>
-                <span>Всего вызовов</span>
-              </div>
-              <div class="media-right white text-right">
-                <i class="ft-phone font-large-1"></i>
-              </div>
+   <div class="row" (resized)="onResized($event)">
+      <div class="col-xl-3 col-lg-6 col-md-6 col-12">
+         <div class="card gradient-purple-love">
+            <div class="card-content">
+               <div class="card-body py-0">
+                  <div class="media pb-1">
+                     <div class="media-body white text-left">
+                        <h3 class="font-large-1 white mb-0">{{ totalCalls }}</h3>
+                        <span>Всего вызовов</span>
+                     </div>
+                     <div class="media-right white text-right">
+                        <i class="ft-phone font-large-1"></i>
+                     </div>
+                  </div>
+               </div>
+               <div
+                  id="all-calls-widget-line-chart"
+                  class="WidgetlineChart WidgetlineChartshadow mb-2"
+                  >
+                  <x-chartist
+                  class="height-75"
+                  [data]="AllCallsWidget.data"
+                  [type]="AllCallsWidget.type"
+                  [options]="AllCallsWidget.options"
+                  [responsiveOptions]="AllCallsWidget.responsiveOptions"
+                  [events]="AllCallsWidget.events"
+                  >
+                  </x-chartist>
+               </div>
             </div>
-          </div>
-          <div
-            id="all-calls-widget-line-chart"
-            class="WidgetlineChart WidgetlineChartshadow mb-2"
-          >
-            <x-chartist
-              class="height-75"
-              [data]="AllCallsWidget.data"
-              [type]="AllCallsWidget.type"
-              [options]="AllCallsWidget.options"
-              [responsiveOptions]="AllCallsWidget.responsiveOptions"
-              [events]="AllCallsWidget.events"
-            >
-            </x-chartist>
-          </div>
-        </div>
+         </div>
       </div>
-    </div>
-    <div class="col-xl-3 col-lg-6 col-md-6 col-12">
-      <div class="card gradient-ibiza-sunset">
-        <div class="card-content">
-          <div class="card-body py-0">
-            <div class="media pb-1">
-              <div class="media-body white text-left">
-                <h3 class="font-large-1 white mb-0">{{ processedCalls }}</h3>
-                <span>Обработанные вызовы</span>
-              </div>
-              <div class="media-right white text-right">
-                <i class="ft-phone-call font-large-1"></i>
-              </div>
+      <div class="col-xl-3 col-lg-6 col-md-6 col-12">
+         <div class="card gradient-ibiza-sunset">
+            <div class="card-content">
+               <div class="card-body py-0">
+                  <div class="media pb-1">
+                     <div class="media-body white text-left">
+                        <h3 class="font-large-1 white mb-0">{{ processedCalls }}</h3>
+                        <span>Обработанные вызовы</span>
+                     </div>
+                     <div class="media-right white text-right">
+                        <i class="ft-phone-call font-large-1"></i>
+                     </div>
+                  </div>
+               </div>
+               <div
+                  id="processed-calls-widget-line-chart"
+                  class="WidgetlineChart WidgetlineChartshadow mb-2"
+                  >
+                  <x-chartist
+                  class="height-75"
+                  [data]="ProcessedCallsWidget.data"
+                  [type]="ProcessedCallsWidget.type"
+                  [options]="ProcessedCallsWidget.options"
+                  [responsiveOptions]="ProcessedCallsWidget.responsiveOptions"
+                  [events]="ProcessedCallsWidget.events"
+                  >
+                  </x-chartist>
+               </div>
             </div>
-          </div>
-          <div
-            id="processed-calls-widget-line-chart"
-            class="WidgetlineChart WidgetlineChartshadow mb-2"
-          >
-            <x-chartist
-              class="height-75"
-              [data]="ProcessedCallsWidget.data"
-              [type]="ProcessedCallsWidget.type"
-              [options]="ProcessedCallsWidget.options"
-              [responsiveOptions]="ProcessedCallsWidget.responsiveOptions"
-              [events]="ProcessedCallsWidget.events"
-            >
-            </x-chartist>
-          </div>
-        </div>
+         </div>
       </div>
-    </div>
-    <div class="col-xl-3 col-lg-6 col-md-6 col-12">
-      <div class="card gradient-mint">
-        <div class="card-content">
-          <div class="card-body py-0">
-            <div class="media pb-1">
-              <div class="media-body white text-left">
-                <h3 class="font-large-1 white mb-0">{{ missedCalls }}</h3>
-                <span>Упущенные вызовы</span>
-              </div>
-              <div class="media-right white text-right">
-                <i class="ft-phone-missed font-large-1"></i>
-              </div>
+      <div class="col-xl-3 col-lg-6 col-md-6 col-12">
+         <div class="card gradient-mint">
+            <div class="card-content">
+               <div class="card-body py-0">
+                  <div class="media pb-1">
+                     <div class="media-body white text-left">
+                        <h3 class="font-large-1 white mb-0">{{ missedCalls }}</h3>
+                        <span>Упущенные вызовы</span>
+                     </div>
+                     <div class="media-right white text-right">
+                        <i class="ft-phone-missed font-large-1"></i>
+                     </div>
+                  </div>
+               </div>
+               <div
+                  id="missed-calls-widget-line-chart"
+                  class="WidgetlineChart WidgetlineChartshadow mb-2"
+                  >
+                  <x-chartist
+                  class="height-75"
+                  [data]="MissedCallsWidget.data"
+                  [type]="MissedCallsWidget.type"
+                  [options]="MissedCallsWidget.options"
+                  [responsiveOptions]="MissedCallsWidget.responsiveOptions"
+                  [events]="MissedCallsWidget.events"
+                  >
+                  </x-chartist>
+               </div>
             </div>
-          </div>
-          <div
-            id="missed-calls-widget-line-chart"
-            class="WidgetlineChart WidgetlineChartshadow mb-2"
-          >
-            <x-chartist
-              class="height-75"
-              [data]="MissedCallsWidget.data"
-              [type]="MissedCallsWidget.type"
-              [options]="MissedCallsWidget.options"
-              [responsiveOptions]="MissedCallsWidget.responsiveOptions"
-              [events]="MissedCallsWidget.events"
-            >
-            </x-chartist>
-          </div>
-        </div>
+         </div>
       </div>
-    </div>
-    <div class="col-xl-3 col-lg-6 col-md-6 col-12">
-      <div class="card gradient-king-yna">
-        <div class="card-content">
-          <div class="card-body py-0">
-            <div class="media pb-1">
-              <div class="media-body white text-left">
-                <h3 class="font-large-1 white mb-0">{{ averageTalkTime }}</h3>
-                <span>Среднее время разговора</span>
-              </div>
-              <div class="media-right white text-right">
-                <i class="ft-bar-chart font-large-1"></i>
-              </div>
+      <div class="col-xl-3 col-lg-6 col-md-6 col-12">
+         <div class="card gradient-king-yna">
+            <div class="card-content">
+               <div class="card-body py-0">
+                  <div class="media pb-1">
+                     <div class="media-body white text-left">
+                        <h3 class="font-large-1 white mb-0">{{ averageTalkTime }}</h3>
+                        <span>Среднее время разговора</span>
+                     </div>
+                     <div class="media-right white text-right">
+                        <i class="ft-bar-chart font-large-1"></i>
+                     </div>
+                  </div>
+               </div>
+               <div
+                  id="average-talk-time-widget-line-chart"
+                  class="WidgetlineChart WidgetlineChartshadow mb-2"
+                  >
+                  <x-chartist
+                  class="height-75"
+                  [data]="AverageTalkTimeWidget.data"
+                  [type]="AverageTalkTimeWidget.type"
+                  [options]="AverageTalkTimeWidget.options"
+                  [responsiveOptions]="AverageTalkTimeWidget.responsiveOptions"
+                  [events]="AverageTalkTimeWidget.events"
+                  >
+                  </x-chartist>
+               </div>
             </div>
-          </div>
-          <div
-            id="average-talk-time-widget-line-chart"
-            class="WidgetlineChart WidgetlineChartshadow mb-2"
-          >
-            <x-chartist
-              class="height-75"
-              [data]="AverageTalkTimeWidget.data"
-              [type]="AverageTalkTimeWidget.type"
-              [options]="AverageTalkTimeWidget.options"
-              [responsiveOptions]="AverageTalkTimeWidget.responsiveOptions"
-              [events]="AverageTalkTimeWidget.events"
-            >
-            </x-chartist>
-          </div>
-        </div>
+         </div>
       </div>
-    </div>
-  </div>
-  <div class="row match-height">
-    <div class="col-xl-8 col-lg-12">
-      <div class="card">
-        <div class="card-header pb-0">
-          <h4 class="card-title">График звонков за день</h4>
-        </div>
-        <div class="card-content">
-          <div class="card-body">
-            <div class="chart-info mb-4">
-              <span class="mr-3">
-                <i class="fa fa-circle primary font-small-2 mr-1"></i>
-                <span>Обработанные вызовы</span>
-              </span>
-              <span>
-                <i class="fa fa-circle danger font-small-2 mr-1"></i>
-                <span>Пропущенные вызовы</span>
-              </span>
+   </div>
+   <div class="row match-height">
+      <div class="col-xl-8 col-lg-12">
+         <div class="card">
+            <div class="card-header pb-0">
+               <h4 class="card-title">График звонков за день</h4>
             </div>
-            <div id="line-area-chart" class="lineAreaChart mb-1">
-              <x-chartist
-                class="height-300"
-                [data]="CallSchedule.data"
-                [type]="CallSchedule.type"
-                [options]="CallSchedule.options"
-                [responsiveOptions]="CallSchedule.responsiveOptions"
-                [events]="CallSchedule.events"
-              >
-              </x-chartist>
+            <div class="card-content">
+               <div class="card-body">
+                  <div class="chart-info mb-4">
+                     <span class="mr-3">
+                     <i class="fa fa-circle primary font-small-2 mr-1"></i>
+                     <span>Обработанные вызовы</span>
+                     </span>
+                     <span>
+                     <i class="fa fa-circle danger font-small-2 mr-1"></i>
+                     <span>Пропущенные вызовы</span>
+                     </span>
+                  </div>
+                  <div id="line-area-chart" class="lineAreaChart mb-1">
+                     <x-chartist
+                     class="height-300"
+                     [data]="CallSchedule.data"
+                     [type]="CallSchedule.type"
+                     [options]="CallSchedule.options"
+                     [responsiveOptions]="CallSchedule.responsiveOptions"
+                     [events]="CallSchedule.events"
+                     >
+                     </x-chartist>
+                  </div>
+               </div>
             </div>
-          </div>
-        </div>
+         </div>
       </div>
-    </div>
-    <div class="col-xl-4 col-lg-12">
-      <div class="card">
-        <div class="card-header">
-          <h4 class="card-title mb-0">Обработанных вызовов</h4>
-          <p class="grey">Статистика больше всего ответивших</p>
-        </div>
-        <div class="card-content">
-          <div class="card-body">
-            <div
-              *ngFor="let call of maxInboundAnswered; let i = index"
-              class="media py-2"
-            >
-              <div
-                class="mr-3 avatar rounded"
-                [ngClass]="{'bg-success': i < 2, 'bg-primary': i >= 2 && i < 4, 'bg-danger': i >= 4}"
-                width="35"
-              >
-                <div class="avatar-content">
-                    {{ 
-                        call.displayName.includes(',') 
-                          ? call.displayName.split(', ')[1][0] + call.displayName.split(', ')[0][0] 
-                          : call.displayName.includes(' ') 
-                            ? call.displayName[0] + call.displayName.split(' ')[1][0] 
-                            : call.displayName[0] 
-                      }}                </div>
-              </div>
-              <div class="media-body">
-                <h4 class="font-medium-1 mb-0">{{ call.displayName }}</h4>
-                <p class="grey font-small-3 m-0">{{ call.extension }}</p>
-              </div>
-              <span
-                class="badge bg-light-primary float-right"
-                >{{ call.inboundAnsweredCount }}</span
-              >
+      <div class="col-xl-4 col-lg-12">
+         <div class="card">
+            <div class="card-header">
+               <h4 class="card-title mb-0">Обработанных вызовов</h4>
+               <p class="grey">Статистика больше всего ответивших</p>
             </div>
-          </div>
-        </div>
+            <div class="card-content">
+               <div class="card-body">
+                  <div
+                     *ngFor="let call of maxInboundAnswered; let i = index"
+                     class="media py-2"
+                     >
+                     <div
+                        class="mr-3 avatar rounded"
+                        [ngClass]="{'bg-success': i < 2, 'bg-primary': i >= 2 && i < 4, 'bg-danger': i >= 4}"
+                        width="35"
+                        >
+                        <div class="avatar-content">
+                           {{ 
+                           call.displayName.includes(',') 
+                           ? call.displayName.split(', ')[1][0] + call.displayName.split(', ')[0][0] 
+                           : call.displayName.includes(' ') 
+                           ? call.displayName[0] + call.displayName.split(' ')[1][0] 
+                           : call.displayName[0] 
+                           }}                
+                        </div>
+                     </div>
+                     <div class="media-body">
+                        <h4 class="font-medium-1 mb-0">{{ call.displayName }}</h4>
+                        <p class="grey font-small-3 m-0">{{ call.extension }}</p>
+                     </div>
+                     <span
+                        class="badge bg-light-primary float-right"
+                        >{{ call.inboundAnsweredCount }}</span
+                        >
+                  </div>
+               </div>
+            </div>
+         </div>
       </div>
-    </div>
-  </div>
-  <div class="row match-height">
-    <div class="col-xl-4 col-lg-12">
-      <div class="card">
-        <div class="card-header">
-          <h4 class="card-title mb-0">Общее время разговора</h4>
-          <p class="grey">Статистика общего времени разговора</p>
-        </div>
-        <div class="card-content">
-          <div class="card-body">
-            <div
-              *ngFor="let call of maxCallTalkingDur; let i = index"
-              class="media py-2"
-            >
-              <div
-                class="mr-3 avatar rounded"
-                [ngClass]="{'bg-success': i < 2, 'bg-primary': i >= 2 && i < 4, 'bg-danger': i >= 4}"
-                width="35"
-              >
-                <div class="avatar-content">
-                    {{ 
-                        call.displayName.includes(',') 
-                          ? call.displayName.split(', ')[1][0] + call.displayName.split(', ')[0][0] 
-                          : call.displayName.includes(' ') 
-                            ? call.displayName[0] + call.displayName.split(' ')[1][0] 
-                            : call.displayName[0] 
-                      }}                </div>
-              </div>
-              <div class="media-body">
-                <h4 class="font-medium-1 mb-0">{{ call.displayName }}</h4>
-                <p class="grey font-small-3 m-0">{{ call.extension }}</p>
-              </div>
-              <span
-                class="badge bg-light-primary float-right"
-                >{{ call.callTalkingDur }}</span
-              >
+   </div>
+   <div class="row match-height">
+      <div class="col-xl-4 col-lg-12">
+         <div class="card">
+            <div class="card-header">
+               <h4 class="card-title mb-0">Общее время разговора</h4>
+               <p class="grey">Статистика общего времени разговора</p>
             </div>
-          </div>
-        </div>
+            <div class="card-content">
+               <div class="card-body">
+                  <div
+                     *ngFor="let call of maxCallTalkingDur; let i = index"
+                     class="media py-2"
+                     >
+                     <div
+                        class="mr-3 avatar rounded"
+                        [ngClass]="{'bg-success': i < 2, 'bg-primary': i >= 2 && i < 4, 'bg-danger': i >= 4}"
+                        width="35"
+                        >
+                        <div class="avatar-content">
+                           {{ 
+                           call.displayName.includes(',') 
+                           ? call.displayName.split(', ')[1][0] + call.displayName.split(', ')[0][0] 
+                           : call.displayName.includes(' ') 
+                           ? call.displayName[0] + call.displayName.split(' ')[1][0] 
+                           : call.displayName[0] 
+                           }}                
+                        </div>
+                     </div>
+                     <div class="media-body">
+                        <h4 class="font-medium-1 mb-0">{{ call.displayName }}</h4>
+                        <p class="grey font-small-3 m-0">{{ call.extension }}</p>
+                     </div>
+                     <span
+                        class="badge bg-light-primary float-right"
+                        >{{ call.callTalkingDur }}</span
+                        >
+                  </div>
+               </div>
+            </div>
+         </div>
       </div>
-    </div>
-    
-    <div class="col-xl-8 col-lg-12">
-      <div class="card">
-        <div class="card-header">
-          <h4 class="card-title mb-0">
-            <span>Статистика вызовов за неделю</span>
-            <span class="float-right cursor-pointer">
-              <i class="ft-more-vertical-"></i>
-            </span>
-          </h4>
-        </div>
-        <div class="card-content">
-          <div class="card-body">
-            <div class="chart-info mb-3">
-              <span class="mr-3">
-                <i
-                  class="fa fa-circle info lighten-3 font-small-3 mr-1"
-                  style="color: #BDF8B6 !important;"
-                ></i>
-                <span>Обработанные вызовы</span>
-              </span>
-              <span class="mr-3">
-                <i
-                  class="fa fa-circle info lighten-3 font-small-3 mr-1"
-                  style="color: #FECBBA !important;"
-                ></i>
-                <span>Пропущенные вызовы</span>
-              </span>
+      <div class="col-xl-8 col-lg-12">
+         <div class="card">
+            <div class="card-header">
+               <h4 class="card-title mb-0">
+                  <span>Статистика вызовов за неделю</span>
+                  <span class="float-right cursor-pointer">
+                  <i class="ft-more-vertical-"></i>
+                  </span>
+               </h4>
             </div>
-            <div id="line-chart1" class="height-350">
-              <apx-chart
-                [series]="weeklyLineChart.series"
-                [colors]="weeklyLineChart.colors"
-                [chart]="weeklyLineChart.chart"
-                [xaxis]="weeklyLineChart.xaxis"
-                [yaxis]="weeklyLineChart.yaxis"
-                [title]="weeklyLineChart.title"
-                [dataLabels]="weeklyLineChart.dataLabels"
-                [stroke]="weeklyLineChart.stroke"
-                [grid]="weeklyLineChart.grid"
-                [tooltip]="weeklyLineChart.tooltip"
-                [plotOptions]="weeklyLineChart.plotOptions"
-                [fill]="weeklyLineChart.fill"
-                [legend]="weeklyLineChart.legend"
-                [labels]="weeklyLineChart.labels"
-                [markers]="weeklyLineChart.markers"
-                [theme]="weeklyLineChart.theme"
-                [responsive]="weeklyLineChart.responsive"
-              ></apx-chart>
+            <div class="card-content">
+               <div class="card-body">
+                  <div class="chart-info mb-3">
+                     <span class="mr-3">
+                     <i
+                        class="fa fa-circle info lighten-3 font-small-3 mr-1"
+                        style="color: #BDF8B6 !important;"
+                        ></i>
+                     <span>Обработанные вызовы</span>
+                     </span>
+                     <span class="mr-3">
+                     <i
+                        class="fa fa-circle info lighten-3 font-small-3 mr-1"
+                        style="color: #FECBBA !important;"
+                        ></i>
+                     <span>Пропущенные вызовы</span>
+                     </span>
+                  </div>
+                  <div id="line-chart1" class="height-350">
+                     <apx-chart
+                     [series]="weeklyLineChart.series"
+                     [colors]="weeklyLineChart.colors"
+                     [chart]="weeklyLineChart.chart"
+                     [xaxis]="weeklyLineChart.xaxis"
+                     [yaxis]="weeklyLineChart.yaxis"
+                     [title]="weeklyLineChart.title"
+                     [dataLabels]="weeklyLineChart.dataLabels"
+                     [stroke]="weeklyLineChart.stroke"
+                     [grid]="weeklyLineChart.grid"
+                     [tooltip]="weeklyLineChart.tooltip"
+                     [plotOptions]="weeklyLineChart.plotOptions"
+                     [fill]="weeklyLineChart.fill"
+                     [legend]="weeklyLineChart.legend"
+                     [labels]="weeklyLineChart.labels"
+                     [markers]="weeklyLineChart.markers"
+                     [theme]="weeklyLineChart.theme"
+                     [responsive]="weeklyLineChart.responsive"
+                     ></apx-chart>
+                  </div>
+               </div>
             </div>
-          </div>
-        </div>
+         </div>
       </div>
-    </div>
-  </div>
-  <div class="row match-height">
-    <div class="col-xl-4 col-lg-12">
-      <div class="card">
-        <div class="card-header">
-          <h4 class="card-title mb-0">Больше всего пропущенных</h4>
-          <p class="grey">Статистика больше всеъ упущенных вызовов</p>
-        </div>
-        <div class="card-content">
-          <div class="card-body">
-            <div
-              *ngFor="let call of maxInboundUnanswered; let i = index"
-              class="media py-2"
-            >
-              <div
-                class="mr-3 avatar rounded"
-                [ngClass]="{'bg-success': i < 2, 'bg-primary': i >= 2 && i < 4, 'bg-danger': i >= 4}"
-                width="35"
-              >
-                <div class="avatar-content">
-                    {{ 
-                        call.displayName.includes(',') 
-                          ? call.displayName.split(', ')[1][0] + call.displayName.split(', ')[0][0] 
-                          : call.displayName.includes(' ') 
-                            ? call.displayName[0] + call.displayName.split(' ')[1][0] 
-                            : call.displayName[0] 
-                      }}                </div>
-              </div>
-              <div class="media-body">
-                <h4 class="font-medium-1 mb-0">{{ call.displayName }}</h4>
-                <p class="grey font-small-3 m-0">{{ call.extension }}</p>
-              </div>
-              <span
-                class="badge bg-light-primary float-right"
-                >{{ call.inboundUnansweredCount }}</span
-              >
+   </div>
+   <div class="row match-height">
+      <div class="col-xl-4 col-lg-12">
+         <div class="card">
+            <div class="card-header">
+               <h4 class="card-title mb-0">Больше всего пропущенных</h4>
+               <p class="grey">Статистика больше всеъ упущенных вызовов</p>
             </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="col-xl-8 col-lg-12">
-      <div class="card">
-        <div class="card-header">
-          <h4 class="card-title">Статистика входящих по регионам\странам</h4>
-        </div>
-        <div class="card-content">
-          <div class="card-body">
-            <div id="pie-chart1" class="height-400">
-              <ngx-charts-pie-chart
-                [scheme]="regionCallStatisticChartColorScheme"
-                [results]="regionCallStatisticData"
-                [legend]="regionCallStatisticChartShowLegend"
-                [explodeSlices]="regionCallStatisticChartExplodeSlices"
-                [labels]="regionCallStatisticChartShowLabels"
-                [doughnut]="regionCallStatisticChartDoughnut"
-                [gradient]="regionCallStatisticChartGradient"
-                [legendTitle]="'Название'"
-                (select)="onSelect($event)"
-              >
-              </ngx-charts-pie-chart>
+            <div class="card-content">
+               <div class="card-body">
+                  <div
+                     *ngFor="let call of maxInboundUnanswered; let i = index"
+                     class="media py-2"
+                     >
+                     <div
+                        class="mr-3 avatar rounded"
+                        [ngClass]="{'bg-success': i < 2, 'bg-primary': i >= 2 && i < 4, 'bg-danger': i >= 4}"
+                        width="35"
+                        >
+                        <div class="avatar-content">
+                           {{ 
+                           call.displayName.includes(',') 
+                           ? call.displayName.split(', ')[1][0] + call.displayName.split(', ')[0][0] 
+                           : call.displayName.includes(' ') 
+                           ? call.displayName[0] + call.displayName.split(' ')[1][0] 
+                           : call.displayName[0] 
+                           }}                
+                        </div>
+                     </div>
+                     <div class="media-body">
+                        <h4 class="font-medium-1 mb-0">{{ call.displayName }}</h4>
+                        <p class="grey font-small-3 m-0">{{ call.extension }}</p>
+                     </div>
+                     <span
+                        class="badge bg-light-primary float-right"
+                        >{{ call.inboundUnansweredCount }}</span
+                        >
+                  </div>
+               </div>
             </div>
-          </div>
-        </div>
+         </div>
       </div>
-    </div>
-  </div>
+      <div class="col-xl-8 col-lg-12">
+         <div class="card">
+            <div class="card-header">
+               <h4 class="card-title">Статистика входящих по регионам\странам</h4>
+            </div>
+            <div class="card-content">
+               <div class="card-body">
+                  <div id="pie-chart1" class="height-400">
+                     <ngx-charts-pie-chart
+                     [scheme]="regionCallStatisticChartColorScheme"
+                     [results]="regionCallStatisticData"
+                     [legend]="regionCallStatisticChartShowLegend"
+                     [explodeSlices]="regionCallStatisticChartExplodeSlices"
+                     [labels]="regionCallStatisticChartShowLabels"
+                     [doughnut]="regionCallStatisticChartDoughnut"
+                     [gradient]="regionCallStatisticChartGradient"
+                     [legendTitle]="'Название'"
+                     (select)="onSelect($event)"
+                     >
+                     </ngx-charts-pie-chart>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
 </div>

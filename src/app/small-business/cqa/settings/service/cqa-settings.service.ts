@@ -10,8 +10,7 @@ import { CqaConfig } from '../../models/cqa.model';
     providedIn: 'root',
 })
 export class CqaSettingsService {
-    private readonly apiUrl = `${environment.API_GATEWAY_URL}`;
-    private readonly ptgMessagesUrl = `${this.apiUrl}/cqa/config`;
+    private readonly cqaConfigUrlUrl = environment.CQA_CONFIG_URL;
 
     constructor(
         public router: Router,
@@ -20,7 +19,7 @@ export class CqaSettingsService {
 
     public async createCqaConfig(formData: FormData) {
         return firstValueFrom(
-            this.http.put<void>(`${this.ptgMessagesUrl}/files`, formData, {}).pipe(
+            this.http.put<void>(`${this.cqaConfigUrlUrl}/files`, formData, {}).pipe(
                 catchError((error) => {
                     throw error;
                 }),
@@ -30,7 +29,7 @@ export class CqaSettingsService {
 
     public async getCqaClientConfig() {
         return firstValueFrom(
-            this.http.get<CqaConfig>(`${this.ptgMessagesUrl}`).pipe(
+            this.http.get<CqaConfig>(`${this.cqaConfigUrlUrl}`).pipe(
                 catchError((error) => {
                     throw error;
                 }),
@@ -39,12 +38,12 @@ export class CqaSettingsService {
     }
 
     public getCqaVoiceFile(fileId: number) {
-        return this.http.get(`${this.ptgMessagesUrl}/file/${fileId}`, { responseType: 'blob', observe: 'body' });
+        return this.http.get(`${this.cqaConfigUrlUrl}/file/${fileId}`, { responseType: 'blob', observe: 'body' });
     }
 
     public async updateAi(isAiEnabled: boolean) {
         return firstValueFrom(
-            this.http.put<void>(`${this.ptgMessagesUrl}/ai`, { isAiEnabled }).pipe(
+            this.http.put<void>(`${this.cqaConfigUrlUrl}/ai`, { isAiEnabled }).pipe(
                 catchError((error) => {
                     throw error;
                 }),

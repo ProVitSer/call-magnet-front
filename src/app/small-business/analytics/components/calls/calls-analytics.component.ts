@@ -4,7 +4,7 @@ import { ApexXAxis } from 'ng-apexcharts';
 import { Subject } from 'rxjs';
 import ChartistTooltip from 'chartist-plugin-tooltips-updated';
 import { WIDGET_СРФКЕ_DATA } from './constaints';
-import { CallAnanliticsData, Chart, ChartOptions } from './models/calls-analytics';
+import { CallAnanliticsData, Chart, ChartOptions } from './models/calls-analytics.model';
 import { CallsAnaliticsService } from './services/calls-analytics.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 
@@ -14,31 +14,31 @@ import { NgxSpinnerService } from 'ngx-spinner';
     styleUrls: ['./calls-analytics.component.scss'],
 })
 export class CallsAnalyticsComponent implements OnInit, OnDestroy {
-    ngDestroy$ = new Subject();
-    AllCallsWidget: Chart;
-    ProcessedCallsWidget: Chart;
-    MissedCallsWidget: Chart;
-    AverageTalkTimeWidget: Chart;
-    xaxis: ApexXAxis;
-    weeklyLineChart: Partial<ChartOptions>;
-    CallSchedule: Partial<Chart>;
-    regionCallStatisticChartColorScheme = {
+    public ngDestroy$ = new Subject();
+    public AllCallsWidget: Chart;
+    public ProcessedCallsWidget: Chart;
+    public MissedCallsWidget: Chart;
+    public AverageTalkTimeWidget: Chart;
+    public xaxis: ApexXAxis;
+    public weeklyLineChart: Partial<ChartOptions>;
+    public CallSchedule: Partial<Chart>;
+    public regionCallStatisticChartColorScheme = {
         domain: ['#975AFF', '#40C057', '#F55252', '#2F8BE6', '#F77E17', '#616D89', '#9e9e9e', '#0C5C38'],
     };
-    regionCallStatisticChartShowLabels = true;
-    regionCallStatisticData: {
+    public regionCallStatisticChartShowLabels = true;
+    public regionCallStatisticData: {
         name: string;
         value: number;
-    }[] = [{ name: '', value: 0 }];
-    regionCallStatisticChartShowLegend = true;
-    regionCallStatisticChartExplodeSlices = false;
-    regionCallStatisticChartDoughnut = true;
-    regionCallStatisticChartGradient = true;
-    totalCalls = 0;
-    processedCalls = 0;
-    missedCalls = 0;
-    averageTalkTime = '00:00:00';
-    maxInboundAnswered: {
+    }[];
+    public regionCallStatisticChartShowLegend = true;
+    public regionCallStatisticChartExplodeSlices = false;
+    public regionCallStatisticChartDoughnut = true;
+    public regionCallStatisticChartGradient = true;
+    public totalCalls = 0;
+    public processedCalls = 0;
+    public missedCalls = 0;
+    public averageTalkTime = '00:00:00';
+    public maxInboundAnswered: {
         callTalkingDur: string;
         id: number;
         extension: string;
@@ -46,18 +46,8 @@ export class CallsAnalyticsComponent implements OnInit, OnDestroy {
         inboundAnsweredCount: number;
         inboundUnansweredCount: number;
         outboundCallCount: number;
-    }[] = [
-        {
-            id: 4839,
-            extension: '204',
-            displayName: 'Неизвестный Человек',
-            inboundAnsweredCount: 0,
-            inboundUnansweredCount: 0,
-            outboundCallCount: 0,
-            callTalkingDur: '00:00:00',
-        },
-    ];
-    maxCallTalkingDur: {
+    }[] = [];
+    public maxCallTalkingDur: {
         callTalkingDur: string;
         id: number;
         extension: string;
@@ -65,18 +55,8 @@ export class CallsAnalyticsComponent implements OnInit, OnDestroy {
         inboundAnsweredCount: number;
         inboundUnansweredCount: number;
         outboundCallCount: number;
-    }[] = [
-        {
-            id: 4839,
-            extension: '204',
-            displayName: 'Неизвестный Человек',
-            inboundAnsweredCount: 0,
-            inboundUnansweredCount: 0,
-            outboundCallCount: 0,
-            callTalkingDur: '00:00:00',
-        },
-    ];
-    maxInboundUnanswered: {
+    }[] = [];
+    public maxInboundUnanswered: {
         callTalkingDur: string;
         id: number;
         extension: string;
@@ -84,19 +64,8 @@ export class CallsAnalyticsComponent implements OnInit, OnDestroy {
         inboundAnsweredCount: number;
         inboundUnansweredCount: number;
         outboundCallCount: number;
-    }[] = [
-        {
-            id: 4839,
-            extension: '204',
-            displayName: 'Неизвестный Человек',
-            inboundAnsweredCount: 0,
-            inboundUnansweredCount: 0,
-            outboundCallCount: 0,
-            callTalkingDur: '00:00:00',
-        },
-    ];
-    isDataLoaded = false;
-
+    }[] = [];
+    public isDataLoaded = false;
     constructor(
         private callsAnaliticsService: CallsAnaliticsService,
         private spinner: NgxSpinnerService,

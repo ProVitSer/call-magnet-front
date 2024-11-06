@@ -1,7 +1,6 @@
-import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnInit, Renderer2 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormatNavbarNotificationsData, GetClientNotificationsReponse, GetNotificationListReponse } from 'app/shared/models/notification';
-import { HttpResponse } from 'app/shared/models/response';
 import { NotificationService } from 'app/shared/services/notification.service';
 import { SweetalertService } from 'app/shared/services/sweetalert.service';
 
@@ -92,30 +91,28 @@ export class NotificationsPageComponent implements OnInit, AfterViewInit {
         this.scrollToElement();
     }
 
-    private moreNotification() {
-        const notifications = this.notificationService
-            .getNotificationsList({ limit: this.notificationNextLimit, offset: this.countNotification })
-            .subscribe(
-                (res: GetNotificationListReponse) => {
-                    const result = res;
-                    if (res) {
-                        if (res.notifications.length != 0) {
-                            this.countNotification = this.countNotification + result.notifications.length;
-                            this.setNotifications(result.notifications);
-                            this.moreNotifications = !(this.countNotification == res.count);
-                        } else {
-                            this.moreNotifications = false;
-                        }
-                        this.cdr.markForCheck();
+    public moreNotification() {
+        this.notificationService.getNotificationsList({ limit: this.notificationNextLimit, offset: this.countNotification }).subscribe(
+            (res: GetNotificationListReponse) => {
+                const result = res;
+                if (res) {
+                    if (res.notifications.length != 0) {
+                        this.countNotification = this.countNotification + result.notifications.length;
+                        this.setNotifications(result.notifications);
+                        this.moreNotifications = !(this.countNotification == res.count);
+                    } else {
+                        this.moreNotifications = false;
                     }
-                },
-                (e) => {
-                    SweetalertService.errorAlert(
-                        'Ошибка получения уведомлений',
-                        'Что-то пошло не так, просьба обратиться в техническую поддержку',
-                    );
-                },
-            );
+                    this.cdr.markForCheck();
+                }
+            },
+            (e) => {
+                SweetalertService.errorAlert(
+                    'Ошибка получения уведомлений',
+                    'Что-то пошло не так, просьба обратиться в техническую поддержку',
+                );
+            },
+        );
     }
 
     private addDelIcon(item: FormatNavbarNotificationsData) {

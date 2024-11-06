@@ -10,8 +10,7 @@ import { AddTgUser, GetTgUsersQuery, GetTgUsersResult, UpdateTgUser } from '../m
     providedIn: 'root',
 })
 export class TgUsersService {
-    private readonly apiUrl = `${environment.API_GATEWAY_URL}`;
-    private readonly ptgMessagesUrl = `${this.apiUrl}/tg/users`;
+    private readonly tgUsersUrl = environment.TG_USERS_URL;
 
     constructor(
         public router: Router,
@@ -23,7 +22,7 @@ export class TgUsersService {
             ...data,
         };
         return firstValueFrom(
-            this.http.get<GetTgUsersResult>(`${this.ptgMessagesUrl}`, { params }).pipe(
+            this.http.get<GetTgUsersResult>(`${this.tgUsersUrl}`, { params }).pipe(
                 catchError((error) => {
                     throw error;
                 }),
@@ -33,7 +32,7 @@ export class TgUsersService {
 
     public async addTgUser(data: AddTgUser) {
         return firstValueFrom(
-            this.http.post<void>(`${this.ptgMessagesUrl}`, data).pipe(
+            this.http.post<void>(`${this.tgUsersUrl}`, data).pipe(
                 catchError((error) => {
                     throw error;
                 }),
@@ -43,7 +42,7 @@ export class TgUsersService {
 
     public async deleteTgUser(id: number) {
         return firstValueFrom(
-            this.http.delete<void>(`${this.ptgMessagesUrl}`, { body: { id } }).pipe(
+            this.http.delete<void>(`${this.tgUsersUrl}`, { body: { id } }).pipe(
                 catchError((error) => {
                     throw error;
                 }),
@@ -53,7 +52,7 @@ export class TgUsersService {
 
     public async updateTgUser(data: UpdateTgUser) {
         return firstValueFrom(
-            this.http.put<void>(`${this.ptgMessagesUrl}`, data).pipe(
+            this.http.put<void>(`${this.tgUsersUrl}`, data).pipe(
                 catchError((error) => {
                     throw error;
                 }),

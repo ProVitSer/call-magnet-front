@@ -4,14 +4,13 @@ import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { catchError } from 'rxjs/operators';
 import { firstValueFrom } from 'rxjs';
-import { GetCdrRequest, GetCdrResult } from '../models/cdr-analytics';
+import { GetCdrRequest, GetCdrResult } from '../models/cdr-analytic.model';
 
 @Injectable({
     providedIn: 'root',
 })
 export class CdrAnaliticsService {
-    private readonly apiUrl = `${environment.API_GATEWAY_URL}`;
-    private readonly cdrAnaliticsUrl = `${this.apiUrl}/call-analytics`;
+    private readonly cdrAnaliticsUrl = environment.CALL_ANALITICS_URL;
 
     constructor(
         public router: Router,

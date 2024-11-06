@@ -1,56 +1,56 @@
 <div class="row">
     <div class="col-12">
-      <div class="content-header"></div>
+       <div class="content-header"></div>
     </div>
-  </div>
-  <section id="extended">
+ </div>
+ <section id="extended">
     <div class="row">
-      <div class="col-12">
-        <div class="card">
-          <div class="card-header">
-            <h4 class="card-title"></h4>
+       <div class="col-12">
+          <div class="card">
+             <div class="card-header">
+                <h4 class="card-title"></h4>
+             </div>
+             <div class="card-content">
+                <div class="card-body table-responsive">
+                   <table class="table text-center m-0">
+                      <thead>
+                         <tr>
+                            <th>#</th>
+                            <th>Название</th>
+                            <th>Token</th>
+                            <th>Chat Id</th>
+                            <th>Действия</th>
+                         </tr>
+                      </thead>
+                      <tbody>
+                         <tr *ngFor="let item of tableData; let i = index">
+                            <td>{{ i + 1 }}</td>
+                            <td>{{ item.name }}</td>
+                            <td>{{ item.token }}</td>
+                            <td>{{ item.chatId }}</td>
+                            <td class="text-truncate">
+                               <div class="d-flex justify-content-start align-items-center">
+                                  <p class="font-medium-1 line-height-1 mb-0">&nbsp; &nbsp; &nbsp;</p>
+                                  <a  class="danger p-0" (click)="removeSetting(i,item)">
+                                  <i class="ft-trash-2 font-medium-3" title="Удалить"></i>
+                                  </a>
+                                  <p class="font-medium-1 line-height-1 mb-0">&nbsp; &nbsp; </p>
+                                  <a  class="success p-0" (click)="testSend(i,item)">
+                                  <i class="icon-cursor font-medium-3" title="Отправить тестовое сообщение"></i>
+                                  </a>
+                               </div>
+                            </td>
+                         </tr>
+                         <td></td>
+                         <td></td>
+                         <td></td>
+                         <td></td>
+                         <td></td>
+                      </tbody>
+                   </table>
+                </div>
+             </div>
           </div>
-          <div class="card-content">
-            <div class="card-body table-responsive">
-              <table class="table text-center m-0">
-                <thead>
-                  <tr>
-                    <th>#</th>
-                    <th>Название</th>
-                    <th>Token</th>
-                    <th>Chat Id</th>
-                    <th>Действия</th>
-                  </tr>
-                </thead>
-                <tbody>
-                    <tr *ngFor="let item of tableData; let i = index">
-                        <td>{{ i + 1 }}</td>
-                        <td>{{ item.name }}</td>
-                        <td>{{ item.token }}</td>
-                        <td>{{ item.chatId }}</td>
-                    <td class="text-truncate">
-                        <div class="d-flex justify-content-start align-items-center">
-                            <p class="font-medium-1 line-height-1 mb-0">&nbsp; &nbsp; &nbsp;</p>
-                            <a  class="danger p-0" (click)="removeSetting(i,item)">
-                                <i class="ft-trash-2 font-medium-3" title="Удалить"></i>
-                              </a>
-                              <p class="font-medium-1 line-height-1 mb-0">&nbsp; &nbsp; </p>
-                              <a  class="success p-0" (click)="testSend(i,item)">
-                                <i class="icon-cursor font-medium-3" title="Отправить тестовое сообщение"></i>
-                              </a>
-                          </div>
-                    </td>
-                  </tr>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-      </div>
+       </div>
     </div>
-  </section>
+ </section>

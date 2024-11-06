@@ -14,11 +14,11 @@ import { SmsSettingsService } from '../service/sms-settings.service';
 })
 export class SmsAddSettingsComponent {
     @ViewChild('wizard') wizard: WizardComponent;
-    SmsServices: SmsServices;
-    smsServiceLogin = '';
-    smsServicePassword = '';
-    smsText = '';
-    selectedService: number | null = null;
+    public SmsServices: SmsServices;
+    public smsServiceLogin = '';
+    public smsServicePassword = '';
+    public smsText = '';
+    public selectedService: number | null = null;
     constructor(
         public router: Router,
         private ref: ChangeDetectorRef,

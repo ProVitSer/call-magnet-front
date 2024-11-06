@@ -1,5 +1,5 @@
 import { Component, Output, EventEmitter, OnInit } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormGroup, Validators, FormControl, FormGroup } from '@angular/forms';
+import { UntypedFormGroup, Validators, FormControl, FormGroup } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { AddTgUser } from '../models/tg-users.model';
 
@@ -9,12 +9,9 @@ import { AddTgUser } from '../models/tg-users.model';
 })
 export class AddTgUserModalComponent implements OnInit {
     @Output() tgUserAdded = new EventEmitter<AddTgUser>();
-    tgUserForm: UntypedFormGroup;
+    public tgUserForm: UntypedFormGroup;
 
-    constructor(
-        public activeModal: NgbActiveModal,
-        private formBuilder: UntypedFormBuilder,
-    ) {}
+    constructor(public activeModal: NgbActiveModal) {}
 
     ngOnInit() {
         this.buildItemForm();

@@ -10,8 +10,7 @@ import { GetCqaStatisticQuery, GetCqaStatisticResult } from '../../models/cqa.mo
     providedIn: 'root',
 })
 export class CqaStatisticService {
-    private readonly apiUrl = `${environment.API_GATEWAY_URL}`;
-    private readonly ptgMessagesUrl = `${this.apiUrl}/cqa/statistic`;
+    private readonly cqaStatUrl = environment.CQA_STAT_URL;
 
     constructor(
         public router: Router,
@@ -20,7 +19,7 @@ export class CqaStatisticService {
 
     public async getCqaStatistic(data: GetCqaStatisticQuery) {
         return firstValueFrom(
-            this.http.get<GetCqaStatisticResult>(`${this.ptgMessagesUrl}`, { params: { ...data } }).pipe(
+            this.http.get<GetCqaStatisticResult>(`${this.cqaStatUrl}`, { params: { ...data } }).pipe(
                 catchError((error) => {
                     throw error;
                 }),

@@ -41,7 +41,7 @@ export class SmsStatisticComponent {
                 pageSize: this.pageSize.toString(),
                 ...(this.dateString ? { dateString: this.dateString } : {}),
             });
-            console.log(response);
+
             this.rows = response.data;
 
             this.rowsTemp = response.data;

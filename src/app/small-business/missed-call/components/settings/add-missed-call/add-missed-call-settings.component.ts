@@ -14,12 +14,11 @@ import { MissedServiceType } from '../models/missed-call.model';
 })
 export class AddMissedCallSettingsComponent implements OnInit {
     @ViewChild('wizard') wizard: WizardComponent;
-    trunksName = [];
-    selectedMCService: string[] = [];
-    selectedTrunkName: string;
-    defaultRoutingNumber: string;
-
-    selectedService: string | null = null;
+    public trunksName = [];
+    public selectedMCService: string[] = [];
+    public selectedTrunkName: string;
+    public defaultRoutingNumber: string;
+    public selectedService: string | null = null;
     constructor(
         private ref: ChangeDetectorRef,
         private spinner: NgxSpinnerService,

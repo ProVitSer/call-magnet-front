@@ -12,10 +12,10 @@ import { WizardComponent } from 'angular-archwizard';
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PbxApiAddSettingsComponent {
-    selectedOS: string;
-    addPacConfig = false;
-    pacIp = '';
-    pacPort = '';
+    public selectedOS: string;
+    public addPacConfig = false;
+    public pacIp = '';
+    public pacPort = '';
     @ViewChild('wizard') wizard: WizardComponent;
 
     constructor(
@@ -40,13 +40,7 @@ export class PbxApiAddSettingsComponent {
 
         this.addPacConfig = true;
 
-        this.spinner.show(undefined, {
-            type: 'square-jelly-box',
-            size: 'small',
-            bdColor: 'rgba(0, 0, 0, 0.8)',
-            color: '#fff',
-            fullScreen: false,
-        });
+        this.showSpinner();
 
         this.pbxApiSettingsService.addPacConfig(data).subscribe(
             (res: void) => {
@@ -63,13 +57,20 @@ export class PbxApiAddSettingsComponent {
                 }, 5000);
             },
             (e) => {
-                this.spinner.hide();
+                this.hideSpinner();
                 SweetalertService.errorAlert('Ошибка подключения', e.error?.error?.message || 'Проблемы с сохранением данных');
             },
         );
     }
 
     downloadInstaller(os: string) {
+        this.showSpinner();
+        this.pbxApiSettingsService.getPacProgramm(os).add(() => {
+            this.hideSpinner();
+        });
+    }
+
+    private showSpinner() {
         this.spinner.show(undefined, {
             type: 'square-jelly-box',
             size: 'small',
@@ -77,8 +78,9 @@ export class PbxApiAddSettingsComponent {
             color: '#fff',
             fullScreen: false,
         });
-        this.pbxApiSettingsService.getPacProgramm(os).add(() => {
-            this.spinner.hide();
-        });
+    }
+
+    private hideSpinner() {
+        this.spinner.hide();
     }
 }

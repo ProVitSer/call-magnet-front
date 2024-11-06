@@ -2,7 +2,7 @@ import { ChangeDetectorRef, Component, OnInit, ViewEncapsulation } from '@angula
 import { UntypedFormGroup, UntypedFormControl, Validators, UntypedFormBuilder } from '@angular/forms';
 import { UserProfileService } from './services/user-profile.service';
 import { MustMatch } from '../../../shared/directives/must-match.validator';
-import { ChangePasswordData, UpdateClientInfoData, UpdateClientInfoResponse, UserInfoResponse } from './models/user-info';
+import { ChangePasswordData, UpdateClientInfoData, UpdateClientInfoResponse, UserInfoResponse } from './models/users-profile.model';
 import { SweetalertService } from 'app/shared/services/sweetalert.service';
 import { AuthService } from 'app/shared/auth/auth.service';
 import { AVALIABLE_PRODUCT, LICENSE_PRODUCT_DESCRIPTION, ProductType } from 'app/shared/models/license';

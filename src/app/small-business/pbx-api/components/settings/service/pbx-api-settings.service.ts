@@ -17,9 +17,7 @@ import { throwError, firstValueFrom } from 'rxjs';
 })
 export class PbxApiSettingsService {
     private readonly apiUrl = `${environment.API_GATEWAY_URL}`;
-
-    private readonly pacUrl = `${this.apiUrl}/pac`;
-
+    private readonly pacUrl = environment.PAC_URL;
     constructor(
         public router: Router,
         private http: HttpClient,

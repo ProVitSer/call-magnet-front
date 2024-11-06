@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
 import { environment } from 'environments/environment';
 
@@ -8,12 +8,13 @@ import { environment } from 'environments/environment';
     styleUrls: ['./api.component.scss'],
 })
 export class ApiComponent {
-    activeTab = 'call';
-    generalFormSubmitted = false;
-    changePasswordFormSubmitted = false;
-    alertVisible = true;
-    generalForm: UntypedFormGroup;
-    apiUrl = `${environment.API_GATEWAY_URL}/pac`;
+    public activeTab = 'call';
+    public generalFormSubmitted = false;
+    public changePasswordFormSubmitted = false;
+    public alertVisible = true;
+    public generalForm: UntypedFormGroup;
+    public apiUrl = `${environment.API_GATEWAY_URL}/pac`;
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
     constructor() {}
 
     reloadPage() {

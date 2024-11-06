@@ -10,8 +10,8 @@ import { NgxSpinnerService } from 'ngx-spinner';
     styleUrls: ['./sms-settings.component.scss'],
 })
 export class SmsSettingsComponent implements OnInit {
-    tableData = [];
-    isPasswordVisible: boolean[] = [];
+    public tableData = [];
+    public isPasswordVisible: boolean[] = [];
     constructor(
         private smsSettingsService: SmsSettingsService,
         private router: Router,

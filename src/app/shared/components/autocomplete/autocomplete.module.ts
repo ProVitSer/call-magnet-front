@@ -5,19 +5,11 @@ import { AutocompleteDirective } from './autocomplete.directive';
 import { AutocompleteContentDirective } from './autocomplete-content.directive';
 import { OptionComponent } from './option/option.component';
 
-const publicApi = [
-  AutocompleteComponent,
-  AutocompleteDirective,
-  AutocompleteContentDirective,
-  OptionComponent
-];
+const publicApi = [AutocompleteComponent, AutocompleteDirective, AutocompleteContentDirective, OptionComponent];
 
 @NgModule({
-  imports: [
-    CommonModule
-  ],
-  declarations: [publicApi],
-  exports: [publicApi]
+    imports: [CommonModule],
+    declarations: [publicApi],
+    exports: [publicApi],
 })
-export class AutocompleteModule {
-}
+export class AutocompleteModule {}

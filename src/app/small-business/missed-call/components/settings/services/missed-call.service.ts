@@ -10,8 +10,7 @@ import { AddMissedCall, MissedCall, UpdateMissedCall } from '../models/missed-ca
     providedIn: 'root',
 })
 export class MissedCallService {
-    private readonly apiUrl = `${environment.API_GATEWAY_URL}`;
-    private readonly missedCallUrl = `${this.apiUrl}/missed-call`;
+    private readonly missedCallUrl = environment.MISSED_CALL_URL;
 
     constructor(
         public router: Router,

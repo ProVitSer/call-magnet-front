@@ -14,13 +14,12 @@ import { RoutingServiceType } from '../models/smart-routing.model';
 })
 export class AddSmartRoutingSettingsComponent implements OnInit {
     @ViewChild('wizard') wizard: WizardComponent;
-    pbxExtensions = [];
-    smName = '';
-    aiRouting = false;
-    selectedPbxExtension: string;
-    defaultRoutingNumber: string;
-
-    selectedService: string | null = null;
+    public pbxExtensions = [];
+    public smName = '';
+    public aiRouting = false;
+    public selectedPbxExtension: string;
+    public defaultRoutingNumber: string;
+    public selectedService: string | null = null;
     constructor(
         private ref: ChangeDetectorRef,
         private readonly smartRoutingService: SmartRoutingService,

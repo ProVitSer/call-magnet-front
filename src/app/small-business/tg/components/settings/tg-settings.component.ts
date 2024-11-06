@@ -11,7 +11,7 @@ import { TgConfigData } from './models/tg-settings.model';
     styleUrls: ['./tg-settings.component.scss'],
 })
 export class TgSettingsComponent implements OnInit {
-    tableData = [];
+    public tableData = [];
     constructor(
         private readonly tgSettingsService: TgSettingsService,
         private router: Router,

@@ -10,8 +10,7 @@ import { GetTgMessagesRequest, GetTgMessagesResult } from '../models/tg-messages
     providedIn: 'root',
 })
 export class TgMessagesService {
-    private readonly apiUrl = `${environment.API_GATEWAY_URL}`;
-    private readonly ptgMessagesUrl = `${this.apiUrl}/tg/messages`;
+    private readonly tgMessagesUrl = environment.TG_MESSAGES_URL;
 
     constructor(
         public router: Router,
@@ -23,7 +22,7 @@ export class TgMessagesService {
             ...data,
         };
         return firstValueFrom(
-            this.http.get<GetTgMessagesResult>(`${this.ptgMessagesUrl}`, { params }).pipe(
+            this.http.get<GetTgMessagesResult>(`${this.tgMessagesUrl}`, { params }).pipe(
                 catchError((error) => {
                     throw error;
                 }),

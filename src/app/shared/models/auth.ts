@@ -1,6 +1,6 @@
-import { Products, ProductType } from "./license";
-import { LoginResponse } from "./login";
-import { Permission, Role } from "./user";
+import { Products } from './license';
+import { LoginResponse } from './login';
+import { Permission, Role } from './user';
 
 export interface TokenPayload {
     userId: number;
@@ -33,9 +33,9 @@ export class BaseAuthResponse {
     message: string;
 }
 
-export interface RegisterUserResponse extends BaseAuthResponse{};
+export type RegisterUserResponse = BaseAuthResponse;
 
-export interface VerifyUserResponse extends BaseAuthResponse{}
+export type VerifyUserResponse = BaseAuthResponse;
 
 export interface EncryptedUserData {
     clientId: number;

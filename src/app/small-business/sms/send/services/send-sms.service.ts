@@ -10,8 +10,7 @@ import { SendSmsData } from '../models/send-sms..model';
     providedIn: 'root',
 })
 export class SendSmsSettingsService {
-    private readonly apiUrl = `${environment.API_GATEWAY_URL}`;
-    private readonly smsSettingsUrl = `${this.apiUrl}/sms`;
+    private readonly smsSettingsUrl = environment.SMS_URL;
     constructor(
         public router: Router,
         private http: HttpClient,

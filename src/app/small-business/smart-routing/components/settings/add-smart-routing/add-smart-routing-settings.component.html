@@ -20,7 +20,6 @@
                          <small class="form-text text-muted danger" *ngIf="!name.valid && (name.dirty || name.touched)">Поле обязательно для заполнения!</small>
                       </div>
                    </div>
-
                    <div class='col-md-4 col-12'>
                       <div class="form-group">
                          <label class="form-control-label center-label" for="name">Выберите номер</label>
@@ -33,7 +32,6 @@
                          </ng-select>
                       </div>
                    </div>
-
                    <div class="col-md-4 col-12 d-flex justify-content-center align-items-center">
                       <div class="form-group">
                          <label for="switchery" class="form-control-label center-label">AI маршрутизации</label>
@@ -49,53 +47,49 @@
                       </div>
                    </div>
                 </div>
-
                 <div class="row match-height justify-content-center" style="margin: 10px 20px 30px 50px;">
-                    <div class="col-lg-4 col-md-12 col-12 d-flex justify-content-center">
-                        <div class="card selectable-card" 
-                             [ngClass]="{'selected-card': selectedService === 'crm-bitrix'}" 
-                             (click)="selectService('crm-bitrix')">
-                            <div class="card-content text-center">
-                                <div class="card-img-container">
-                                    <img class="card-img-top img-fluid" src="assets/img/elements/smart-routing-bitrix.svg">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-lg-4 col-md-12 col-12 d-flex justify-content-center">
-                        <div class="card selectable-card" 
-                             [ngClass]="{'selected-card': selectedService === 'phonebook'}" 
-                             (click)="selectService('phonebook')">
-                            <div class="card-content text-center">
-                                <div class="card-img-container">
-                                    <img class="card-img-top img-fluid" src="assets/img/elements/smart-routing-phonebook.png">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-lg-4 col-md-12 col-12 d-flex justify-content-center">
-                        <div class="card unavailable-card" style="opacity: 0.5;">
-                            <div class="card-content text-center">
-                                <div class="card-img-container">
-                                    <img class="card-img-top img-fluid" src="assets/img/elements/customer-rest-api.svg">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                   <div class="col-lg-4 col-md-12 col-12 d-flex justify-content-center">
+                      <div class="card selectable-card" 
+                      [ngClass]="{'selected-card': selectedService === 'crm-bitrix'}" 
+                      (click)="selectService('crm-bitrix')">
+                      <div class="card-content text-center">
+                         <div class="card-img-container">
+                            <img class="card-img-top img-fluid" src="assets/img/elements/smart-routing-bitrix.svg">
+                         </div>
+                      </div>
+                   </div>
                 </div>
-
-                <div class="form-group text-center">
-                   <button uiSref="address" type="button" class="btn btn-info" [disabled]="!personalForm.valid || selectedService === null" awNextStep (click)="addSmartRoutingConfig()">
-                   Добавить <span><i class="ft-chevron-right"></i></span>
-                   </button>
+                <div class="col-lg-4 col-md-12 col-12 d-flex justify-content-center">
+                   <div class="card selectable-card" 
+                   [ngClass]="{'selected-card': selectedService === 'phonebook'}" 
+                   (click)="selectService('phonebook')">
+                   <div class="card-content text-center">
+                      <div class="card-img-container">
+                         <img class="card-img-top img-fluid" src="assets/img/elements/smart-routing-phonebook.png">
+                      </div>
+                   </div>
                 </div>
-                <ngx-spinner></ngx-spinner>
-             </form>
-             </aw-wizard-step>
-             </aw-wizard>
+          </div>
+          <div class="col-lg-4 col-md-12 col-12 d-flex justify-content-center">
+          <div class="card unavailable-card" style="opacity: 0.5;">
+          <div class="card-content text-center">
+          <div class="card-img-container">
+          <img class="card-img-top img-fluid" src="assets/img/elements/customer-rest-api.svg">
+          </div>
+          </div>
+          </div>
           </div>
        </div>
+       <div class="form-group text-center">
+       <button uiSref="address" type="button" class="btn btn-info" [disabled]="!personalForm.valid || selectedService === null" awNextStep (click)="addSmartRoutingConfig()">
+       Добавить <span><i class="ft-chevron-right"></i></span>
+       </button>
+       </div>
+       <ngx-spinner></ngx-spinner>
+       </form>
+       </aw-wizard-step>
+       </aw-wizard>
+    </div>
+    </div>
     </div>
  </section>

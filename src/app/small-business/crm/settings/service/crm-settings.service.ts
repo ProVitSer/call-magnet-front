@@ -10,8 +10,7 @@ import { AddCrmConfigData, CrmConfigData, UpdateCrmConfigData } from '../models/
     providedIn: 'root',
 })
 export class CrmSettingsService {
-    private readonly apiUrl = `${environment.API_GATEWAY_URL}`;
-    private readonly crmSettingsUrl = `${this.apiUrl}/crm/config`;
+    private readonly crmSettingsUrl = environment.CRM_URL;
     constructor(
         public router: Router,
         private http: HttpClient,

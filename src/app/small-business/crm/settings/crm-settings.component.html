@@ -19,7 +19,156 @@
                     <th>Hash</th>
                     <th>Id администратора</th>
                     <th>Token</th>
-                    <th>Id рабочей группы</th>
+                    <th>Id рабочей группы</th><div class="row">
+                        <div class="col-12">
+                           <div class="content-header"></div>
+                        </div>
+                     </div>
+                     <section id="extended">
+                        <div class="row">
+                           <div class="col-12">
+                              <div class="card">
+                                 <div class="card-header">
+                                    <h4 class="card-title"></h4>
+                                 </div>
+                                 <div class="card-content">
+                                    <div class="card-body table-responsive">
+                                       <table class="table text-center m-0">
+                                          <thead>
+                                             <tr>
+                                                <th>Url для вызова rest api</th>
+                                                <th>Hash</th>
+                                                <th>Id администратора</th>
+                                                <th>Token</th>
+                                                <th>Id рабочей группы</th>
+                                                <th>Id пользователя</th>
+                                                <th>Крайний срок</th>
+                                                <th>Действия</th>
+                                             </tr>
+                                          </thead>
+                                          <tbody>
+                                             <tr *ngFor="let item of tableData; let i = index">
+                                                <td>
+                                                   <div *ngIf="!item.editingDomain; else editDomain" (click)="item.editingDomain = true" class="editable-cell" >
+                                                   {{ item.domain }}
+                                    </div>
+                                    <ng-template #editDomain>
+                                    <input
+                                    type="text"
+                                    [(ngModel)]="item.domain"
+                                    class="form-control"
+                                    (blur)="updateField(item, 'domain', item.domain)"
+                                    (keydown.enter)="updateField(item, 'domain', item.domain)"
+                                    (keydown.esc)="item.editingDomain = false"
+                                    autofocus
+                                    />
+                                    </ng-template>
+                                    </td>
+                                    <td (dblclick)="toggleHashVisibility(i)">
+                                    {{ isHashVisible[i] ? item.hash : '••••••' }}
+                                    </td>
+                                    <td class="break-word">
+                                    <div *ngIf="!item.editingAdminId; else editAdminId" (click)="item.editingAdminId = true" class="editable-cell" >
+                                    {{ item.adminId }}
+                                 </div>
+                                 <ng-template #editAdminId>
+                                 <input
+                                 type="text"
+                                 [(ngModel)]="item.adminId"
+                                 class="form-control"
+                                 (blur)="updateField(item, 'adminId', item.adminId)"
+                                 (keydown.enter)="updateField(item, 'adminId', item.adminId)"
+                                 (keydown.esc)="item.editingAdminId = false"
+                                 autofocus
+                                 />
+                                 </ng-template>
+                                 </td>
+                                 <td class="break-word">
+                                 <div *ngIf="!item.editingToken; else editToken" (click)="item.editingToken= true" class="editable-cell" >
+                                 {{ item.token }}
+                              </div>
+                              <ng-template #editToken>
+                              <input
+                              type="text"
+                              [(ngModel)]="item.token"
+                              class="form-control"
+                              (blur)="updateField(item, 'token', item.token)"
+                              (keydown.enter)="updateField(item, 'token', item.token)"
+                              (keydown.esc)="item.editingToken = false"
+                              autofocus
+                              />
+                              </ng-template>
+                              </td>
+                              <td class="break-word">
+                              <div *ngIf="!item.editingTaskGroup; else editTaskGroup" (click)="item.editingTaskGroup= true" class="editable-cell" >
+                              {{ item.taskGroup }}
+                           </div>
+                           <ng-template #editTaskGroup>
+                           <input
+                           type="text"
+                           [(ngModel)]="item.taskGroup"
+                           class="form-control"
+                           (blur)="updateField(item, 'taskGroup', item.taskGroup)"
+                           (keydown.enter)="updateField(item, 'taskGroup', item.taskGroup)"
+                           (keydown.esc)="item.editingTaskGroup = false"
+                           autofocus
+                           />
+                           </ng-template>
+                           </td>
+                           <td class="break-word">
+                           <div *ngIf="!item.editingUserTaskId; else editUserTaskId" (click)="item.editingUserTaskId= true" class="editable-cell" >
+                           {{ item.userTaskId }}
+                        </div>
+                        <ng-template #editUserTaskId>
+                        <input
+                        type="text"
+                        [(ngModel)]="item.userTaskId"
+                        class="form-control"
+                        (blur)="updateField(item, 'userTaskId', item.userTaskId)"
+                        (keydown.enter)="updateField(item, 'userTaskId', item.userTaskId)"
+                        (keydown.esc)="item.editingUserTaskId = false"
+                        autofocus
+                        />
+                        </ng-template>
+                        </td>
+                        <td class="break-word">
+                        <div *ngIf="!item.editingDeadlineMin; else editDeadlineMin" (click)="item.editingDeadlineMin= true" class="editable-cell" >
+                        {{ item.deadlineMin }}
+                        </div>
+                        <ng-template #editDeadlineMin>
+                        <input
+                        type="text"
+                        [(ngModel)]="item.deadlineMin"
+                        class="form-control"
+                        (blur)="updateField(item, 'deadlineMin', item.deadlineMin)"
+                        (keydown.enter)="updateField(item, 'deadlineMin', item.deadlineMin)"
+                        (keydown.esc)="item.editingDeadlineMin = false"
+                        autofocus
+                        />
+                        </ng-template>
+                        </td>
+                        <td class="text-truncate">
+                        <a  class="danger p-0" (click)="removeSetting(i)">
+                        <i class="ft-x font-medium-3"></i>
+                        </a>
+                        </td>
+                        </tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        </tbody>
+                        </table>
+                        </div>
+                        </div>
+                        </div>
+                        </div>
+                        </div>
+                     </section>
                     <th>Id пользователя</th>
                     <th>Крайний срок</th>
                     <th>Действия</th>

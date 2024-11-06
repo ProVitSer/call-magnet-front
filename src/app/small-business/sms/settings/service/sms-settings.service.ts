@@ -10,8 +10,7 @@ import { CreateSmsConfig, SmsConfigData, UpdateSmsConfig } from '../models/sms-s
     providedIn: 'root',
 })
 export class SmsSettingsService {
-    private readonly apiUrl = `${environment.API_GATEWAY_URL}`;
-    private readonly smsSettingsUrl = `${this.apiUrl}/sms/config`;
+    private readonly smsSettingsUrl = environment.SMS_CONFIG_URL;
     constructor(
         public router: Router,
         private http: HttpClient,

@@ -11,7 +11,7 @@ import { SendSmsSettingsService } from './services/send-sms.service';
     styleUrls: ['./send-sms.component.scss'],
 })
 export class SendSmsComponent implements OnInit {
-    smsForm: FormGroup;
+    public smsForm: FormGroup;
     constructor(
         private smsSettingsService: SmsSettingsService,
         private router: Router,

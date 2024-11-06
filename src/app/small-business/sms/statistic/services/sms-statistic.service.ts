@@ -10,8 +10,7 @@ import { GetSmsStatisticQuery, GetSmsStatisticResult } from '../models/sms-stati
     providedIn: 'root',
 })
 export class SmsStatisticService {
-    private readonly apiUrl = `${environment.API_GATEWAY_URL}`;
-    private readonly smsSettingsUrl = `${this.apiUrl}/sms`;
+    private readonly smsSettingsUrl = environment.SMS_URL;
     constructor(
         public router: Router,
         private http: HttpClient,

@@ -1,156 +1,128 @@
 <div class="row">
     <div class="col-12">
-        <div class="content-header">Профиль</div>
-        <p class="content-sub-header mb-1">Основные данные аккаунта</p>
+       <div class="content-header">Профиль</div>
+       <p class="content-sub-header mb-1">Основные данные аккаунта</p>
     </div>
-</div>
-<!-- Account Settings starts -->
-<div class="row">
+ </div>
+ <div class="row">
     <div class="col-md-3 mt-3">
-        <!-- Nav tabs -->
-        <ul class="nav flex-column nav-pills" id="myTab" role="tablist">
-            <li class="nav-item">
-                <a class="nav-link" href="javascript:;" [ngClass]="{active: activeTab === 'general'}" (click)="setActiveTab('general')" id="general-tab" data-toggle="tab" role="tab" aria-controls="general" aria-selected="true">
-                    <i class="ft-settings mr-1 align-middle"></i>
-                    <span class="align-middle">Основные</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="javascript:;" [ngClass]="{active: activeTab === 'change-password'}" (click)="setActiveTab('change-password')" id="change-password-tab" data-toggle="tab" role="tab" aria-controls="change-password" aria-selected="false">
-                    <i class="ft-lock mr-1 align-middle"></i>
-                    <span class="align-middle">Смена пароля</span>
-                </a>
-            </li>
-        </ul>
+       <ul class="nav flex-column nav-pills" id="myTab" role="tablist">
+          <li class="nav-item">
+             <a class="nav-link" href="javascript:;" [ngClass]="{active: activeTab === 'general'}" (click)="setActiveTab('general')" id="general-tab" data-toggle="tab" role="tab" aria-controls="general" aria-selected="true">
+             <i class="ft-settings mr-1 align-middle"></i>
+             <span class="align-middle">Основные</span>
+             </a>
+          </li>
+          <li class="nav-item">
+             <a class="nav-link" href="javascript:;" [ngClass]="{active: activeTab === 'change-password'}" (click)="setActiveTab('change-password')" id="change-password-tab" data-toggle="tab" role="tab" aria-controls="change-password" aria-selected="false">
+             <i class="ft-lock mr-1 align-middle"></i>
+             <span class="align-middle">Смена пароля</span>
+             </a>
+          </li>
+       </ul>
     </div>
     <div class="col-md-9">
-        <!-- Tab panes -->
-        <div class="card">
-            <div class="card-content">
-                <div class="card-body">
-                    <div class="tab-content">
-                        <!-- General Tab -->
-                        <div class="tab-pane" [ngClass]="{active: activeTab === 'general'}" id="general" role="tabpanel" aria-labelledby="general-tab">
-
-                            <form [formGroup]="generalForm" (ngSubmit)="onGeneralFormSubmit()">
-                                <div class="row">
-                                    <div class="col-12 form-group">
-                                        <label for="firstname">Имя</label>
-                                        <div class="controls">
-                                            <input type="text" formControlName="firstname" class="form-control" placeholder="Имя" [ngClass]="{ 'is-invalid': generalFormSubmitted && gf.firstname.invalid, 'is-valid': generalFormSubmitted && !gf.firstname.invalid }" required>
-                                            <div *ngIf="generalFormSubmitted && (gf.firstname.invalid || gf.firstname.errors?.required)" class="help-block mt-1 text-danger"> <i class="ft-alert-circle align-middle"></i> Обязательно для заполнения
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-12 form-group">
-                                        <label for="lastname">Фамилия</label>
-                                        <div class="controls">
-                                            <input type="text" formControlName="lastname" class="form-control" placeholder="Фамилия" [ngClass]="{ 'is-invalid': generalFormSubmitted && gf.lastname.invalid, 'is-valid': generalFormSubmitted && !gf.lastname.invalid }" required>
-                                            <div *ngIf="generalFormSubmitted && (gf.lastname.invalid || gf.lastname.errors?.required)" class="help-block mt-1 text-danger"> <i class="ft-alert-circle align-middle"></i> Обязательно для заполнения
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-12 form-group">
-                                        <label>Почта</label>
-                                        <div class="controls">
-                                            <input type="text" class="form-control" [value]="email" disabled>
-                                        </div>
-                                    </div>
-
-
-                                    <div class="col-12 form-group">
-                                        <label for="phoneNumber">Телефон</label>
-                                        <div class="controls">
-                                            <input type="text" formControlName="phoneNumber" class="form-control" placeholder="Телефон" aria-invalid="false" [ngClass]="{ 'is-invalid': generalFormSubmitted && gf.phoneNumber.invalid, 'is-valid': generalFormSubmitted && !gf.phoneNumber.invalid }"
-                                                required>
-                                            <div *ngIf="generalFormSubmitted && (gf.phoneNumber.invalid || gf.phoneNumber.errors?.required)" class="help-block mt-1 text-danger"> <i class="ft-alert-circle align-middle"></i> Обязательно для заполнения
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-12 form-group">
-                                        <label for="company">Название компании</label>
-                                        <div class="controls">
-                                            <input type="text" class="form-control" [value]="company" disabled>
-                                            <!-- <input type="text" formControlName="company" class="form-control" placeholder="Название компании"
-                        aria-invalid="false"
-                        [ngClass]="{ 'is-invalid': generalFormSubmitted && gf.company.invalid, 'is-valid': generalFormSubmitted && !gf.company.invalid }"
-                        required>
-                      <div *ngIf="generalFormSubmitted && (gf.company.invalid || gf.company.errors?.required)"
-                        class="help-block mt-1 text-danger"> <i class="ft-alert-circle align-middle"></i> Обязательно для заполнения
-                      </div> -->
-                                        </div>
-                                    </div>
-
-                                    <div class="col-12 form-group">
-                                        <label for="company">Доступный функционал</label>
-                                        <div class="card-body">
-                                            <button *ngFor="let button of buttons" type="button" class="btn" [class]="button.class">
-                        {{ button.label }}
-                      </button>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-12 d-flex flex-sm-row flex-column justify-content-end">
-                                        <button type="submit" class="btn btn-primary mr-sm-2 mb-1">Сохранить</button>
-                                        <!-- <button type="reset" class="btn btn-secondary mb-1">Отмена</button> -->
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-
-                        <!-- Change Password Tab -->
-                        <div class="tab-pane" [ngClass]="{active: activeTab === 'change-password'}" id="change-password" role="tabpanel" aria-labelledby="change-password-tab">
-                            <form [formGroup]="changePasswordForm" (ngSubmit)="onChangePasswordFormSubmit()">
-                                <div class="form-group">
-                                    <label for="old-password">Старый пароль</label>
-                                    <div class="controls">
-                                        <input type="password" formControlName="oldPassword" class="form-control" placeholder="Старый пароль" [ngClass]="{ 'is-invalid': changePasswordFormSubmitted && cpf.oldPassword.invalid, 'is-valid': changePasswordFormSubmitted && !cpf.oldPassword.invalid }"
-                                            required>
-                                        <div *ngIf="changePasswordFormSubmitted && (cpf.oldPassword.invalid || cpf.oldPassword.errors?.required)" class="help-block mt-1 text-danger"> <i class="ft-alert-circle align-middle"></i> Обязательно для заполнения
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="new-password">Новый пароль</label>
-                                    <div class="controls">
-                                        <input type="password" formControlName="newPassword" class="form-control" placeholder="Новый пароль" [ngClass]="{ 'is-invalid': changePasswordFormSubmitted && cpf.newPassword.invalid, 'is-valid': changePasswordFormSubmitted && !cpf.newPassword.invalid }"
-                                            required>
-                                        <div *ngIf="changePasswordFormSubmitted  && (cpf.newPassword.errors?.required)" class="help-block mt-1 text-danger"> <i class="ft-alert-circle align-middle"></i> Обязательно для заполнения
-                                        </div>
-                                        <div *ngIf="changePasswordFormSubmitted && (!cpf.newPassword.errors?.required && cpf.newPassword.errors?.minlength )" class="help-block mt-1 text-danger"> <i class="ft-alert-circle align-middle"></i> Пароль должен содержать не менее 8 символов
-                                        </div>
-                                        <div *ngIf="changePasswordFormSubmitted && (!cpf.newPassword.errors?.required && !cpf.newPassword.errors?.minlength && cpf.newPassword.errors?.maxlength )" class="help-block mt-1 text-danger"> <i class="ft-alert-circle align-middle"></i> Пароль не может быть больше 15 символов
-                                        </div>
-
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="retype-new-password">Повторите новый пароль</label>
-                                    <div class="controls">
-                                        <input type="password" formControlName="retypeNewPassword" class="form-control" placeholder="Новый пароль" [ngClass]="{ 'is-invalid': changePasswordFormSubmitted && cpf.retypeNewPassword.invalid, 'is-valid': changePasswordFormSubmitted && !cpf.retypeNewPassword.invalid }"
-                                            required>
-                                        <div *ngIf="changePasswordFormSubmitted && (cpf.retypeNewPassword.invalid || cpf.retypeNewPassword.errors?.required)" class="help-block mt-1 text-danger"> <i class="ft-alert-circle align-middle"></i> Обязательно для заполнения
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div *ngIf="changePasswordFormSubmitted && (cpf.retypeNewPassword.errors?.mustMatch)" class="help-block mt-1 text-danger"> <i class="ft-alert-circle align-middle"></i>Пароли не совпадают
-                                </div>
-
-                                <div class="d-flex flex-sm-row flex-column justify-content-end">
-                                    <button type="submit" class="btn btn-primary mr-sm-2 mb-1">Сохранить</button>
-                                    <!-- <button type="reset" class="btn btn-secondary mb-1">Отмена</button> -->
-                                </div>
-                            </form>
-                        </div>
-
-                    </div>
+       <div class="card">
+          <div class="card-content">
+             <div class="card-body">
+                <div class="tab-content">
+                   <div class="tab-pane" [ngClass]="{active: activeTab === 'general'}" id="general" role="tabpanel" aria-labelledby="general-tab">
+                      <form [formGroup]="generalForm" (ngSubmit)="onGeneralFormSubmit()">
+                      <div class="row">
+                         <div class="col-12 form-group">
+                            <label for="firstname">Имя</label>
+                            <div class="controls">
+                               <input type="text" formControlName="firstname" class="form-control" placeholder="Имя" [ngClass]="{ 'is-invalid': generalFormSubmitted && gf.firstname.invalid, 'is-valid': generalFormSubmitted && !gf.firstname.invalid }" required>
+                               <div *ngIf="generalFormSubmitted && (gf.firstname.invalid || gf.firstname.errors?.required)" class="help-block mt-1 text-danger"> <i class="ft-alert-circle align-middle"></i> Обязательно для заполнения
+                               </div>
+                            </div>
+                         </div>
+                         <div class="col-12 form-group">
+                            <label for="lastname">Фамилия</label>
+                            <div class="controls">
+                               <input type="text" formControlName="lastname" class="form-control" placeholder="Фамилия" [ngClass]="{ 'is-invalid': generalFormSubmitted && gf.lastname.invalid, 'is-valid': generalFormSubmitted && !gf.lastname.invalid }" required>
+                               <div *ngIf="generalFormSubmitted && (gf.lastname.invalid || gf.lastname.errors?.required)" class="help-block mt-1 text-danger"> <i class="ft-alert-circle align-middle"></i> Обязательно для заполнения
+                               </div>
+                            </div>
+                         </div>
+                         <div class="col-12 form-group">
+                            <label>Почта</label>
+                            <div class="controls">
+                               <input type="text" class="form-control" [value]="email" disabled>
+                            </div>
+                         </div>
+                         <div class="col-12 form-group">
+                            <label for="phoneNumber">Телефон</label>
+                            <div class="controls">
+                               <input type="text" formControlName="phoneNumber" class="form-control" placeholder="Телефон" aria-invalid="false" [ngClass]="{ 'is-invalid': generalFormSubmitted && gf.phoneNumber.invalid, 'is-valid': generalFormSubmitted && !gf.phoneNumber.invalid }"
+                                  required>
+                               <div *ngIf="generalFormSubmitted && (gf.phoneNumber.invalid || gf.phoneNumber.errors?.required)" class="help-block mt-1 text-danger"> <i class="ft-alert-circle align-middle"></i> Обязательно для заполнения
+                               </div>
+                            </div>
+                         </div>
+                         <div class="col-12 form-group">
+                            <label for="company">Название компании</label>
+                            <div class="controls">
+                               <input type="text" class="form-control" [value]="company" disabled>
+                            </div>
+                         </div>
+                         <div class="col-12 form-group">
+                            <label for="company">Доступный функционал</label>
+                            <div class="card-body">
+                               <button *ngFor="let button of buttons" type="button" class="btn" [class]="button.class">
+                               {{ button.label }}
+                               </button>
+                            </div>
+                         </div>
+                         <div class="col-12 d-flex flex-sm-row flex-column justify-content-end">
+                            <button type="submit" class="btn btn-primary mr-sm-2 mb-1">Сохранить</button>
+                         </div>
+                      </div>
+                      </form>
+                   </div>
+                   <div class="tab-pane" [ngClass]="{active: activeTab === 'change-password'}" id="change-password" role="tabpanel" aria-labelledby="change-password-tab">
+                      <form [formGroup]="changePasswordForm" (ngSubmit)="onChangePasswordFormSubmit()">
+                      <div class="form-group">
+                         <label for="old-password">Старый пароль</label>
+                         <div class="controls">
+                            <input type="password" formControlName="oldPassword" class="form-control" placeholder="Старый пароль" [ngClass]="{ 'is-invalid': changePasswordFormSubmitted && cpf.oldPassword.invalid, 'is-valid': changePasswordFormSubmitted && !cpf.oldPassword.invalid }"
+                               required>
+                            <div *ngIf="changePasswordFormSubmitted && (cpf.oldPassword.invalid || cpf.oldPassword.errors?.required)" class="help-block mt-1 text-danger"> <i class="ft-alert-circle align-middle"></i> Обязательно для заполнения
+                            </div>
+                         </div>
+                      </div>
+                      <div class="form-group">
+                         <label for="new-password">Новый пароль</label>
+                         <div class="controls">
+                            <input type="password" formControlName="newPassword" class="form-control" placeholder="Новый пароль" [ngClass]="{ 'is-invalid': changePasswordFormSubmitted && cpf.newPassword.invalid, 'is-valid': changePasswordFormSubmitted && !cpf.newPassword.invalid }"
+                               required>
+                            <div *ngIf="changePasswordFormSubmitted  && (cpf.newPassword.errors?.required)" class="help-block mt-1 text-danger"> <i class="ft-alert-circle align-middle"></i> Обязательно для заполнения
+                            </div>
+                            <div *ngIf="changePasswordFormSubmitted && (!cpf.newPassword.errors?.required && cpf.newPassword.errors?.minlength )" class="help-block mt-1 text-danger"> <i class="ft-alert-circle align-middle"></i> Пароль должен содержать не менее 8 символов
+                            </div>
+                            <div *ngIf="changePasswordFormSubmitted && (!cpf.newPassword.errors?.required && !cpf.newPassword.errors?.minlength && cpf.newPassword.errors?.maxlength )" class="help-block mt-1 text-danger"> <i class="ft-alert-circle align-middle"></i> Пароль не может быть больше 15 символов
+                            </div>
+                         </div>
+                      </div>
+                      <div class="form-group">
+                         <label for="retype-new-password">Повторите новый пароль</label>
+                         <div class="controls">
+                            <input type="password" formControlName="retypeNewPassword" class="form-control" placeholder="Новый пароль" [ngClass]="{ 'is-invalid': changePasswordFormSubmitted && cpf.retypeNewPassword.invalid, 'is-valid': changePasswordFormSubmitted && !cpf.retypeNewPassword.invalid }"
+                               required>
+                            <div *ngIf="changePasswordFormSubmitted && (cpf.retypeNewPassword.invalid || cpf.retypeNewPassword.errors?.required)" class="help-block mt-1 text-danger"> <i class="ft-alert-circle align-middle"></i> Обязательно для заполнения
+                            </div>
+                         </div>
+                      </div>
+                      <div *ngIf="changePasswordFormSubmitted && (cpf.retypeNewPassword.errors?.mustMatch)" class="help-block mt-1 text-danger"> <i class="ft-alert-circle align-middle"></i>Пароли не совпадают
+                      </div>
+                      <div class="d-flex flex-sm-row flex-column justify-content-end">
+                         <button type="submit" class="btn btn-primary mr-sm-2 mb-1">Сохранить</button>
+                      </div>
+                      </form>
+                   </div>
                 </div>
-            </div>
-        </div>
+             </div>
+          </div>
+       </div>
     </div>
-</div>
-<!-- Account Settings ends -->
+ </div>

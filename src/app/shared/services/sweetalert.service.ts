@@ -69,6 +69,7 @@ export class SweetalertService {
             },
         }).then((result) => {
             if (result.dismiss === swal.DismissReason.timer) {
+                /* empty */
             }
         });
     }

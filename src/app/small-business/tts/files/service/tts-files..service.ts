@@ -10,8 +10,7 @@ import { GetTtsFilesQuery, GetTtsFilesResult } from '../../models/tts.model';
     providedIn: 'root',
 })
 export class TtsFilesService {
-    private readonly apiUrl = `${environment.API_GATEWAY_URL}`;
-    private readonly ttsFilesUrl = `${this.apiUrl}/voice-kit/tts`;
+    private readonly ttsFilesUrl = environment.VOICE_KIT_TTS_URL;
 
     constructor(
         public router: Router,

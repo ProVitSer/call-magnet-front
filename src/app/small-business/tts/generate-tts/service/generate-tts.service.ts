@@ -4,14 +4,13 @@ import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { catchError } from 'rxjs/operators';
 import { firstValueFrom } from 'rxjs';
-import { GetTtsFilesQuery, GetTtsFilesResult, ListVoicesData, TtsConverData, TtsVoice } from '../../models/tts.model';
+import { ListVoicesData, TtsConverData, TtsVoice } from '../../models/tts.model';
 
 @Injectable({
     providedIn: 'root',
 })
 export class GenerateTtsFileService {
-    private readonly apiUrl = `${environment.API_GATEWAY_URL}`;
-    private readonly ttsFilesUrl = `${this.apiUrl}/voice-kit/tts`;
+    private readonly ttsFilesUrl = environment.VOICE_KIT_TTS_URL;
 
     constructor(
         public router: Router,

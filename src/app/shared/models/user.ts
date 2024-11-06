@@ -6,7 +6,6 @@ export interface UserData {
     company: string;
 }
 
-
 export enum Role {
     User = 'User',
     Manager = 'Manager',
@@ -20,4 +19,3 @@ export enum Permission {
     Update = 'Update',
     Read = 'Read',
 }
-

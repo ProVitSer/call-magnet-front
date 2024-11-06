@@ -1,9 +1,7 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
-import { ColumnMode, DatatableComponent } from '@swimlane/ngx-datatable';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { SweetalertService } from 'app/shared/services/sweetalert.service';
 import { GenerateTtsFileService } from './service/generate-tts.service';
-import Swal from 'sweetalert2';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
 import { WizardComponent } from 'angular-archwizard';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ListVoicesData } from '../models/tts.model';
@@ -17,16 +15,16 @@ import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 })
 export class GenerateTtsFileComponent implements OnInit {
     @ViewChild('wizard') wizard: WizardComponent;
-    ttsServices = ['yandex', 'sber'];
-    ttsFileName = '';
-    selectedTtsService: any;
-    voiceNames = [];
-    selectedVoiceName: any;
-    emotions: string[] = [];
-    selectedEmotion: string;
-    voices: ListVoicesData[];
-    synthesisText = '';
-    audioFileUrl: SafeUrl | null = null;
+    public ttsServices = ['yandex', 'sber'];
+    public ttsFileName = '';
+    public selectedTtsService: any;
+    public voiceNames = [];
+    public selectedVoiceName: any;
+    public emotions: string[] = [];
+    public selectedEmotion: string;
+    public voices: ListVoicesData[];
+    public synthesisText = '';
+    public audioFileUrl: SafeUrl | null = null;
 
     constructor(
         private readonly generateTtsFileService: GenerateTtsFileService,
@@ -77,19 +75,13 @@ export class GenerateTtsFileComponent implements OnInit {
             text: this.synthesisText,
         };
 
-        this.spinner.show(undefined, {
-            type: 'square-jelly-box',
-            size: 'small',
-            bdColor: 'rgba(0, 0, 0, 0.8)',
-            color: '#fff',
-            fullScreen: false,
-        });
+        this.showSpinner();
 
         this.generateTtsFileService.convertOnline(formData).subscribe(
             (blob: Blob) => {
                 const audioUrl = URL.createObjectURL(blob);
                 this.audioFileUrl = this.sanitizer.bypassSecurityTrustUrl(audioUrl) as SafeUrl;
-                this.spinner.hide();
+                this.hideSpinner();
                 this.ref.detectChanges();
             },
             (error) => {
@@ -107,6 +99,18 @@ export class GenerateTtsFileComponent implements OnInit {
             text: this.synthesisText,
         };
 
+        this.showSpinner();
+
+        try {
+            await this.generateTtsFileService.convertWithSave(formData);
+            this.hideSpinner();
+            this.router.navigate(['sm/tts']);
+        } catch (e) {
+            SweetalertService.errorAlert('', 'Ошибка при сохранение сгенерированного файла');
+        }
+    }
+
+    private showSpinner() {
         this.spinner.show(undefined, {
             type: 'square-jelly-box',
             size: 'small',
@@ -114,13 +118,9 @@ export class GenerateTtsFileComponent implements OnInit {
             color: '#fff',
             fullScreen: false,
         });
+    }
 
-        try {
-            await this.generateTtsFileService.convertWithSave(formData);
-            this.spinner.hide();
-            this.router.navigate(['sm/tts']);
-        } catch (e) {
-            SweetalertService.errorAlert('', 'Ошибка при сохранение сгенерированного файла');
-        }
+    private hideSpinner() {
+        this.spinner.hide();
     }
 }

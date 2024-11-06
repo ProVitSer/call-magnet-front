@@ -1,8 +1,5 @@
 import swal from 'sweetalert2';
 
-//-------------- Basic --------------
-
-// Simple Alert
 export function BasicAlert() {
     swal.fire({
         title: 'Any fool can use a computer',
@@ -13,7 +10,6 @@ export function BasicAlert() {
     });
 }
 
-// Alert with Title
 export function WithTitle() {
     swal.fire({
         title: 'The Internet?',
@@ -25,7 +21,6 @@ export function WithTitle() {
     });
 }
 
-// Alert with footer
 export function WithFooter() {
     swal.fire({
         icon: 'error',
@@ -39,7 +34,6 @@ export function WithFooter() {
     });
 }
 
-//  HTML Alert
 export function HtmlAlert() {
     swal.fire({
         title: '<strong>HTML <u>example</u></strong>',
@@ -60,9 +54,6 @@ export function HtmlAlert() {
     });
 }
 
-//-------------- Position --------------
-
-// Top-start
 export function PositionTopStart() {
     swal.fire({
         position: 'top-start',
@@ -77,7 +68,6 @@ export function PositionTopStart() {
     });
 }
 
-// Top-end
 export function PositionTopEnd() {
     swal.fire({
         position: 'top-end',
@@ -92,7 +82,6 @@ export function PositionTopEnd() {
     });
 }
 
-// Bottom-start
 export function PositionBottomStart() {
     swal.fire({
         position: 'bottom-start',
@@ -107,7 +96,6 @@ export function PositionBottomStart() {
     });
 }
 
-// Bottom-end
 export function PositionBottomEnd() {
     swal.fire({
         position: 'bottom-end',
@@ -122,9 +110,6 @@ export function PositionBottomEnd() {
     });
 }
 
-//-------------- Animations --------------
-
-// Bounce-in
 export function BounceInAnimation() {
     swal.fire({
         title: 'Bounce In Animation',
@@ -138,7 +123,6 @@ export function BounceInAnimation() {
     });
 }
 
-// Fade-in
 export function FadeInAnimation() {
     swal.fire({
         title: 'Fade In Animation',
@@ -152,7 +136,6 @@ export function FadeInAnimation() {
     });
 }
 
-// Flip-in
 export function FlipXAnimation() {
     swal.fire({
         title: 'Flip In Animation',
@@ -166,7 +149,6 @@ export function FlipXAnimation() {
     });
 }
 
-// Tada
 export function TadaAnimation() {
     swal.fire({
         title: 'Tada Animation',
@@ -180,7 +162,6 @@ export function TadaAnimation() {
     });
 }
 
-// Shake
 export function ShakeAnimation() {
     swal.fire({
         title: 'Shake Animation',
@@ -194,9 +175,6 @@ export function ShakeAnimation() {
     });
 }
 
-//-------------- Types --------------
-
-// Success
 export function TypeSuccess() {
     swal.fire({
         title: 'Good job!',
@@ -209,7 +187,6 @@ export function TypeSuccess() {
     });
 }
 
-// Info
 export function TypeInfo() {
     swal.fire({
         title: 'Info!',
@@ -222,7 +199,6 @@ export function TypeInfo() {
     });
 }
 
-// Warning
 export function TypeWarning() {
     swal.fire({
         title: 'Warning!',
@@ -235,7 +211,6 @@ export function TypeWarning() {
     });
 }
 
-// Error
 export function TypeError() {
     swal.fire({
         title: 'Error!',
@@ -248,9 +223,6 @@ export function TypeError() {
     });
 }
 
-//-------------- Options --------------
-
-// Custom Icon
 export function CustomIcon() {
     swal.fire({
         title: 'Sweet!',
@@ -267,7 +239,6 @@ export function CustomIcon() {
     });
 }
 
-// Auto close
 export function AutoClose() {
     let timerInterval;
     swal.fire({
@@ -295,13 +266,12 @@ export function AutoClose() {
             clearInterval(timerInterval);
         },
     }).then((result) => {
-        /* Read more about handling dismissals below */
         if (result.dismiss === swal.DismissReason.timer) {
+            /* empty */
         }
     });
 }
 
-// Allow Outside Click
 export function OutsideClick() {
     swal.fire({
         title: 'Outside click is disabled!',
@@ -314,7 +284,6 @@ export function OutsideClick() {
     });
 }
 
-// Prompt Function
 export function PromptFunction() {
     swal.mixin({
         input: 'text',
@@ -346,7 +315,6 @@ export function PromptFunction() {
         });
 }
 
-// Ajax Request
 export function AjaxRequest() {
     swal.fire({
         title: 'Submit your Github username',
@@ -385,9 +353,6 @@ export function AjaxRequest() {
     });
 }
 
-//-------------- Confirm-options --------------
-
-// Confirm Text
 export function ConfirmText() {
     swal.fire({
         title: 'Are you sure?',
@@ -416,7 +381,6 @@ export function ConfirmText() {
     });
 }
 
-// Confirm Color
 export function ConfirmColor() {
     swal.fire({
         title: 'Are you sure?',

@@ -15,7 +15,6 @@
                 <div class='row'>
                    <div class='col-12'>
                       <div class="row justify-content-center">
-
                          <div class='col-12 col-sm-2'>
                             <div class="form-group">
                                <label class="form-control-label center-label" for="tgConfigName">Название</label>
@@ -23,8 +22,6 @@
                                <small class="form-text text-muted danger" *ngIf="!tgConfigName.valid && (tgConfigName.dirty || tgConfigName.touched)">Поле обязательно для заполнения!</small>
                             </div>
                          </div>
-
-
                          <div class='col-12 col-sm-2'>
                             <div class="form-group">
                                <label class="form-control-label center-label" for="token">Токен</label>
@@ -32,7 +29,6 @@
                                <small class="form-text text-muted danger" *ngIf="!token.valid && (token.dirty || token.touched)">Поле обязательно для заполнения!</small>
                             </div>
                          </div>
-
                          <div class='col-12 col-sm-2'>
                             <div class="form-group">
                                <label class="form-control-label center-label" for="chatId">Chat Id</label>
@@ -40,9 +36,6 @@
                                <small class="form-text text-muted danger" *ngIf="!chatId.valid && (chatId.dirty || chatId.touched)">Поле обязательно для заполнения!</small>
                             </div>
                          </div>
-
-
-                         
                       </div>
                       <div class="form-group text-center">
                          <button uiSref="address" type="button" class="btn btn-info"  awNextStep (click)="addTgConfig()">

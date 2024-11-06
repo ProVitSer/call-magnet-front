@@ -11,7 +11,7 @@ import { TrunkTableData } from './models/voip-settings.model';
     styleUrls: ['./voip-settings.component.scss'],
 })
 export class VoipSettingsComponent implements OnInit {
-    tableData = [];
+    public tableData = [];
     constructor(
         private readonly voipSettingsService: VoipSettingsService,
         private router: Router,

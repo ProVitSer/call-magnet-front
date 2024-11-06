@@ -5,8 +5,8 @@ import { SwiperModule } from 'ngx-swiper-wrapper';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
-  declarations: [FaqComponent],
-  imports: [SwiperModule, NgbModule, FaqRoutingModule],
-  exports:[FaqComponent]
+    declarations: [FaqComponent],
+    imports: [SwiperModule, NgbModule, FaqRoutingModule],
+    exports: [FaqComponent],
 })
-export class FaqModule { }
+export class FaqModule {}

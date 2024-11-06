@@ -1,123 +1,120 @@
 <div class="row">
     <div class="col-12">
-      <div class="content-header"></div>
+       <div class="content-header"></div>
     </div>
-  </div>
-  <section id="extended">
+ </div>
+ <section id="extended">
     <div class="row">
-      <div class="col-12">
-        <div class="card">
-          <div class="card-header">
-            <h4 class="card-title"></h4>
+       <div class="col-12">
+          <div class="card">
+             <div class="card-header">
+                <h4 class="card-title"></h4>
+             </div>
+             <div class="card-content">
+                <div class="card-body table-responsive">
+                   <table class="table text-center m-0">
+                      <thead>
+                         <tr>
+                            <th>#</th>
+                            <th>Id моста</th>
+                            <th>Authentication ID</th>
+                            <th>Пароль аутентификации</th>
+                            <th>Ip Атс</th>
+                            <th>Статус регистрации</th>
+                            <th>Действие</th>
+                         </tr>
+                      </thead>
+                      <tbody>
+                         <tr *ngFor="let item of tableData; let i = index">
+                            <td>{{ i + 1 }}</td>
+                            <td>{{ item.trunkId }}</td>
+                            <td>
+                               <div *ngIf="!item.editingAuthId; else editAuthId" (click)="item.editingAuthId = true" class="editable-cell" style="font-size: 15px;">
+                               {{ item.authId }}
+                </div>
+                <ng-template #editAuthId>
+                <input
+                type="text"
+                [(ngModel)]="item.authId"
+                class="form-control"
+                (blur)="updateField(item, 'authId', item.trunkId)"
+                (keydown.enter)="updateField(item, 'authId', item.trunkId)"
+                (keydown.esc)="item.editingAuthId = false"
+                autofocus
+                />
+                </ng-template>
+                </td>
+                <td>
+                <div *ngIf="!item.editingAuthPassword; else editAuthPassword" (click)="item.editingAuthPassword = true" class="editable-cell" style="font-size: 15px;">
+                {{ item.authPassword }}
+             </div>
+             <ng-template #editAuthPassword>
+             <input
+             type="password"
+             [(ngModel)]="item.authPassword"
+             class="form-control"
+             (blur)="updateField(item, 'authPassword', item.trunkId)"
+             (keydown.enter)="updateField(item, 'authPassword', item.trunkId)"
+             (keydown.esc)="item.editingAuthPassword = false"
+             autofocus
+             />
+             </ng-template>
+             </td>
+             <td>
+             <div *ngIf="!item.editingPbxIp; else editPbxIp" (click)="item.editingPbxIp = true" class="editable-cell" style="font-size: 15px;">
+             {{ item.pbxIp }}
           </div>
-          <div class="card-content">
-            <div class="card-body table-responsive">
-              <table class="table text-center m-0">
-                <thead>
-                  <tr>
-                    <th>#</th>
-                    <th>Id моста</th>
-                    <th>Authentication ID</th>
-                    <th>Пароль аутентификации</th>
-                    <th>Ip Атс</th>
-                    <th>Статус регистрации</th>
-                    <th>Действие</th>
-
-                  </tr>
-                </thead>
-                <tbody>
-                    <tr *ngFor="let item of tableData; let i = index">
-                        <td>{{ i + 1 }}</td>
-                        <td>{{ item.trunkId }}</td>
-                        <td>
-                            <div *ngIf="!item.editingAuthId; else editAuthId" (click)="item.editingAuthId = true" class="editable-cell" style="font-size: 15px;">
-                              {{ item.authId }}
-                            </div>
-                            <ng-template #editAuthId>
-                              <input
-                                type="text"
-                                [(ngModel)]="item.authId"
-                                class="form-control"
-                                (blur)="updateField(item, 'authId', item.trunkId)"
-                                (keydown.enter)="updateField(item, 'authId', item.trunkId)"
-                                (keydown.esc)="item.editingAuthId = false"
-                                autofocus
-                              />
-                            </ng-template>
-                          </td>
-                          <td>
-                            <div *ngIf="!item.editingAuthPassword; else editAuthPassword" (click)="item.editingAuthPassword = true" class="editable-cell" style="font-size: 15px;">
-                              {{ item.authPassword }}
-                            </div>
-                            <ng-template #editAuthPassword>
-                              <input
-                                type="password"
-                                [(ngModel)]="item.authPassword"
-                                class="form-control"
-                                (blur)="updateField(item, 'authPassword', item.trunkId)"
-                                (keydown.enter)="updateField(item, 'authPassword', item.trunkId)"
-                                (keydown.esc)="item.editingAuthPassword = false"
-                                autofocus
-                              />
-                            </ng-template>
-                          </td>
-                          <td>
-                            <div *ngIf="!item.editingPbxIp; else editPbxIp" (click)="item.editingPbxIp = true" class="editable-cell" style="font-size: 15px;">
-                              {{ item.pbxIp }}
-                            </div>
-                            <ng-template #editPbxIp>
-                              <input
-                                type="text"
-                                [(ngModel)]="item.pbxIp"
-                                class="form-control"
-                                (blur)="updateField(item, 'pbxIp', item.trunkId)"
-                                (keydown.enter)="updateField(item, 'pbxIp', item.trunkId)"
-                                (keydown.esc)="item.editingPbxIp = false"
-                                autofocus
-                              />
-                            </ng-template>
-                          </td>
-
-
-                        <td>
-                            <div
-                            class="text-center"
-                            [ngClass]="{
-                              'btn btn-success bg-light-success mr-1 mb-1': item.trunkStatus === 'Registered',
-                              'btn btn-danger bg-light-danger mr-1 mb-1': item.trunkStatus === 'Unregistered' || 
-                                                 item.trunkStatus === 'Rejected' || 
-                                                 item.trunkStatus === 'Failed'
-                            }"
-                            style="font-size: 15px; padding: 0.5px 1px; width: 150px;"
-                          >
-                        {{ item.trunkStatus == 'Registered' ? "Зарегистрирован" : item.trunkStatus == 'Unregistered' ? 'Не зарегистрирован' : item.trunkStatus == 'Rejected' ? 'Неуспешная регистрация' : 'Ошибка регистрации'}}
-                            </div>
-                        </td>
-                    <td class="text-truncate">
-                        <div class="d-flex justify-content-start align-items-center">
-                            <p class="font-medium-1 line-height-1 mb-0">&nbsp; &nbsp;</p>
-                            <a  class="danger p-0" (click)="removeSetting(i,item)">
-                                <i class="ft-trash-2 font-medium-3" title="Удалить"></i>
-                              </a>
-                              <p class="font-medium-1 line-height-1 mb-0">&nbsp; &nbsp; </p>
-                              <a  class="success p-0" (click)="updateRegister(i,item)">
-                                <i class="ft-refresh-ccw font-medium-3" title="Обновить регистрацию"></i>
-                              </a>
-                          </div>
-                    </td>
-                  </tr>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                </tbody>
-              </table>
-            </div>
+          <ng-template #editPbxIp>
+          <input
+          type="text"
+          [(ngModel)]="item.pbxIp"
+          class="form-control"
+          (blur)="updateField(item, 'pbxIp', item.trunkId)"
+          (keydown.enter)="updateField(item, 'pbxIp', item.trunkId)"
+          (keydown.esc)="item.editingPbxIp = false"
+          autofocus
+          />
+          </ng-template>
+          </td>
+          <td>
+          <div
+             class="text-center"
+             [ngClass]="{
+             'btn btn-success bg-light-success mr-1 mb-1': item.trunkStatus === 'Registered',
+             'btn btn-danger bg-light-danger mr-1 mb-1': item.trunkStatus === 'Unregistered' || 
+             item.trunkStatus === 'Rejected' || 
+             item.trunkStatus === 'Failed'
+             }"
+             style="font-size: 15px; padding: 0.5px 1px; width: 150px;"
+             >
+          {{ item.trunkStatus == 'Registered' ? "Зарегистрирован" : item.trunkStatus == 'Unregistered' ? 'Не зарегистрирован' : item.trunkStatus == 'Rejected' ? 'Неуспешная регистрация' : 'Ошибка регистрации'}}
           </div>
-        </div>
-      </div>
+          </td>
+          <td class="text-truncate">
+          <div class="d-flex justify-content-start align-items-center">
+          <p class="font-medium-1 line-height-1 mb-0">&nbsp; &nbsp;</p>
+          <a  class="danger p-0" (click)="removeSetting(i,item)">
+          <i class="ft-trash-2 font-medium-3" title="Удалить"></i>
+          </a>
+          <p class="font-medium-1 line-height-1 mb-0">&nbsp; &nbsp; </p>
+          <a  class="success p-0" (click)="updateRegister(i,item)">
+          <i class="ft-refresh-ccw font-medium-3" title="Обновить регистрацию"></i>
+          </a>
+          </div>
+          </td>
+          </tr>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          </tbody>
+          </table>
+       </div>
     </div>
-  </section>
+    </div>
+    </div>
+    </div>
+ </section>

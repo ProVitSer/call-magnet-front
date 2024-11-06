@@ -1,101 +1,98 @@
 <section class="faq-wrapper">
-
-  <div class="faq">
-    <div class="row">
-      <div class="col-12">
-        <div class="card bg-transparent shadow-none">
-          <div class="card-content">
-            <div class="card-body py-2">
-              <div class="swiper-centered-slides swiper-container p-3" [swiper]="swiperCenterOpt1Config"
-                (indexChange)="onIndexChange($event)">
-                <div class="swiper-wrapper">
-                  <div class="swiper-slide rounded swiper-shadow" id="getting-started-text">
-                    <i class="ft-bar-chart-2 font-large-1"></i>
-                    <div class="swiper-text pt-md-2 pt-sm-1">Аналитика</div>
-                  </div>
-                  <div class="swiper-slide rounded swiper-shadow" id="pricing-plans-text">
-                    <i class="ft-layout font-large-1"></i>
-                    <div class="swiper-text pt-md-2 pt-sm-1">CRM</div>
-                  </div>
-                  <div class="swiper-slide rounded swiper-shadow" id="sales-question-text">
-                    <i class="ft-repeat font-large-1"></i>
-                    <div class="swiper-text pt-md-2 pt-sm-1">3CX API</div>
-                  </div>
-                  <div class="swiper-slide rounded swiper-shadow" id="usage-guide-text">
-                    <i class="ft-users font-large-1"></i>
-                    <div class="swiper-text pt-md-2 pt-sm-1">KPI колл-центра</div>
-                  </div>
-                  <div class="swiper-slide rounded swiper-shadow" id="usage-guide-text">
-                    <i class="ft-phone-outgoing font-large-1"></i>
-                    <div class="swiper-text pt-md-2 pt-sm-1">Автообзвон</div>
-                  </div>
-                  <div class="swiper-slide rounded swiper-shadow" id="general-guide-text">
-                    <i class="icon-speech font-large-1"></i>
-                    <div class="swiper-text pt-md-2 pt-sm-1">SMS</div>
-                  </div>
-                  <div class="swiper-slide rounded swiper-shadow" id="general-guide-text">
-                    <i class="icon-paper-plane font-large-1"></i>
-                    <div class="swiper-text pt-md-2 pt-sm-1">Telegram</div>
-                  </div>
-                </div>
-
-              </div>
-              <div class="main-wrapper-content">
-                <div class="wrapper-content active">
-                  <div class="text-center p-md-4 p-sm-1 py-1 p-0">
-                    <h1 class="faq-title">{{faqMain.title}}</h1>
-                    <p>{{faqMain.content}}</p>
-                  </div>
-                  <div class="card">
-                    <div class="accordion" id="faqAccordion3">
-                      <div class="card-content">
-                        <div class="card-body">
-                          <ngb-accordion [closeOthers]="true">
-                            <ngb-panel [id]="faq.faqId" *ngFor="let faq of faqMain.faqs">
-                              <ng-template ngbPanelTitle>
-                                <a data-toggle="collapse" aria-expanded="false" aria-controls="accordion1"
-                                  class="card-title">{{faq.title}}</a>
-                              </ng-template>
-                              <ng-template ngbPanelContent>
-                                <p>{{faq.content}}</p>
-                              </ng-template>
-                            </ngb-panel>
-                          </ngb-accordion>
-                          </div>
+    <div class="faq">
+       <div class="row">
+          <div class="col-12">
+             <div class="card bg-transparent shadow-none">
+                <div class="card-content">
+                   <div class="card-body py-2">
+                      <div class="swiper-centered-slides swiper-container p-3" [swiper]="swiperCenterOpt1Config"
+                      (indexChange)="onIndexChange($event)">
+                      <div class="swiper-wrapper">
+                         <div class="swiper-slide rounded swiper-shadow" id="getting-started-text">
+                            <i class="ft-bar-chart-2 font-large-1"></i>
+                            <div class="swiper-text pt-md-2 pt-sm-1">Аналитика</div>
+                         </div>
+                         <div class="swiper-slide rounded swiper-shadow" id="pricing-plans-text">
+                            <i class="ft-layout font-large-1"></i>
+                            <div class="swiper-text pt-md-2 pt-sm-1">CRM</div>
+                         </div>
+                         <div class="swiper-slide rounded swiper-shadow" id="sales-question-text">
+                            <i class="ft-repeat font-large-1"></i>
+                            <div class="swiper-text pt-md-2 pt-sm-1">3CX API</div>
+                         </div>
+                         <div class="swiper-slide rounded swiper-shadow" id="usage-guide-text">
+                            <i class="ft-users font-large-1"></i>
+                            <div class="swiper-text pt-md-2 pt-sm-1">KPI колл-центра</div>
+                         </div>
+                         <div class="swiper-slide rounded swiper-shadow" id="usage-guide-text">
+                            <i class="ft-phone-outgoing font-large-1"></i>
+                            <div class="swiper-text pt-md-2 pt-sm-1">Автообзвон</div>
+                         </div>
+                         <div class="swiper-slide rounded swiper-shadow" id="general-guide-text">
+                            <i class="icon-speech font-large-1"></i>
+                            <div class="swiper-text pt-md-2 pt-sm-1">SMS</div>
+                         </div>
+                         <div class="swiper-slide rounded swiper-shadow" id="general-guide-text">
+                            <i class="icon-paper-plane font-large-1"></i>
+                            <div class="swiper-text pt-md-2 pt-sm-1">Telegram</div>
+                         </div>
                       </div>
-                    </div>
-                  </div>
+                   </div>
+                   <div class="main-wrapper-content">
+                      <div class="wrapper-content active">
+                         <div class="text-center p-md-4 p-sm-1 py-1 p-0">
+                            <h1 class="faq-title">{{faqMain.title}}</h1>
+                            <p>{{faqMain.content}}</p>
+                         </div>
+                         <div class="card">
+                            <div class="accordion" id="faqAccordion3">
+                               <div class="card-content">
+                                  <div class="card-body">
+                                     <ngb-accordion [closeOthers]="true">
+                                        <ngb-panel [id]="faq.faqId" *ngFor="let faq of faqMain.faqs">
+                                        <ng-template ngbPanelTitle>
+                                           <a data-toggle="collapse" aria-expanded="false" aria-controls="accordion1"
+                                              class="card-title">{{faq.title}}</a>
+                                        </ng-template>
+                                        <ng-template ngbPanelContent>
+                                           <p>{{faq.content}}</p>
+                                        </ng-template>
+                                        </ngb-panel>
+                                     </ngb-accordion>
+                                  </div>
+                               </div>
+                            </div>
+                         </div>
+                      </div>
+                   </div>
                 </div>
-              </div>
-            </div>
+             </div>
           </div>
-        </div>
-      </div>
+       </div>
     </div>
-  </div>
-
-  <div class="faq-contact">
-    <div class="row mb-2">
-      <div class="col-12 text-center">
-          <h3 class="faq-subtitle my-3">У вас еще есть вопрос?</h3>
-          <p class="p-2 text-muted font-medium-1 mb-4">Если вы не смогли найти ответы на своий вопросы в данном разделе, вы всегда можете связаться с нами.</p>
-        </div>
     </div>
-    <div class="row d-flex justify-content-center mb-5">
-      <div class="col-sm-12 col-md-4 text-center border rounded p-3 mr-md-3 m-2">
-        <div class="mb-2 d-inline-block">
-          <i class="ft-phone-call primary font-large-1 cursor-pointer"></i>
-        </div>
-        <h5>+7 (499) 709 97 83</h5>
-        <p class="text-muted font-medium-1 m-0">Мы всегда рады помочь!</p>
-      </div>
-      <div class="col-sm-12 col-md-4 text-center border color-gray-faq rounded p-3 m-2">
-        <div class="mb-2 d-inline-block">
-          <i class="ft-mail primary font-large-1 cursor-pointer"></i>
-        </div>
-        <h5><a href="mailto:hello@help.com">support@onvoip.ru</a></h5>
-        <p class="text-muted font-medium-1 m-0">Лучший способ быстрее получить ответ!</p>
-      </div>
+    <div class="faq-contact">
+       <div class="row mb-2">
+          <div class="col-12 text-center">
+             <h3 class="faq-subtitle my-3">У вас еще есть вопрос?</h3>
+             <p class="p-2 text-muted font-medium-1 mb-4">Если вы не смогли найти ответы на своий вопросы в данном разделе, вы всегда можете связаться с нами.</p>
+          </div>
+       </div>
+       <div class="row d-flex justify-content-center mb-5">
+          <div class="col-sm-12 col-md-4 text-center border rounded p-3 mr-md-3 m-2">
+             <div class="mb-2 d-inline-block">
+                <i class="ft-phone-call primary font-large-1 cursor-pointer"></i>
+             </div>
+             <h5>+7 (499) 709 97 83</h5>
+             <p class="text-muted font-medium-1 m-0">Мы всегда рады помочь!</p>
+          </div>
+          <div class="col-sm-12 col-md-4 text-center border color-gray-faq rounded p-3 m-2">
+             <div class="mb-2 d-inline-block">
+                <i class="ft-mail primary font-large-1 cursor-pointer"></i>
+             </div>
+             <h5><a href="mailto:hello@help.com">support@onvoip.ru</a></h5>
+             <p class="text-muted font-medium-1 m-0">Лучший способ быстрее получить ответ!</p>
+          </div>
+       </div>
     </div>
-  </div>
-</section>
+ </section>

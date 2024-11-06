@@ -10,8 +10,8 @@ import { CrmSettingsService } from './service/crm-settings.service';
     styleUrls: ['./crm-settings.component.scss'],
 })
 export class CrmSettingsComponent implements OnInit {
-    tableData = [];
-    isHashVisible: boolean[] = [];
+    public tableData = [];
+    public isHashVisible: boolean[] = [];
     constructor(
         private crmSettingsService: CrmSettingsService,
         private router: Router,

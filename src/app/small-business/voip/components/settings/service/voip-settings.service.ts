@@ -10,8 +10,7 @@ import { CreateTrunk, TrunkDataResult, UpdateTrunk } from '../models/voip-settin
     providedIn: 'root',
 })
 export class VoipSettingsService {
-    private readonly apiUrl = `${environment.API_GATEWAY_URL}`;
-    private readonly voipSettingsUrl = `${this.apiUrl}/voip/trunk`;
+    private readonly voipSettingsUrl = environment.VOIP_URL;
     constructor(
         public router: Router,
         private http: HttpClient,

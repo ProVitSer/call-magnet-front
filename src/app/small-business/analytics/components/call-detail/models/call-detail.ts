@@ -1,4 +1,4 @@
-import { CdrData } from '../../cdr/models/cdr-analytics';
+import { CdrData } from '../../cdr/models/cdr-analytic.model';
 
 export interface GetStt {
     sttId: number;

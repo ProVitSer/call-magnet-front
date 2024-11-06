@@ -3,8 +3,8 @@ import { ColumnMode, DatatableComponent } from '@swimlane/ngx-datatable';
 import { SweetalertService } from 'app/shared/services/sweetalert.service';
 import { CdrAnaliticsService } from './services/cdr-analitics.service';
 import { format } from 'date-fns';
-import { CdrData } from './models/cdr-analytics';
-import { ActivatedRoute, Router } from '@angular/router';
+import { CdrData } from './models/cdr-analytic.model';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-cdr-analytics',
@@ -23,7 +23,6 @@ export class CdrAnalyticsComponent implements OnInit {
     private rowsTemp = [];
     public dateFilter;
     public dateString;
-    private rowsDefaultCollor = true;
     @ViewChild(DatatableComponent) table: DatatableComponent;
     @ViewChild('tableRowDetails') tableRowDetails: any;
     @ViewChild('tableResponsive') tableResponsive: any;
@@ -32,7 +31,6 @@ export class CdrAnalyticsComponent implements OnInit {
         private changeDetector: ChangeDetectorRef,
         private readonly cdrAnaliticsService: CdrAnaliticsService,
         private router: Router,
-        private route: ActivatedRoute,
     ) {
         this.rowsTemp = this.rows;
     }

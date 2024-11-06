@@ -14,15 +14,15 @@ import { CrmSettingsService } from '../service/crm-settings.service';
 })
 export class CrmAddSettingsComponent {
     @ViewChild('wizard') wizard: WizardComponent;
-    crmServices: CrmService;
-    crmAdminId = '';
-    crmDomain = '';
-    crmHash = '';
-    crmUserTaskId = '';
-    crmTaskGroup = '';
-    crmDeadlineMin: string | null = null;
-    crmToken = '';
-    selectedCrmService: number | null = null;
+    public crmServices: CrmService;
+    public crmAdminId = '';
+    public crmDomain = '';
+    public crmHash = '';
+    public crmUserTaskId = '';
+    public crmTaskGroup = '';
+    public crmDeadlineMin: string | null = null;
+    public crmToken = '';
+    public selectedCrmService: number | null = null;
 
     constructor(
         public router: Router,

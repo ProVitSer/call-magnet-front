@@ -16,17 +16,6 @@ export interface Group {
 }
 
 export const BASE_ROLE_MENU: Menu[] = [
-    // {
-    //     code: 1,
-    //     name: 'Информ панель',
-    //     path: '/sm/dashboard',
-    //     icon: 'ft-monitor',
-    //     badge: '',
-    //     badgeClass: '',
-    //     externalLink: false,
-    //     group: { lines: [] },
-    // },
-
     {
         code: 11,
         name: 'VoIP мост',
@@ -365,4 +354,5 @@ export const MENU_BY_PRODUCT_TYPE: { [prod in ProductType]?: Menu[] } = {
     [ProductType.sms]: SMS_MENU,
     [ProductType.bitrix]: CRM_MENU,
     [ProductType.telegram]: TELEGRAM_MENU,
+    [ProductType.stt]: [],
 };

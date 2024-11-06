@@ -1,7 +1,6 @@
 import { ChangeDetectorRef, Component } from '@angular/core';
 import { PbxApiSettingsService } from '../settings/service/pbx-api-settings.service';
-import { Router, ActivatedRoute } from '@angular/router';
-import { NgxSpinnerService } from 'ngx-spinner';
+import { Router } from '@angular/router';
 import { SweetalertService } from 'app/shared/services/sweetalert.service';
 
 @Component({
@@ -10,13 +9,10 @@ import { SweetalertService } from 'app/shared/services/sweetalert.service';
     styleUrls: ['./pbx-api-token.component.scss'],
 })
 export class PbxApiTokenComponent {
-    apiToken = '';
+    public apiToken = '';
     constructor(
         public router: Router,
-        private ref: ChangeDetectorRef,
         private readonly pbxApiSettingsService: PbxApiSettingsService,
-        private spinner: NgxSpinnerService,
-        private route: ActivatedRoute,
         private changeDetector: ChangeDetectorRef,
     ) {}
 

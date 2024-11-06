@@ -12,9 +12,9 @@ import { TgSettingsService } from '../service/tg-settings.service';
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TgAddSettingsComponent {
-    tgName = '';
-    tgToken = '';
-    tgChatId = '';
+    public tgName = '';
+    public tgToken = '';
+    public tgChatId = '';
     @ViewChild('wizard') wizard: WizardComponent;
 
     constructor(

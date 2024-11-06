@@ -4,23 +4,22 @@ import { firstValueFrom } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { environment } from 'environments/environment';
 import { Router } from '@angular/router';
-import { CdrData } from '../../cdr/models/cdr-analytics';
+import { CdrData } from '../../cdr/models/cdr-analytic.model';
 import { GetStt, RecognizeSpeech } from '../models/call-detail';
 
 @Injectable({
     providedIn: 'root',
 })
 export class CallDetailsService {
-    private readonly apiUrl = `${environment.API_GATEWAY_URL}`;
-    private readonly cdrUrl = `${this.apiUrl}/call-analytics`;
-    private readonly sttUrl = `${this.apiUrl}/voice-kit/stt/dialog`;
+    private readonly cdrUrl = environment.CALL_ANALITICS_URL;
+    private readonly sttUrl = environment.VOICE_KIT_STT_URL;
 
     constructor(
         public router: Router,
         private http: HttpClient,
     ) {}
 
-    public async getCallData(callId: any) {
+    public async getCallData(callId: string) {
         return firstValueFrom(
             this.http.get<CdrData[]>(`${this.cdrUrl}/cdr/call/${callId}`).pipe(
                 catchError((error) => {

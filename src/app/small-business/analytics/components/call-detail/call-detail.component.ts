@@ -4,7 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { ColumnMode, DatatableComponent } from '@swimlane/ngx-datatable';
 import { CallDetailsService } from './services/call-detail.service';
 import { SweetalertService } from 'app/shared/services/sweetalert.service';
-import { CdrData } from '../cdr/models/cdr-analytics';
+import { CdrData } from '../cdr/models/cdr-analytic.model';
 import * as d3 from 'd3';
 import { CallDetailsData, STTProviderType, SttRecognizeStatus, TextDialogMessage } from './models/call-detail';
 
@@ -16,8 +16,7 @@ import { CallDetailsData, STTProviderType, SttRecognizeStatus, TextDialogMessage
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CallDetailComponent implements OnInit {
-    callId: string | null = null;
-
+    public callId: string | null = null;
     public totalRecords = 0;
     public pageSize = 10;
     public currentPage = 1;
@@ -27,9 +26,8 @@ export class CallDetailComponent implements OnInit {
     @ViewChild(DatatableComponent) table: DatatableComponent;
     @ViewChild('tableRowDetails') tableRowDetails: any;
     @ViewChild('tableResponsive') tableResponsive: any;
-
-    isAccordionOpen: boolean[] = [];
-    callsDetail: CallDetailsData[] = [];
+    public isAccordionOpen: boolean[] = [];
+    public callsDetail: CallDetailsData[] = [];
     constructor(
         private spinner: NgxSpinnerService,
         private changeDetector: ChangeDetectorRef,
@@ -48,24 +46,17 @@ export class CallDetailComponent implements OnInit {
 
     async loadCallData(callId: string) {
         try {
-            this.spinner.show('call-details', {
-                type: 'square-jelly-box',
-                size: 'small',
-                bdColor: 'rgba(0, 0, 0, 0.8)',
-                color: '#fff',
-                fullScreen: false,
-            });
+            this.showSpinner('call-details');
+
             const response = await this.callDetailsService.getCallData(callId);
 
             this.rows = response;
 
             this.totalRecords = response.length;
 
-            if (response.length !== 0) {
-                await this.getSttDialog(response);
-            }
+            if (response.length > 0) await this.getSttDialog(response);
 
-            this.spinner.hide('call-details');
+            this.hideSpinner('call-details');
 
             this.changeDetector.detectChanges();
         } catch (e) {
@@ -74,47 +65,24 @@ export class CallDetailComponent implements OnInit {
     }
 
     private async getSttDialog(data: CdrData[]) {
-        const needSttCalls = data.filter((c) => c.recordingUrl);
-
-        if (needSttCalls.length !== 0) {
-            for (const call of needSttCalls) {
+        const callsToProcess = data
+            .filter((c) => c.recordingUrl)
+            .map(async (call) => {
                 const result = await this.callDetailsService.getSttDialog(String(call.segmentId));
-
-                if (result) {
-                    this.callsDetail.push({
-                        ...call,
-                        sttRecognizeStatus: result.sttRecognizeStatus,
-                        textDialog: result.textDialog ? this.formatTextDialog(result.textDialog) : [],
-                    });
-                } else {
-                    this.callsDetail.push({
-                        ...call,
-                        sttRecognizeStatus: SttRecognizeStatus.notRecognize,
-                        textDialog: [],
-                    });
-                }
-            }
-        }
+                return {
+                    ...call,
+                    sttRecognizeStatus: result?.sttRecognizeStatus || SttRecognizeStatus.notRecognize,
+                    textDialog: result?.textDialog ? this.formatTextDialog(result.textDialog) : [],
+                };
+            });
+        this.callsDetail = await Promise.all(callsToProcess);
     }
 
     private formatTextDialog(textDialog: string[]): TextDialogMessage[] {
-        const formatedDialod: TextDialogMessage[] = [];
-
-        textDialog.forEach((item, index) => {
-            if (index % 2) {
-                formatedDialod.push({
-                    type: 'sent',
-                    text: item,
-                });
-            } else {
-                formatedDialod.push({
-                    type: 'received',
-                    text: item,
-                });
-            }
-        });
-
-        return formatedDialod;
+        return textDialog.map((item, index) => ({
+            type: index % 2 === 0 ? 'received' : 'sent',
+            text: item,
+        }));
     }
 
     rowDetailsToggleExpand(row: CdrData) {
@@ -154,24 +122,33 @@ export class CallDetailComponent implements OnInit {
         }
     }
 
-    async onPageChange(pageInfo) {}
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
+    async onPageChange(event: Event) {}
 
     async onTabChange(event: any) {
         if (event.nextId === 2) {
             this.removeCallFlow();
 
-            this.spinner.show('call-flow', {
-                type: 'square-jelly-box',
-                size: 'small',
-                bdColor: 'rgba(0, 0, 0, 0.8)',
-                color: '#fff',
-                fullScreen: false,
-            });
+            this.showSpinner('call-flow');
 
             setTimeout(() => {
                 this.drawCallFlow();
             }, 5000);
         }
+    }
+
+    private showSpinner(name: string) {
+        this.spinner.show(name, {
+            type: 'square-jelly-box',
+            size: 'small',
+            bdColor: 'rgba(0, 0, 0, 0.8)',
+            color: '#fff',
+            fullScreen: false,
+        });
+    }
+
+    private hideSpinner(name: string) {
+        this.spinner.hide(name);
     }
 
     private removeCallFlow(): void {
@@ -287,7 +264,7 @@ export class CallDetailComponent implements OnInit {
             previousX = x;
         });
 
-        this.spinner.hide('call-flow');
+        this.hideSpinner('call-flow');
     }
 
     toggleAccordion(index: number, event: any) {
@@ -362,7 +339,7 @@ export class CallDetailComponent implements OnInit {
 
     async deleteStt(row: CallDetailsData) {
         if (row.sttRecognizeStatus == SttRecognizeStatus.completed) {
-            const result = await this.callDetailsService.deleteSttDialog(String(row.segmentId));
+            await this.callDetailsService.deleteSttDialog(String(row.segmentId));
 
             const index = this.callsDetail.findIndex((item) => item.segmentId === row.segmentId);
 

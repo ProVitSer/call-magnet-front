@@ -1,24 +1,18 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from "@angular/common";
-import { RouterModule } from "@angular/router";
+import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { OverlayModule } from '@angular/cdk/overlay';
-
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
-import { PerfectScrollbarModule } from "ngx-perfect-scrollbar";
+import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { ClickOutsideModule } from 'ng-click-outside';
-
 import { AutocompleteModule } from './components/autocomplete/autocomplete.module';
 import { PipeModule } from 'app/shared/pipes/pipe.module';
-
-//COMPONENTS
-import { FooterComponent } from "./footer/footer.component";
-import { NavbarComponent } from "./navbar/navbar.component";
-import { VerticalMenuComponent } from "./vertical-menu/vertical-menu.component";
-
-//DIRECTIVES
-import { ToggleFullscreenDirective } from "./directives/toggle-fullscreen.directive";
+import { FooterComponent } from './footer/footer.component';
+import { NavbarComponent } from './navbar/navbar.component';
+import { VerticalMenuComponent } from './vertical-menu/vertical-menu.component';
+import { ToggleFullscreenDirective } from './directives/toggle-fullscreen.directive';
 import { SidebarLinkDirective } from './directives/sidebar-link.directive';
 import { SidebarDropdownDirective } from './directives/sidebar-dropdown.directive';
 import { SidebarAnchorToggleDirective } from './directives/sidebar-anchor-toggle.directive';
@@ -27,7 +21,6 @@ import { TopMenuDirective } from './directives/topmenu.directive';
 import { TopMenuLinkDirective } from './directives/topmenu-link.directive';
 import { TopMenuDropdownDirective } from './directives/topmenu-dropdown.directive';
 import { TopMenuAnchorToggleDirective } from './directives/topmenu-anchor-toggle.directive';
-
 
 @NgModule({
     exports: [
@@ -48,11 +41,11 @@ import { TopMenuAnchorToggleDirective } from './directives/topmenu-anchor-toggle
         TranslateModule,
         FormsModule,
         OverlayModule,
-        ReactiveFormsModule ,
+        ReactiveFormsModule,
         PerfectScrollbarModule,
         ClickOutsideModule,
         AutocompleteModule,
-        PipeModule
+        PipeModule,
     ],
     declarations: [
         FooterComponent,
@@ -67,6 +60,6 @@ import { TopMenuAnchorToggleDirective } from './directives/topmenu-anchor-toggle
         TopMenuDropdownDirective,
         TopMenuAnchorToggleDirective,
         TopMenuDirective,
-    ]
+    ],
 })
-export class SharedModule { }
+export class SharedModule {}
