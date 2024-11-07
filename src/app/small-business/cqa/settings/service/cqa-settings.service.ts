@@ -27,6 +27,16 @@ export class CqaSettingsService {
         );
     }
 
+    public async updateCqaVoiceFiles(formData: FormData) {
+        return firstValueFrom(
+            this.http.put<void>(`${this.cqaConfigUrlUrl}/files`, formData, {}).pipe(
+                catchError((error) => {
+                    throw error;
+                }),
+            ),
+        );
+    }
+
     public async getCqaClientConfig() {
         return firstValueFrom(
             this.http.get<CqaConfig>(`${this.cqaConfigUrlUrl}`).pipe(

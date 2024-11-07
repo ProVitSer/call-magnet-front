@@ -161,7 +161,11 @@ export class CqaSettingsComponent implements OnInit {
         formData.append('cqa-goodbye', this.inputCqaGoodbye);
 
         try {
-            await this.saveFilesToServer(formData);
+            if (this.inputCqaMain && this.inputCqaGoodbye) {
+                await this.saveFilesToServer(formData);
+            } else {
+                await this.cqaSettingsService.updateCqaVoiceFiles(formData);
+            }
 
             SweetalertService.autoCloseSuccessAlert('', 'Настройки успешно добавлены', 5000);
         } catch (e) {
