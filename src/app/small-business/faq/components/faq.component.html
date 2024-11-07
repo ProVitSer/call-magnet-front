@@ -8,33 +8,45 @@
                       <div class="swiper-centered-slides swiper-container p-3" [swiper]="swiperCenterOpt1Config"
                       (indexChange)="onIndexChange($event)">
                       <div class="swiper-wrapper">
-                         <div class="swiper-slide rounded swiper-shadow" id="getting-started-text">
+                         <div class="swiper-slide rounded swiper-shadow" id="analitics">
                             <i class="ft-bar-chart-2 font-large-1"></i>
                             <div class="swiper-text pt-md-2 pt-sm-1">Аналитика</div>
                          </div>
-                         <div class="swiper-slide rounded swiper-shadow" id="pricing-plans-text">
-                            <i class="ft-layout font-large-1"></i>
-                            <div class="swiper-text pt-md-2 pt-sm-1">CRM</div>
-                         </div>
-                         <div class="swiper-slide rounded swiper-shadow" id="sales-question-text">
+                         <div class="swiper-slide rounded swiper-shadow" id="api">
                             <i class="ft-repeat font-large-1"></i>
                             <div class="swiper-text pt-md-2 pt-sm-1">3CX API</div>
                          </div>
-                         <div class="swiper-slide rounded swiper-shadow" id="usage-guide-text">
+                         <div class="swiper-slide rounded swiper-shadow" id="smart-routing">
+                            <i class="icon-shuffle font-large-1"></i>
+                            <div class="swiper-text pt-md-2 pt-sm-1">Умная маршрутизация</div>
+                         </div>
+                         <div class="swiper-slide rounded swiper-shadow" id="missed-call">
+                            <i class="ft-phone-missed font-large-1"></i>
+                            <div class="swiper-text pt-md-2 pt-sm-1">Пропущенные вызовы</div>
+                         </div>
+                         <div class="swiper-slide rounded swiper-shadow" id="cqa">
                             <i class="ft-users font-large-1"></i>
                             <div class="swiper-text pt-md-2 pt-sm-1">KPI колл-центра</div>
                          </div>
-                         <div class="swiper-slide rounded swiper-shadow" id="usage-guide-text">
-                            <i class="ft-phone-outgoing font-large-1"></i>
-                            <div class="swiper-text pt-md-2 pt-sm-1">Автообзвон</div>
+                         <div class="swiper-slide rounded swiper-shadow" id="tts">
+                            <i class="ft-file-text font-large-1"></i>
+                            <div class="swiper-text pt-md-2 pt-sm-1">Синтез речи</div>
                          </div>
-                         <div class="swiper-slide rounded swiper-shadow" id="general-guide-text">
+                         <div class="swiper-slide rounded swiper-shadow" id="sms">
                             <i class="icon-speech font-large-1"></i>
                             <div class="swiper-text pt-md-2 pt-sm-1">SMS</div>
                          </div>
-                         <div class="swiper-slide rounded swiper-shadow" id="general-guide-text">
+                         <div class="swiper-slide rounded swiper-shadow" id="crm">
+                            <i class="ft-layout font-large-1"></i>
+                            <div class="swiper-text pt-md-2 pt-sm-1">CRM</div>
+                         </div>
+                         <div class="swiper-slide rounded swiper-shadow" id="tg">
                             <i class="icon-paper-plane font-large-1"></i>
                             <div class="swiper-text pt-md-2 pt-sm-1">Telegram</div>
+                         </div>
+                         <div class="swiper-slide rounded swiper-shadow" id="voip">
+                            <i class="ft-phone-outgoing font-large-1"></i>
+                            <div class="swiper-text pt-md-2 pt-sm-1">VoIP мост</div>
                          </div>
                       </div>
                    </div>
@@ -55,7 +67,7 @@
                                               class="card-title">{{faq.title}}</a>
                                         </ng-template>
                                         <ng-template ngbPanelContent>
-                                           <p>{{faq.content}}</p>
+                                            <p [innerHTML]="faq.content"></p>
                                         </ng-template>
                                         </ngb-panel>
                                      </ngb-accordion>
