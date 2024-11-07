@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewChil
 import { ColumnMode, DatatableComponent } from '@swimlane/ngx-datatable';
 import { SweetalertService } from 'app/shared/services/sweetalert.service';
 import { CdrAnaliticsService } from './services/cdr-analitics.service';
-import { format } from 'date-fns';
+import { format, parse } from 'date-fns';
 import { CdrData } from './models/cdr-analytic.model';
 import { Router } from '@angular/router';
 
@@ -23,6 +23,7 @@ export class CdrAnalyticsComponent implements OnInit {
     private rowsTemp = [];
     public dateFilter;
     public dateString;
+    public userTimezoneOffset: number;
     @ViewChild(DatatableComponent) table: DatatableComponent;
     @ViewChild('tableRowDetails') tableRowDetails: any;
     @ViewChild('tableResponsive') tableResponsive: any;
@@ -33,6 +34,7 @@ export class CdrAnalyticsComponent implements OnInit {
         private router: Router,
     ) {
         this.rowsTemp = this.rows;
+        this.userTimezoneOffset = new Date().getTimezoneOffset() / -60;
     }
 
     async ngOnInit() {
@@ -47,11 +49,11 @@ export class CdrAnalyticsComponent implements OnInit {
                 ...(this.dateString ? { dateString: this.dateString } : { dateString: format(new Date(), 'yyyy-MM-dd') }),
             });
 
-            this.rows = response.data;
+            this.rows = this.adjustCallDates(response.data);
 
             this.colorizeRows(this.rows);
 
-            this.rowsTemp = response.data;
+            this.rowsTemp = this.adjustCallDates(response.data);
 
             this.totalRecords = response.totalRecords;
 
@@ -78,8 +80,8 @@ export class CdrAnalyticsComponent implements OnInit {
             phoneNumber: val,
         });
 
-        this.rows = response.data;
-        this.rowsTemp = response.data;
+        this.rows = this.adjustCallDates(response.data);
+        this.rowsTemp = this.adjustCallDates(response.data);
         this.totalRecords = response.totalRecords;
         this.changeDetector.detectChanges();
 
@@ -104,7 +106,7 @@ export class CdrAnalyticsComponent implements OnInit {
             dateString: this.dateString,
         });
 
-        this.rows = response.data;
+        this.rows = this.adjustCallDates(response.data);
         this.colorizeRows(this.rows);
 
         this.rowsTemp = response.data;
@@ -178,5 +180,17 @@ export class CdrAnalyticsComponent implements OnInit {
 
     redirectToCall(callId: number) {
         this.router.navigate([`/sm/analytics/call/${callId}`]);
+    }
+
+    private adjustCallDates(data: CdrData[]): CdrData[] {
+        return data.map((entry) => {
+            const date = parse(entry.callDate, 'dd.MM.yyyy HH:mm:ss', new Date());
+
+            date.setHours(date.getHours() + this.userTimezoneOffset);
+
+            const adjustedDate = format(date, 'dd.MM.yyyy HH:mm:ss');
+
+            return { ...entry, callDate: adjustedDate };
+        });
     }
 }

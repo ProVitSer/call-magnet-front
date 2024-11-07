@@ -7,6 +7,7 @@ import { SweetalertService } from 'app/shared/services/sweetalert.service';
 import { CdrData } from '../cdr/models/cdr-analytic.model';
 import * as d3 from 'd3';
 import { CallDetailsData, STTProviderType, SttRecognizeStatus, TextDialogMessage } from './models/call-detail';
+import { format, parse } from 'date-fns';
 
 @Component({
     selector: 'app-call-detail',
@@ -23,6 +24,7 @@ export class CallDetailComponent implements OnInit {
     public rows = [];
     public ColumnMode = ColumnMode;
     public expanded: any = {};
+    public userTimezoneOffset: number;
     @ViewChild(DatatableComponent) table: DatatableComponent;
     @ViewChild('tableRowDetails') tableRowDetails: any;
     @ViewChild('tableResponsive') tableResponsive: any;
@@ -35,6 +37,7 @@ export class CallDetailComponent implements OnInit {
         private readonly callDetailsService: CallDetailsService,
     ) {
         this.isAccordionOpen = Array(this.rows.length).fill(false);
+        this.userTimezoneOffset = new Date().getTimezoneOffset() / -60;
     }
 
     async ngOnInit(): Promise<void> {
@@ -50,7 +53,7 @@ export class CallDetailComponent implements OnInit {
 
             const response = await this.callDetailsService.getCallData(callId);
 
-            this.rows = response;
+            this.rows = this.adjustCallDates(response);
 
             this.totalRecords = response.length;
 
@@ -350,5 +353,17 @@ export class CallDetailComponent implements OnInit {
 
             this.changeDetector.detectChanges();
         }
+    }
+
+    private adjustCallDates(data: CdrData[]): CdrData[] {
+        return data.map((entry) => {
+            const date = parse(entry.callDate, 'dd.MM.yyyy HH:mm:ss', new Date());
+
+            date.setHours(date.getHours() + this.userTimezoneOffset);
+
+            const adjustedDate = format(date, 'dd.MM.yyyy HH:mm:ss');
+
+            return { ...entry, callDate: adjustedDate };
+        });
     }
 }

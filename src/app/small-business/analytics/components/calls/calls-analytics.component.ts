@@ -87,7 +87,6 @@ export class CallsAnalyticsComponent implements OnInit, OnDestroy {
             fullScreen: false,
         });
         const data = await this.callsAnaliticsService.getCallAnalitics();
-        console.log(data);
         this.regionCallStatisticData = data.dayRegionCall;
 
         this.totalCalls = data.totalDailyCalls;
@@ -100,11 +99,29 @@ export class CallsAnalyticsComponent implements OnInit, OnDestroy {
 
         this.initWidgets();
         this.initWeeklyLineChart(data);
-        this.initCallSchedule(data);
+        this.adjustCallDataForTimezone(data);
 
         this.spinner.hide();
         this.isDataLoaded = true;
         this.changeDetector.detectChanges();
+    }
+
+    adjustCallDataForTimezone(data: CallAnanliticsData) {
+        // Получаем смещение от UTC в часах (положительное или отрицательное число)
+        const timezoneOffset = new Date().getTimezoneOffset() / -60;
+
+        // Функция для сдвига массива
+        const shiftArray = (arr: number[], shift: number) => {
+            const len = arr.length;
+            shift = ((shift % len) + len) % len; // Убедиться, что сдвиг не превышает длину массива
+            return arr.slice(-shift).concat(arr.slice(0, -shift));
+        };
+
+        // Применяем сдвиг к каждому массиву
+        const answered = shiftArray(data.dayCallScheduleByHour.answered, timezoneOffset);
+        const unanswered = shiftArray(data.dayCallScheduleByHour.unanswered, timezoneOffset);
+
+        this.initCallSchedule(answered, unanswered);
     }
 
     private transformData(data: Record<string, { answered: number; unanswered: number }>[]) {
@@ -143,12 +160,12 @@ export class CallsAnalyticsComponent implements OnInit, OnDestroy {
 
     onSelect(event) {}
 
-    private initCallSchedule(data: CallAnanliticsData) {
+    private initCallSchedule(answered: number[], unanswered: number[]) {
         this.CallSchedule = {
             type: 'Line',
             data: {
                 labels: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23],
-                series: [[...data.dayCallScheduleByHour.answered], [...data.dayCallScheduleByHour.unanswered]],
+                series: [[...answered], [...unanswered]],
             },
             options: {
                 low: 0,
