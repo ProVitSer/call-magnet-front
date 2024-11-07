@@ -75,7 +75,11 @@
                       </ng-template>
                    </ngx-datatable-column>
                    <ngx-datatable-column name="Имя" prop="name" [width]="50"></ngx-datatable-column>
-                   <ngx-datatable-column name="Внутренний номер" prop="localExtension" [width]="50"></ngx-datatable-column>
+                   <ngx-datatable-column name="Внутренний номер" prop="localExtension" [width]="50">
+                    <ng-template ngx-datatable-cell-template let-row="row">
+                        <div class="custom-margin">{{ row.localExtension }}</div>
+                      </ng-template>
+                   </ngx-datatable-column>
                    <ngx-datatable-column name="Статус" prop="tgUserId" [width]="50">
                       <ng-template let-tgUserId="value" ngx-datatable-cell-template>
                          <div class="badge badge-pill"

@@ -41,17 +41,21 @@
                    <ngx-datatable-column name="Регион" prop="region" [width]="50"></ngx-datatable-column>
                    <ngx-datatable-column name="Город" prop="city" [width]="50"></ngx-datatable-column>
                    <ngx-datatable-column name="Менеджер" prop="managerData" [width]="50"></ngx-datatable-column>
-                   <ngx-datatable-column name="Добавочный" prop="managerNumber" [width]="50"></ngx-datatable-column>
+                   <ngx-datatable-column name="Добавочный" prop="managerNumber" [width]="50" [cellClass]="'custom-margin'">
+                    <ng-template ngx-datatable-cell-template let-row="row">
+                        <div class="custom-margin">{{ row.managerNumber }}</div>
+                      </ng-template>
+                   </ngx-datatable-column>
                    <ngx-datatable-column name="Оценка" prop="rating" [width]="50"></ngx-datatable-column>
                    <ngx-datatable-column name="Результат вызова" [width]="50" >
                       <ng-template let-row="row" ngx-datatable-cell-template >
-                         <span *ngIf="row.callResult === 'successful'" title="Вызов успешно обработан" class="text-success">
+                         <span *ngIf="row.callResult === 'successful'" title="Вызов успешно обработан" class="text-success custom-margin">
                          <i class="fa fa-check"></i>
                          </span>
-                         <span *ngIf="row.callResult === 'unsuccessful'" title="Неуспешная обработка" class="text-danger">
+                         <span *ngIf="row.callResult === 'unsuccessful'" title="Неуспешная обработка" class="text-danger custom-margin">
                          <i class="fa fa-times"></i>
                          </span>
-                         <span *ngIf="row.callResult === 'unknown'" title="Неизвестный результат" class="text-warning">
+                         <span *ngIf="row.callResult === 'unknown'" title="Неизвестный результат" class="text-warning custom-margin">
                          <i class="fa fa-question"></i>
                          </span>
                       </ng-template>

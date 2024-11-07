@@ -68,7 +68,11 @@
                    </ngx-datatable-column>
                    <ngx-datatable-column name="Id" prop="ttsId" [width]="50" ></ngx-datatable-column>
                    <ngx-datatable-column name="Название" prop="name" [width]="50" ></ngx-datatable-column>
-                   <ngx-datatable-column name="Сервис генерации" prop="ttsProviderType" [width]="50"></ngx-datatable-column>
+                   <ngx-datatable-column name="Сервис генерации" prop="ttsProviderType" [width]="50">
+                    <ng-template ngx-datatable-cell-template let-row="row">
+                        <div class="custom-margin">{{ row.ttsProviderType }}</div>
+                      </ng-template>
+                   </ngx-datatable-column>
                    <ngx-datatable-column name="Дата" prop="date" [width]="50"></ngx-datatable-column>
                    <ngx-datatable-column name="Действия" [width]="50">
                       <ng-template let-row="row" ngx-datatable-cell-template>
