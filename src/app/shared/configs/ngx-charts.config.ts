@@ -1,81 +1,81 @@
 import * as shape from 'd3-shape';
 //Bar Chart
 
-export var barChartView: any[] = [550, 400];
+export const barChartView: any[] = [550, 400];
 
 // options
-export var barChartShowXAxis = true;
-export var barChartShowYAxis = true;
-export var barChartGradient = false;
-export var barChartShowLegend = false;
-export var barChartShowXAxisLabel = true;
-export var barChartXAxisLabel = 'Country';
-export var barChartShowYAxisLabel = true;
-export var barChartYAxisLabel = 'Population';
+export const barChartShowXAxis = true;
+export const barChartShowYAxis = true;
+export const barChartGradient = false;
+export const barChartShowLegend = false;
+export const barChartShowXAxisLabel = true;
+export const barChartXAxisLabel = 'Country';
+export const barChartShowYAxisLabel = true;
+export const barChartYAxisLabel = 'Population';
 
-export var barChartColorScheme = {
-    domain: ['#009DA0', '#FF8D60', '#FF586B', '#AAAAAA']
+export const barChartColorScheme = {
+    domain: ['#009DA0', '#FF8D60', '#FF586B', '#AAAAAA'],
 };
 
 //Pie CHart
 
-export var pieChartView: any[] = [550, 400];
+export const pieChartView: any[] = [550, 400];
 
 // options
-export var pieChartShowLegend = false;
+export const pieChartShowLegend = false;
 
-export var pieChartColorScheme = {
-    domain: ['#009DA0', '#FF8D60', '#FF586B', '#AAAAAA']
+export const pieChartColorScheme = {
+    domain: ['#009DA0', '#FF8D60', '#FF586B', '#AAAAAA'],
 };
 
 // pie
-export var pieChartShowLabels = true;
-export var pieChartExplodeSlices = false;
-export var pieChartDoughnut = true;
-export var pieChartGradient = false;
+export const pieChartShowLabels = true;
+export const pieChartExplodeSlices = false;
+export const pieChartDoughnut = true;
+export const pieChartGradient = false;
 
-export var pieChart1ExplodeSlices = true;
-export var pieChart1Doughnut = false;
+export const pieChart1ExplodeSlices = true;
+export const pieChart1Doughnut = false;
 
 //Line Charts
 
-export var lineChartView: any[] = [550, 400];
+export const lineChartView: any[] = [550, 400];
 
 // options
-export var lineChartShowXAxis = true;
-export var lineChartShowYAxis = true;
-export var lineChartGradient = false;
-export var lineChartShowLegend = false;
-export var lineChartShowXAxisLabel = true;
-export var lineChartXAxisLabel = 'Country';
-export var lineChartShowYAxisLabel = true;
-export var lineChartYAxisLabel = 'Population';
+export const lineChartShowXAxis = true;
+export const lineChartShowYAxis = true;
+export const lineChartGradient = false;
+export const lineChartShowLegend = false;
+export const lineChartShowXAxisLabel = true;
+export const lineChartXAxisLabel = 'Country';
+export const lineChartShowYAxisLabel = true;
+export const lineChartYAxisLabel = 'Population';
 
-export var lineChartColorScheme = {
-    domain: ['#009DA0', '#FF8D60', '#FF586B', '#AAAAAA']
+export const lineChartColorScheme = {
+    domain: ['#009DA0', '#FF8D60', '#FF586B', '#AAAAAA'],
 };
 
 // line, area
-export var lineChartAutoScale = true;
-export var lineChartLineInterpolation = shape.curveBasis;
+export const lineChartAutoScale = true;
+export const lineChartLineInterpolation = shape.curveBasis;
 
 //Area Charts
-export var areaChartView: any[] = [550, 400];
+export const areaChartView: any[] = [550, 400];
 
 // options
-export var areaChartShowXAxis = true;
-export var areaChartShowYAxis = true;
-export var areaChartGradient = false;
-export var areaChartShowLegend = false;
-export var areaChartShowXAxisLabel = true;
-export var areaChartXAxisLabel = 'Country';
-export var areaChartShowYAxisLabel = true;
-export var areaChartYAxisLabel = 'Population';
+export const areaChartShowXAxis = true;
+export const areaChartShowYAxis = true;
+export const areaChartGradient = false;
+export const areaChartShowLegend = false;
+export const areaChartShowXAxisLabel = true;
+export const areaChartXAxisLabel = 'Country';
+export const areaChartShowYAxisLabel = true;
+export const areaChartYAxisLabel = 'Population';
 
-export var areaChartColorScheme = {
-    domain: ['#FF8D60', '#FF586B', '#1CBCD8', '#AAAAAA']
+export const areaChartColorScheme = {
+    domain: ['#FF8D60', '#FF586B', '#1CBCD8', '#AAAAAA'],
 };
 
 // line, area
-export var areaChartAutoScale = true;
-export var areaChartLineInterpolation = shape.curveBasis;
+export const areaChartAutoScale = true;
+export const areaChartLineInterpolation = shape.curveBasis;

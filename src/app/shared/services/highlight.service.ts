@@ -1,10 +1,5 @@
-import { Injectable, Inject  } from '@angular/core';
-
-import { PLATFORM_ID } from '@angular/core';
-import { isPlatformBrowser } from '@angular/common';
-
+import { Injectable } from '@angular/core';
 import 'clipboard';
-
 import 'prismjs';
 import 'prismjs/plugins/toolbar/prism-toolbar';
 import 'prismjs/plugins/copy-to-clipboard/prism-copy-to-clipboard';
@@ -16,15 +11,13 @@ import 'prismjs/components/prism-typescript';
 import 'prismjs/components/prism-sass';
 import 'prismjs/components/prism-scss';
 
-declare var Prism: any;
+declare let Prism: any;
 
 @Injectable({
-    providedIn: 'root'
+    providedIn: 'root',
 })
 export class HighlightService {
-
     highlightAll() {
         Prism.highlightAll();
     }
-
 }

@@ -1,0 +1,55 @@
+<section id="horizontal-form-layout">
+    <div class="row match-height">
+       <div class="col-12">
+          <div class="card">
+             <div class="card-header">
+                <h4 class="card-title">Форма настройки звуковых файлов сервиса оценки качества</h4>
+             </div>
+             <div class="card-content">
+                <div class="card-body">
+                   <div class="form-group switchery-info d-flex align-items-center">
+                      <ui-switch 
+                      [(ngModel)]="isAiEnabled" 
+                      class="switchery" 
+                      (click)="onToggleSwitch(uiSwitchComponent)"
+                      #uiSwitchComponent
+                      ></ui-switch>
+                      <label for="switchery" class="ml-2">Включить AI робота оценки качества</label>
+                   </div>
+                   <form>
+                      <div class="row">
+                         <div class="col-md-6">
+                            <fieldset class="form-group" [class.disabled]="isAiEnabled">
+                               <label for="inputCqaMain">Файл оценки качества обслуживания (.wav)</label>
+                               <div class="custom-file">
+                                  <input type="file" class="custom-file-input" id="inputCqaMain" [disabled]="isAiEnabled" (change)="onFileSelected($event, 'cqa-main')">
+                                  <label class="custom-file-label" for="inputCqaMain">Выберите файл</label>
+                               </div>
+                            </fieldset>
+                            <fieldset class="form-group" [class.disabled]="isAiEnabled">
+                               <label for="inputCqaGoodbye">Файл после получения оценки (.wav)</label>
+                               <div class="custom-file">
+                                  <input type="file" class="custom-file-input" id="inputCqaGoodbye" [disabled]="isAiEnabled" (change)="onFileSelected($event, 'cqa-goodbye')">
+                                  <label class="custom-file-label" for="inputCqaGoodbye">Выберите файл</label>
+                               </div>
+                            </fieldset>
+                         </div>
+                         <div class="col-md-6">
+                            <div class="form-group mb-4" *ngIf="!isAiEnabled && cqaMainAudioSrc">
+                               <audio controls [src]="cqaMainAudioSrc"></audio>
+                            </div>
+                            <div class="form-group mt-4" *ngIf="!isAiEnabled && cqaGoodbyeAudioSrc">
+                               <audio controls [src]="cqaGoodbyeAudioSrc"></audio>
+                            </div>
+                         </div>
+                      </div>
+                      <button type="button" class="btn btn-primary mr-2" (click)="onSave()">
+                      <i class="ft-check-square mr-1"></i>Сохранить
+                      </button>
+                   </form>
+                </div>
+             </div>
+          </div>
+       </div>
+    </div>
+ </section>

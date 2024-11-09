@@ -1,43 +1,48 @@
 import { Routes } from '@angular/router';
 
-
-
 export const SM_ROUTES: Routes = [
-  {
-    path: 'dashboard',
-    loadChildren: async () => (await import('./dashboard-small-business/dashboard-small-business.module')).DashboardSmallBusinessModule
-  }, 
-  {
-    path: 'api',
-    loadChildren: async () => (await import('./api/api.module')).ApiModule
-  }, 
-  {
-    path: 'analitic',
-    loadChildren: async () => (await import('./analitic/analitic.module')).AnaliticModule
-  },
-  {
-    path: 'crm',
-    loadChildren: async () => (await import('./crm/crm.module')).CrmModule
-  },
-  {
-    path: 'auto-dial',
-    loadChildren: async () => (await import('./auto-dial/auto-dial.module')).AutoDialModule
-  },
-  {
-    path: 'kpi',
-    loadChildren: async () => (await import('./kpi/kpi.module')).KpiModule
-  },
-  {
-    path: 'sms',
-    loadChildren: async () => (await import('./sms/sms.module')).SmsModule
-  }, 
-  {
-    path: 'telegram',
-    loadChildren: async () => (await import('./telegram/telegram.module')).TelegramModule
-  }, 
-  {
-    path: 'faq',
-    loadChildren: async () => (await import('./faq/faq.module')).FaqModule
-  }, 
-  
+    {
+        path: 'analytics',
+        loadChildren: async () => (await import('./analytics/analytics.module')).AnalyticsModule,
+    },
+    {
+        path: 'pbx-api',
+        loadChildren: async () => (await import('./pbx-api/pbx-api.module')).PbxApiModule,
+    },
+    {
+        path: 'tg',
+        loadChildren: async () => (await import('./tg/tg.module')).TgModule,
+    },
+    {
+        path: 'voip',
+        loadChildren: async () => (await import('./voip/voip.module')).VoipModule,
+    },
+    {
+        path: 'smart-routing',
+        loadChildren: async () => (await import('./smart-routing/smart-routing.module')).SmartRoutingModule,
+    },
+    {
+        path: 'missed-call',
+        loadChildren: async () => (await import('./missed-call/missed-call.module')).MissedCallModule,
+    },
+    {
+        path: 'crm',
+        loadChildren: async () => (await import('./crm/crm.module')).CrmModule,
+    },
+    {
+        path: 'sms',
+        loadChildren: async () => (await import('./sms/sms.module')).SmsModule,
+    },
+    {
+        path: 'faq',
+        loadChildren: async () => (await import('./faq/faq.module')).FaqModule,
+    },
+    {
+        path: 'tts',
+        loadChildren: async () => (await import('./tts/tts.module')).TtsModule,
+    },
+    {
+        path: 'cqa',
+        loadChildren: async () => (await import('./cqa/cqa.module')).CqaModule,
+    },
 ];

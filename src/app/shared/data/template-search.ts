@@ -1,5 +1,1 @@
-
-    export const LISTITEMS: any[] = [
-
-    ]
-
+export const LISTITEMS: any[] = [];

@@ -1,25 +1,30 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { CrmSettingsComponent } from './components/settings/crm-settings.component';
 import { AuthGuard } from 'app/shared/auth/auth-guard.service';
-import { RoleGuard } from 'app/shared/auth/role-guard.service';
-import { Roles } from 'app/shared/models/user';
-
+import { CrmSettingsComponent } from './settings/crm-settings.component';
+import { CrmAddSettingsComponent } from './settings/add-settings/crm-add-settings.component';
 
 const routes: Routes = [
-  {
-    path: 'settings',
-    component: CrmSettingsComponent,
-    data: {
-      title: 'Настройки',
-      expectedRole: [Roles.crm]
+    {
+        path: 'settings',
+        component: CrmSettingsComponent,
+        data: {
+            title: 'Sms сервиса',
+        },
+        canActivate: [AuthGuard],
     },
-    canActivate: [AuthGuard, RoleGuard],
-  },
+    {
+        path: 'settings/add',
+        component: CrmAddSettingsComponent,
+        data: {
+            title: 'Sms сервиса',
+        },
+        canActivate: [AuthGuard],
+    },
 ];
 
 @NgModule({
-  imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+    imports: [RouterModule.forChild(routes)],
+    exports: [RouterModule],
 })
-export class CrmRoutingModule { }
+export class CrmRoutingModule {}

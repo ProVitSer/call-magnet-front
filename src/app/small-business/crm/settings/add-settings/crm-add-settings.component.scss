@@ -1,0 +1,54 @@
+.center-label {
+    text-align: center;
+    display: block;
+    width: 100%;
+}
+
+.center-input {
+    text-align: center;
+}
+
+.match-height .card {
+    height: 100%; /* Устанавливает одинаковую высоту для всех карточек */
+}
+
+.card-img-top {
+    max-width: 50%; /* Уменьшает размер изображения на 50% */
+    margin: 0 auto;
+}
+
+.selectable-card {
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.selectable-card:hover {
+    transform: scale(1.05); /* Эффект увеличения при наведении */
+}
+
+.unavailable-card {
+    pointer-events: none; /* Отключает клики для недоступных карточек */
+}
+
+
+.selected-card {
+    border: 2px solid #007bff; /* Цвет обводки для выбранной карточки */
+    background-color: #e6f7ff; /* Светло-синий фон для выбранной карточки */
+    box-shadow: 0px 4px 10px rgba(0, 123, 255, 0.3);
+}
+
+.card-img-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 200px; /* Определите высоту контейнера для центрирования */
+}
+
+.card-img-top {
+    max-width: 50%; /* Уменьшение изображения до половины размера */
+    max-height: 100%; /* Изображение не выйдет за рамки контейнера */
+}
+
+.block-user-interaction {
+    pointer-events: none;
+}

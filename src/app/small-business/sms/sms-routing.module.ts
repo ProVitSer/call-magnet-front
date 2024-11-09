@@ -1,66 +1,48 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { SmsSettingsComponent } from './components/settings/sms-settings.component';
-import { SmsSendComponent } from './components/send/sms-send.component';
-import { SmsStatisticComponent } from './components/statistic/sms-statistic.component';
-import { SmsMassSendingComponent } from './components/mass-sending/sms-mass-sending.component';
-import { SmsNoAnswerCallSendingComponent } from './components/no-answer-call-sending/sms-no-answer-call-sending.component';
 import { AuthGuard } from 'app/shared/auth/auth-guard.service';
-import { RoleGuard } from 'app/shared/auth/role-guard.service';
-import { Roles } from 'app/shared/models/user';
-
+import { SendSmsComponent } from './send/send-sms.component';
+import { SmsStatisticComponent } from './statistic/sms-statistic.component';
+import { SmsSettingsComponent } from './settings/sms-settings.component';
+import { SmsAddSettingsComponent } from './settings/add-settings/sms-add-settings.component';
 
 const routes: Routes = [
-  {
-    path: 'send',
-    component: SmsSendComponent,
-    data: {
-      title: 'Отправка',
-      expectedRole: [Roles.sms]
-
+    {
+        path: 'statistic',
+        component: SmsStatisticComponent,
+        data: {
+            title: 'Sms статистика',
+        },
+        canActivate: [AuthGuard],
     },
-    canActivate: [AuthGuard, RoleGuard],
-  },
-  {
-    path: 'statistic',
-    component: SmsStatisticComponent,
-    data: {
-      title: 'Статистика',
-      expectedRole: [Roles.sms]
+    {
+        path: 'send',
+        component: SendSmsComponent,
+        data: {
+            title: 'Отпарвка смс',
+        },
+        canActivate: [AuthGuard],
     },
-    canActivate: [AuthGuard, RoleGuard],
-  },
-  {
-    path: 'mass-sending',
-    component: SmsMassSendingComponent,
-    data: {
-      title: 'Массовая рассылка',
-      expectedRole: [Roles.sms]
+    {
+        path: 'settings',
+        component: SmsSettingsComponent,
+        data: {
+            title: 'Sms сервиса',
+        },
+        canActivate: [AuthGuard],
     },
-    canActivate: [AuthGuard, RoleGuard],
-  },
-  {
-    path: 'no-answer-call-sending',
-    component: SmsNoAnswerCallSendingComponent,
-    data: {
-      title: 'Неотвеченные вызовы',
-      expectedRole: [Roles.sms]
+    {
+        path: 'settings/add',
+        component: SmsAddSettingsComponent,
+        data: {
+            title: 'Sms сервиса',
+        },
+        canActivate: [AuthGuard],
     },
-    canActivate: [AuthGuard, RoleGuard],
-  },
-  {
-    path: 'settings',
-    component: SmsSettingsComponent,
-    data: {
-      title: 'Настройки',
-      expectedRole: [Roles.sms]
-    },
-    canActivate: [AuthGuard, RoleGuard],
-  },
 ];
 
 @NgModule({
-  imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+    imports: [RouterModule.forChild(routes)],
+    exports: [RouterModule],
 })
-export class SmsRoutingModule { }
+export class SmsRoutingModule {}

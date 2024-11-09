@@ -1,0 +1,83 @@
+<div class="row">
+    <div class="col-sm-12">
+       <div class="content-header">Синтез речи</div>
+    </div>
+ </div>
+ <section id="ngx">
+    <div class="card">
+       <div class="card-content">
+          <div class="card-body">
+             <aw-wizard #wizard [navBarLayout]="'large-empty-symbols'">
+             <aw-wizard-step [stepTitle]="" [navigationSymbol]="{ symbol: '&#xf0ad;', fontFamily: 'FontAwesome' }">
+             <form #personalForm="ngForm" class="editForm" novalidate>
+                <h4 class="head text-center">Заполните данные для синтеза</h4>
+                <br/>
+                <div class="row">
+                   <div class="col-md-6 col-12">
+                      <div class="form-group">
+                         <label class="form-control-label center-label" for="name">Название</label>
+                         <input class="form-control input-md center-input" ngModel [(ngModel)]="ttsFileName" #name="ngModel" required id="name" name="name" type="text">
+                         <small class="form-text text-muted danger" *ngIf="!name.valid && (name.dirty || name.touched)">Поле обязательно для заполнения!</small>
+                      </div>
+                   </div>
+                   <div class="col-md-6 col-12">
+                      <div class="form-group">
+                         <label class="form-control-label center-label" for="ttsServices">Сервис генерации</label>
+                         <ng-select
+                         [items]="ttsServices"
+                         bindLabel="name"
+                         placeholder="Выберите внутренний номер"
+                         [(ngModel)]="selectedTtsService"
+                         name="ttsServices"
+                         (change)="onServiceSelect()"> 
+                         </ng-select>
+                      </div>
+                   </div>
+                </div>
+                <div class="row">
+                   <div class="col-md-6 col-12" *ngIf="selectedTtsService">
+                      <div class="form-group">
+                         <label class="form-control-label center-label" for="voiceName">Название озвучки</label>
+                         <ng-select
+                         [items]="voiceNames"
+                         bindLabel="name"
+                         placeholder="Выберите название озвучки"
+                         [(ngModel)]="selectedVoiceName"
+                         name="voiceName"
+                         (change)="onVoiceNameSelect()"> 
+                         </ng-select>
+                      </div>
+                   </div>
+                   <div class="col-md-6 col-12" *ngIf="selectedVoiceName">
+                      <div class="form-group">
+                         <label class="form-control-label center-label" for="emotions">Эмоции</label>
+                         <ng-select
+                         [items]="emotions"
+                         bindLabel="emotion"
+                         placeholder="Выберите эмоцию"
+                         [(ngModel)]="selectedEmotion"
+                         name="emotions"> 
+                         </ng-select>
+                      </div>
+                   </div>
+                </div>
+                <div class="form-group">
+                   <label class="form-control-label center-label" for="textInput">Текст для синтеза</label>
+                   <textarea class="form-control" id="textInput" name="textInput" [(ngModel)]="synthesisText" rows="5"></textarea>
+                </div>
+                <div *ngIf="audioFileUrl" class="text-center mt-3">
+                   <h5 class="text-center mt-3">Результат синтеза</h5>
+                   <audio controls [src]="audioFileUrl"></audio>
+                </div>
+                <div class="text-center mt-3">
+                   <button type="button" class="btn btn-primary mr-2" (click)="synthesize()">Синтез Online</button>
+                   <button type="button" class="btn btn-secondary" (click)="saveData()">Сохранить</button>
+                </div>
+                <ngx-spinner></ngx-spinner>
+             </form>
+             </aw-wizard-step>
+             </aw-wizard>
+          </div>
+       </div>
+    </div>
+ </section>

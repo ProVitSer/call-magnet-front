@@ -1,0 +1,128 @@
+<div class="row">
+    <div class="col-sm-12">
+       <div class="content-header">Форма настройки интеграции с CRM системами</div>
+    </div>
+ </div>
+ <section id="ngx">
+    <div class="card">
+       <div class="card-content">
+          <div class="card-body">
+             <aw-wizard #wizard [navBarLayout]="'large-empty-symbols'">
+             <aw-wizard-step [stepTitle]="" [navigationSymbol]="{ symbol: '&#xf0c2;', fontFamily: 'FontAwesome' }">
+             <form #workForm="ngForm" class="editForm" novalidate>
+                <h4 class="head text-center">Выберите Crm систему</h4>
+                <br/>
+                <div class="row match-height">
+                   <div class="col-lg-4 col-md-12 col-12">
+                      <div class="card selectable-card" 
+                      [ngClass]="{'selected-card': selectedCrmService === 1}" 
+                      (click)="selectCrmService(1)">
+                      <div class="card-content text-center">
+                         <div class="card-img-container">
+                            <img class="card-img-top img-fluid" src="assets/img/elements/bitrix.webp">
+                         </div>
+                      </div>
+                   </div>
+                </div>
+                <div class="col-lg-4 col-md-12 col-12">
+                   <div class="card unavailable-card" style="opacity: 0.5;">
+                      <div class="card-content text-center">
+                         <div class="card-img-container">
+                            <img class="card-img-top img-fluid" src="assets/img/elements/alfa.webp">
+                         </div>
+                      </div>
+                   </div>
+                </div>
+                <div class="col-lg-4 col-md-12 col-12">
+                   <div class="card unavailable-card" style="opacity: 0.5;">
+                      <div class="card-content text-center">
+                         <div class="card-img-container">
+                            <img class="card-img-top img-fluid" src="assets/img/elements/amocrm.png">
+                         </div>
+                      </div>
+                   </div>
+                </div>
+          </div>
+          <br>
+          <br>
+          <div class="form-group text-center space-20">
+          <button uiSref="address" type="button" class="btn btn-info" [disabled]="!selectedCrmService" awNextStep>
+          Дальше
+          <span>
+          <i class="ft-chevron-right"></i>
+          </span>
+          </button>
+          </div>
+          </form>
+          </aw-wizard-step>
+          <aw-wizard-step [stepTitle]="" [navigationSymbol]="{ symbol: '&#xf0ad;', fontFamily: 'FontAwesome' }">
+          <form #personalForm="ngForm" class="editForm" novalidate>
+             <h4 class="head text-center">Укажите данные для Rest Api взаимодействия</h4>
+             <br/>
+             <div class='row'>
+                <div class='col-sm-6'>
+                   <div class="form-group">
+                      <label class="form-control-label center-label" for="domain">Вебхук для вызова rest api</label>
+                      <input class="form-control input-md" ngModel [(ngModel)]="crmDomain" #domain="ngModel" required id="domain" name="domain" type="text">
+                      <small class="form-text text-muted danger" *ngIf="!domain.valid && (domain.dirty || domain.touched)">Поле обязательно для заполнения!</small>
+                   </div>
+                </div>
+                <div class='col-sm-6'>
+                   <div class="form-group">
+                      <label class="form-control-label center-label" for="hash">Hash</label>
+                      <input class="form-control input-md center-input" ngModel [(ngModel)]="crmHash" #hash="ngModel" required id="hash" name="hash" type="text">
+                      <small class="form-text text-muted danger" *ngIf="!hash.valid && (hash.dirty || hash.touched)">Поле обязательно для заполнения!</small>
+                   </div>
+                </div>
+                <div class='col-sm-6'>
+                   <div class="form-group">
+                      <label class="form-control-label center-label" for="token">Токен приложения</label>
+                      <input class="form-control input-md center-input" ngModel [(ngModel)]="crmToken" #token="ngModel" required id="token" name="token" type="text">
+                      <small class="form-text text-muted danger" *ngIf="!token.valid && (token.dirty || token.touched)">Поле обязательно для заполнения!</small>
+                   </div>
+                </div>
+                <div class='col-sm-6'>
+                   <div class="form-group">
+                      <label class="form-control-label center-label" for="adminId">Id Администратора</label>
+                      <input class="form-control input-md center-input" ngModel [(ngModel)]="crmAdminId" #adminId="ngModel" required id="adminId" name="adminId" type="text">
+                      <small class="form-text text-muted danger" *ngIf="!adminId.valid && (adminId.dirty || adminId.touched)">Поле обязательно для заполнения!</small>
+                   </div>
+                </div>
+                <div class='col-sm-6'>
+                   <div class="form-group">
+                      <label class="form-control-label center-label" for="userTaskId">Id Пользователя</label>
+                      <input class="form-control input-md center-input" ngModel [(ngModel)]="crmUserTaskId" #userTaskId="ngModel" required id="userTaskId" name="userTaskId" type="text">
+                      <small class="form-text text-muted danger" *ngIf="!userTaskId.valid && (userTaskId.dirty || userTaskId.touched)">Поле обязательно для заполнения!</small>
+                   </div>
+                </div>
+                <div class='col-sm-6'>
+                   <div class="form-group">
+                      <label class="form-control-label center-label" for="taskGroup">Id Группы</label>
+                      <input class="form-control input-md center-input" ngModel [(ngModel)]="crmTaskGroup" #taskGroup="ngModel" required id="taskGroup" name="taskGroup" type="text">
+                      <small class="form-text text-muted danger" *ngIf="!taskGroup.valid && (taskGroup.dirty || taskGroup.touched)">Поле обязательно для заполнения!</small>
+                   </div>
+                </div>
+                <div class='col-sm-6'>
+                   <div class="form-group">
+                      <label class="form-control-label center-label" for="deadlineMin">Крайний срок</label>
+                      <input class="form-control input-md center-input" ngModel [(ngModel)]="crmDeadlineMin" #deadlineMin="ngModel" required id="deadlineMin" name="deadlineMin" type="text">
+                      <small class="form-text text-muted danger" *ngIf="!deadlineMin.valid && (deadlineMin.dirty || deadlineMin.touched)">Поле обязательно для заполнения!</small>
+                   </div>
+                </div>
+             </div>
+             <div class="form-group text-center">
+                <button uiSref="work" type="button" class="btn btn-secondary mr-1" awPreviousStep>
+                <span><i class="ft-chevron-left"></i></span>Назад
+                </button>
+                <button uiSref="address" type="button" class="btn btn-info" [disabled]="!personalForm.valid" awNextStep (click)="addCrmServiceConfig()">
+                Дальше <span><i class="ft-chevron-right"></i></span>
+                </button>
+             </div>
+             <ngx-spinner></ngx-spinner>
+          </form>
+          </aw-wizard-step>
+          </aw-wizard>
+       </div>
+    </div>
+    </div>
+ </section>

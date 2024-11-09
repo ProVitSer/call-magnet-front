@@ -1,0 +1,63 @@
+<section id="action-form-layout">
+    <div class="row match-height">
+       <div class="col-12">
+          <div class="card">
+             <div class="card-header">
+                <h4 class="card-title">Отправка смс</h4>
+             </div>
+             <div class="card-content">
+                <div class="card-body">
+                   <form [formGroup]="smsForm" class="form-bordered">
+                      <div class="form-group row">
+                         <label class="col-md-3 label-control" for="bordered-form-1">Номер мобильного телефона</label>
+                         <div class="col-md-9">
+                            <div class="position-relative has-icon-left">
+                               <input
+                                  type="text"
+                                  id="bordered-form-1"
+                                  class="form-control"
+                                  formControlName="number"
+                                  />
+                               <div class="form-control-position">
+                                  <i class="ft-user"></i>
+                               </div>
+                            </div>
+                            <div *ngIf="smsForm.get('number').invalid && smsForm.get('number').touched" class="text-danger">
+                               Номер должен содержать только цифры и не более 11 символов.
+                            </div>
+                         </div>
+                      </div>
+                      <div class="form-group row last mb-3">
+                         <label class="col-md-3 label-control" for="bordered-form-6">Текст смс сообщения</label>
+                         <div class="col-md-9">
+                            <div class="position-relative has-icon-left">
+                               <textarea
+                                  id="bordered-form-6"
+                                  rows="4"
+                                  class="form-control"
+                                  formControlName="text"
+                                  ></textarea>
+                               <div class="form-control-position">
+                                  <i class="ft-file"></i>
+                               </div>
+                            </div>
+                            <div *ngIf="smsForm.get('text').invalid && smsForm.get('text').touched" class="text-danger">
+                               Сообщение не должно превышать 250 символов.
+                            </div>
+                         </div>
+                      </div>
+                      <div class="text-center">
+                         <button type="button" class="btn btn-primary mr-2" (click)="sendSms()">
+                         <i class="ft-check-square mr-1"></i>Отправить
+                         </button>
+                         <button type="button" class="btn btn-secondary" (click)="resetForm()">
+                         <i class="ft-x mr-1"></i>Сбросить
+                         </button>
+                      </div>
+                   </form>
+                </div>
+             </div>
+          </div>
+       </div>
+    </div>
+ </section>
