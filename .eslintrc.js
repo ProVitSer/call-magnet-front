@@ -17,9 +17,11 @@ module.exports = {
         'prettier/prettier': [
             'error',
             {
-                singleQuote: true,
-                printWidth: 140,
-                tabWidth: 4,
+                "singleQuote": true,
+                "trailingComma": "all",
+                "printWidth": 140,
+                "tabWidth": 4,
+                "endOfLine": "crlf"
             },
         ],
         '@typescript-eslint/interface-name-prefix': 'off',
@@ -27,4 +29,15 @@ module.exports = {
         '@typescript-eslint/explicit-module-boundary-types': 'off',
         '@typescript-eslint/no-explicit-any': 'off',
     },
+    overrides: [
+        {
+            "files": ["*.ts"],
+            "extends": [
+                "eslint:recommended",
+                "plugin:@typescript-eslint/recommended",
+                "plugin:@angular-eslint/recommended",
+                "plugin:@angular-eslint/template/process-inline-templates",
+                "plugin:prettier/recommended"
+            ],
+    }]
 };

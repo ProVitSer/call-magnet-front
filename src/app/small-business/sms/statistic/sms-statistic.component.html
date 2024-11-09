@@ -1,0 +1,80 @@
+<section id="ngx-datatable-row-details">
+    <div class="row">
+       <div class="col-12">
+          <div class="card">
+             <div class="card-header">
+                <h4 class="card-title">Сообщения</h4>
+             </div>
+             <div class="card-content">
+                <div class="card-body">
+                   <fieldset class="form-group d-flex align-items-center">
+                      <label for="ngx-filter-ref" class="mb-0 me-2">
+                      <input
+                         id="ngx-MultiPurposeFilter-ref"
+                         class="form-control form-control-sm d-inline-block width-200"
+                         type="text"
+                         placeholder="Поиск по номеру телефона....."
+                         (keyup)="MultiPurposeFilterUpdate($event)"
+                         />
+                      </label>
+                      <div class="input-group mb-0 ml-2">
+                         <button class="btn btn-outline-secondary" (click)="d3.toggle()" type="button">
+                         Выбрать дату <i class="fa fa-calendar ml-2"></i>
+                         </button>
+                         <input type="text" class="form-control d-none" ngbDatepicker #d3="ngbDatepicker" [(ngModel)]="dateFilter" (ngModelChange)="onDateChange()"/>
+                      </div>
+                   </fieldset>
+                   <ngx-datatable #tableRowDetails class="bootstrap core-bootstrap" 
+                   [columnMode]="ColumnMode.force"
+                   [headerHeight]="50" 
+                   [footerHeight]="50" 
+                   [rowHeight]="'auto'" 
+                   [rows]="rows" 
+                   [scrollbarH]="false"
+                   [count]="totalRecords"
+                   [limit]="pageSize"
+                   [externalPaging]="true"
+                   [offset]="currentPage - 1"
+                   (page)='onPageChange($event)'
+                   >
+                   <ngx-datatable-row-detail [rowHeight]="50">
+                      <ng-template let-row="row" let-expanded="expanded" ngx-datatable-row-detail-template>
+                         <div class="ml-5 my-1">
+                            <div><strong>Сообщение : </strong> {{ row.smsText }}</div>
+                         </div>
+                      </ng-template>
+                   </ngx-datatable-row-detail>
+                   <ngx-datatable-column [width]="50" [resizeable]="false" [sortable]="false" [draggable]="false"
+                   [canAutoResize]="false">
+                   <ng-template let-row="row" let-expanded="expanded" ngx-datatable-cell-template>
+                      <a href="javascript:void(0)" [class.datatable-icon-right]="!expanded"
+                      [class.datatable-icon-down]="expanded" title="Посмотреть сообщение"
+                      (click)="rowDetailsToggleExpand(row)">
+                      </a>
+                   </ng-template>
+                   </ngx-datatable-column>
+                   <ngx-datatable-column name="Id сообщения" prop="smsId" [width]="50" ></ngx-datatable-column>
+                   <ngx-datatable-column name="Внешний номер" prop="externalNumber" [width]="50"></ngx-datatable-column>
+                   <ngx-datatable-column name="Статус" prop="smsSendStatus" [width]="50">
+                      <ng-template let-row="row" let-smsSendStatus="value" ngx-datatable-cell-template>
+                         <div class="badge badge-pill"
+                         [ngClass]="{
+                         'bg-light-success': smsSendStatus === 'completed', 
+                         'bg-light-warning': smsSendStatus === 'inProgress', 
+                         'bg-light-danger': smsSendStatus === 'apiFail' ||  smsSendStatus === 'error' 
+                         }"
+                         [ngbTooltip]="row.smsSendResult">
+                         {{ smsSendStatus === 'completed' ? "Доставлено" : 
+                         smsSendStatus === 'inProgress' ? 'В процессе' : 
+                         smsSendStatus === 'apiFail' ? 'Ошибка API' : 'Ошибка'}}
+                </div>
+                </ng-template>
+                </ngx-datatable-column>
+                <ngx-datatable-column name="Дата" prop="date" [width]="50"></ngx-datatable-column>
+                </ngx-datatable>
+             </div>
+          </div>
+       </div>
+    </div>
+    </div>
+ </section>

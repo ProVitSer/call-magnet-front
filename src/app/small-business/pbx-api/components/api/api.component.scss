@@ -1,0 +1,18 @@
+.small-text {
+    font-size: 12px;
+}
+
+pre[class*='language-'] {
+    background: #000000;
+}
+
+.token.property,
+.token.tag,
+.token.boolean,
+.token.number,
+.token.constant,
+.token.symbol,
+.token.deleted {
+    color: #a2ff00f5;
+}
+

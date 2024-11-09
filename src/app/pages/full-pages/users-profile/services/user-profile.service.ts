@@ -1,52 +1,59 @@
-import { Injectable } from "@angular/core";
+import { Injectable } from '@angular/core';
 import { environment } from 'environments/environment';
-import { ChangePasswordData, ChangePasswordResponse, ClientInfoResponse, UpdateClientInfoData, UpdateClientInfoResponse } from "../models/client-info";
-import { HttpResponse } from "app/shared/models/response";
-import { Router } from "@angular/router";
-import { HttpClient } from "@angular/common/http";
-import { Observable, throwError } from "rxjs";
-import { catchError } from "rxjs/operators";
+import {
+    BaseUsersResponse,
+    ChangePasswordData,
+    ChangePasswordResponse,
+    CheckVerificationCodeResponse,
+    ForogtPasswordData,
+    ResetPasswordData,
+    UpdateClientInfoData,
+    UpdateClientInfoResponse,
+    UserInfoResponse,
+} from '../models/users-profile.model';
+import { Router } from '@angular/router';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { Observable, throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 
 @Injectable({
     providedIn: 'root',
-  })
-
+})
 export class UserProfileService {
-    userProfile_url = `${environment.API_GATEWAY_URL}user`;
+    private readonly userProfileUrl = environment.USER_PROFILE_URL;
 
-  constructor(    
-    public router: Router, 
-    private http: HttpClient
-   ) {}
+    constructor(
+        public router: Router,
+        private http: HttpClient,
+    ) {}
 
-
-    public getClientInfo(): Observable<HttpResponse<ClientInfoResponse>> {
-      return this.http
-        .get<HttpResponse<ClientInfoResponse>>(`${this.userProfile_url}/client-info`)
-        .pipe(catchError(this.errorHandler));
+    public getUserInfo(userId: number): Observable<UserInfoResponse> {
+        return this.http.get<UserInfoResponse>(`${this.userProfileUrl}/${userId}`).pipe(catchError(this.errorHandler));
     }
 
-    public updateClientInfo(data: UpdateClientInfoData): Observable<HttpResponse<UpdateClientInfoResponse>> {
-      return this.http
-        .put<HttpResponse<UpdateClientInfoResponse>>(`${this.userProfile_url}/update-client-info`, data)
-        .pipe(catchError(this.errorHandler));
+    public updateUserInfo(data: UpdateClientInfoData): Observable<UpdateClientInfoResponse> {
+        return this.http.put<UpdateClientInfoResponse>(`${this.userProfileUrl}`, data).pipe(catchError(this.errorHandler));
     }
 
-    
-    public changePassword(data: ChangePasswordData): Observable<HttpResponse<ChangePasswordResponse>> {
-      return this.http
-        .put<HttpResponse<ChangePasswordResponse>>(`${this.userProfile_url}/change-password`, data)
-        .pipe(catchError(this.errorHandler));
+    public changePassword(data: ChangePasswordData): Observable<ChangePasswordResponse> {
+        return this.http.post<ChangePasswordResponse>(`${this.userProfileUrl}/change-password`, data).pipe(catchError(this.errorHandler));
     }
 
+    public resetPassword(data: ResetPasswordData): Observable<BaseUsersResponse> {
+        return this.http.post<BaseUsersResponse>(`${this.userProfileUrl}/reset-password`, data).pipe(catchError(this.errorHandler));
+    }
 
-    private errorHandler(e) {
-      let errorMessage = '';
-      if (e.error && e.error.message) {
-        errorMessage = e.error.message;
-      } else {
-        errorMessage = `Error Code: ${e.status}\nMessage: ${e.message}`;
-      }
-      return throwError(errorMessage);
+    public forogtPassword(data: ForogtPasswordData): Observable<BaseUsersResponse> {
+        return this.http.post<BaseUsersResponse>(`${this.userProfileUrl}/forgot-password`, data).pipe(catchError(this.errorHandler));
+    }
+
+    public checkVerificationCode(verificationCode: string): Observable<CheckVerificationCodeResponse> {
+        return this.http
+            .post<CheckVerificationCodeResponse>(`${this.userProfileUrl}/check-verification-code`, { verificationCode })
+            .pipe(catchError(this.errorHandler));
+    }
+
+    private errorHandler(e: HttpErrorResponse) {
+        return throwError(e.error.error.message || 'Неизвестная ошибка');
     }
 }

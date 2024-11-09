@@ -1,0 +1,1023 @@
+<div class="row">
+    <div class="col-12">
+       <div class="content-header">3CX API</div>
+       <p class="content-sub-header mb-1">Online примеры по REST API 3CX. Более подробную информацию можно получить в нашей документации.</p>
+    </div>
+ </div>
+ <div class="row">
+    <div class="col-md-3 mt-3">
+       <ul class="nav flex-column nav-pills" id="myTab" role="tablist">
+          <li class="nav-item">
+             <a class="nav-link" href="javascript:;" [ngClass]="{active: activeTab === 'call'}" (click)="setActiveTab('call')" id="call-tab" data-toggle="tab" role="tab" aria-controls="call" aria-selected="true">
+             <i class="icon-call-in mr-1 align-middle"></i>
+             <span class="align-middle">Вызовы</span>
+             </a>
+          </li>
+          <li class="nav-item">
+             <a class="nav-link" href="javascript:;" [ngClass]="{active: activeTab === 'user'}" (click)="setActiveTab('user')" id="user-tab" data-toggle="tab" role="tab" aria-controls="user" aria-selected="false">
+             <i class="icon-user mr-1 align-middle"></i>
+             <span class="align-middle">Пользователи</span>
+             </a>
+          </li>
+          <li class="nav-item">
+             <a class="nav-link" href="javascript:;" [ngClass]="{active: activeTab === 'group'}" (click)="setActiveTab('group')" id="group-tab" data-toggle="tab" role="tab" aria-controls="group" aria-selected="false">
+             <i class="icon-users mr-1 align-middle"></i>
+             <span class="align-middle">Группа вызовов</span>
+             </a>
+          </li>
+          <li class="nav-item">
+             <a class="nav-link" href="javascript:;" [ngClass]="{active: activeTab === 'queue'}" (click)="setActiveTab('queue')" id="queue-tab" data-toggle="tab" role="tab" aria-controls="queue" aria-selected="false">
+             <i class="icon-shuffle mr-1 align-middle"></i>
+             <span class="align-middle">Очереди</span>
+             </a>
+          </li>
+          <li class="nav-item">
+             <a class="nav-link" href="javascript:;" [ngClass]="{active: activeTab === 'contact'}" (click)="setActiveTab('contact')" id="contact-tab" data-toggle="tab" role="tab" aria-controls="contact" aria-selected="false">
+             <i class="icon-note mr-1 align-middle"></i>
+             <span class="align-middle">Контакты</span>
+             </a>
+          </li>
+       </ul>
+    </div>
+    <div class="col-md-9">
+       <div class="card">
+          <div class="card-content">
+             <div class="card-body">
+                <div class="tab-content">
+                   <div class="tab-pane" [ngClass]="{active: activeTab === 'call'}" id="call" role="tabpanel" aria-labelledby="call-tab">
+                      <div class="card-body">
+                         <h5 class="d-none d-lg-flex justify-content-center align-items-center text-center">Методы для получения информации\управления\инициации вызовов</h5>
+                         <ngb-accordion [closeOthers]="true" #acc="ngbAccordion" activeIds="ngb-panel-0">
+                         <ngb-panel>
+                            <ng-template ngbPanelTitle>
+                               <span><i class="ft-hash mr-2"></i> <b>Получение информации об активных вызовах</b></span>
+                            </ng-template>
+                            <ng-template ngbPanelContent>
+                               <h5>Метод</h5>
+                               GET /call/active-calls
+                               <br>
+                               <br>
+                               <h5>URL</h5>
+                               <p>{{ apiUrl }}/call/active-calls</p>
+                               <h5>Пример ответа:</h5>
+                               <br>
+                               <pre class="language-json medium-text">
+    &#123;
+        <span class="token property">"activeCallsInfo"</span><span class="token operator">: [&#123;</span> 
+              <span class="token property">"callId"</span><span class="token operator">: 1,</span> 
+              <span class="token property">"callDirection"</span><span class="token operator">: 'Inbound',</span> 
+              <span class="token property">"status"</span><span class="token operator">: 'Dialing',</span> 
+              <span class="token property">"localNumber"</span><span class="token operator">: '102',</span> 
+              <span class="token property">"remoteNumber"</span><span class="token operator">: '79101234567'</span> 
+        &#125;]
+    &#125;
+                                          </pre>
+                            </ng-template>
+                         </ngb-panel>
+                         <ngb-panel>
+                            <ng-template ngbPanelTitle>
+                               <span><i class="ft-hash mr-2"></i> <b>Текущее количество звонков</b></span>
+                            </ng-template>
+                            <ng-template ngbPanelContent>
+                               <h5>Метод</h5>
+                               GET /call/count-calls
+                               <br>
+                               <br>
+                               <h5>URL</h5>
+                               <p>{{ apiUrl }}/call/count-calls</p>
+                               <h5>Пример ответа:</h5>
+                               <br>
+                               <pre class="language-json medium-text">
+       &#123;
+           <span class="token property">"currentCountCalls"</span><span class="token operator">: 10</span> 
+       &#125;</pre>
+                            </ng-template>
+                         </ngb-panel>
+                         <ngb-panel>
+                            <ng-template ngbPanelTitle>
+                               <span><i class="ft-hash mr-2"></i> <b>Сделать внутренний вызов</b></span>
+                            </ng-template>
+                            <ng-template ngbPanelContent>
+                               <h5>Метод</h5>
+                               POST /call/make-local-call
+                               <br>
+                               <br>
+                               <h5>URL</h5>
+                               <p>{{ apiUrl }}/call/make-local-call</p>
+                               <h5>Пример запроса:</h5>
+                               <br>
+                               <pre class="language-json medium-text">
+    &#123;
+        <span class="token property">"from"</span><span class="token operator">: '102'</span> 
+        <span class="token property">"to"</span><span class="token operator">: '240'</span>                         
+    &#125;</pre>
+                               <br>
+                               <h5>Пример ответа:</h5>
+                               <br>
+                               <pre class="language-json medium-text">
+    &#123;
+        <span class="token property">"result"</span><span class="token operator">: true</span> 
+        <span class="token property">"message"</span><span class="token operator">: 'Успешная инициация звонка'</span>                                
+    &#125;</pre>
+                            </ng-template>
+                         </ngb-panel>
+                         <ngb-panel>
+                            <ng-template ngbPanelTitle>
+                               <span><i class="ft-hash mr-2"></i> <b>Сделать внешний вызов</b></span>
+                            </ng-template>
+                            <ng-template ngbPanelContent>
+                               <h5>Метод</h5>
+                               POST /call/make-external-call
+                               <br>
+                               <br>
+                               <h5>URL</h5>
+                               <p>{{ apiUrl }}/call/make-external-call</p>
+                               <h5>Пример запроса:</h5>
+                               <br>
+                               <pre class="language-json medium-text">
+      &#123;
+          <span class="token property">"localExtension"</span><span class="token operator">: '102'</span> 
+          <span class="token property">"externalNumber"</span><span class="token operator">: '79101234567'</span> 
+     
+      &#125;</pre>
+                            </ng-template>
+                         </ngb-panel>
+                         <ngb-panel>
+                            <ng-template ngbPanelTitle>
+                               <span><i class="ft-hash mr-2"></i> <b>Разорвать соединение по добавочному номеру</b></span>
+                            </ng-template>
+                            <ng-template ngbPanelContent>
+                               <h5>Метод</h5>
+                               POST /call/hangup-call
+                               <br>
+                               <br>
+                               <h5>URL</h5>
+                               <p>{{ apiUrl }}/call/hangup-call</p>
+                               <h5>Пример запроса:</h5>
+                               <br>
+                               <pre class="language-json medium-text">
+    &#123;
+        <span class="token property">"extension"</span><span class="token operator">: '102'</span> 
+    &#125;</pre>
+                               <br>
+                               <h5>Пример ответа:</h5>
+                               <br>
+                               <pre class="language-json medium-text">
+     &#123;
+        <span class="token property">"result"</span><span class="token operator">: true</span> 
+        <span class="token property">"message"</span><span class="token operator">: 'Успешноре завершение'</span> 
+     &#125;</pre>
+                            </ng-template>
+                         </ngb-panel>
+                         <ngb-panel>
+                            <ng-template ngbPanelTitle>
+                               <span><i class="ft-hash mr-2"></i> <b>Получение полной информации о звонках на АТС</b></span>
+                            </ng-template>
+                            <ng-template ngbPanelContent>
+                               <h5>Метод</h5>
+                               GET /call/active-connections
+                               <br>
+                               <br>
+                               <h5>URL</h5>
+                               <p>{{ apiUrl }}/call/active-connections</p>
+                               <h5>Пример ответа:</h5>
+                               <br>
+                               <pre class="language-json medium-text">
+    &#123;
+        <span class="token property">"activeConnectionsInfo"</span><span class="token operator">: [&#123;</span> 
+            <span class="token property">"callId"</span><span class="token operator">: 8291,</span> 
+                <span class="token property">"connectionsData"</span><span class="token operator">: [&#123;</span> 
+                <span class="token property">"id"</span><span class="token operator">: 123,</span> 
+                <span class="token property">"callConnectionId"</span><span class="token operator">: 1,</span> 
+                <span class="token property">"externalParty"</span><span class="token operator">: '79101234567',</span> 
+                <span class="token property">"recordingState"</span><span class="token operator">: "Stop",</span> 
+                <span class="token property">"partyConnectionId"</span><span class="token operator">: 665,</span> 
+                <span class="token property">"referredBy"</span><span class="token operator">: 0,</span> 
+                <span class="token property">"isOutbound"</span><span class="token operator">: true,</span> 
+                <span class="token property">"isInbound"</span><span class="token operator">: false,</span> 
+                <span class="token property">"dialedNumber"</span><span class="token operator">: '',</span> 
+                <span class="token property">"internalParty"</span><span class="token operator">: 'Wexternalline.92: 10000 on Wprovider.4: voip.ru:5060 - 8(495) 123-44-55',</span> 
+                <span class="token property">"internalPartyNumber"</span><span class="token operator">: '10000',</span> 
+                <span class="token property">"connectionCallStatus"</span><span class="token operator">: 'CallDialing',</span> 
+                <span class="token property">"destinationNumber"</span><span class="token operator">: '107',</span> 
+                                                                 
+            &#125;]
+        &#125;]
+    &#125;</pre>
+                            </ng-template>
+                         </ngb-panel>
+                         </ngb-accordion>
+                      </div>
+                   </div>
+                   <div class="tab-pane" [ngClass]="{active: activeTab === 'user'}" id="user" role="tabpanel" aria-labelledby="user-tab">
+                      <div class="card-body">
+                         <h5 class="d-none d-lg-flex justify-content-center align-items-center text-center">Методы для изменения\создания\получение информации о внутренних номерах </h5>
+                         <ngb-accordion [closeOthers]="true" #acc="ngbAccordion" activeIds="ngb-panel-1">
+                         <ngb-panel>
+                            <ng-template ngbPanelTitle>
+                               <span><i class="ft-hash mr-2"></i> <b>Получение информации о внутреннем номере</b></span>
+                            </ng-template>
+                            <ng-template ngbPanelContent>
+                               <h5>Метод</h5>
+                               GET /extension/:extension
+                               <br>
+                               <br>
+                               <h5>URL</h5>
+                               <p>{{ apiUrl }}/extension/:extension</p>
+                               <h5>Пример ответа:</h5>
+                               <br>
+                               <pre class="language-json medium-text">
+   &#123;
+       <span class="token property">"extension"</span><span class="token operator">: '461',</span> 
+       <span class="token property">"firstName"</span><span class="token operator">: 'Vit',</span> 
+       <span class="token property">"lastName"</span><span class="token operator">: 'Test',</span> 
+       <span class="token property">"email"</span><span class="token operator">: 'test@test.ru',</span> 
+       <span class="token property">"authId"</span><span class="token operator">: 'geM7MfY3wS',</span> 
+       <span class="token property">"authPassword"</span><span class="token operator">: 'NpdIim7HIT',</span> 
+       <span class="token property">"mobileNumber"</span><span class="token operator">: '79101234567',</span> 
+       <span class="token property">"outboundCallerId"</span><span class="token operator">: '461',</span> 
+       <span class="token property">"recordingType"</span><span class="token operator">: 'RecordingOff',</span> 
+       <span class="token property">"isExtensionEnabled"</span><span class="token operator">: true,</span> 
+       <span class="token property">"disableExternalCalls"</span><span class="token operator">: false,</span> 
+       <span class="token property">"deliverAudio"</span><span class="token operator">: true,</span> 
+       <span class="token property">"supportReinvite"</span><span class="token operator">: true,</span> 
+       <span class="token property">"supportReplaces"</span><span class="token operator">: true,</span> 
+       <span class="token property">"emailOptions"</span><span class="token operator">: 'Notificatione',</span> 
+       <span class="token property">"voiceMailEnable"</span><span class="token operator">: true,</span> 
+       <span class="token property">"voiceMailPin"</span><span class="token operator">: '815960',</span> 
+       <span class="token property">"voiceMailPlayCallerId"</span><span class="token operator">: false,</span> 
+       <span class="token property">"internal"</span><span class="token operator">: false,</span> 
+    &#125;</pre>
+                            </ng-template>
+                         </ngb-panel>
+                         <ngb-panel>
+                            <ng-template ngbPanelTitle>
+                               <span><i class="ft-hash mr-2"></i> <b>Получение информации статусах внутреннего номера в группах\очередях и другое</b></span>
+                            </ng-template>
+                            <ng-template ngbPanelContent>
+                               <h5>Метод</h5>
+                               GET /extension/status/:extension
+                               <br>
+                               <br>
+                               <h5>URL</h5>
+                               <p>{{ apiUrl }}/extension/status/:extension</p>
+                               <h5>Пример ответа:</h5>
+                               <br>
+                               <pre class="language-json medium-text">
+   &#123;
+       <span class="token property">"firstName"</span><span class="token operator">: 'Виталий',</span> 
+       <span class="token property">"lastName"</span><span class="token operator">: 'Пупкин',</span> 
+       <span class="token property">"email"</span><span class="token operator">: 'test@test.ru',</span> 
+       <span class="token property">"extension"</span><span class="token operator">: '460',</span> 
+       <span class="token property">"registered"</span><span class="token operator">: false,</span> 
+       <span class="token property">"forwardingRulesStatus"</span><span class="token operator">: 'Available',</span> 
+       <span class="token property">"queuesStatus"</span><span class="token operator">: 'LoggedIn',</span> 
+       <span class="token property">"groups"</span><span class="token operator">: ['__DEFAULT__' ],</span> 
+       <span class="token property">"inRingGroups"</span><span class="token operator">: ['824', '825'],</span> 
+       <span class="token property">"loggedInQueues"</span><span class="token operator">:  ['803', '804']</span> 
+       <span class="token property">"devices"</span><span class="token operator"> [&#123;</span> 
+           <span class="token property">"userAgent"</span><span class="token operator">: '3CX Mobile Client'</span> 
+           <span class="token property">"contact"</span><span class="token operator">: 'sip:460@127.0.0.1:5483;rinstance=31eb43a0f9c2d115'</span> 
+       &#125;]
+   &#125;</pre>
+                            </ng-template>
+                         </ngb-panel>
+                         <ngb-panel>
+                            <ng-template ngbPanelTitle>
+                               <span><i class="ft-hash mr-2"></i> <b>Получение списка внутренних номеров</b></span>
+                            </ng-template>
+                            <ng-template ngbPanelContent>
+                               <h5>Метод</h5>
+                               GET /extension/status/:extension
+                               <br>
+                               <br>
+                               <h5>URL</h5>
+                               <p>{{ apiUrl }}/extension/status/:extension</p>
+                               <h5>Пример ответа:</h5>
+                               <br>
+                               <pre class="language-json medium-text">
+   &#123;
+       <span class="token property">"extensions"</span><span class="token operator">: ['104','106','460','461']</span> 
+   &#125;</pre>
+                            </ng-template>
+                         </ngb-panel>
+                         <ngb-panel>
+                            <ng-template ngbPanelTitle>
+                               <span><i class="ft-hash mr-2"></i> <b>Получение списка зарегистрированных внутренних номеров</b></span>
+                            </ng-template>
+                            <ng-template ngbPanelContent>
+                               <h5>Метод</h5>
+                               GET /extension/registered
+                               <br>
+                               <br>
+                               <h5>URL</h5>
+                               <p>{{ apiUrl }}/extension/registered</p>
+                               <h5>Пример ответа:</h5>
+                               <br>
+                               <pre class="language-json medium-text">
+   &#123;
+       <span class="token property">"extensions"</span><span class="token operator">: ['104','106','460','461']</span> 
+   &#125;</pre>
+                            </ng-template>
+                         </ngb-panel>
+                         <ngb-panel>
+                            <ng-template ngbPanelTitle>
+                               <span><i class="ft-hash mr-2"></i> <b>Получение информации об устройствах с которых зарегистрирован внутренний номер</b></span>
+                            </ng-template>
+                            <ng-template ngbPanelContent>
+                               <h5>Метод</h5>
+                               GET /extension/device-info/:extension
+                               <br>
+                               <br>
+                               <h5>URL</h5>
+                               <p>{{ apiUrl }}/extension/device-info/:extension</p>
+                               <h5>Пример ответа:</h5>
+                               <br>
+                               <pre class="language-json medium-text">
+   &#123;
+       <span class="token property">"extension"</span><span class="token operator">: '461',</span> 
+       <span class="token property">"firstName"</span><span class="token operator">: 'Vit',</span> 
+       <span class="token property">"lastName"</span><span class="token operator">: 'Test',</span> 
+       <span class="token property">"email"</span><span class="token operator">: 'test@test.ru',</span>
+       <span class="token property">"devices"</span><span class="token operator"> [&#123;</span> 
+           <span class="token property">"userAgent"</span><span class="token operator">: '3CX Mobile Client'</span> 
+           <span class="token property">"contact"</span><span class="token operator">: 'sip:460@127.0.0.1:5483;rinstance=31eb43a0f9c2d115'</span> 
+       &#125;]
+   &#125;</pre>
+                            </ng-template>
+                         </ngb-panel>
+                         <ngb-panel>
+                            <ng-template ngbPanelTitle>
+                               <span><i class="ft-hash mr-2"></i> <b>Создание внутреннего номера</b></span>
+                            </ng-template>
+                            <ng-template ngbPanelContent>
+                               <h5>Метод</h5>
+                               POST /extension
+                               <br>
+                               <br>
+                               <h5>URL</h5>
+                               <p>{{ apiUrl }}/extension </p>
+                               <h5>Пример запроса:</h5>
+                               <br>
+                               <pre class="language-json medium-text">
+   &#123;
+       <span class="token property">"extension"</span><span class="token operator">: '123',</span>
+       <span class="token property">"firstName"</span><span class="token operator">: 'Сергей',</span> 
+       <span class="token property">"lastName"</span><span class="token operator">: 'Иванов',</span>
+       <span class="token property">"email"</span><span class="token operator">: 'test1@test.ru',</span>
+       <span class="token property">"authId"</span><span class="token operator">: 'geM7MfY3w4',</span> 
+       <span class="token property">"authPassword"</span><span class="token operator">: 'NpdIim7H4T',</span> 
+       <span class="token property">"mobileNumber"</span><span class="token operator">: '791091234567',</span> 
+       <span class="token property">"outboundCallerId"</span><span class="token operator">: '123',</span> 
+       <span class="token property">"recordingType"</span><span class="token operator">: 'RecordingOff',</span> 
+       <span class="token property">"isExtensionEnabled"</span><span class="token operator">: true,</span> 
+       <span class="token property">"disableExternalCalls"</span><span class="token operator">: false,</span> 
+       <span class="token property">"deliverAudio"</span><span class="token operator">: true,</span> 
+       <span class="token property">"supportReinvite"</span><span class="token operator">: true,</span> 
+       <span class="token property">"supportReplaces"</span><span class="token operator">: true,</span> 
+   &#125;</pre>
+                               <br>
+                               <h5>Пример ответа:</h5>
+                               <br>
+                               <pre class="language-json medium-text">
+   &#123;
+       <span class="token property">"extension"</span><span class="token operator">: '123',</span> 
+       <span class="token property">"firstName"</span><span class="token operator">: 'Сергей',</span> 
+       <span class="token property">"lastName"</span><span class="token operator">: 'Иванов',</span> 
+       <span class="token property">"email"</span><span class="token operator">: 'test1@test.ru',</span> 
+       <span class="token property">"authId"</span><span class="token operator">: 'geM7MfY3w4',</span> 
+       <span class="token property">"authPassword"</span><span class="token operator">: 'NpdIim7H4T',</span> 
+       <span class="token property">"mobileNumber"</span><span class="token operator">: '791091234567',</span> 
+       <span class="token property">"outboundCallerId"</span><span class="token operator">: '123',</span> 
+       <span class="token property">"recordingType"</span><span class="token operator">: 'RecordingOff',</span> 
+       <span class="token property">"isExtensionEnabled"</span><span class="token operator">: true,</span> 
+       <span class="token property">"disableExternalCalls"</span><span class="token operator">: false,</span> 
+       <span class="token property">"deliverAudio"</span><span class="token operator">: true,</span> 
+       <span class="token property">"supportReinvite"</span><span class="token operator">: true,</span> 
+       <span class="token property">"supportReplaces"</span><span class="token operator">: true,</span> 
+       <span class="token property">"emailOptions"</span><span class="token operator">: 'Notificatione',</span> 
+       <span class="token property">"voiceMailEnable"</span><span class="token operator">: true,</span> 
+       <span class="token property">"voiceMailPin"</span><span class="token operator">: '815960',</span> 
+       <span class="token property">"voiceMailPlayCallerId"</span><span class="token operator">: false,</span> 
+       <span class="token property">"internal"</span><span class="token operator">: false,</span> 
+   &#125;</pre>
+                            </ng-template>
+                         </ngb-panel>
+                         <ngb-panel>
+                            <ng-template ngbPanelTitle>
+                               <span><i class="ft-hash mr-2"></i> <b>Удаление внутреннего номера</b></span>
+                            </ng-template>
+                            <ng-template ngbPanelContent>
+                               <h5>Метод</h5>
+                               DELETE /extension/:extension
+                               <br>
+                               <br>
+                               <h5>URL</h5>
+                               <p>{{ apiUrl }}/extension/:extension</p>
+                               <h5>Пример ответа:</h5>
+                               <br>
+                               <pre class="language-json medium-text">
+   &#123;
+       <span class="token property">"result"</span><span class="token operator">: true</span> 
+   &#125;</pre>
+                            </ng-template>
+                         </ngb-panel>
+                         <ngb-panel>
+                            <ng-template ngbPanelTitle>
+                               <span><i class="ft-hash mr-2"></i> <b>Обновление внутреннего номера</b></span>
+                            </ng-template>
+                            <ng-template ngbPanelContent>
+                               <h5>Метод</h5>
+                               PUT /extension
+                               <br>
+                               <br>
+                               <h5>URL</h5>
+                               <p>{{ apiUrl }}/extension </p>
+                               <h5>Пример запроса:</h5>
+                               <br>
+                               <pre class="language-json medium-text">
+   &#123;
+       <span class="token property">"extension"</span><span class="token operator">: '123',</span>
+       <span class="token property">"firstName"</span><span class="token operator">: 'Сергей',</span> 
+       <span class="token property">"lastName"</span><span class="token operator">: 'Иванов',</span>
+       <span class="token property">"email"</span><span class="token operator">: 'test1@test.ru',</span>
+       <span class="token property">"authId"</span><span class="token operator">: 'geM7MfY3w4',</span> 
+       <span class="token property">"authPassword"</span><span class="token operator">: 'NpdIim7H4T',</span> 
+       <span class="token property">"mobileNumber"</span><span class="token operator">: '791091234567',</span> 
+       <span class="token property">"outboundCallerId"</span><span class="token operator">: '123',</span> 
+       <span class="token property">"recordingType"</span><span class="token operator">: 'RecordingOff',</span> 
+       <span class="token property">"isExtensionEnabled"</span><span class="token operator">: true,</span> 
+       <span class="token property">"deliverAudio"</span><span class="token operator">: true,</span> 
+       <span class="token property">"supportReinvite"</span><span class="token operator">: true,</span> 
+       <span class="token property">"supportReplaces"</span><span class="token operator">: true,</span> 
+   &#125;</pre>
+                               <br>
+                               <h5>Пример ответа:</h5>
+                               <br>
+                               <pre class="language-json medium-text">
+   &#123;
+       <span class="token property">"extension"</span><span class="token operator">: '123',</span> 
+       <span class="token property">"firstName"</span><span class="token operator">: 'Сергей',</span> 
+       <span class="token property">"lastName"</span><span class="token operator">: 'Иванов',</span> 
+       <span class="token property">"email"</span><span class="token operator">: 'test1@test.ru',</span> 
+       <span class="token property">"authId"</span><span class="token operator">: 'geM7MfY3w4',</span> 
+       <span class="token property">"authPassword"</span><span class="token operator">: 'NpdIim7H4T',</span> 
+       <span class="token property">"mobileNumber"</span><span class="token operator">: '791091234567',</span> 
+       <span class="token property">"outboundCallerId"</span><span class="token operator">: '123',</span> 
+       <span class="token property">"recordingType"</span><span class="token operator">: 'RecordingOff',</span> 
+       <span class="token property">"isExtensionEnabled"</span><span class="token operator">: true,</span> 
+       <span class="token property">"disableExternalCalls"</span><span class="token operator">: false,</span> 
+       <span class="token property">"deliverAudio"</span><span class="token operator">: true,</span> 
+       <span class="token property">"supportReinvite"</span><span class="token operator">: true,</span> 
+       <span class="token property">"supportReplaces"</span><span class="token operator">: true,</span> 
+       <span class="token property">"emailOptions"</span><span class="token operator">: 'Notificatione',</span> 
+       <span class="token property">"voiceMailEnable"</span><span class="token operator">: true,</span> 
+       <span class="token property">"voiceMailPin"</span><span class="token operator">: '815960',</span> 
+       <span class="token property">"voiceMailPlayCallerId"</span><span class="token operator">: false,</span> 
+       <span class="token property">"internal"</span><span class="token operator">: false,</span> 
+    &#125;</pre>
+                            </ng-template>
+                         </ngb-panel>
+                         <ngb-panel>
+                            <ng-template ngbPanelTitle>
+                               <span><i class="ft-hash mr-2"></i> <b>Изменение статуса переадресации внутреннего номера</b></span>
+                            </ng-template>
+                            <ng-template ngbPanelContent>
+                               <h5>Метод</h5>
+                               POST /extension/forward-status
+                               <br>
+                               <br>
+                               <h5>URL</h5>
+                               <p>{{ apiUrl }}/extension/forward-status </p>
+                               <h5>Пример запроса:</h5>
+                               <br>
+                               <pre class="language-json medium-text">
+   &#123;
+       <span class="token property">"extension"</span><span class="token operator">: '123',</span>
+       <span class="token property">"fwStatus"</span><span class="token operator">: 'DND',</span> 
+   &#125;</pre>
+                               <br>
+                               <h5>Пример ответа:</h5>
+                               <br>
+                               <pre class="language-json medium-text">
+   &#123;
+       <span class="token property">"firstName"</span><span class="token operator">: 'Виталий',</span> 
+       <span class="token property">"lastName"</span><span class="token operator">: 'Пупкин',</span> 
+       <span class="token property">"email"</span><span class="token operator">: 'test@test.ru',</span> 
+       <span class="token property">"extension"</span><span class="token operator">: '460',</span> 
+       <span class="token property">"registered"</span><span class="token operator">: false,</span> 
+       <span class="token property">"forwardingRulesStatus"</span><span class="token operator">: 'DND',</span> 
+       <span class="token property">"queuesStatus"</span><span class="token operator">: 'LoggedIn',</span> 
+       <span class="token property">"groups"</span><span class="token operator">: ['__DEFAULT__' ],</span> 
+       <span class="token property">"inRingGroups"</span><span class="token operator">: ['824', '825'],</span> 
+       <span class="token property">"loggedInQueues"</span><span class="token operator">:  ['803', '804']</span> 
+       <span class="token property">"devices"</span><span class="token operator"> [&#123;</span> 
+           <span class="token property">"userAgent"</span><span class="token operator">: '3CX Mobile Client'</span> 
+           <span class="token property">"contact"</span><span class="token operator">: 'sip:460@127.0.0.1:5483;rinstance=31eb43a0f9c2d115'</span> 
+       &#125;]
+   &#125;</pre>
+                            </ng-template>
+                         </ngb-panel>
+                         <ngb-panel>
+                            <ng-template ngbPanelTitle>
+                               <span><i class="ft-hash mr-2"></i> <b>Изменение статуса внутреннего номера в очереди</b></span>
+                            </ng-template>
+                            <ng-template ngbPanelContent>
+                               <h5>Метод</h5>
+                               POST /extension/queue-status
+                               <br>
+                               <br>
+                               <h5>URL</h5>
+                               <p>{{ apiUrl }}/extension/queue-status </p>
+                               <h5>Пример запроса:</h5>
+                               <br>
+                               <pre class="language-json medium-text">
+   &#123;
+       <span class="token property">"extension"</span><span class="token operator">: '123',</span>
+       <span class="token property">"queueNumber"</span><span class="token operator">: '805',</span> 
+       <span class="token property">"status"</span><span class="token operator">: 'LoggedIn',</span> 
+   &#125;</pre>
+                               <br>
+                               <h5>Пример ответа:</h5>
+                               <br>
+                               <pre class="language-json medium-text">
+   &#123;
+       <span class="token property">"firstName"</span><span class="token operator">: 'Виталий',</span> 
+       <span class="token property">"lastName"</span><span class="token operator">: 'Пупкин',</span> 
+       <span class="token property">"email"</span><span class="token operator">: 'test@test.ru',</span> 
+       <span class="token property">"extension"</span><span class="token operator">: '460',</span> 
+       <span class="token property">"registered"</span><span class="token operator">: false,</span> 
+       <span class="token property">"forwardingRulesStatus"</span><span class="token operator">: 'Available',</span> 
+       <span class="token property">"queuesStatus"</span><span class="token operator">: 'LoggedIn',</span> 
+       <span class="token property">"groups"</span><span class="token operator">: ['__DEFAULT__' ],</span> 
+       <span class="token property">"inRingGroups"</span><span class="token operator">: ['824', '825'],</span> 
+       <span class="token property">"loggedInQueues"</span><span class="token operator">:  ['803', '804', '805']</span> 
+       <span class="token property">"devices"</span><span class="token operator"> [&#123;</span> 
+           <span class="token property">"userAgent"</span><span class="token operator">: '3CX Mobile Client'</span> 
+           <span class="token property">"contact"</span><span class="token operator">: 'sip:460@127.0.0.1:5483;rinstance=31eb43a0f9c2d115'</span> 
+       &#125;]
+   &#125;</pre>
+                            </ng-template>
+                         </ngb-panel>
+                         <ngb-panel>
+                            <ng-template ngbPanelTitle>
+                               <span><i class="ft-hash mr-2"></i> <b>Изменение логики переадресации внутреннего номера</b></span>
+                            </ng-template>
+                            <ng-template ngbPanelContent>
+                               <h5>Метод</h5>
+                               POST /extension/call-forward
+                               <br>
+                               <br>
+                               <h5>URL</h5>
+                               <p>{{ apiUrl }}/extension/call-forward </p>
+                               <h5>Пример запроса:</h5>
+                               <br>
+                               <pre class="language-json medium-text">
+   &#123;
+       <span class="token property">"extension"</span><span class="token operator">: '123',</span>
+       <span class="token property">"fwStatus"</span><span class="token operator">: 'DND',</span> 
+       <span class="token property">"fwTo"</span><span class="token operator">: 'Mobile',</span> 
+       <span class="token property">"fwCall"</span><span class="token operator">: 'ExternalCall',</span> 
+       <span class="token property">"extensionState"</span><span class="token operator">: 'BusyNotRegistered',</span> 
+       <span class="token property">"number"</span><span class="token operator">: '79106123456',</span> 
+       
+   &#125;</pre>
+                               <br>
+                               <h5>Пример ответа:</h5>
+                               <br>
+                               <pre class="language-json medium-text">
+   &#123;
+       <span class="token property">"firstName"</span><span class="token operator">: 'Виталий',</span> 
+       <span class="token property">"lastName"</span><span class="token operator">: 'Пупкин',</span> 
+       <span class="token property">"email"</span><span class="token operator">: 'test@test.ru',</span> 
+       <span class="token property">"extension"</span><span class="token operator">: '460',</span> 
+       <span class="token property">"registered"</span><span class="token operator">: false,</span> 
+       <span class="token property">"forwardingRulesStatus"</span><span class="token operator">: 'DND',</span> 
+       <span class="token property">"queuesStatus"</span><span class="token operator">: 'LoggedIn',</span> 
+       <span class="token property">"groups"</span><span class="token operator">: ['__DEFAULT__' ],</span> 
+       <span class="token property">"inRingGroups"</span><span class="token operator">: ['824', '825'],</span> 
+       <span class="token property">"loggedInQueues"</span><span class="token operator">:  ['803', '804', '805']</span> 
+       <span class="token property">"devices"</span><span class="token operator"> [&#123;</span> 
+           <span class="token property">"userAgent"</span><span class="token operator">: '3CX Mobile Client'</span> 
+           <span class="token property">"contact"</span><span class="token operator">: 'sip:460@127.0.0.1:5483;rinstance=31eb43a0f9c2d115'</span> 
+       &#125;]
+   &#125;</pre>
+                            </ng-template>
+                         </ngb-panel>
+                         </ngb-accordion>
+                      </div>
+                   </div>
+                   <div class="tab-pane" [ngClass]="{active: activeTab === 'group'}" id="group" role="tabpanel" aria-labelledby="group-tab">
+                      <div class="card-body">
+                         <h5 class="d-none d-lg-flex justify-content-center align-items-center text-center">Методы для получение информации\управлением группами вызовов</h5>
+                         <ngb-accordion [closeOthers]="true" #acc="ngbAccordion" activeIds="ngb-panel-2">
+                         <ngb-panel>
+                            <ng-template ngbPanelTitle>
+                               <span><i class="ft-hash mr-2"></i> <b>Получение списка групп вызовов</b></span>
+                            </ng-template>
+                            <ng-template ngbPanelContent>
+                               <h5>Метод</h5>
+                               GET /ring-group
+                               <br>
+                               <br>
+                               <h5>URL</h5>
+                               <p>{{ apiUrl }}/ring-group</p>
+                               <h5>Пример ответа:</h5>
+                               <br>
+                               <pre class="language-json medium-text">
+  &#123;
+      <span class="token property">"ringGroups"</span><span class="token operator">: ['824', '825']</span> 
+  &#125;</pre>
+                            </ng-template>
+                         </ngb-panel>
+                         <ngb-panel>
+                            <ng-template ngbPanelTitle>
+                               <span><i class="ft-hash mr-2"></i> <b>Получение списка внутренних номеров добавленных в группу вызова</b></span>
+                            </ng-template>
+                            <ng-template ngbPanelContent>
+                               <h5>Метод</h5>
+                               GET /ring-group/members/:ringGroupNumber
+                               <br>
+                               <br>
+                               <h5>URL</h5>
+                               <p>{{ apiUrl }}/ring-group/members/:ringGroupNumber</p>
+                               <h5>Пример ответа:</h5>
+                               <br>
+                               <pre class="language-json medium-text">
+  &#123;
+      <span class="token property">"members"</span><span class="token operator">: ['104', '105']</span> 
+  &#125;</pre>
+                            </ng-template>
+                         </ngb-panel>
+                         <ngb-panel>
+                            <ng-template ngbPanelTitle>
+                               <span><i class="ft-hash mr-2"></i> <b>Добавление внутренних номеров в группу вызова</b></span>
+                            </ng-template>
+                            <ng-template ngbPanelContent>
+                               <h5>Метод</h5>
+                               PUT /ring-group/members
+                               <br>
+                               <br>
+                               <h5>URL</h5>
+                               <p>{{ apiUrl }}/ring-group/members</p>
+                               <h5>Пример запроса:</h5>
+                               <br>
+                               <pre class="language-json medium-text">
+  &#123;
+      <span class="token property">"ringGroupNumber"</span><span class="token operator">: '824',</span>
+      <span class="token property">"numbers"</span><span class="token operator">: ['106'],</span> 
+  &#125;</pre>
+                               <br>
+                               <h5>Пример ответа:</h5>
+                               <br>
+                               <pre class="language-json medium-text">
+  &#123;
+      <span class="token property">"ringGroups"</span><span class="token operator">: ['104', '105', '106']</span> 
+  &#125;</pre>
+                            </ng-template>
+                         </ngb-panel>
+                         <ngb-panel>
+                            <ng-template ngbPanelTitle>
+                               <span><i class="ft-hash mr-2"></i> <b>Удаление внутренних номеров из группы вызова</b></span>
+                            </ng-template>
+                            <ng-template ngbPanelContent>
+                               <h5>Метод</h5>
+                               DELETE /ring-group/members
+                               <br>
+                               <br>
+                               <h5>URL</h5>
+                               <p>{{ apiUrl }}/ring-group/members</p>
+                               <h5>Пример запроса:</h5>
+                               <br>
+                               <pre class="language-json medium-text">
+  &#123;
+      <span class="token property">"ringGroupNumber"</span><span class="token operator">: '824',</span>
+      <span class="token property">"numbers"</span><span class="token operator">: ['106'],</span> 
+      
+  &#125;</pre>
+                               <br>
+                               <h5>Пример ответа:</h5>
+                               <br>
+                               <pre class="language-json medium-text">
+  &#123;
+      <span class="token property">"ringGroups"</span><span class="token operator">: ['104', '105']</span> 
+  &#125;</pre>
+                            </ng-template>
+                         </ngb-panel>
+                         </ngb-accordion>
+                      </div>
+                   </div>
+                   <div class="tab-pane" [ngClass]="{active: activeTab === 'queue'}" id="queue" role="tabpanel" aria-labelledby="queue-tab">
+                      <div class="card-body">
+                         <h5 class="d-none d-lg-flex justify-content-center align-items-center text-center">Методы для получение информации\управлением очередями</h5>
+                         <ngb-accordion [closeOthers]="true" #acc="ngbAccordion" activeIds="ngb-panel-3">
+                         <ngb-panel>
+                            <ng-template ngbPanelTitle>
+                               <span><i class="ft-hash mr-2"></i> <b>Получение списка очередей</b></span>
+                            </ng-template>
+                            <ng-template ngbPanelContent>
+                               <h5>Метод</h5>
+                               GET /queue
+                               <br>
+                               <br>
+                               <h5>URL</h5>
+                               <p>{{ apiUrl }}/queue</p>
+                               <br>
+                               <h5>Пример ответа:</h5>
+                               <br>
+                               <pre class="language-json medium-text">
+  &#123;
+      <span class="token property">"queues"</span><span class="token operator">: [&#123;</span>
+          <span class="token property">"name"</span><span class="token operator">: 'MSK',</span> 
+          <span class="token property">"number"</span><span class="token operator">: '808',</span> 
+      &#125;]
+  &#125;</pre>
+                            </ng-template>
+                         </ngb-panel>
+                         <ngb-panel>
+                            <ng-template ngbPanelTitle>
+                               <span><i class="ft-hash mr-2"></i> <b>Получение списка агентов добавленных в очередь и их статусы в этой очереди</b></span>
+                            </ng-template>
+                            <ng-template ngbPanelContent>
+                               <h5>Метод</h5>
+                               GET /queue/agents/:queueNumber
+                               <br>
+                               <br>
+                               <h5>URL</h5>
+                               <p>{{ apiUrl }}/queue/agents/:queueNumber</p>
+                               <br>
+                               <h5>Пример ответа:</h5>
+                               <br>
+                               <pre class="language-json medium-text">
+  &#123;
+      <span class="token property">"queueInfo"</span><span class="token operator">: [&#123;</span>
+          <span class="token property">"extension"</span><span class="token operator">: '104',</span> 
+          <span class="token property">"firstName"</span><span class="token operator">: 'Vit',</span> 
+          <span class="token property">"lastName"</span><span class="token operator">: 'Pro',</span> 
+          <span class="token property">"agentQueueStatus"</span><span class="token operator">: 'LoggedIn',</span> 
+      &#125;]
+  &#125;</pre>
+                            </ng-template>
+                         </ngb-panel>
+                         <ngb-panel>
+                            <ng-template ngbPanelTitle>
+                               <span><i class="ft-hash mr-2"></i> <b>Получение списка свободных агентов очереди</b></span>
+                            </ng-template>
+                            <ng-template ngbPanelContent>
+                               <h5>Метод</h5>
+                               GET /queue/free-agents/:queueNumber
+                               <br>
+                               <br>
+                               <h5>URL</h5>
+                               <p>{{ apiUrl }}/queue/free-agents/:queueNumber</p>
+                               <br>
+                               <h5>Пример ответа:</h5>
+                               <br>
+                               <pre class="language-json medium-text">
+  &#123;
+      <span class="token property">"queueInfo"</span><span class="token operator">: [&#123;</span>
+          <span class="token property">"extension"</span><span class="token operator">: '104',</span> 
+          <span class="token property">"firstName"</span><span class="token operator">: 'Vit',</span> 
+          <span class="token property">"lastName"</span><span class="token operator">: 'Pro',</span> 
+          <span class="token property">"agentQueueStatus"</span><span class="token operator">: 'LoggedIn',</span> 
+          &#125;
+          <span class="token property">"extension"</span><span class="token operator">: '105',</span> 
+          <span class="token property">"firstName"</span><span class="token operator">: 'Сергей',</span> 
+          <span class="token property">"lastName"</span><span class="token operator">: 'Иванов',</span> 
+          <span class="token property">"agentQueueStatus"</span><span class="token operator">: 'LoggedIn',</span> 
+      &#125;]
+  &#125;</pre>
+                            </ng-template>
+                         </ngb-panel>
+                         <ngb-panel>
+                            <ng-template ngbPanelTitle>
+                               <span><i class="ft-hash mr-2"></i> <b>Получение списка занятых агентов очереди</b></span>
+                            </ng-template>
+                            <ng-template ngbPanelContent>
+                               <h5>Метод</h5>
+                               GET /queue/busy-agents/:queueNumber
+                               <br>
+                               <br>
+                               <h5>URL</h5>
+                               <p>{{ apiUrl }}/queue/busy-agents/:queueNumber</p>
+                               <br>
+                               <h5>Пример ответа:</h5>
+                               <br>
+                               <pre class="language-json medium-text">
+  &#123;
+      <span class="token property">"queueInfo"</span><span class="token operator">: [&#123;</span>
+          <span class="token property">"extension"</span><span class="token operator">: '107',</span> 
+          <span class="token property">"firstName"</span><span class="token operator">: 'Сергей',</span> 
+          <span class="token property">"lastName"</span><span class="token operator">: 'Сидовров',</span> 
+          <span class="token property">"agentQueueStatus"</span><span class="token operator">: 'LoggedIn',</span> 
+      &#125;]
+  &#125;</pre>
+                            </ng-template>
+                         </ngb-panel>
+                         <ngb-panel>
+                            <ng-template ngbPanelTitle>
+                               <span><i class="ft-hash mr-2"></i> <b>Добавить агентов в очередь</b></span>
+                            </ng-template>
+                            <ng-template ngbPanelContent>
+                               <h5>Метод</h5>
+                               PUT /queue/agents
+                               <br>
+                               <br>
+                               <h5>URL</h5>
+                               <p>{{ apiUrl }}/queue/agents</p>
+                               <h5>Пример запроса:</h5>
+                               <br>
+                               <pre class="language-json medium-text">
+  &#123;
+      <span class="token property">"queueNumber"</span><span class="token operator">: '804',</span>
+      <span class="token property">"agents"</span><span class="token operator">: ['102', '104'],</span> 
+  &#125;</pre>
+                               <br>
+                               <h5>Пример ответа:</h5>
+                               <br>
+                               <pre class="language-json medium-text">
+  &#123;
+      <span class="token property">"queueNumber"</span><span class="token operator">: '804',</span>
+      <span class="token property">"agents"</span><span class="token operator">: ['101', '102', '104'],</span> 
+  &#125;</pre>
+                            </ng-template>
+                         </ngb-panel>
+                         <ngb-panel>
+                            <ng-template ngbPanelTitle>
+                               <span><i class="ft-hash mr-2"></i> <b>Удалить агентов из очереди</b></span>
+                            </ng-template>
+                            <ng-template ngbPanelContent>
+                               <h5>Метод</h5>
+                               DELETE /queue/agents
+                               <br>
+                               <br>
+                               <h5>URL</h5>
+                               <p>{{ apiUrl }}/queue/agents</p>
+                               <h5>Пример запроса:</h5>
+                               <br>
+                               <pre class="language-json medium-text">
+  &#123;
+      <span class="token property">"queueNumber"</span><span class="token operator">: '804',</span>
+      <span class="token property">"agents"</span><span class="token operator">: ['102', '104'],</span> 
+  &#125;</pre>
+                               <br>
+                               <br>
+                               <h5>Пример ответа:</h5>
+                               <br>
+                               <pre class="language-json medium-text">
+  &#123;
+      <span class="token property">"queueNumber"</span><span class="token operator">: '804';</span>
+      <span class="token property">"agents"</span><span class="token operator">: ['101'],</span> 
+  &#125;</pre>
+                            </ng-template>
+                         </ngb-panel>
+                         </ngb-accordion>
+                      </div>
+                   </div>
+                   <div class="tab-pane" [ngClass]="{active: activeTab === 'contact'}" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+                      <div class="card-body">
+                         <h5 class="d-none d-lg-flex justify-content-center align-items-center text-center">Методы для получение информации\управлением\инициацией вызовов</h5>
+                         <ngb-accordion [closeOthers]="true" #acc="ngbAccordion" activeIds="ngb-panel-4">
+                         <ngb-panel>
+                            <ng-template ngbPanelTitle>
+                               <span><i class="ft-hash mr-2"></i> <b>Постраничное получение контактов</b></span>
+                            </ng-template>
+                            <ng-template ngbPanelContent>
+                               <h5>Метод</h5>
+                               POST /contact
+                               <br>
+                               <br>
+                               <h5>URL</h5>
+                               <p>{{ apiUrl }}/contact </p>
+                               <h5>Пример запроса:</h5>
+                               <br>
+                               <pre class="language-json medium-text">
+  &#123;
+      <span class="token property">"pageNumber"</span><span class="token operator">: 0,</span>
+      <span class="token property">"pageSize"</span><span class="token operator">: 1</span> 
+  &#125;</pre>
+                               <br>
+                               <h5>Пример ответа:</h5>
+                               <br>
+                               <pre class="language-json medium-text">
+  &#123;
+      <span class="token property">"contacts"</span><span class="token operator"> [&#123;</span> 
+          <span class="token property">"contactId"</span><span class="token operator">: '20'</span> 
+          <span class="token property">"firstName"</span><span class="token operator">: 'Иван'</span> 
+          <span class="token property">"lastName"</span><span class="token operator">: 'Иванов'</span> 
+          <span class="token property">"mobile"</span><span class="token operator">: '79032226655'</span> 
+          <span class="token property">"crmContactData"</span><span class="token operator">: ''</span> 
+          <span class="token property">"tag"</span><span class="token operator">: ''</span> 
+          <span class="token property">"mobileTwo"</span><span class="token operator">: ''</span> 
+          <span class="token property">"home"</span><span class="token operator">: ''</span> 
+          <span class="token property">"homeTwo"</span><span class="token operator">: ''</span> 
+          <span class="token property">"business"</span><span class="token operator">: '74997778899'</span> 
+          <span class="token property">"businessTwo"</span><span class="token operator">: ''</span> 
+          <span class="token property">"emailAddress"</span><span class="token operator">: 'ivanov@test.ru'</span> 
+          <span class="token property">"other"</span><span class="token operator">: ''</span> 
+          <span class="token property">"businessFax"</span><span class="token operator">: ''</span> 
+          <span class="token property">"pager"</span><span class="token operator">: ''</span> 
+      &#125;],
+      <span class="token property">"pageNumber"</span><span class="token operator">: 0,</span> 
+      <span class="token property">"pageNumber"</span><span class="token operator">: 1,</span> 
+      <span class="token property">"totalCount"</span><span class="token operator">: 100,</span> 
+  &#125;</pre>
+                            </ng-template>
+                         </ngb-panel>
+                         <ngb-panel>
+                            <ng-template ngbPanelTitle>
+                               <span><i class="ft-hash mr-2"></i> <b>Получить данные контакта по contactId</b></span>
+                            </ng-template>
+                            <ng-template ngbPanelContent>
+                               <h5>Метод</h5>
+                               GET /contact/:contactId
+                               <br>
+                               <br>
+                               <h5>URL</h5>
+                               <p>{{ apiUrl }}/contact/:contactId </p>
+                               <h5>Пример ответа:</h5>
+                               <br>
+                               <pre class="language-json medium-text">
+  &#123;
+      <span class="token property">"contactId"</span><span class="token operator">: '20'</span> 
+      <span class="token property">"firstName"</span><span class="token operator">: 'Иван'</span> 
+      <span class="token property">"lastName"</span><span class="token operator">: 'Иванов'</span> 
+      <span class="token property">"mobile"</span><span class="token operator">: '79032226655'</span> 
+      <span class="token property">"crmContactData"</span><span class="token operator">: ''</span> 
+      <span class="token property">"tag"</span><span class="token operator">: ''</span> 
+      <span class="token property">"mobileTwo"</span><span class="token operator">: ''</span> 
+      <span class="token property">"home"</span><span class="token operator">: ''</span> 
+      <span class="token property">"homeTwo"</span><span class="token operator">: ''</span> 
+      <span class="token property">"business"</span><span class="token operator">: '74997778899'</span> 
+      <span class="token property">"businessTwo"</span><span class="token operator">: ''</span> 
+      <span class="token property">"emailAddress"</span><span class="token operator">: 'ivanov@test.ru'</span> 
+      <span class="token property">"other"</span><span class="token operator">: ''</span> 
+      <span class="token property">"businessFax"</span><span class="token operator">: ''</span> 
+      <span class="token property">"pager"</span><span class="token operator">: ''</span> 
+  &#125;</pre>
+                            </ng-template>
+                         </ngb-panel>
+                         <ngb-panel>
+                            <ng-template ngbPanelTitle>
+                               <span><i class="ft-hash mr-2"></i> <b>ОБновлдение данных контакта</b></span>
+                            </ng-template>
+                            <ng-template ngbPanelContent>
+                               <h5>Метод</h5>
+                               PUT /contact 
+                               <br>
+                               <br>
+                               <h5>URL</h5>
+                               <p>{{ apiUrl }}/contact</p>
+                               <h5>Пример запроса:</h5>
+                               <br>
+                               <pre class="language-json medium-text">
+  &#123;
+      <span class="token property">"contactId"</span><span class="token operator">: '20'</span> 
+      <span class="token property">"firstName"</span><span class="token operator">: 'Петр'</span> 
+      <span class="token property">"lastName"</span><span class="token operator">: 'Соколов'</span> 
+  &#125;</pre>
+                               <br>
+                               <h5>Пример ответа:</h5>
+                               <br>
+                               <pre class="language-json medium-text">
+  &#123;
+      <span class="token property">"contactId"</span><span class="token operator">: '20'</span> 
+      <span class="token property">"firstName"</span><span class="token operator">: 'Петр'</span> 
+      <span class="token property">"lastName"</span><span class="token operator">: 'Соколов'</span> 
+      <span class="token property">"mobile"</span><span class="token operator">: '79106123456'</span> 
+      <span class="token property">"crmContactData"</span><span class="token operator">: ''</span> 
+      <span class="token property">"tag"</span><span class="token operator">: ''</span> 
+      <span class="token property">"mobileTwo"</span><span class="token operator">: ''</span> 
+      <span class="token property">"home"</span><span class="token operator">: ''</span> 
+      <span class="token property">"homeTwo"</span><span class="token operator">: ''</span> 
+      <span class="token property">"business"</span><span class="token operator">: '74997778899'</span> 
+      <span class="token property">"businessTwo"</span><span class="token operator">: ''</span> 
+      <span class="token property">"emailAddress"</span><span class="token operator">: 'ivanov@test.ru'</span> 
+       <span class="token property">"other"</span><span class="token operator">: ''</span> 
+      <span class="token property">"businessFax"</span><span class="token operator">: ''</span> 
+      <span class="token property">"pager"</span><span class="token operator">: ''</span> 
+  &#125;</pre>
+                            </ng-template>
+                         </ngb-panel>
+                         <ngb-panel>
+                            <ng-template ngbPanelTitle>
+                               <span><i class="ft-hash mr-2"></i> <b>Удаление контакта</b></span>
+                            </ng-template>
+                            <ng-template ngbPanelContent>
+                               <h5>Метод</h5>
+                               DELETE /contact/:contactId
+                               <br>
+                               <br>
+                               <h5>URL</h5>
+                               <p>{{ apiUrl }}/contact/:contactId</p>
+                            </ng-template>
+                         </ngb-panel>
+                         </ngb-accordion>
+                      </div>
+                   </div>
+                </div>
+             </div>
+          </div>
+       </div>
+    </div>
+ </div>

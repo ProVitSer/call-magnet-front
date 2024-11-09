@@ -1,0 +1,67 @@
+.custom-file-input:lang(en) ~ .custom-file-label:after {
+    content: 'Загрузить';
+}
+
+fieldset.disabled {
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+:host ::ng-deep .switchery-primary {
+    .switch {
+        background: #fff;
+        &.checked {
+            background: #975aff;
+        }
+    }
+}
+
+:host ::ng-deep .switchery-info {
+    .switch {
+        background: #fff;
+        &.checked {
+            background: #2f8be6;
+        }
+    }
+}
+
+:host ::ng-deep .switchery-success {
+    .switch {
+        background: #fff;
+        &.checked {
+            background: #40c057;
+        }
+    }
+}
+
+:host ::ng-deep .switchery-warning {
+    .switch {
+        background: #fff;
+        &.checked {
+            background: #f77e17;
+        }
+    }
+}
+
+:host ::ng-deep .switchery-danger {
+    .switch {
+        background: #fff;
+        &.checked {
+            background: #f55252;
+        }
+    }
+}
+
+:host ::ng-deep .switchery-secondary {
+    .switch {
+        background: #fff;
+        &.checked {
+            background: #616d89;
+        }
+    }
+}
+
+.audio-group {
+    margin-top: 20px; /* Настраивайте отступ по необходимости */
+}
+

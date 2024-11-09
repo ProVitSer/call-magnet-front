@@ -1,0 +1,57 @@
+<div class="row">
+    <div class="col-sm-12">
+       <div class="content-header">Форма настройки подключения к Telegram чат боту</div>
+    </div>
+ </div>
+ <section id="ngx">
+    <div class="card">
+       <div class="card-content">
+          <div class="card-body">
+             <aw-wizard #wizard [navBarLayout]="'large-empty-symbols'">
+             <aw-wizard-step [stepTitle]="" [navigationSymbol]="{ symbol: '&#xf085;', fontFamily: 'FontAwesome' }">
+             <form #personalForm="ngForm" class="editForm" novalidate>
+                <h4 class="head text-center">Укажите данные для настройки чат бота Telegram</h4>
+                <br/>
+                <div class='row'>
+                   <div class='col-12'>
+                      <div class="row justify-content-center">
+                         <div class='col-12 col-sm-2'>
+                            <div class="form-group">
+                               <label class="form-control-label center-label" for="tgConfigName">Название</label>
+                               <input class="form-control input-md" ngModel  [(ngModel)]="tgName" #tgConfigName="ngModel" required id="tgConfigName" name="tgConfigName" type="text" size="50">
+                               <small class="form-text text-muted danger" *ngIf="!tgConfigName.valid && (tgConfigName.dirty || tgConfigName.touched)">Поле обязательно для заполнения!</small>
+                            </div>
+                         </div>
+                         <div class='col-12 col-sm-2'>
+                            <div class="form-group">
+                               <label class="form-control-label center-label" for="token">Токен</label>
+                               <input class="form-control input-md center-input" ngModel  [(ngModel)]="tgToken" #token="ngModel" required id="token" name="token" type="text">
+                               <small class="form-text text-muted danger" *ngIf="!token.valid && (token.dirty || token.touched)">Поле обязательно для заполнения!</small>
+                            </div>
+                         </div>
+                         <div class='col-12 col-sm-2'>
+                            <div class="form-group">
+                               <label class="form-control-label center-label" for="chatId">Chat Id</label>
+                               <input class="form-control input-md center-input" ngModel  [(ngModel)]="tgChatId" #chatId="ngModel" required id="chatId" name="chatId" type="text">
+                               <small class="form-text text-muted danger" *ngIf="!chatId.valid && (chatId.dirty || chatId.touched)">Поле обязательно для заполнения!</small>
+                            </div>
+                         </div>
+                      </div>
+                      <div class="form-group text-center">
+                         <button uiSref="address" type="button" class="btn btn-info"  awNextStep (click)="addTgConfig()">
+                         Дальше
+                         <span>
+                         <i class="ft-chevron-right"></i>
+                         </span>
+                         </button>
+                      </div>
+                   </div>
+                </div>
+                <ngx-spinner></ngx-spinner>
+             </form>
+             </aw-wizard-step>
+             </aw-wizard>
+          </div>
+       </div>
+    </div>
+ </section>

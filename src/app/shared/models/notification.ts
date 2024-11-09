@@ -15,7 +15,6 @@ export class NotificationAuthor {
     lastName: string;
 }
 
-
 export interface GetClientNotificationsReponse {
     id: string;
     type: NotificationType;
@@ -29,7 +28,7 @@ export interface GetClientNotificationsReponse {
     link?: string;
     isRead: boolean;
     author: NotificationAuthor;
-    created: string;
+    createdAt: string;
 }
 
 export interface FormatNavbarNotificationsData {
@@ -41,7 +40,6 @@ export interface GetNotificationListData {
     offset?: number;
     limit: number;
 }
-
 
 export interface GetNotificationListReponse {
     notifications: GetClientNotificationsReponse[];

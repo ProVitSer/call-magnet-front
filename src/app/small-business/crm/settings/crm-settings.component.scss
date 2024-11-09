@@ -1,0 +1,22 @@
+.table-responsive {
+    overflow: visible;
+    max-height: none;
+}
+
+.card {
+    width: 100%;
+    overflow: hidden;
+}
+
+.table {
+    table-layout: fixed;
+    width: 100%;
+}
+
+.table th,
+.table td {
+    font-size: 12px;
+    white-space: normal;
+    word-wrap: break-word;
+    overflow: hidden;
+}

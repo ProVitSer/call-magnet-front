@@ -7,147 +7,141 @@ import { Router } from '@angular/router';
 
 @Directive({ selector: '[appSidebar]' })
 export class SidebarDirective implements OnInit, AfterViewInit, OnDestroy {
-
-  @HostBinding("class.expanded")
-  @Input()
-  get navExpanded(): boolean {
-    return this._navExpanded;
-  }
-  set navExpanded(value: boolean) {
-    this._navExpanded = value;
-  }
-
-  protected navlinks: Array<SidebarLinkDirective> = [];
-  layoutSub: Subscription;
-  public config: any = {};
-  mouseEnter = false;
-  sidebarExpanded = true;
-  protected _navExpanded: boolean;
-  protected innerWidth: any;
-
-  constructor(private cdr: ChangeDetectorRef, private router: Router, private configService: ConfigService, private layoutService: LayoutService) {
-    this.config = this.configService.templateConf;
-    this.sidebarExpanded = !this.config.layout.sidebar.collapsed;
-  }
-
-  ngOnInit() {
-    this.innerWidth = window.innerWidth;
-    this.layoutSub = this.configService.templateConf$.subscribe((templateConf) => {
-      if (templateConf) {
-        this.config = templateConf;
-      }
-      this.loadLayout();
-      this.cdr.markForCheck();
-    });
-  }
-
-  ngOnDestroy() {
-    if (this.layoutSub) {
-      this.layoutSub.unsubscribe();
+    @HostBinding('class.expanded')
+    @Input()
+    get navExpanded(): boolean {
+        return this._navExpanded;
     }
-  }
-
-  //load layout when changes in the config
-  loadLayout() {
-    this.sidebarExpanded = !this.config.layout.sidebar.collapsed;
-    if (this.config.layout.sidebar.collapsed && !this.mouseEnter) {
-      this.setSidebarGroupActiveCollapsed();
-      this.navExpanded = false;
+    set navExpanded(value: boolean) {
+        this._navExpanded = value;
     }
-    else {
-      this.setSidebarGroupActive();
-      this.navExpanded = true;
+
+    protected navlinks: Array<SidebarLinkDirective> = [];
+    layoutSub: Subscription;
+    public config: any = {};
+    mouseEnter = false;
+    sidebarExpanded = true;
+    protected _navExpanded: boolean;
+    protected innerWidth: any;
+
+    constructor(
+        private cdr: ChangeDetectorRef,
+        private router: Router,
+        private configService: ConfigService,
+        private layoutService: LayoutService,
+    ) {
+        this.config = this.configService.templateConf;
+        this.sidebarExpanded = !this.config.layout.sidebar.collapsed;
     }
-  }
 
-  //add menu links to the link list
-  public addLink(link: SidebarLinkDirective): void {
-    this.navlinks.push(link);
-  }
+    ngOnInit() {
+        this.innerWidth = window.innerWidth;
+        this.layoutSub = this.configService.templateConf$.subscribe((templateConf) => {
+            if (templateConf) {
+                this.config = templateConf;
+            }
+            this.loadLayout();
+            this.cdr.markForCheck();
+        });
+    }
 
-  //close all other menu items other than active one
-  public closeOtherLinks(openLink: SidebarLinkDirective): void {
-    this.navlinks.forEach((link: SidebarLinkDirective) => {
-      if (link != openLink && (openLink.level.toString() === "1" || link.level === openLink.level)) {
-        link.open = false;
-        link.sidebarGroupActive = false;
-      }
-      else if (link === openLink && (openLink.level.toString() === "1") && link.hasSub === true) {
-        link.sidebarGroupActive = true;
-      }
-      else if (link === openLink && (openLink.level.toString() === "1") && link.hasSub === false) {
-        link.sidebarGroupActive = false;
-        link.open = false;
-      }
-      else if (link === openLink && openLink.level.toString() != "1" && link.hasSub === false) {
-        link.open = false;
-        link.sidebarGroupActive = false;
-        return;
-      }
-    });
-  }
-
-  ngAfterViewInit() {
-  }
-
-  // call when sidebar toggle is collapsed but still in expand mode on mouse hover
-  public setSidebarGroupActive(): void {
-    if (this.navlinks.length > 0) {
-      this.navlinks.forEach((link: SidebarLinkDirective) => {
-        link.sidebarGroupActive = false;
-        link.navCollapsedOpen = false;
-      });
-      let matched = this.navlinks.find(link => link.path === this.router.url);
-      if (matched) {
-        let parent = this.navlinks.find(link => link.parent === matched.parent && link.level.toString() === "1" && link.hasSub === true);
-        if (parent) {
-          parent.sidebarGroupActive = true;
-          parent.navCollapsedOpen = false;
-          parent.open = true;
+    ngOnDestroy() {
+        if (this.layoutSub) {
+            this.layoutSub.unsubscribe();
         }
-      }
-
     }
-  }
 
-  // call when sidebar toggle is collapsed and is in collapse mode on mouse out
-  public setSidebarGroupActiveCollapsed(): void {
-    this.closeOtherLinks(this.navlinks.find(link => link.path === this.router.url));
-    if (this.navlinks.length > 0) {
-      this.navlinks.forEach((link: SidebarLinkDirective) => {
-        link.sidebarGroupActive = false;
-        link.navCollapsedOpen = false;
-      });
-      let matched = this.navlinks.find(link => link.path === this.router.url);
-      if (matched) {
-        let parent = this.navlinks.find(link => link.parent === matched.parent && link.level.toString() === "1" && link.hasSub === true);
-        if (parent) {
-          parent.sidebarGroupActive = true;
-          parent.navCollapsedOpen = true;
-          parent.open = false;
+    loadLayout() {
+        this.sidebarExpanded = !this.config.layout.sidebar.collapsed;
+        if (this.config.layout.sidebar.collapsed && !this.mouseEnter) {
+            this.setSidebarGroupActiveCollapsed();
+            this.navExpanded = false;
+        } else {
+            this.setSidebarGroupActive();
+            this.navExpanded = true;
         }
-      }
     }
-  }
 
-  // mouse enter event of side menu
-  @HostListener("mouseenter", ["$event"])
-  onMouseOver(e: any) {
-    this.mouseEnter = true;
-    if (this.config.layout.sidebar.collapsed) {
-      this.setSidebarGroupActive();
-      this.navExpanded = true;
+    public addLink(link: SidebarLinkDirective): void {
+        this.navlinks.push(link);
     }
-  }
 
-  // mouse leave event of side menu
-  @HostListener("mouseleave", ["$event"])
-  onMouseOut(e: any) {
-    this.mouseEnter = false;
-    if (this.config.layout.sidebar.collapsed) {
-      this.setSidebarGroupActiveCollapsed();
-      this.navExpanded = false;
+    public closeOtherLinks(openLink: SidebarLinkDirective): void {
+        this.navlinks.forEach((link: SidebarLinkDirective) => {
+            if (link != openLink && (openLink.level.toString() === '1' || link.level === openLink.level)) {
+                link.open = false;
+                link.sidebarGroupActive = false;
+            } else if (link === openLink && openLink.level.toString() === '1' && link.hasSub === true) {
+                link.sidebarGroupActive = true;
+            } else if (link === openLink && openLink.level.toString() === '1' && link.hasSub === false) {
+                link.sidebarGroupActive = false;
+                link.open = false;
+            } else if (link === openLink && openLink.level.toString() != '1' && link.hasSub === false) {
+                link.open = false;
+                link.sidebarGroupActive = false;
+                return;
+            }
+        });
     }
-  }
 
+    ngAfterViewInit() {}
+
+    public setSidebarGroupActive(): void {
+        if (this.navlinks.length > 0) {
+            this.navlinks.forEach((link: SidebarLinkDirective) => {
+                link.sidebarGroupActive = false;
+                link.navCollapsedOpen = false;
+            });
+            const matched = this.navlinks.find((link) => link.path === this.router.url);
+            if (matched) {
+                const parent = this.navlinks.find(
+                    (link) => link.parent === matched.parent && link.level.toString() === '1' && link.hasSub === true,
+                );
+                if (parent) {
+                    parent.sidebarGroupActive = true;
+                    parent.navCollapsedOpen = false;
+                    parent.open = true;
+                }
+            }
+        }
+    }
+
+    public setSidebarGroupActiveCollapsed(): void {
+        this.closeOtherLinks(this.navlinks.find((link) => link.path === this.router.url));
+        if (this.navlinks.length > 0) {
+            this.navlinks.forEach((link: SidebarLinkDirective) => {
+                link.sidebarGroupActive = false;
+                link.navCollapsedOpen = false;
+            });
+            const matched = this.navlinks.find((link) => link.path === this.router.url);
+            if (matched) {
+                const parent = this.navlinks.find(
+                    (link) => link.parent === matched.parent && link.level.toString() === '1' && link.hasSub === true,
+                );
+                if (parent) {
+                    parent.sidebarGroupActive = true;
+                    parent.navCollapsedOpen = true;
+                    parent.open = false;
+                }
+            }
+        }
+    }
+
+    @HostListener('mouseenter', ['$event'])
+    onMouseOver(e: any) {
+        this.mouseEnter = true;
+        if (this.config.layout.sidebar.collapsed) {
+            this.setSidebarGroupActive();
+            this.navExpanded = true;
+        }
+    }
+
+    @HostListener('mouseleave', ['$event'])
+    onMouseOut(e: any) {
+        this.mouseEnter = false;
+        if (this.config.layout.sidebar.collapsed) {
+            this.setSidebarGroupActiveCollapsed();
+            this.navExpanded = false;
+        }
+    }
 }

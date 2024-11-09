@@ -1,0 +1,98 @@
+<section id="ngx-datatable-row-details">
+    <div class="row">
+       <div class="col-12">
+          <div class="card">
+             <div class="card-header d-flex justify-content-between align-items-center">
+                <h4 class="card-title mb-0">Умная маршрутизация</h4>
+                <button
+                   type="button"
+                   class="btn btn-success bg-light-success mr-3 mb-1"
+                   (click)="addSmartRouting()">
+                <i class="icon-shuffle"></i>
+                </button>
+             </div>
+             <div class="card-content">
+                <div class="card-body">
+                   <ngx-datatable #tablesSM class="bootstrap core-bootstrap" 
+                   [columnMode]="ColumnMode.force"
+                   [headerHeight]="50" 
+                   [footerHeight]="50" 
+                   [rowHeight]="'auto'" 
+                   [rows]="rows" 
+                   [scrollbarH]="false">
+                   <ngx-datatable-column name="Название" prop="name" [width]="50">
+                      <ng-template let-row="row" let-name="value" ngx-datatable-cell-template>
+                         <div class="d-flex align-items-center">
+                            <i class="ft-2x" style="font-size: 15px; margin-right: 8px;"></i>
+                            <div class="cell-line-height">
+                               <p class="font-medium-1 line-height-1 mb-0">{{ row.name }}</p>
+                            </div>
+                         </div>
+                      </ng-template>
+                   </ngx-datatable-column>
+                   <ngx-datatable-column name="Внутренний номер" prop="pbxExtension" [width]="50">
+                      <ng-template let-row="row" let-name="value" ngx-datatable-cell-template>
+                         <div class="d-flex align-items-center">
+                            <i class="ft-2x" style="font-size: 15px; margin-right: 8px;"></i>
+                            <div class="cell-line-height">
+                               <p class="font-medium-1 line-height-1 mb-0">{{ row.pbxExtension }}</p>
+                            </div>
+                         </div>
+                      </ng-template>
+                   </ngx-datatable-column>
+                   <ngx-datatable-column name="Сервис маршрутизации" prop="routingService" [width]="50">
+                      <ng-template let-row="row" let-name="value" ngx-datatable-cell-template>
+                         <button
+                            class="button-gradient gradient-mint"
+                            [ngStyle]="{ 'margin': '0 50px' }" 
+                            >
+                         {{ row.routingService === 'phonebook' ? 'Контакты' : 'Bitrix24' }}
+                         </button>
+                      </ng-template>
+                   </ngx-datatable-column>
+                   <ngx-datatable-column name="Номер по умолчанию" prop="defaultRoutingNumber" [width]="50">
+                      <ng-template let-row="row" let-name="value" ngx-datatable-cell-template>
+                         <div class="d-flex align-items-center">
+                            <i class="ft-2x" style="font-size: 15px; margin-right: 8px;"></i>
+                            <div class="cell-line-height">
+                               <p class="font-medium-1 line-height-1 mb-0">{{ row.defaultRoutingNumber }}</p>
+                            </div>
+                         </div>
+                      </ng-template>
+                   </ngx-datatable-column>
+                   <ngx-datatable-column name="AI маршрутизация" prop="aiRouting" [width]="50">
+                      <ng-template let-row="row" let-name="value" ngx-datatable-cell-template>
+                         <div class="d-flex align-items-center">
+                            <i
+                            [ngClass]="row.aiRouting ? 'text-success' : 'text-danger'"
+                            class="fa"
+                            [class.fa-toggle-on]="row.aiRouting"
+                            [class.fa-toggle-off]="!row.aiRouting"
+                            style="font-size: 20px; margin-right: 8px;"
+                            ></i>
+                            <div class="cell-line-height">
+                               <p class="font-medium-1 line-height-1 mb-0">{{ row.aiRouting ? 'Включена' : 'Выключена' }}</p>
+                            </div>
+                         </div>
+                      </ng-template>
+                   </ngx-datatable-column>
+                   <ngx-datatable-column name="Действия" [width]="50">
+                      <ng-template let-row="row" ngx-datatable-cell-template>
+                         <div class="d-flex justify-content-start align-items-center">
+                            <p class="font-medium-1 line-height-1 mb-0">&nbsp; &nbsp; &nbsp;</p>
+                            <i
+                               class="ft-trash-2 text-danger cursor-pointer"
+                               style="font-size: 20px; margin-left: -10px;"  
+                               (click)="onDelete(row)"
+                               title="Удалить"
+                               ></i>
+                         </div>
+                      </ng-template>
+                   </ngx-datatable-column>
+                   </ngx-datatable>
+                </div>
+             </div>
+          </div>
+       </div>
+    </div>
+ </section>

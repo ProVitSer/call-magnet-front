@@ -1,0 +1,112 @@
+<section id="ngx-datatable-row-details">
+    <div class="row">
+       <div class="col-12">
+          <div class="card">
+             <div class="card-header">
+                <h4 class="card-title">Сообщения</h4>
+             </div>
+             <div class="card-content">
+                <div class="card-body">
+                   <fieldset class="form-group d-flex align-items-center">
+                      <label for="ngx-filter-ref" class="mb-0 me-2">
+                      <input
+                         id="ngx-MultiPurposeFilter-ref"
+                         class="form-control form-control-sm d-inline-block width-200"
+                         type="text"
+                         placeholder="Поиск по номеру телефона....."
+                         (keyup)="MultiPurposeFilterUpdate($event)"
+                         />
+                      </label>
+                      <div class="input-group mb-0 ml-2">
+                         <button class="btn btn-outline-secondary" (click)="d3.toggle()" type="button">
+                         Выбрать дату <i class="fa fa-calendar ml-2"></i>
+                         </button>
+                         <input type="text" class="form-control d-none" ngbDatepicker #d3="ngbDatepicker" [(ngModel)]="dateFilter" (ngModelChange)="onDateChange()"/>
+                      </div>
+                   </fieldset>
+                   <ngx-datatable #tableRowDetails class="bootstrap core-bootstrap"  
+                   [columnMode]="ColumnMode.force"
+                   [headerHeight]="50" 
+                   [footerHeight]="50" 
+                   [rowHeight]="'auto'" 
+                   [rows]="rows" 
+                   [scrollbarH]="false"
+                   [count]="totalRecords"
+                   [limit]="pageSize"
+                   [externalPaging]="true"
+                   [offset]="currentPage - 1"
+                   (page)='onPageChange($event)'
+                   [rowClass]="getRowClass"
+                   >
+                   <ngx-datatable-row-detail [rowHeight]="'auto'" >
+                      <ng-template let-row="row" let-expanded="expanded" ngx-datatable-row-detail-template>
+                         <div class="ml-5 my-1">
+                            <br>
+                            <div *ngIf="row.recordingUrl">
+                               <audio controls [src]="row.recordingUrl"></audio>
+                            </div>
+                         </div>
+                         <br>
+                      </ng-template>
+                   </ngx-datatable-row-detail>
+                   <ngx-datatable-column [width]="50" [resizeable]="false" [sortable]="false" [draggable]="false"
+                   [canAutoResize]="false">
+                   <ng-template let-row="row" let-expanded="expanded" ngx-datatable-cell-template>
+                      <a href="javascript:void(0)" [class.datatable-icon-right]="!expanded"
+                      [class.datatable-icon-down]="expanded" title="Посмотреть текст"
+                      (click)="rowDetailsToggleExpand(row)">
+                      </a>
+                   </ng-template>
+                   </ngx-datatable-column>
+                   <ngx-datatable-column name="Время вызова" prop="callDate" [width]="50" >
+                   </ngx-datatable-column>
+                   <ngx-datatable-column name="Источник" prop="sourceDisplayName" [width]="50"></ngx-datatable-column>
+                   <ngx-datatable-column name="Направление" prop="destinationDisplayName" [width]="50"></ngx-datatable-column>
+                   <ngx-datatable-column name="Статус" prop="answered" [width]="50">
+                      <ng-template let-row="row" let-answered="value" ngx-datatable-cell-template>
+                         <div class="badge badge-pill"
+                            [ngClass]="{'bg-light-success': answered, 'bg-light-warning': !answered}">
+                            {{ answered ? "Отвеченный" : "Неотвеченный" }}
+                         </div>
+                      </ng-template>
+                   </ngx-datatable-column>
+                   <ngx-datatable-column name="Ожидание" prop="ringingDuration" [width]="50"></ngx-datatable-column>
+                   <ngx-datatable-column name="Разговор" prop="talkingDuration" [width]="50"></ngx-datatable-column>
+                   <ngx-datatable-column name="Релиз" prop="reason" [width]="50"></ngx-datatable-column>
+                   <ngx-datatable-column name="Действия" [width]="50">
+                      <ng-template let-row="row" ngx-datatable-cell-template>
+                         <div class="d-flex justify-content-start align-items-center">
+                            <p class="font-medium-1 line-height-1 mb-0"></p>
+                            <!-- Проверяем, есть ли recordingUrl -->
+                            <ng-container *ngIf="row.recordingUrl">
+                               <i
+                                  class="ft-play text-success cursor-pointer"
+                                  style="font-size: 20px; margin-left: -10px;"  
+                                  (click)="getVoiceFile(row)"
+                                  title="Прослушать"
+                                  ></i>
+                               <p class="font-medium-1 line-height-1 mb-0">&nbsp; &nbsp; &nbsp;</p>
+                               <i
+                                  class="ft-download text-secondary cursor-pointer"
+                                  style="font-size: 20px; margin-left: -10px;"  
+                                  (click)="downloadVoiceFile(row)"
+                                  title="Скачать"
+                                  ></i>
+                            </ng-container>
+                            <p class="font-medium-1 line-height-1 mb-0">&nbsp; &nbsp; &nbsp;</p>
+                            <i
+                               class="ft-bar-chart-2 text-secondary cursor-pointer"
+                               style="font-size: 20px; margin-left: -10px;"  
+                               (click)="analyzeCall(row)"
+                               title="Скачать"
+                               ></i>
+                         </div>
+                      </ng-template>
+                   </ngx-datatable-column>
+                   </ngx-datatable>
+                </div>
+             </div>
+          </div>
+       </div>
+    </div>
+ </section>
