@@ -2,6 +2,7 @@ import { ChangeDetectorRef, Component, OnInit, ViewChild, ViewEncapsulation } fr
 import { ColumnMode, DatatableComponent } from '@swimlane/ngx-datatable';
 import { SweetalertService } from 'app/shared/services/sweetalert.service';
 import { CqaStatisticService } from './service/cqa-statistic.service';
+import { CQA_STAT } from '../models/test-data';
 
 @Component({
     selector: 'app-cqa-statistic',
@@ -33,11 +34,7 @@ export class CqaStatisticComponent implements OnInit {
     }
     async loadMessages() {
         try {
-            const response = await this.cqaStatisticService.getCqaStatistic({
-                page: this.currentPage.toString(),
-                pageSize: this.pageSize.toString(),
-                ...(this.dateString ? { dateString: this.dateString } : {}),
-            });
+            const response = CQA_STAT;
             this.rows = response.data;
             this.rowsTemp = response.data;
             this.totalRecords = response.totalRecords;
@@ -57,11 +54,7 @@ export class CqaStatisticComponent implements OnInit {
 
     async MultiPurposeFilterUpdate(event) {
         const val = event.target.value.toLowerCase();
-        const response = await this.cqaStatisticService.getCqaStatistic({
-            page: this.currentPage.toString(),
-            pageSize: this.pageSize.toString(),
-            managerNumber: val,
-        });
+        const response = CQA_STAT;
         this.rows = response.data;
         this.rowsTemp = response.data;
         this.totalRecords = response.totalRecords;
@@ -80,11 +73,7 @@ export class CqaStatisticComponent implements OnInit {
 
     async onDateChange() {
         this.dateString = `${this.dateFilter.year}-${this.dateFilter.month}-${this.dateFilter.day}`;
-        const response = await this.cqaStatisticService.getCqaStatistic({
-            page: this.currentPage.toString(),
-            pageSize: this.pageSize.toString(),
-            dateString: this.dateString,
-        });
+        const response = CQA_STAT;
         this.rows = response.data;
         this.rowsTemp = response.data;
         this.totalRecords = response.totalRecords;

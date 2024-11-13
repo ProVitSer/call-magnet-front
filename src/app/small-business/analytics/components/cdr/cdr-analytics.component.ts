@@ -5,6 +5,7 @@ import { CdrAnaliticsService } from './services/cdr-analitics.service';
 import { format, parse } from 'date-fns';
 import { CdrData } from './models/cdr-analytic.model';
 import { Router } from '@angular/router';
+import { CDR } from './models/test-data';
 
 @Component({
     selector: 'app-cdr-analytics',
@@ -43,11 +44,7 @@ export class CdrAnalyticsComponent implements OnInit {
 
     async loadCdr() {
         try {
-            const response = await this.cdrAnaliticsService.getCdr({
-                page: this.currentPage.toString(),
-                pageSize: this.pageSize.toString(),
-                ...(this.dateString ? { dateString: this.dateString } : { dateString: format(new Date(), 'yyyy-MM-dd') }),
-            });
+            const response = CDR;
 
             this.rows = this.adjustCallDates(response.data);
 
@@ -74,11 +71,7 @@ export class CdrAnalyticsComponent implements OnInit {
     async MultiPurposeFilterUpdate(event) {
         const val = event.target.value.toLowerCase();
 
-        const response = await this.cdrAnaliticsService.getCdr({
-            page: this.currentPage.toString(),
-            pageSize: this.pageSize.toString(),
-            phoneNumber: val,
-        });
+        const response = CDR;
 
         this.rows = this.adjustCallDates(response.data);
         this.rowsTemp = this.adjustCallDates(response.data);
@@ -100,11 +93,7 @@ export class CdrAnalyticsComponent implements OnInit {
 
     async onDateChange() {
         this.dateString = `${this.dateFilter.year}-${this.dateFilter.month}-${this.dateFilter.day}`;
-        const response = await this.cdrAnaliticsService.getCdr({
-            page: this.currentPage.toString(),
-            pageSize: this.pageSize.toString(),
-            dateString: this.dateString,
-        });
+        const response = CDR;
 
         this.rows = this.adjustCallDates(response.data);
         this.colorizeRows(this.rows);

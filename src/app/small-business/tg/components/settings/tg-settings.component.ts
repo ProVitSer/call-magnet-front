@@ -4,6 +4,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { SweetalertService } from 'app/shared/services/sweetalert.service';
 import { TgConfigData } from './models/tg-settings.model';
+import { TG_CONFIG } from './models/test-data';
 
 @Component({
     selector: 'app-tg-settings',
@@ -22,21 +23,17 @@ export class TgSettingsComponent implements OnInit {
 
     async ngOnInit(): Promise<void> {
         try {
-            const settings = await this.tgSettingsService.getTgConfigs();
-            if (settings.length == 0) {
-                this.router.navigate(['add'], { relativeTo: this.route });
-            } else {
-                for (const config of settings) {
-                    this.tableData.push({
-                        id: config.id,
-                        name: config.name,
-                        token: config.token,
-                        chatId: config.chatId,
-                    });
-                }
-
-                this.changeDetector.detectChanges();
+            const settings = TG_CONFIG;
+            for (const config of settings) {
+                this.tableData.push({
+                    id: config.id,
+                    name: config.name,
+                    token: config.token,
+                    chatId: config.chatId,
+                });
             }
+
+            this.changeDetector.detectChanges();
         } catch (e) {
             SweetalertService.errorAlert('Ошибка проверки настроек', e.error?.error?.message || 'Проблемы с получением данных');
         }
@@ -52,18 +49,15 @@ export class TgSettingsComponent implements OnInit {
         });
 
         try {
-            await this.tgSettingsService.deleteTgConfig({ id: item.id });
             this.tableData.splice(index, 1);
             this.spinner.hide();
             SweetalertService.autoCloseSuccessAlert('', 'Настройки успешно удалены', 2000);
-            this.router.navigate(['add'], { relativeTo: this.route });
         } catch (e) {
             SweetalertService.errorAlert('Ошибка подключения', e.error?.error?.message || 'Проблемы с удалением данных');
         }
     }
 
     async testSend(index: number, item: TgConfigData) {
-        await this.tgSettingsService.sendTestMessage({ id: item.id });
         SweetalertService.autoCloseSuccessAlert('', 'Проверьте чат, сообщение было отправлено', 2000);
     }
     catch(e) {

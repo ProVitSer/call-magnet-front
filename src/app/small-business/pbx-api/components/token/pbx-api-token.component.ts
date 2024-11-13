@@ -18,9 +18,8 @@ export class PbxApiTokenComponent {
 
     async getApiToken(): Promise<void> {
         try {
-            const tokenResponse = await this.pbxApiSettingsService.getToken();
-
-            this.apiToken = tokenResponse.token;
+            this.apiToken =
+                'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTczMTUyNjE4NiwiZXhwIjoxNzYzMDYyMTg2fQ.UrDDXRBaLfo03zP3a_M9FcP4uk-QSKb0YsBxelpcTgo';
 
             this.changeDetector.detectChanges();
         } catch (e) {

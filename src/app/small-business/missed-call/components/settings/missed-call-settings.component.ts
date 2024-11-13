@@ -4,6 +4,7 @@ import { SweetalertService } from 'app/shared/services/sweetalert.service';
 import Swal from 'sweetalert2';
 import { Router, ActivatedRoute } from '@angular/router';
 import { MissedCallService } from './services/missed-call.service';
+import { MC } from './models/test-data';
 
 @Component({
     selector: 'app-missed-call-settings',
@@ -33,7 +34,7 @@ export class MissedCallSettingsComponent implements OnInit, AfterViewInit {
 
     async getMCConfig() {
         try {
-            const data = await this.missedCallService.getMissedCallConfigList();
+            const data = MC;
 
             this.rows = data;
 
@@ -60,8 +61,6 @@ export class MissedCallSettingsComponent implements OnInit, AfterViewInit {
         }).then(async (result) => {
             if (result.isConfirmed) {
                 try {
-                    await this.missedCallService.deleteMissedCall(row.id);
-
                     Swal.fire('Удалено!', `Маршрутизация по номеру  ${row.trunkName} была успешно удалена.`, 'success');
 
                     this.getMCConfig();

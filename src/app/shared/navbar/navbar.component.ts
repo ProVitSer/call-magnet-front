@@ -19,6 +19,7 @@ import { AuthService } from '../auth/auth.service';
 import { NotificationService } from '../services/notification.service';
 import { GetClientNotificationsReponse } from '../models/notification';
 import { takeUntil } from 'rxjs/operators';
+import { TEST_NOT } from 'app/pages/full-pages/notifications/test-data';
 
 @Component({
     selector: 'app-navbar',
@@ -161,17 +162,11 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     private getUserNotifications() {
-        const notifications = this.notificationService.getUserNotifications('7').subscribe(
-            (res: GetClientNotificationsReponse[]) => {
-                if (res) {
-                    this.setNotificationsIds(res);
-                    this.setCountNotification(res);
-                    this.setNotifications(res);
-                    this.cdr.markForCheck();
-                }
-            },
-            (e) => {},
-        );
+        const res = TEST_NOT as unknown as GetClientNotificationsReponse[];
+        this.setNotificationsIds(res);
+        this.setCountNotification(res);
+        this.setNotifications(res);
+        this.cdr.markForCheck();
     }
 
     private setCountNotification(data: GetClientNotificationsReponse[]) {

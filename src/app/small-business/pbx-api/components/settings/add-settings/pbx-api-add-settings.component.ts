@@ -42,32 +42,22 @@ export class PbxApiAddSettingsComponent {
 
         this.showSpinner();
 
-        this.pbxApiSettingsService.addPacConfig(data).subscribe(
-            (res: void) => {
-                this.addPacConfig = false;
-                this.spinner.hide();
-                SweetalertService.autoCloseSuccessAlert(
-                    '',
-                    'Настройки успешно добавлены, теперь можно сгенерировать токен и пользоваться API',
-                    5000,
-                );
-
-                setTimeout(() => {
-                    this.router.navigate(['sm/pbx-api/token']);
-                }, 5000);
-            },
-            (e) => {
-                this.hideSpinner();
-                SweetalertService.errorAlert('Ошибка подключения', e.error?.error?.message || 'Проблемы с сохранением данных');
-            },
+        this.addPacConfig = false;
+        this.spinner.hide();
+        SweetalertService.autoCloseSuccessAlert(
+            '',
+            'Настройки успешно добавлены, теперь можно сгенерировать токен и пользоваться API',
+            5000,
         );
+
+        setTimeout(() => {
+            this.router.navigate(['sm/pbx-api/token']);
+        }, 5000);
     }
 
     downloadInstaller(os: string) {
         this.showSpinner();
-        this.pbxApiSettingsService.getPacProgramm(os).add(() => {
-            this.hideSpinner();
-        });
+        this.hideSpinner();
     }
 
     private showSpinner() {

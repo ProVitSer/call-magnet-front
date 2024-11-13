@@ -22,43 +22,13 @@ export class SmsSettingsComponent implements OnInit {
 
     async ngOnInit(): Promise<void> {
         try {
-            const settings = await this.smsSettingsService.getSmsConfigs();
-            if (!settings) {
-                this.router.navigate(['add'], { relativeTo: this.route });
-            } else {
-                this.tableData.push({
-                    login: settings.login,
-                    psw: settings.psw,
-                    smsText: settings.smsText,
-                });
-
-                this.changeDetector.detectChanges();
-            }
+            this.router.navigate(['add'], { relativeTo: this.route });
         } catch (e) {
             SweetalertService.errorAlert('Ошибка проверки настроек', e.error?.error?.message || 'Проблемы с получением данных');
         }
     }
 
-    async removeSetting(index: number): Promise<void> {
-        this.spinner.show(undefined, {
-            type: 'square-jelly-box',
-            size: 'small',
-            bdColor: 'rgba(0, 0, 0, 0.8)',
-            color: '#fff',
-            fullScreen: false,
-        });
-
-        try {
-            await this.smsSettingsService.deleteSmsConfig();
-
-            this.tableData.splice(index, 1);
-            this.spinner.hide();
-            SweetalertService.autoCloseSuccessAlert('', 'Настройки успешно удалены', 2000);
-            this.router.navigate(['add'], { relativeTo: this.route });
-        } catch (e) {
-            SweetalertService.errorAlert('Ошибка подключения', e.error?.error?.message || 'Проблемы с удалением данных');
-        }
-    }
+    async removeSetting(index: number): Promise<void> {}
 
     togglePasswordVisibility(index: number): void {
         this.isPasswordVisible[index] = !this.isPasswordVisible[index];

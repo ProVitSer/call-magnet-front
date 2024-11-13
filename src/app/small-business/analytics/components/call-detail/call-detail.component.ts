@@ -8,6 +8,7 @@ import { CdrData } from '../cdr/models/cdr-analytic.model';
 import * as d3 from 'd3';
 import { CallDetailsData, STTProviderType, SttRecognizeStatus, TextDialogMessage } from './models/call-detail';
 import { format, parse } from 'date-fns';
+import { CDR } from '../cdr/models/test-data';
 
 @Component({
     selector: 'app-call-detail',
@@ -51,7 +52,7 @@ export class CallDetailComponent implements OnInit {
         try {
             this.showSpinner('call-details');
 
-            const response = await this.callDetailsService.getCallData(callId);
+            const response = CDR.data.filter((c) => c.callId == Number(callId));
 
             this.rows = this.adjustCallDates(response);
 
@@ -71,11 +72,14 @@ export class CallDetailComponent implements OnInit {
         const callsToProcess = data
             .filter((c) => c.recordingUrl)
             .map(async (call) => {
-                const result = await this.callDetailsService.getSttDialog(String(call.segmentId));
                 return {
                     ...call,
-                    sttRecognizeStatus: result?.sttRecognizeStatus || SttRecognizeStatus.notRecognize,
-                    textDialog: result?.textDialog ? this.formatTextDialog(result.textDialog) : [],
+                    sttRecognizeStatus: SttRecognizeStatus.completed,
+                    textDialog: this.formatTextDialog([
+                        'Тестовая запись разговора имитация разговора клиента с менеджером.',
+                        'Тут будет диалог с клинтом из записи разговора',
+                        'Преобразование доступно через разные сервисы',
+                    ]),
                 };
             });
         this.callsDetail = await Promise.all(callsToProcess);
@@ -282,32 +286,11 @@ export class CallDetailComponent implements OnInit {
     }
 
     async startRecognition(row: CallDetailsData) {
-        if (row.sttRecognizeStatus == SttRecognizeStatus.notRecognize) {
-            await this.callDetailsService.recognizeSpeech({
-                recordingUrl: row.recordingUrl,
-                applicationId: String(row.segmentId),
-                sttProviderType: STTProviderType.sber,
-            });
-
-            SweetalertService.autoCloseSuccessAlert(
-                '',
-                'Распознавание может занять длительное время, отслеживайте статус готовности в панели напротив вызова',
-                5000,
-            );
-
-            const index = this.callsDetail.findIndex((item) => item.segmentId === row.segmentId);
-
-            if (index !== -1) {
-                this.callsDetail[index].sttRecognizeStatus = SttRecognizeStatus.inProgress;
-            }
-            this.changeDetector.detectChanges();
-        } else {
-            SweetalertService.autoCloseSuccessAlert(
-                '',
-                'Диалог уже преобразован. Если нужно запустить распознавание заново, удалите запись и нажмите кнопку "Распознать"',
-                5000,
-            );
-        }
+        SweetalertService.autoCloseSuccessAlert(
+            '',
+            'Распознавание может занять длительное время, отслеживайте статус готовности в панели напротив вызова',
+            5000,
+        );
     }
 
     getStatusLabel(status: SttRecognizeStatus): string {
@@ -325,35 +308,9 @@ export class CallDetailComponent implements OnInit {
         }
     }
 
-    async refresh(row: CdrData) {
-        const result = await this.callDetailsService.getSttDialog(String(row.segmentId));
+    async refresh(row: CdrData) {}
 
-        if (result) {
-            const index = this.callsDetail.findIndex((item) => item.segmentId === row.segmentId);
-
-            if (index !== -1) {
-                this.callsDetail[index].sttRecognizeStatus = result.sttRecognizeStatus;
-                this.callsDetail[index].textDialog = result.textDialog ? this.formatTextDialog(result.textDialog) : [];
-            }
-
-            this.changeDetector.detectChanges();
-        }
-    }
-
-    async deleteStt(row: CallDetailsData) {
-        if (row.sttRecognizeStatus == SttRecognizeStatus.completed) {
-            await this.callDetailsService.deleteSttDialog(String(row.segmentId));
-
-            const index = this.callsDetail.findIndex((item) => item.segmentId === row.segmentId);
-
-            if (index !== -1) {
-                this.callsDetail[index].sttRecognizeStatus = SttRecognizeStatus.notRecognize;
-                this.callsDetail[index].textDialog = [];
-            }
-
-            this.changeDetector.detectChanges();
-        }
-    }
+    async deleteStt(row: CallDetailsData) {}
 
     private adjustCallDates(data: CdrData[]): CdrData[] {
         return data.map((entry) => {

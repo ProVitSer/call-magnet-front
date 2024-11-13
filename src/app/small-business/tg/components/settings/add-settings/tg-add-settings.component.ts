@@ -49,8 +49,6 @@ export class TgAddSettingsComponent {
         document.body.classList.add('block-user-interaction');
 
         try {
-            await this.tgSettingsService.createTgConfig(data);
-
             this.spinner.hide();
 
             SweetalertService.autoCloseSuccessAlert('', 'Настройки успешно добавлены', 2000);

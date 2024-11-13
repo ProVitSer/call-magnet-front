@@ -6,6 +6,7 @@ import { WizardComponent } from 'angular-archwizard';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ListVoicesData } from '../models/tts.model';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
+import { VOICES_SBER, VOICES_YANDEX } from '../models/test-data';
 
 @Component({
     selector: 'app-tts-generate-file',
@@ -47,7 +48,7 @@ export class GenerateTtsFileComponent implements OnInit {
 
         this.voices = [];
 
-        const voices = await this.generateTtsFileService.getVoices({ ttsType: this.selectedTtsService });
+        const voices = this.selectedTtsService == 'yandex' ? VOICES_YANDEX : VOICES_SBER;
 
         this.voices = voices;
 
@@ -77,17 +78,8 @@ export class GenerateTtsFileComponent implements OnInit {
 
         this.showSpinner();
 
-        this.generateTtsFileService.convertOnline(formData).subscribe(
-            (blob: Blob) => {
-                const audioUrl = URL.createObjectURL(blob);
-                this.audioFileUrl = this.sanitizer.bypassSecurityTrustUrl(audioUrl) as SafeUrl;
-                this.hideSpinner();
-                this.ref.detectChanges();
-            },
-            (error) => {
-                SweetalertService.errorAlert('', 'Ошибка при синтезе речи');
-            },
-        );
+        this.hideSpinner();
+        this.ref.detectChanges();
     }
 
     async saveData() {
@@ -102,7 +94,6 @@ export class GenerateTtsFileComponent implements OnInit {
         this.showSpinner();
 
         try {
-            await this.generateTtsFileService.convertWithSave(formData);
             this.hideSpinner();
             this.router.navigate(['sm/tts']);
         } catch (e) {

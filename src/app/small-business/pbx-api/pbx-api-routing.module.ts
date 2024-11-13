@@ -13,7 +13,6 @@ const routes: Routes = [
         data: {
             title: '3CX API Настройки',
         },
-        canActivate: [AuthGuard],
     },
     {
         path: 'settings',
@@ -21,7 +20,6 @@ const routes: Routes = [
         data: {
             title: '3CX API Настройки',
         },
-        canActivate: [AuthGuard],
     },
     {
         path: 'settings/add',
@@ -29,7 +27,6 @@ const routes: Routes = [
         data: {
             title: '3CX API Настройки',
         },
-        canActivate: [AuthGuard],
     },
     {
         path: 'api',
@@ -37,7 +34,6 @@ const routes: Routes = [
         data: {
             title: '3CX API',
         },
-        canActivate: [AuthGuard],
     },
 ];
 

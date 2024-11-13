@@ -13,7 +13,6 @@ const routes: Routes = [
         data: {
             title: 'Пользователи telegram',
         },
-        canActivate: [AuthGuard],
     },
     {
         path: 'settings',
@@ -21,7 +20,6 @@ const routes: Routes = [
         data: {
             title: 'Настройки telegram',
         },
-        canActivate: [AuthGuard],
     },
     {
         path: 'settings/add',
@@ -29,7 +27,6 @@ const routes: Routes = [
         data: {
             title: 'Настройки telegram',
         },
-        canActivate: [AuthGuard],
     },
     {
         path: 'messages',
@@ -37,7 +34,6 @@ const routes: Routes = [
         data: {
             title: 'Сообщения',
         },
-        canActivate: [AuthGuard],
     },
 ];
 

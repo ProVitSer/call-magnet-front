@@ -9,17 +9,14 @@ const routes: Routes = [
     {
         path: 'calls',
         component: CallsAnalyticsComponent,
-        canActivate: [AuthGuard],
     },
     {
         path: 'cdr',
         component: CdrAnalyticsComponent,
-        canActivate: [AuthGuard],
     },
     {
         path: 'call/:id',
         component: CallDetailComponent,
-        canActivate: [AuthGuard],
     },
 ];
 

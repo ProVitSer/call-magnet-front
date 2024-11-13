@@ -63,8 +63,6 @@ export class CrmAddSettingsComponent {
         document.body.classList.add('block-user-interaction');
 
         try {
-            await this.crmSettingsService.createCrmConfig(data);
-
             this.spinner.hide();
 
             SweetalertService.autoCloseSuccessAlert('', 'Настройки успешно добавлены', 2000);

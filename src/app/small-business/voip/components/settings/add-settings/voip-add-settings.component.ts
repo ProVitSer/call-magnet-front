@@ -50,8 +50,6 @@ export class VoipAddSettingsComponent {
         });
 
         try {
-            await this.voipSettingsService.createTrunk(data);
-
             this.spinner.hide();
 
             SweetalertService.autoCloseSuccessAlert('', 'Настройки успешно добавлены', 2000);

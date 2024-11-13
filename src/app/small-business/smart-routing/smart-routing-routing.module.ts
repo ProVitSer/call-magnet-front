@@ -11,7 +11,6 @@ const routes: Routes = [
         data: {
             title: 'Настройки Умной маршрутизации',
         },
-        canActivate: [AuthGuard],
     },
 
     {
@@ -20,7 +19,6 @@ const routes: Routes = [
         data: {
             title: 'Настройки Умной маршрутизации',
         },
-        canActivate: [AuthGuard],
     },
 ];
 

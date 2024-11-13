@@ -72,53 +72,15 @@ export class ResetPasswordPageComponent implements OnInit {
         if (this.resetPasswordForm.invalid) {
             return;
         }
+        SweetalertService.autoCloseSuccessAlert('', 'Сейчас вы будите перенаправлены на страницу автовризации', this.redirectTimeout);
 
-        this.userProfileService
-            .resetPassword({ verificationCode: this.verificationCode, password: this.resetPasswordForm.value.password })
-            .subscribe(
-                (res: BaseAuthResponse) => {
-                    if (res) {
-                        SweetalertService.autoCloseSuccessAlert(
-                            '',
-                            'Сейчас вы будите перенаправлены на страницу автовризации',
-                            this.redirectTimeout,
-                        );
-
-                        setTimeout(() => {
-                            this.router.navigate(['/login']);
-                        }, this.redirectTimeout);
-                    } else {
-                        SweetalertService.errorAlert('', 'Что-то пошло не так, просьба обратиться в техническую поддержку');
-                    }
-                },
-                (e) => {
-                    SweetalertService.errorAlert('Ошибка верификации', e);
-                    setTimeout(() => {
-                        this.router.navigate(['/error']);
-                    }, this.redirectTimeout);
-                },
-            );
+        setTimeout(() => {
+            this.router.navigate(['/login']);
+        }, this.redirectTimeout);
     }
 
     private async checkVerificationCode(verificationCode: string): Promise<void> {
-        try {
-            const result = await this.userProfileService.checkVerificationCode(verificationCode).toPromise();
-
-            if (result.isValid) {
-                this.spinner.hide();
-                this.isButtonResetDisabled = false;
-            } else {
-                SweetalertService.errorAlert('', 'Ссылка на востановление пароля не корректна или истек ее срок');
-
-                setTimeout(() => {
-                    this.router.navigate(['/error']);
-                }, this.redirectTimeout);
-
-                return;
-            }
-        } catch (e) {
-            this.spinner.hide();
-            SweetalertService.errorAlert('', 'Что-то пошло не так, просьба обратиться в техническую поддержку');
-        }
+        this.spinner.hide();
+        this.isButtonResetDisabled = false;
     }
 }

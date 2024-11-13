@@ -25,13 +25,6 @@ export class SendSmsComponent implements OnInit {
                 number: ['', [Validators.required, Validators.pattern('^[0-9]{1,11}$')]],
                 text: ['', [Validators.required, Validators.maxLength(250)]],
             });
-
-            const settings = await this.smsSettingsService.getSmsConfigs();
-
-            if (!settings) {
-                SweetalertService.errorAlert('Ошибка', 'У вас не настроен сервис отправки смс');
-                this.router.navigate(['sm/sms/settings/add']);
-            }
         } catch (e) {
             SweetalertService.errorAlert('Ошибка проверки настроек', e.error?.error?.message || 'Проблемы с получением данных');
         }
@@ -46,15 +39,10 @@ export class SendSmsComponent implements OnInit {
                 smsText: formData.text,
             };
 
-            try {
-                await this.sendSmsSettingsService.sendSms(data);
-                SweetalertService.autoCloseSuccessAlert('', 'Смс успешно поставлена в очередь на отправку', 3000);
-                setTimeout(() => {
-                    this.router.navigate(['sm/sms/statistic']);
-                }, 3000);
-            } catch (e) {
-                SweetalertService.errorAlert('Ошибка отправки смс', e.error?.error?.message);
-            }
+            SweetalertService.autoCloseSuccessAlert('', 'Смс успешно поставлена в очередь на отправку', 3000);
+            setTimeout(() => {
+                this.router.navigate(['sm/sms/statistic']);
+            }, 3000);
         }
     }
 

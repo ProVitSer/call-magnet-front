@@ -1,0 +1,45 @@
+export const SMS_STAT = {
+    data: [
+        {
+            smsId: '107c3d70-9daf-11ef-b703-9b357d12fac3',
+            externalNumber: '79031234567',
+            smsText: 'Здравствуйте, к сожалению все менеджеры были заняты, мы свяжемся с вами в ближашйее время!',
+            smsSendStatus: 'completed',
+            smsSendResult: 'Сообщение доставлено',
+            date: '2024-11-08',
+        },
+        {
+            smsId: '5c0d1900-9dad-11ef-b703-9b357d12fac3',
+            externalNumber: '79101234567',
+            smsText: 'Здравствуйте, к сожалению все менеджеры были заняты, мы свяжемся с вами в ближашйее время!',
+            smsSendStatus: 'completed',
+            smsSendResult: 'Сообщение доставлено',
+            date: '2024-11-08',
+        },
+        {
+            smsId: '93a6c290-9dac-11ef-b703-9b357d12fac3',
+            externalNumber: '79051236655',
+            smsText: 'Здравствуйте, к сожалению все менеджеры были заняты, мы свяжемся с вами в ближашйее время!',
+            smsSendStatus: 'apiFail',
+            smsSendResult: 'Недостаточно средств',
+            date: '2024-11-08',
+        },
+        {
+            smsId: '861b9c60-9c83-11ef-a075-9904ba5aca98',
+            externalNumber: '74997775566',
+            smsText: 'Здравствуйте, к сожалению все менеджеры были заняты, мы свяжемся с вами в ближашйее время!',
+            smsSendStatus: 'apiFail',
+            smsSendResult: 'Сообщение на указанный номер не может быть доставлено',
+            date: '2024-11-06',
+        },
+        {
+            smsId: '8c3b2ba0-9c66-11ef-9fbc-d3fa622bf6ae',
+            externalNumber: '79085566998',
+            smsText: 'Привет, тестовая отправка смс сообщение через API',
+            smsSendStatus: 'completed',
+            smsSendResult: 'Сообщение доставлено',
+            date: '2024-11-06',
+        },
+    ],
+    totalRecords: 5,
+};

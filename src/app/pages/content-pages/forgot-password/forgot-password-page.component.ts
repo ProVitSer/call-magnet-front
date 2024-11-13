@@ -51,25 +51,8 @@ export class ForgotPasswordPageComponent implements OnInit {
     }
 
     private forogtPassword(email: string) {
-        this.userProfileService.forogtPassword({ email }).subscribe(
-            (res: BaseUsersResponse) => {
-                const result = res;
-                if (result) {
-                    this.spinner.hide();
-                    return SweetalertService.successAlert('', 'Вам на почту будет отправлено письмо со ссылкой на восстановление пароля');
-                }
-                this.spinner.hide();
-                SweetalertService.errorAlert(
-                    'Ошибка восстановление пароля',
-                    'Что-то пошло не так, просьба обратиться в техническую поддержку',
-                );
-            },
-            (e) => {
-                this.spinner.hide();
-                SweetalertService.errorAlert('Ошибка восстановление пароля', e);
-                this.forogtPasswordForm.reset();
-            },
-        );
+        this.spinner.hide();
+        return SweetalertService.successAlert('', 'Вам на почту будет отправлено письмо со ссылкой на восстановление пароля');
     }
 
     onLogin() {

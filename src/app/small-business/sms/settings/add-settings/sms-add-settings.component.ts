@@ -54,8 +54,6 @@ export class SmsAddSettingsComponent {
         document.body.classList.add('block-user-interaction');
 
         try {
-            await this.smsSettingsService.createSmsConfig(data);
-
             this.spinner.hide();
 
             document.body.classList.remove('block-user-interaction');

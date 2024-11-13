@@ -11,7 +11,6 @@ const routes: Routes = [
         data: {
             title: 'Генерация текста в речь',
         },
-        canActivate: [AuthGuard],
     },
     {
         path: 'convert',
@@ -19,7 +18,6 @@ const routes: Routes = [
         data: {
             title: 'Генерация текста в речь',
         },
-        canActivate: [AuthGuard],
     },
 ];
 

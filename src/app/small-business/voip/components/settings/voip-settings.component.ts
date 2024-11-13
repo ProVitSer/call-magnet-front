@@ -4,6 +4,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { SweetalertService } from 'app/shared/services/sweetalert.service';
 import { VoipSettingsService } from './service/voip-settings.service';
 import { TrunkTableData } from './models/voip-settings.model';
+import { VOIP_CONF } from './models/test-data';
 
 @Component({
     selector: 'app-voip-settings',
@@ -21,21 +22,17 @@ export class VoipSettingsComponent implements OnInit {
     ) {}
     async ngOnInit(): Promise<void> {
         try {
-            const settings = await this.voipSettingsService.getTrunks();
-            if (settings.length == 0) {
-                this.router.navigate(['add'], { relativeTo: this.route });
-            } else {
-                for (const config of settings) {
-                    this.tableData.push({
-                        trunkId: config.trunkId,
-                        trunkStatus: config.trunkStatus,
-                        authId: config.trunkData.authId,
-                        authPassword: config.trunkData.authPassword,
-                        pbxIp: config.trunkData.pbxIp,
-                    });
-                }
-                this.changeDetector.detectChanges();
+            const settings = VOIP_CONF;
+            for (const config of settings) {
+                this.tableData.push({
+                    trunkId: config.trunkId,
+                    trunkStatus: config.trunkStatus,
+                    authId: config.trunkData.authId,
+                    authPassword: config.trunkData.authPassword,
+                    pbxIp: config.trunkData.pbxIp,
+                });
             }
+            this.changeDetector.detectChanges();
         } catch (e) {
             SweetalertService.errorAlert('Ошибка проверки настроек', e.error?.error?.message || 'Проблемы с получением данных');
         }
@@ -50,7 +47,6 @@ export class VoipSettingsComponent implements OnInit {
             fullScreen: false,
         });
         try {
-            await this.voipSettingsService.deleteTrunk(item.trunkId);
             this.tableData.splice(index, 1);
             this.spinner.hide();
             SweetalertService.autoCloseSuccessAlert('', 'Настройки успешно удалены', 2000);
@@ -63,17 +59,6 @@ export class VoipSettingsComponent implements OnInit {
     async updateRegister(index: number, item: TrunkTableData) {
         SweetalertService.autoCloseSuccessAlert('', 'Повторный запрос регистрации отправлен', 15000);
 
-        const config = await this.voipSettingsService.updateTrunk({ trunkId: item.trunkId, authId: item.authId });
-
-        this.tableData = [];
-
-        this.tableData.push({
-            trunkId: config.trunkId,
-            trunkStatus: config.trunkStatus,
-            authId: config.trunkData.authId,
-            authPassword: config.trunkData.authPassword,
-            pbxIp: config.trunkData.pbxIp,
-        });
         this.changeDetector.detectChanges();
     }
     catch(e) {
@@ -82,8 +67,6 @@ export class VoipSettingsComponent implements OnInit {
 
     async updateField(item: any, field: string, trunkId: string) {
         const updateData = { [field]: item[field] };
-
-        await this.voipSettingsService.updateTrunk({ trunkId, ...updateData });
 
         item[`editing${field.charAt(0).toUpperCase() + field.slice(1)}`] = false;
     }

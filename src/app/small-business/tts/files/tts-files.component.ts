@@ -5,6 +5,7 @@ import { TtsFilesService } from './service/tts-files..service';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import Swal from 'sweetalert2';
 import { Router, ActivatedRoute } from '@angular/router';
+import { TTS_FILES, VOICE_URLS } from '../models/test-data';
 
 @Component({
     selector: 'app-tts-files',
@@ -42,11 +43,7 @@ export class TtsFilesComponent implements OnInit {
 
     async loadTtsFiles() {
         try {
-            const response = await this.ttsFilesService.getTTSFiles({
-                page: this.currentPage.toString(),
-                pageSize: this.pageSize.toString(),
-                ...(this.dateString ? { dateString: this.dateString } : {}),
-            });
+            const response = TTS_FILES;
 
             this.rows = response.data;
 
@@ -71,11 +68,7 @@ export class TtsFilesComponent implements OnInit {
     async MultiPurposeFilterUpdate(event) {
         const val = event.target.value.toLowerCase();
 
-        const response = await this.ttsFilesService.getTTSFiles({
-            page: this.currentPage.toString(),
-            pageSize: this.pageSize.toString(),
-            name: val,
-        });
+        const response = TTS_FILES;
 
         this.rows = response.data;
         this.rowsTemp = response.data;
@@ -97,11 +90,7 @@ export class TtsFilesComponent implements OnInit {
 
     async onDateChange() {
         this.dateString = `${this.dateFilter.year}-${this.dateFilter.month}-${this.dateFilter.day}`;
-        const response = await this.ttsFilesService.getTTSFiles({
-            page: this.currentPage.toString(),
-            pageSize: this.pageSize.toString(),
-            dateString: this.dateString,
-        });
+        const response = TTS_FILES;
 
         this.rows = response.data;
         this.rowsTemp = response.data;
@@ -110,41 +99,13 @@ export class TtsFilesComponent implements OnInit {
     }
 
     async getVoiceFile(row: any) {
-        try {
-            if (row.audioUrl) {
-                window.URL.revokeObjectURL(row.audioUrl);
-            }
-
-            this.ttsFilesService.getTTSFile(row.ttsId).subscribe(
-                (blob: Blob) => {
-                    const audioUrl = URL.createObjectURL(blob);
-                    row.audioUrl = this.sanitizer.bypassSecurityTrustUrl(audioUrl) as SafeUrl;
-                    this.rowDetailsToggleExpand(row);
-                },
-                (error) => {
-                    SweetalertService.errorAlert('', 'Ошибка при загрузке звукового файла');
-                },
-            );
-        } catch (error) {
-            SweetalertService.errorAlert('', 'Ошибка при загрузке звукового файла');
-        }
+        const url = VOICE_URLS[row.ttsId].url;
+        window.URL.revokeObjectURL(url);
+        row.audioUrl = url;
+        this.rowDetailsToggleExpand(row);
     }
 
-    downloadVoiceFile(row: any) {
-        this.ttsFilesService.getTTSFile(row.ttsId).subscribe(
-            (blob: Blob) => {
-                const url = window.URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = `${row.name}.wav`;
-                a.click();
-                window.URL.revokeObjectURL(url);
-            },
-            (error) => {
-                SweetalertService.errorAlert('', 'Ошибка при скачивании файла');
-            },
-        );
-    }
+    downloadVoiceFile(row: any) {}
 
     async onDelete(row: any) {
         Swal.fire({
@@ -159,8 +120,6 @@ export class TtsFilesComponent implements OnInit {
         }).then(async (result) => {
             if (result.isConfirmed) {
                 try {
-                    await this.ttsFilesService.deleteTtsFile(row.ttsId);
-
                     Swal.fire('Удалено!', `Запись ${row.name} была успешно удалена.`, 'success');
 
                     await this.loadTtsFiles();

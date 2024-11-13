@@ -13,6 +13,7 @@ export enum ProductType {
     analitic = 'analitic',
     cqa = 'cqa',
     missedCall = 'missed-call',
+    tvc = 'tvc',
 }
 
 export interface Products {
@@ -29,6 +30,9 @@ export const LICENSE_PRODUCT_DESCRIPTION: { [key in ProductType]?: string } = {
     [ProductType.telegram]: 'Telegram',
     [ProductType.stt]: 'Диалог в текст',
     [ProductType.tts]: 'TTS',
+    [ProductType.missedCall]: 'Пропущенные вызовы',
+    [ProductType.sm]: 'Умная маршрутизация',
+    [ProductType.tvc]: 'ТВЦ',
 };
 
 export const AVALIABLE_PRODUCT: ProductType[] = [
@@ -42,4 +46,5 @@ export const AVALIABLE_PRODUCT: ProductType[] = [
     ProductType.tts,
     ProductType.missedCall,
     ProductType.sm,
+    ProductType.tvc,
 ];

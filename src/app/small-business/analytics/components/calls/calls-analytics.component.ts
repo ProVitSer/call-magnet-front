@@ -7,6 +7,7 @@ import { WIDGET_СРФКЕ_DATA } from './constaints';
 import { CallAnanliticsData, Chart, ChartOptions } from './models/calls-analytics.model';
 import { CallsAnaliticsService } from './services/calls-analytics.service';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { ANALITIKS } from './models/test-data';
 
 @Component({
     selector: 'app-calls-analytics',
@@ -86,7 +87,8 @@ export class CallsAnalyticsComponent implements OnInit, OnDestroy {
             color: '#fff',
             fullScreen: false,
         });
-        const data = await this.callsAnaliticsService.getCallAnalitics();
+        const data = ANALITIKS as unknown as CallAnanliticsData;
+
         this.regionCallStatisticData = data.dayRegionCall;
 
         this.totalCalls = data.totalDailyCalls;

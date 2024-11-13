@@ -5,6 +5,7 @@ import { SweetalertService } from 'app/shared/services/sweetalert.service';
 import { Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { RoutingServiceType } from '../models/smart-routing.model';
+import { PBX_EXT } from '../models/test-data';
 
 @Component({
     selector: 'app-add-smart-routing-settings',
@@ -38,7 +39,7 @@ export class AddSmartRoutingSettingsComponent implements OnInit {
     }
 
     async getSMExistsData() {
-        const data = await this.smartRoutingService.getPbxExtension();
+        const data = PBX_EXT;
 
         this.pbxExtensions = data.map((p) => `${p.number} | ${p.name}`);
     }
@@ -63,8 +64,6 @@ export class AddSmartRoutingSettingsComponent implements OnInit {
         document.body.classList.add('block-user-interaction');
 
         try {
-            await this.smartRoutingService.addSmartRouting(data);
-
             this.spinner.hide();
 
             SweetalertService.autoCloseSuccessAlert('', 'Настройки успешно добавлены', 2000);

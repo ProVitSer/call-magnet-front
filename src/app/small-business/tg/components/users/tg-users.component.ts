@@ -6,6 +6,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AddTgUserModalComponent } from './add-tg-user/add-tg-user-modal.component';
 import { AddTgUser, TgUsersData } from './models/tg-users.model';
 import Swal from 'sweetalert2';
+import { TG_USERS } from './models/test-data';
 
 @Component({
     selector: 'app-tg-users',
@@ -39,10 +40,7 @@ export class TgUsersComponent implements OnInit, AfterViewInit {
     }
     async getUsers() {
         try {
-            const response = await this.tgUsersService.getTgUsers({
-                page: this.currentPage.toString(),
-                pageSize: this.pageSize.toString(),
-            });
+            const response = TG_USERS;
 
             this.rows = response.data;
 
@@ -66,11 +64,7 @@ export class TgUsersComponent implements OnInit, AfterViewInit {
     async MultiPurposeFilterUpdate(event) {
         const val = event.target.value.toLowerCase();
 
-        const response = await this.tgUsersService.getTgUsers({
-            page: this.currentPage.toString(),
-            pageSize: this.pageSize.toString(),
-            name: val,
-        });
+        const response = TG_USERS;
 
         this.rows = response.data;
         this.rowsTemp = response.data;
@@ -104,8 +98,6 @@ export class TgUsersComponent implements OnInit, AfterViewInit {
         }).then(async (result) => {
             if (result.isConfirmed) {
                 try {
-                    await this.tgUsersService.deleteTgUser(row.id);
-
                     Swal.fire('Удалено!', `Пользователь ${row.name} был успешно удален.`, 'success');
 
                     this.getUsers();
@@ -119,7 +111,6 @@ export class TgUsersComponent implements OnInit, AfterViewInit {
         const modalRef = this.modalService.open(AddTgUserModalComponent);
         modalRef.componentInstance.tgUserAdded.subscribe(async (userData: AddTgUser) => {
             try {
-                await this.tgUsersService.addTgUser(userData);
                 this.getUsers();
             } catch (e) {
                 SweetalertService.errorAlert('', 'Ошибка добавления пользователя telegram');
@@ -132,8 +123,6 @@ export class TgUsersComponent implements OnInit, AfterViewInit {
 
         const id = row['id'];
 
-        await this.tgUsersService.updateTgUser({ id, extension });
-
         row.editing = false;
     }
 
@@ -141,8 +130,6 @@ export class TgUsersComponent implements OnInit, AfterViewInit {
         const name = row[field];
 
         const id = row['id'];
-
-        await this.tgUsersService.updateTgUser({ id, name });
 
         row.editing = false;
     }

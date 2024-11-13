@@ -4,6 +4,7 @@ import { CqaSettingsService } from './service/cqa-settings.service';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { CqaFileType } from '../models/cqa.model';
 import Swal from 'sweetalert2';
+import { CQA_CONFIG } from '../models/test-data';
 
 @Component({
     selector: 'app-cqa-settings',
@@ -29,7 +30,7 @@ export class CqaSettingsComponent implements OnInit {
     }
 
     async loadAudioFiles() {
-        const cqaConfig = await this.cqaSettingsService.getCqaClientConfig();
+        const cqaConfig = CQA_CONFIG;
 
         if (cqaConfig) {
             this.isAiEnabled = cqaConfig.aiEnabled;
@@ -48,43 +49,9 @@ export class CqaSettingsComponent implements OnInit {
         this.changeDetector.detectChanges();
     }
 
-    async getСqaMainVoiceFile(fileId: number) {
-        try {
-            return this.cqaSettingsService.getCqaVoiceFile(fileId).subscribe(
-                (blob: Blob) => {
-                    const audioUrl = URL.createObjectURL(blob);
+    async getСqaMainVoiceFile(fileId: number) {}
 
-                    this.cqaMainAudioSrc = this.sanitizer.bypassSecurityTrustUrl(audioUrl) as SafeUrl;
-
-                    this.changeDetector.detectChanges();
-                },
-                (error) => {
-                    SweetalertService.errorAlert('', 'Ошибка при загрузке звукового файла');
-                },
-            );
-        } catch (error) {
-            SweetalertService.errorAlert('', 'Ошибка при загрузке звукового файла');
-        }
-    }
-
-    async getСqaGoodbyeVoiceFile(fileId: number) {
-        try {
-            return this.cqaSettingsService.getCqaVoiceFile(fileId).subscribe(
-                (blob: Blob) => {
-                    const audioUrl = URL.createObjectURL(blob);
-
-                    this.cqaGoodbyeAudioSrc = this.sanitizer.bypassSecurityTrustUrl(audioUrl) as SafeUrl;
-
-                    this.changeDetector.detectChanges();
-                },
-                (error) => {
-                    SweetalertService.errorAlert('', 'Ошибка при загрузке звукового файла');
-                },
-            );
-        } catch (error) {
-            SweetalertService.errorAlert('', 'Ошибка при загрузке звукового файла');
-        }
-    }
+    async getСqaGoodbyeVoiceFile(fileId: number) {}
 
     async onToggleSwitch(uiSwitchComponent: any) {
         if (uiSwitchComponent.checked) {
@@ -100,7 +67,6 @@ export class CqaSettingsComponent implements OnInit {
             }).then(async (result) => {
                 if (result.isConfirmed) {
                     try {
-                        await this.cqaSettingsService.updateAi(uiSwitchComponent.checked);
                         this.isAiEnabled = true;
                     } catch (e) {
                         SweetalertService.errorAlert('', 'Ошибка изменения AI');
@@ -115,7 +81,6 @@ export class CqaSettingsComponent implements OnInit {
             return;
         } else {
             try {
-                await this.cqaSettingsService.updateAi(uiSwitchComponent.checked);
                 this.isAiEnabled = false;
             } catch (e) {
                 SweetalertService.errorAlert('', 'Ошибка изменения AI');
@@ -150,32 +115,10 @@ export class CqaSettingsComponent implements OnInit {
     }
 
     async onSave() {
-        if (!this.cqaMainAudioSrc || !this.cqaGoodbyeAudioSrc) {
-            SweetalertService.errorAlert('', 'Необходимо загрузить оба файла перед сохранением');
-
-            return;
-        }
-
-        const formData = new FormData();
-        formData.append('cqa-main', this.inputCqaMain);
-        formData.append('cqa-goodbye', this.inputCqaGoodbye);
-
-        try {
-            if (this.inputCqaMain && this.inputCqaGoodbye) {
-                await this.saveFilesToServer(formData);
-            } else {
-                await this.cqaSettingsService.updateCqaVoiceFiles(formData);
-            }
-
-            SweetalertService.autoCloseSuccessAlert('', 'Настройки успешно добавлены', 5000);
-        } catch (e) {
-            SweetalertService.errorAlert('', 'Ошибка загрузки звуковых файлов');
-        }
+        SweetalertService.autoCloseSuccessAlert('', 'Настройки успешно добавлены', 5000);
 
         this.loadAudioFiles();
     }
 
-    async saveFilesToServer(formData: FormData) {
-        await this.cqaSettingsService.createCqaConfig(formData);
-    }
+    async saveFilesToServer(formData: FormData) {}
 }

@@ -49,37 +49,12 @@ export class VerifyPageComponent implements OnInit, OnDestroy {
     }
 
     private verifyUser(verificationCode: string) {
-        this.authRequestService.verify(verificationCode).subscribe(
-            (res: VerifyUserResponse) => {
-                const result = res;
+        this.spinner.hide();
 
-                if (result) {
-                    this.spinner.hide();
+        SweetalertService.autoCloseSuccessAlert('', 'Сейчас вы будите перенаправлены на страницу автовризации', this.redirectTimeout);
 
-                    SweetalertService.autoCloseSuccessAlert(
-                        '',
-                        'Сейчас вы будите перенаправлены на страницу автовризации',
-                        this.redirectTimeout,
-                    );
-
-                    setTimeout(() => {
-                        this.router.navigate(['/login']);
-                    }, this.redirectTimeout);
-                } else {
-                    this.spinner.hide();
-
-                    SweetalertService.errorAlert('Ошибка верификации', 'Что-то пошло не так, просьба обратиться в техническую поддержку');
-                }
-            },
-            (e) => {
-                this.spinner.hide();
-
-                SweetalertService.errorAlert('Ошибка верификации', e);
-
-                setTimeout(() => {
-                    this.router.navigate(['/error']);
-                }, this.redirectTimeout);
-            },
-        );
+        setTimeout(() => {
+            this.router.navigate(['/login']);
+        }, this.redirectTimeout);
     }
 }

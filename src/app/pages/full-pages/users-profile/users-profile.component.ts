@@ -2,11 +2,11 @@ import { ChangeDetectorRef, Component, OnInit, ViewEncapsulation } from '@angula
 import { UntypedFormGroup, UntypedFormControl, Validators, UntypedFormBuilder } from '@angular/forms';
 import { UserProfileService } from './services/user-profile.service';
 import { MustMatch } from '../../../shared/directives/must-match.validator';
-import { ChangePasswordData, UpdateClientInfoData, UpdateClientInfoResponse, UserInfoResponse } from './models/users-profile.model';
+import { UserInfoResponse } from './models/users-profile.model';
 import { SweetalertService } from 'app/shared/services/sweetalert.service';
 import { AuthService } from 'app/shared/auth/auth.service';
 import { AVALIABLE_PRODUCT, LICENSE_PRODUCT_DESCRIPTION, ProductType } from 'app/shared/models/license';
-import { TokenPayload } from 'app/shared/models/auth';
+import { USER_INFO } from './models/test-data';
 
 @Component({
     selector: 'app-users-profile',
@@ -76,18 +76,7 @@ export class UsersProfileComponent implements OnInit {
     }
 
     private getUserInfo() {
-        const userInfo = this.authService.getUser();
-
-        this.userProfileService.getUserInfo(userInfo.userId).subscribe(
-            (res: UserInfoResponse) => {
-                if (res) {
-                    this.setUserInfoToFrom(res);
-                }
-            },
-            (e) => {
-                SweetalertService.errorAlert('Ошибка получение данных по аккаунту', e);
-            },
-        );
+        this.setUserInfoToFrom(USER_INFO as UserInfoResponse);
     }
 
     private setUserInfoToFrom(data: UserInfoResponse) {
@@ -127,17 +116,7 @@ export class UsersProfileComponent implements OnInit {
             return;
         }
 
-        const tokenData = this.authService.getTokenData();
-
-        const dataToSend = {
-            firstname: this.generalForm.value.firstname,
-            lastname: this.generalForm.value.lastname,
-            phoneNumber: this.generalForm.value.phoneNumber,
-            company: this.generalForm.value.company,
-            userId: tokenData.userId,
-        };
-
-        this.updateClientInfo(dataToSend, tokenData);
+        SweetalertService.successAlertWithFunc('', 'Данные обновлены успешно', this.reloadPage);
     }
 
     onChangePasswordFormSubmit() {
@@ -151,44 +130,6 @@ export class UsersProfileComponent implements OnInit {
             return SweetalertService.errorAlert('Ошибка обновление пароля', 'Действующий и новый пароль должны отличаться!');
         }
 
-        const userInfo = this.authService.getUser();
-
-        return this.changePassword({
-            userId: userInfo.userId,
-            oldPassword: this.changePasswordForm.value.oldPassword,
-            newPassword: this.changePasswordForm.value.newPassword,
-        });
-    }
-
-    private updateClientInfo(data: UpdateClientInfoData, tokenData: TokenPayload) {
-        this.userProfileService.updateUserInfo({ ...data }).subscribe(
-            (res: UpdateClientInfoResponse) => {
-                if (res) {
-                    this.authService.updateUserData({
-                        clientId: tokenData.clientId,
-                        userId: tokenData.userId,
-                        firstname: data.firstname,
-                        lastname: data.lastname,
-                        company: data.company,
-                    });
-
-                    SweetalertService.successAlertWithFunc('', 'Данные обновлены успешно', this.reloadPage);
-                }
-            },
-            (e) => {
-                SweetalertService.errorAlert('Ошибка обновление данных', e);
-            },
-        );
-    }
-
-    private changePassword(data: ChangePasswordData) {
-        this.userProfileService.changePassword(data).subscribe(
-            (res: UpdateClientInfoResponse) => {
-                SweetalertService.successAlertWithFunc('', 'Данные обновлены успешно', this.reloadPage);
-            },
-            (e) => {
-                SweetalertService.errorAlert('Ошибка обновление пароля', e);
-            },
-        );
+        SweetalertService.successAlertWithFunc('', 'Данные обновлены успешно', this.reloadPage);
     }
 }

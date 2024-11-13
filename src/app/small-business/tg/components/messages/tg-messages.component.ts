@@ -2,6 +2,7 @@ import { ChangeDetectorRef, Component, OnInit, ViewChild, ViewEncapsulation } fr
 import { ColumnMode, DatatableComponent } from '@swimlane/ngx-datatable';
 import { TgMessagesService } from './service/tg-messages.service';
 import { SweetalertService } from 'app/shared/services/sweetalert.service';
+import { TG_MESS } from './models/test-data';
 
 @Component({
     selector: 'app-tg-messages',
@@ -36,11 +37,7 @@ export class TgMessagesComponent implements OnInit {
 
     async loadMessages() {
         try {
-            const response = await this.tgMessagesService.getTgMessages({
-                page: this.currentPage.toString(),
-                pageSize: this.pageSize.toString(),
-                ...(this.dateString ? { dateString: this.dateString } : {}),
-            });
+            const response = TG_MESS;
 
             this.rows = response.data;
 
@@ -64,12 +61,7 @@ export class TgMessagesComponent implements OnInit {
 
     async MultiPurposeFilterUpdate(event) {
         const val = event.target.value.toLowerCase();
-
-        const response = await this.tgMessagesService.getTgMessages({
-            page: this.currentPage.toString(),
-            pageSize: this.pageSize.toString(),
-            phoneNumber: val,
-        });
+        const response = TG_MESS;
 
         this.rows = response.data;
         this.rowsTemp = response.data;
@@ -91,11 +83,7 @@ export class TgMessagesComponent implements OnInit {
 
     async onDateChange() {
         this.dateString = `${this.dateFilter.year}-${this.dateFilter.month}-${this.dateFilter.day}`;
-        const response = await this.tgMessagesService.getTgMessages({
-            page: this.currentPage.toString(),
-            pageSize: this.pageSize.toString(),
-            dateString: this.dateString,
-        });
+        const response = TG_MESS;
 
         this.rows = response.data;
         this.rowsTemp = response.data;

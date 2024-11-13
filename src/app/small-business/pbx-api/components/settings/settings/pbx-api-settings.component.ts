@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { PbxApiSettingsService } from '../service/pbx-api-settings.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { SweetalertService } from 'app/shared/services/sweetalert.service';
+import { CONNECTOR } from '../models/test-data';
 
 @Component({
     selector: 'app-pbx-api-settings',
@@ -20,25 +21,13 @@ export class PbxApiSettingsComponent implements OnInit {
     ) {}
 
     ngOnInit(): void {
-        this.pbxApiSettingsService.getPacConfig().subscribe(
-            async (settings) => {
-                if (settings == null) {
-                    this.router.navigate(['add'], { relativeTo: this.route });
-                } else {
-                    const checkStatus = await this.pbxApiSettingsService.checkConnection();
-
-                    this.tableData.push({
-                        ip: settings.ip,
-                        port: settings.port,
-                        status: checkStatus.online ? 'online' : 'offline',
-                    });
-                    this.changeDetector.detectChanges();
-                }
-            },
-            (e) => {
-                SweetalertService.errorAlert('Ошибка проверки настроек', e.error?.error?.message || 'Проблемы с получением данных');
-            },
-        );
+        const settings = CONNECTOR;
+        this.tableData.push({
+            ip: settings.ip,
+            port: settings.port,
+            status: 'online',
+        });
+        this.changeDetector.detectChanges();
     }
 
     removeSetting(index: number): void {
@@ -49,17 +38,6 @@ export class PbxApiSettingsComponent implements OnInit {
             color: '#fff',
             fullScreen: false,
         });
-
-        this.pbxApiSettingsService.deletePacConnector().subscribe(
-            () => {
-                this.tableData.splice(index, 1);
-                this.spinner.hide();
-                SweetalertService.autoCloseSuccessAlert('', 'Настройки успешно удалены', 2000);
-                this.router.navigate(['add'], { relativeTo: this.route });
-            },
-            (e) => {
-                SweetalertService.errorAlert('Ошибка подключения', e.error?.error?.message || 'Проблемы с удалением данных');
-            },
-        );
+        this.spinner.hide();
     }
 }

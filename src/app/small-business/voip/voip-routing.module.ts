@@ -11,7 +11,6 @@ const routes: Routes = [
         data: {
             title: 'Настройки VoIP',
         },
-        canActivate: [AuthGuard],
     },
     {
         path: 'settings/add',
@@ -19,7 +18,6 @@ const routes: Routes = [
         data: {
             title: 'Настройки VoIP',
         },
-        canActivate: [AuthGuard],
     },
 ];
 

@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { FormatNavbarNotificationsData, GetClientNotificationsReponse, GetNotificationListReponse } from 'app/shared/models/notification';
 import { NotificationService } from 'app/shared/services/notification.service';
 import { SweetalertService } from 'app/shared/services/sweetalert.service';
+import { TEST_NOT } from './test-data';
 
 @Component({
     selector: 'app-notifications-right-page',
@@ -49,26 +50,12 @@ export class NotificationsPageComponent implements OnInit, AfterViewInit {
     }
 
     private getUserNotifications() {
-        this.notificationService.getNotificationsList({ limit: this.notificationInitLimit }).subscribe(
-            (res: GetNotificationListReponse) => {
-                const result = res;
-                if (res) {
-                    if (res.notifications.length != 0) {
-                        this.notificationExist = true;
-                        this.countNotification = result.notifications.length;
-                        this.moreNotifications = result.count > this.notificationInitLimit;
-                        this.setNotifications(result.notifications);
-                        this.cdr.markForCheck();
-                    }
-                }
-            },
-            (e) => {
-                SweetalertService.errorAlert(
-                    'Ошибка получения уведомлений',
-                    'Что-то пошло не так, просьба обратиться в техническую поддержку',
-                );
-            },
-        );
+        const result = { notifications: TEST_NOT as unknown as GetClientNotificationsReponse[], count: 1 };
+        this.notificationExist = true;
+        this.countNotification = result.notifications.length;
+        this.moreNotifications = result.count > this.notificationInitLimit;
+        this.setNotifications(result.notifications);
+        this.cdr.markForCheck();
     }
 
     private setNotifications(data: GetClientNotificationsReponse[]) {
@@ -92,27 +79,16 @@ export class NotificationsPageComponent implements OnInit, AfterViewInit {
     }
 
     public moreNotification() {
-        this.notificationService.getNotificationsList({ limit: this.notificationNextLimit, offset: this.countNotification }).subscribe(
-            (res: GetNotificationListReponse) => {
-                const result = res;
-                if (res) {
-                    if (res.notifications.length != 0) {
-                        this.countNotification = this.countNotification + result.notifications.length;
-                        this.setNotifications(result.notifications);
-                        this.moreNotifications = !(this.countNotification == res.count);
-                    } else {
-                        this.moreNotifications = false;
-                    }
-                    this.cdr.markForCheck();
-                }
-            },
-            (e) => {
-                SweetalertService.errorAlert(
-                    'Ошибка получения уведомлений',
-                    'Что-то пошло не так, просьба обратиться в техническую поддержку',
-                );
-            },
-        );
+        const result = {
+            notifications: TEST_NOT as unknown as GetClientNotificationsReponse[],
+            count: 1,
+        };
+
+        this.countNotification = this.countNotification + result.notifications.length;
+        this.setNotifications(result.notifications);
+        this.moreNotifications = !(this.countNotification == result.count);
+
+        this.cdr.markForCheck();
     }
 
     private addDelIcon(item: FormatNavbarNotificationsData) {
@@ -135,7 +111,7 @@ export class NotificationsPageComponent implements OnInit, AfterViewInit {
     }
 
     handleDelete(notificationId: string) {
-        this.notificationService.deleteNotification(notificationId).subscribe();
+        // this.notificationService.deleteNotification(notificationId).subscribe();
 
         const divElement = this.el.nativeElement.querySelector(`[notificationId="${notificationId}"]`);
 

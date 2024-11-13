@@ -11,7 +11,6 @@ const routes: Routes = [
         data: {
             title: 'Настройки пропущенных вызовов',
         },
-        canActivate: [AuthGuard],
     },
     {
         path: 'add',
@@ -19,7 +18,6 @@ const routes: Routes = [
         data: {
             title: 'Настройки пропущенных вызовов',
         },
-        canActivate: [AuthGuard],
     },
 ];
 

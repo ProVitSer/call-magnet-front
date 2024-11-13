@@ -1,0 +1,60 @@
+<div class="row">
+    <div class="col-12">
+       <div class="content-header"></div>
+    </div>
+ </div>
+ <section id="extended">
+    <div class="row">
+       <div class="col-12">
+          <div class="card">
+             <div class="card-header">
+                <h4 class="card-title"></h4>
+             </div>
+             <div class="card-content">
+                <div class="card-body table-responsive">
+                   <table class="table text-center m-0">
+                      <thead>
+                         <tr>
+                            <th>IP Pg</th>
+                            <th>Порт PG</th>
+                            <th>БД</th>
+                            <th>Пользователь БД</th>
+                            <th>Пароль пользователя</th>
+                            <th>IP GSM</th>
+                            <th>Порт GSM</th>
+                            <th>Пользователь GSM</th>
+                            <th>Пароль пользователя GSM</th>
+                            <th>Сообщение</th>
+                         </tr>
+                      </thead>
+                      <tbody>
+                         <tr *ngFor="let item of tableData; let i = index">
+                            <td>{{ item.pgHost }}</td>
+                            <td>{{ item.pgPort }}</td>
+                            <td>{{ item.pgDb }}</td>
+                            <td>{{ item.pgUsername }}</td>
+                            <td>{{ item.pgPassword }}</td>
+                            <td>{{ item.amiHost }}</td>
+                            <td>{{ item.amiPort }}</td>
+                            <td>{{ item.amiUsername }}</td>
+                            <td>{{ item.amiPassword }}</td>
+                            <td>{{ item.message }}</td>
+                         </tr>
+                         <td></td>
+                         <td></td>
+                         <td></td>
+                         <td></td>
+                         <td></td>
+                         <td></td>
+                         <td></td>
+                         <td></td>
+                         <td></td>
+                         <td></td>
+                      </tbody>
+                   </table>
+                </div>
+             </div>
+          </div>
+       </div>
+    </div>
+ </section>

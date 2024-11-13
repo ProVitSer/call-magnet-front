@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { MissedCallService } from '../services/missed-call.service';
 import { MissedServiceType } from '../models/missed-call.model';
+import { TRUNK } from '../models/test-data';
 
 @Component({
     selector: 'app-add-missed-call-settings',
@@ -37,9 +38,7 @@ export class AddMissedCallSettingsComponent implements OnInit {
     }
 
     async getExistsTrunk() {
-        const data = await this.missedCallService.getTrunkName();
-
-        this.trunksName = data;
+        this.trunksName = TRUNK;
     }
 
     async addMCConfig() {
@@ -59,8 +58,6 @@ export class AddMissedCallSettingsComponent implements OnInit {
         document.body.classList.add('block-user-interaction');
 
         try {
-            await this.missedCallService.addMissedCallConfig(data);
-
             this.spinner.hide();
 
             SweetalertService.autoCloseSuccessAlert('', 'Настройки успешно добавлены', 2000);

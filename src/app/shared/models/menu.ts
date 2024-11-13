@@ -40,18 +40,18 @@ export const BASE_ROLE_MENU: Menu[] = [
         },
     },
 
-    {
-        code: 12,
-        name: 'FAQ',
-        path: '/sm/faq',
-        icon: 'icon-question',
-        badge: '',
-        badgeClass: '',
-        externalLink: false,
-        group: {
-            lines: [],
-        },
-    },
+    // {
+    //     code: 12,
+    //     name: 'FAQ',
+    //     path: '/sm/faq',
+    //     icon: 'icon-question',
+    //     badge: '',
+    //     badgeClass: '',
+    //     externalLink: false,
+    //     group: {
+    //         lines: [],
+    //     },
+    // },
     {
         code: 13,
         name: 'Поддержка',
@@ -344,6 +344,52 @@ export const TTS_MENU: Menu[] = [
     },
 ];
 
+export const TVC_MENU: Menu[] = [
+    {
+        code: 12,
+        path: '/sm/tvc',
+        name: 'ТВЦ',
+        icon: 'ft-video',
+        badge: '',
+        badgeClass: 'badge badge-pill badge-primary float-right mr-1 mt-1',
+        externalLink: false,
+        group: {
+            lines: [
+                {
+                    code: 1,
+                    name: 'Телефонная книга',
+                    path: '/sm/tvc/phonebook',
+                    icon: 'icon-notebook',
+                    badge: '',
+                    badgeClass: '',
+                    externalLink: false,
+                    group: { lines: [] },
+                },
+                {
+                    code: 2,
+                    name: 'Сообщения',
+                    path: '/sm/tvc/messages',
+                    icon: 'icon-speech',
+                    badge: '',
+                    badgeClass: '',
+                    externalLink: false,
+                    group: { lines: [] },
+                },
+                {
+                    code: 3,
+                    name: 'Настройки',
+                    path: '/sm/tvc/settings',
+                    icon: 'ft-settings',
+                    badge: '',
+                    badgeClass: '',
+                    externalLink: false,
+                    group: { lines: [] },
+                },
+            ],
+        },
+    },
+];
+
 export const MENU_BY_PRODUCT_TYPE: { [prod in ProductType]?: Menu[] } = {
     [ProductType.analitic]: CALL_ANALITICS_MENU,
     [ProductType.api]: API_MENU,
@@ -354,5 +400,6 @@ export const MENU_BY_PRODUCT_TYPE: { [prod in ProductType]?: Menu[] } = {
     [ProductType.sms]: SMS_MENU,
     [ProductType.bitrix]: CRM_MENU,
     [ProductType.telegram]: TELEGRAM_MENU,
+    [ProductType.tvc]: TVC_MENU,
     [ProductType.stt]: [],
 };

@@ -11,7 +11,6 @@ const routes: Routes = [
         data: {
             title: 'Статистика',
         },
-        canActivate: [AuthGuard],
     },
     {
         path: 'settings',
@@ -19,7 +18,6 @@ const routes: Routes = [
         data: {
             title: 'Настройка',
         },
-        canActivate: [AuthGuard],
     },
 ];
 

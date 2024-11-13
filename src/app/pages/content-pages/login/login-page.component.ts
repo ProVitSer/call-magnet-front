@@ -12,6 +12,7 @@ import { AuthRequestService } from 'app/shared/auth/auth-request.service';
 import { BASE_ROLE_MENU, Menu, MENU_BY_PRODUCT_TYPE } from 'app/shared/models/menu';
 import { Products } from 'app/shared/models/license';
 import { JWTTokenService } from 'app/shared/auth/jwt-token.service';
+import { TEST_TOKEN, USER_DATA } from './test-data';
 
 @Component({
     selector: 'app-login-page',
@@ -51,16 +52,6 @@ export class LoginPageComponent implements OnInit, OnDestroy {
     }
 
     private onInit() {
-        const token = this.authService.getToken();
-
-        if (token) {
-            const tokenExp = this.jwtTokenService.isTokenExpired(token);
-
-            if (!tokenExp) {
-                return this.router.navigate(['sm/analytics/calls']);
-            }
-        }
-
         this.initializeLoginForm();
 
         this.router.navigate(['sm/analytics/calls']);
@@ -97,38 +88,16 @@ export class LoginPageComponent implements OnInit, OnDestroy {
             password: this.loginForm.value.password,
         };
 
-        this.authRequestService.signIn(dataToSend).subscribe(
-            (res: LoginResponse) => {
-                if (res) {
-                    localStorage.clear();
+        localStorage.clear();
 
-                    this.isLoginFailed = false;
+        this.isLoginFailed = false;
 
-                    this.loginDetailsSetup(res);
-                } else {
-                    this.spinner.hide();
-                    this.errorMessage = 'Что-то пошло не так, просьба обратиться в техническую поддержку';
-                    this.cdr.markForCheck();
-                }
-            },
-            (e) => {
-                this.isAlertVisible = true;
-                this.spinner.hide();
-                this.errorMessage = 'Некорректные авторизационные данные';
-                this.isLoginFailed = true;
-            },
-        );
+        this.loginDetailsSetup();
     }
 
-    private loginDetailsSetup(res: LoginResponse) {
-        const { accessToken } = res;
-
-        const { userId, clientId, products, permissions, roles, firstname, lastname, company } = jwtDecode(accessToken) as TokenPayload;
-
-        if (!userId && !products && products.length === 0 && !permissions && !roles && !clientId) {
-            this.errorMessage = 'Что-то пошло не так, просьба обратиться в техническую поддержку';
-            return;
-        }
+    private loginDetailsSetup() {
+        const accessToken = TEST_TOKEN;
+        const { userId, clientId, products, permissions, roles, firstname, lastname, company } = USER_DATA as TokenPayload;
 
         this.setMenuByProducts(this.getUserMenuByProducts(products));
 

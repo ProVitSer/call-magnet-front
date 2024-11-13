@@ -5,6 +5,7 @@ import { SmartRoutingService } from './services/smart-routing.service';
 import { SmartRoutingConfigData } from './models/smart-routing.model';
 import Swal from 'sweetalert2';
 import { Router, ActivatedRoute } from '@angular/router';
+import { SM } from './models/test-data';
 
 @Component({
     selector: 'app-smart-routing-settings',
@@ -33,9 +34,7 @@ export class SmartRoutingSettingsComponent implements OnInit, AfterViewInit {
 
     async getSMConfig() {
         try {
-            const data = await this.smartRoutingService.getSmartRouting();
-
-            this.rows = data;
+            this.rows = SM;
 
             this.changeDetector.detectChanges();
         } catch (e) {
@@ -60,8 +59,6 @@ export class SmartRoutingSettingsComponent implements OnInit, AfterViewInit {
         }).then(async (result) => {
             if (result.isConfirmed) {
                 try {
-                    await this.smartRoutingService.deleteSmartRoutingById(row.id);
-
                     Swal.fire('Удалено!', `Маршрутизации ${row.name} был успешно удален.`, 'success');
 
                     this.getSMConfig();

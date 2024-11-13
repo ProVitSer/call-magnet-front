@@ -2,6 +2,7 @@ import { ChangeDetectorRef, Component, ViewChild, ViewEncapsulation } from '@ang
 import { ColumnMode, DatatableComponent } from '@swimlane/ngx-datatable';
 import { SweetalertService } from 'app/shared/services/sweetalert.service';
 import { SmsStatisticService } from './services/sms-statistic.service';
+import { SMS_STAT } from './models/test-data';
 
 @Component({
     selector: 'app-sms-statistic',
@@ -36,12 +37,7 @@ export class SmsStatisticComponent {
 
     async loadSmsStatistic() {
         try {
-            const response = await this.smsStatisticService.getSmsStatistic({
-                page: this.currentPage.toString(),
-                pageSize: this.pageSize.toString(),
-                ...(this.dateString ? { dateString: this.dateString } : {}),
-            });
-
+            const response = SMS_STAT;
             this.rows = response.data;
 
             this.rowsTemp = response.data;
@@ -65,11 +61,7 @@ export class SmsStatisticComponent {
     async MultiPurposeFilterUpdate(event) {
         const val = event.target.value.toLowerCase();
 
-        const response = await this.smsStatisticService.getSmsStatistic({
-            page: this.currentPage.toString(),
-            pageSize: this.pageSize.toString(),
-            phoneNumber: val,
-        });
+        const response = SMS_STAT;
 
         this.rows = response.data;
         this.rowsTemp = response.data;
@@ -91,11 +83,7 @@ export class SmsStatisticComponent {
 
     async onDateChange() {
         this.dateString = `${this.dateFilter.year}-${this.dateFilter.month}-${this.dateFilter.day}`;
-        const response = await this.smsStatisticService.getSmsStatistic({
-            page: this.currentPage.toString(),
-            pageSize: this.pageSize.toString(),
-            dateString: this.dateString,
-        });
+        const response = SMS_STAT;
 
         this.rows = response.data;
         this.rowsTemp = response.data;

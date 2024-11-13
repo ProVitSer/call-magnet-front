@@ -11,7 +11,6 @@ const routes: Routes = [
         data: {
             title: 'Sms сервиса',
         },
-        canActivate: [AuthGuard],
     },
     {
         path: 'settings/add',
@@ -19,7 +18,6 @@ const routes: Routes = [
         data: {
             title: 'Sms сервиса',
         },
-        canActivate: [AuthGuard],
     },
 ];
 
