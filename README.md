@@ -18,7 +18,7 @@
 
 🔗 **Backend-репозиторий:** [ProVitSer/pac](https://github.com/ProVitSer/pac)
 
-## 🎥 Визуальный пример
+## 🎥 Визуал
 
 ![Call Magnet Preview](https://github.com/ProVitSer/call-magnet-front/blob/master/misc/call-magnet.gif)
 
