@@ -19,7 +19,7 @@
 
 ## 🎥 Визуальный пример
 
-![Call Magnet Preview](./misc/demo.gif)
+![Call Magnet Preview](https://github.com/ProVitSer/call-magnet-front/blob/master/misc/call-magnet.gif)
 
 ## 🚀 Технологии
 
